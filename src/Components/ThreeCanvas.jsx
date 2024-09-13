@@ -1,9 +1,7 @@
 import React, { useEffect, useRef ,useState } from 'react';
 import * as THREE from 'three';
-import { MapControls } from 'three/examples/jsm/controls/MapControls.js';
 import Experience from './Experience';
-import Markers from './Markers';
-import icon from '../assets/barn.png';
+import Markers from '../Components/marker/Markers';
 
 const ThreeCanvas = () => {
   const containerRef = useRef(null);
@@ -14,13 +12,6 @@ const ThreeCanvas = () => {
   const sceneRef = useRef(null);
   const [sceneAndCamera, setSceneAndCamera] = useState(null);
 
-  const markers = [
-    { position: new THREE.Vector3(-10, 5, 0), icon: icon, name: 'Marker 1' },
-    { position: new THREE.Vector3(0, 0, 0), icon: icon, name: 'Marker 2' },
-    { position: new THREE.Vector3(10, -5, 0), icon: icon, name: 'Marker 3' },
-  ];
-
-
   useEffect(() => {
     if (containerRef.current) {
       const container = containerRef.current;
@@ -29,7 +20,7 @@ const ThreeCanvas = () => {
       sceneRef.current = scene;
 
       const camera = exp.camera;
-      camera.position.z = 40;
+      camera.position.z = 20;
       cameraRef.current = camera;
 
       const renderer = exp.renderer;
@@ -70,11 +61,12 @@ const ThreeCanvas = () => {
   }, []);
 
   // TO STUDY!
-  const moveToMarker = (markerPosition) => {
+  const tolerance = 1;
+  const moveToMarker = (markerPosition, onComplete) => {
     if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current) {
       try {
         const targetPosition = new THREE.Vector3(markerPosition.x, markerPosition.y, controlsRef.current.target.z);
-        
+        console.log("target pos", targetPosition)
         // Start position and control target
         const startTarget = controlsRef.current.target.clone();
         const startPosition = cameraRef.current.position.clone();
@@ -102,9 +94,15 @@ const ThreeCanvas = () => {
   
             // Request the next frame
             requestAnimationFrame(animateCamera);
+            // console.log('progress is finished', progress);
+          }
+          else if (progress >= 1) {
+            if (onComplete) {
+              onComplete();
+            }
           }
         };
-  
+
         // Start the animation
         animateCamera();
       } catch (error) {
@@ -113,13 +111,13 @@ const ThreeCanvas = () => {
     } else {
       console.warn('Some required references are null in moveToMarker');
     }
+    
   };
 
   return(
     <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh' }}>
       {sceneAndCamera && (
         <Markers
-        markers={markers}
         scene={sceneAndCamera.scene}
         camera={sceneAndCamera.camera}
         container={containerRef.current}

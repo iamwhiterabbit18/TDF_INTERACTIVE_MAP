@@ -18,14 +18,18 @@ export default class Experience {
         0.1,
         1000
     );
-    // this.camera.position.z = 40;
 
     this.renderer = new Renderer(this.scene, this.camera, this.container);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.mouseButtons = {
       LEFT: THREE.MOUSE.PAN,
-      RIGHT: THREE.MOUSE.DOLLY,
-    };  
+    };
+    this.controls.touches = {
+      ONE: THREE.TOUCH.PAN,
+      TWO: THREE.TOUCH.DOLLY_ROTATE,
+    }
+    console.log(this.controls.touches)
+    
     this.controls.enableDamping = true;
     // this.controls.screenSpacePanning = true;
     
