@@ -20,7 +20,7 @@ const ThreeCanvas = () => {
       sceneRef.current = scene;
 
       const camera = exp.camera;
-      camera.position.z = 20;
+      camera.position.z = 50;
       cameraRef.current = camera;
 
       const renderer = exp.renderer;
@@ -29,13 +29,31 @@ const ThreeCanvas = () => {
 
       const controls = exp.controls;
       controlsRef.current = controls;
-      
 
-      // test cube
-      const geometry = new THREE.BoxGeometry();
-      const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-      const cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+      // tes pos
+
+      // function getClickPosition(event, camera, scene) {
+      //   const raycaster = new THREE.Raycaster();
+      //   const mousePosition = new THREE.Vector2();
+      
+      //   mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+      //   mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      
+      //   raycaster.setFromCamera(mousePosition, camera);
+      //   const intersects = raycaster.intersectObjects(scene.children, true);
+      
+      //   if (intersects.length > 0) {
+      //     return intersects[0].point;
+      //   } else {
+      //     return null;
+      //   }
+      // }
+      // document.addEventListener('click', (event) => {
+      //   const clickPosition = getClickPosition(event, camera, scene);
+      //   if (clickPosition) {
+      //     console.log(clickPosition);
+      //   }
+      // });
 
       setSceneAndCamera({scene, camera});
 
@@ -61,38 +79,30 @@ const ThreeCanvas = () => {
   }, []);
 
   // TO STUDY!
-  const tolerance = 1;
   const moveToMarker = (markerPosition, onComplete) => {
     if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current) {
       try {
         const targetPosition = new THREE.Vector3(markerPosition.x, markerPosition.y, controlsRef.current.target.z);
         console.log("target pos", targetPosition)
-        // Start position and control target
+
         const startTarget = controlsRef.current.target.clone();
         const startPosition = cameraRef.current.position.clone();
     
-        // Calculate the offset between camera and controls target
         const cameraOffset = startPosition.clone().sub(startTarget);
     
-        // Animation parameters
-        const duration = 1.5; // in seconds
         let progress = 0;
     
         const animateCamera = () => {
           if (progress < 1) {
             progress += 0.02; // Adjust speed here
   
-            // Interpolate the controls target (which controls panning)
             controlsRef.current.target.lerpVectors(startTarget, targetPosition, progress);
             
-            // Maintain camera offset to keep the distance constant
             cameraRef.current.position.copy(controlsRef.current.target).add(cameraOffset);
   
-            // Update controls and render the scene
             controlsRef.current.update();
             rendererRef.current.render(sceneRef.current, cameraRef.current);
   
-            // Request the next frame
             requestAnimationFrame(animateCamera);
             // console.log('progress is finished', progress);
           }

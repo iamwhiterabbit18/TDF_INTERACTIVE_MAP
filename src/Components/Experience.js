@@ -7,6 +7,12 @@ import Plane from './Plane';
 import Spotlight from './Spotlight';
 import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
+import Map from './Map';
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
+
+
+
+
 export default class Experience {
   constructor(container) {
     this.container = container;
@@ -36,10 +42,8 @@ export default class Experience {
     this.preloader = new Preloader(this);
 
     this.spotlight = new Spotlight(this.scene);
-    this.plane = new Plane(this.scene);
-
-    // this.animate = this.animate.bind(this);
-    // this.animate();
+    this.map = new Map(this.scene);
+    // this.plane = new Plane(this.scene);
   }
 
   // animate() {
