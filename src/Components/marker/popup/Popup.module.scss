@@ -17,7 +17,6 @@
 
 .popupImage{
     width: 100%;
-    border: 2px solid red;
     img{
         border-radius: 5px;
         width: 100%;
@@ -95,4 +94,9 @@ button{
 
 p{
     margin: 0px;
+}
+
+a{
+    text-decoration: none;
+    color: blue;
 }

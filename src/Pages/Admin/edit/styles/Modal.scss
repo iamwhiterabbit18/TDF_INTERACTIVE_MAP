@@ -1,0 +1,77 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    position: relative;
+    background: #fff;
+    padding: 30px; /* Increased padding for better spacing */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Adjusted shadow for more depth */
+    max-width: 600px; /* Slightly wider modal */
+    width: 100%;
+
+  }
+  
+  .modal__header {
+    display: flex;
+    align-items: center;  /* Vertically center align items */
+    justify-content: space-between;  /* Place icons beside the title */
+    gap: 10px; /* Add space between title and icons */
+    margin-top: 1.5rem;
+    
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  
+    .modal__icons {
+      display: flex;
+      align-items: center; /* Vertically center icons */
+
+      i {
+        font-size: 1.5rem; /* Adjust icon size */
+        cursor: pointer; /* Optionally add a pointer cursor for interactivity */
+        margin-right: 3rem;
+      }
+    }
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.8rem; /* Reduced font size for close button */
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555; /* Slightly lighter color for close button */
+  }
+  
+  .modal-body {
+    margin-top: 25px; /* Increased margin for better readability */
+  }
+  
+  .carousel-slide {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .carousel-image {
+    width: 100%;
+    border-radius: 10px; /* Rounded corners for images */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Added subtle shadow to images */
+  }
+  

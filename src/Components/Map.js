@@ -12,7 +12,7 @@ export default class Map {
 
             mesh.traverse((object) => {
                 if (object.isMesh) {
-                  object.material.extensions = extensions;
+                  // object.material.extensions = extensions;
                 }
               });
         });

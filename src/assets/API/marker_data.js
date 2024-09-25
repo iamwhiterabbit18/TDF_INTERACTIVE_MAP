@@ -1,6 +1,10 @@
 import * as THREE from 'three';
+import get from './get';
 import icon from '../barn.png';
 import img from '../images/farm.jpg';
+
+
+const data = () => get();
 
 const markerData = [
     { position: new THREE.Vector3(30, 52, 0), icon: icon, name: 'Dragon Fruit Farm', img: img, description: 'An area where 276 vibrant red dragon fruit plants thrive. Every plant is tended to tender care, ensuring they receive just the right amount of sunlight, water, and nutrients to grow.' },

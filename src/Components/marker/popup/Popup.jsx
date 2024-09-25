@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from './Popup.module.scss';
 import icon from '../../../assets/Icon.js';
 import Time from './Time.jsx';
 import Modal from "./modal/Modal.jsx";
 
-function Popup({ marker, onClose }) {
+function Popup({ marker, onClose, isAdmin=true }) {
+
   const [isOpen, setIsOpen] = useState(false);
   const onViewFullDetail = (data) =>{
     setIsOpen(!isOpen);
@@ -18,6 +19,9 @@ function Popup({ marker, onClose }) {
           id="popup"
           className={styles.popupContent}
           style={{ position: "absolute", zIndex: 100 }}>
+            {
+              isAdmin && <a href="/administrator">Edit</a>
+            }
           <div className={styles.closeBtn} onClick={onClose}>
               <button>
                   <img src={icon.actions.close} alt="close" />

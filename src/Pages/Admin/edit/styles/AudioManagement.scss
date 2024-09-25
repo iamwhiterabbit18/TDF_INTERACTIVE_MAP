@@ -1,0 +1,98 @@
+.audio-management-container {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  
+    h1 {
+      margin: 0;
+    }
+  
+    
+  }
+  .upload-button {
+   
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+  .audio-management-table {
+    width: 100%;
+    border-collapse: collapse;
+  
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #f2f2f2;
+    }
+  
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  
+    tr:hover {
+      background-color: #ddd;
+    }
+  
+    td button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #218838;
+      }
+    }
+  }
+
+  .navigate-button {
+    background-color: #4caf50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Spacing */
+  }
+  
+  .navigate-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+
+  .audio-management-table th, .audio-management-table td {
+    text-align: center;
+  }
+  
+  .audio-management-table button {
+    margin: 2px;
+  }
+  
+  .audio-management-table .update-button {
+    background-color: #007bff;
+  }
+  
+  .audio-management-table .delete-button {
+    background-color: #dc3545;
+  }
+  
