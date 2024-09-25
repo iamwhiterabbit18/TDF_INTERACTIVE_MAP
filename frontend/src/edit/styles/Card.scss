@@ -1,0 +1,96 @@
+.card {
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: rgb(192, 192, 192);
+    margin: 20px;
+    padding: 0; /* Make sure no padding is added to the card */
+    border: solid black 1px;
+  
+    &__image {
+      padding: 0; /* Remove padding around the image */
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+      }
+    }
+  
+    &__content {
+      padding: 16px; /* Control padding inside the content */
+      padding-top: 5px;
+    }
+  
+    &__divider {
+      border: none;
+      height: 1px;
+      background-color: rgb(1, 1, 1); /* You can change this color */
+      margin: 10px 0; /* Adjust spacing around the line */
+    }
+  
+    &__header {
+      display: flex; /* Flexbox to align items side by side */
+      justify-content: space-between; /* Space between area name and weather */
+      align-items: center; /* Vertically align the items */
+      padding: 0; /* Adjust padding for the header */
+  
+      h2 {
+        margin: 0;
+      }
+  }
+  
+  &__weather {
+      display: flex;
+      align-items: center;
+      img {
+        margin-right: 5px; /* Space between weather icon and text */
+        width: 2rem;
+        height: auto;
+        object-fit: cover;
+      }
+  }
+  
+    /* Adjust padding and margins for Quick Facts */
+    &__quick-facts {
+      font-weight: bold;
+      padding: 0; /* Remove padding here */
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+  
+
+  
+    &__details {
+      margin-top: 10px;
+    }
+  
+    &__footer {
+      margin-top: 10px;
+      text-align: right;
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+    }
+  }
+  
+    
+    
+  
+    .area-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+    

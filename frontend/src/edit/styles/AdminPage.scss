@@ -1,0 +1,237 @@
+.admin-page {
+    padding: 30px; /* Keeps overall padding for the page */
+  
+    .edit-button {
+      display: block;
+      margin-bottom: 20px;
+      padding: 12px 25px; /* Larger button */
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem; /* Font size adjustment */
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  
+    .admin-page__content {
+      display: flex; /* Ensure side-by-side layout for editing and preview */
+      justify-content: space-between;
+      gap: 30px; /* Space between the form and the preview */
+      margin-top: 20px; /* Additional spacing from the top */
+    }
+  
+    .form-container {
+      flex: 1;
+      background: #f7f7f7; /* Lighter background */
+      border: 1px solid #ddd; /* Subtle border */
+      padding: 25px; /* Adequate padding for the form */
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Soft box-shadow */
+  
+      h2 {
+        margin-bottom: 15px;
+      }
+  
+      label {
+        display: block;
+        margin-bottom: 15px; /* Better spacing between labels */
+  
+        input,
+        textarea {
+          width: 100%;
+          padding: 10px; /* Comfortable padding for inputs */
+          margin-top: 5px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 1rem; /* Standard font size */
+        }
+  
+        textarea {
+          height: 120px; /* Taller textareas for better visibility */
+          resize: vertical;
+        }
+      }
+  
+      button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+    .cancel-button {
+      background-color: #ff4d4f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .cancel-button:hover {
+      background-color: #d9363e;
+    }
+    
+
+    .admin-page__preview {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #ddd; /* Keeps the subtle border */
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Similar shadow for consistency */
+    }
+  
+    &.show-content .admin-page__content {
+      display: flex; /* Always show the content */
+    }
+  }
+  
+  .navigation-button {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+  
+    button {
+      padding: 12px 25px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  // Card design preview
+  .card-preview {
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: rgb(192, 192, 192);
+    margin: 20px;
+    padding: 0; /* Make sure no padding is added to the card */
+    border: solid black 1px;
+  
+    /* Image styling */
+    &__image {
+      padding: 0; /* Remove padding around the image */
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+      }
+    }
+  
+    /* Content */
+    &__content {
+      padding: 16px; /* Control padding inside the content */
+      padding-top: 5px;
+    }
+        /* Divider */
+    &__divider {
+      border: none;
+      height: 1px;
+      background-color: rgb(1, 1, 1); /* You can change this color */
+      margin: 10px 0; /* Adjust spacing around the line */
+      }
+      
+    /* Header section with area name and weather */
+    &__header {
+      display: flex; /* Flexbox to align items side by side */
+      justify-content: space-between; /* Space between area name and weather */
+      align-items: center; /* Vertically align the items */
+      padding: 0;
+     
+     
+      h2 {
+       margin: 0;
+      }
+    }
+      &__weather {
+        display: flex;
+        align-items: center;
+        img {
+          margin-right: 5px; /* Space between weather icon and text */
+          width: 2rem;
+          height: auto;
+          object-fit: cover;
+        }
+        p {
+          margin: 0; /* Remove default paragraph margin */
+        }
+      }
+    
+  
+
+    /* Quick facts section */
+    &__quick-facts {
+      font-weight: bold;
+      padding: 0; /* Remove padding here */
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+   .card__details{
+      margin-top: 10px;
+    }
+  }
+  
+  
+
+  //Modal design Preview 
+  .modal-preview {
+    margin-top: 20px;
+  
+    .modal-title {
+      font-weight: bold;
+      font-size: 1.5rem; // Adjust the size as necessary
+      margin-bottom: 10px;
+    }
+  
+    .modal-images-preview {
+      width: 100%;
+      max-width: 400px; /* Adjust based on your layout */
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid black;
+    }
+    
+    .carousel-container {
+      position: relative;
+      width: 100%;
+    }
+    
+    .carousel-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .carousel-image {
+      width: 100%;
+      height: 100%; /* Ensures image fills the carousel slide */
+      object-fit: cover; /* Ensures uniform image display while maintaining aspect ratio */
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+  }
+  

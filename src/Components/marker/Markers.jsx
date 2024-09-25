@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import * as THREE from 'three';
 import styles from './Markers.module.scss';
-import markerData from '../../assets/API/marker_data';
+import markerData from '../../assets/API/marker_data';w
 import Popup from './popup/Popup';
 
 // data pipe here
