@@ -5,7 +5,7 @@ export default class Map {
     constructor(scene){
         this.map = new GLTFLoader();
         this.map.setPath('map/');
-        this.map.load('map.gltf', (gltfScene) => {
+        this.map.load('scene.glb', (gltfScene) => {
             const mesh = gltfScene.scene;
             mesh.rotation.x = 0.5 * Math.PI;
             scene.add(mesh);
