@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .code-workspace
+
+# Ignoring heavy files
+map.glb
+map-navmesh.glb
+

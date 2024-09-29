@@ -24,6 +24,8 @@ export default class Experience {
         0.1,
         1000
     );
+    this.camera.position.z = 50;
+
 
     this.renderer = new Renderer(this.scene, this.camera, this.container);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -34,7 +36,6 @@ export default class Experience {
       ONE: THREE.TOUCH.PAN,
       TWO: THREE.TOUCH.DOLLY_ROTATE,
     }
-    console.log(this.controls.touches)
     
     this.controls.enableDamping = true;
     // this.controls.screenSpacePanning = true;
@@ -42,7 +43,7 @@ export default class Experience {
     this.preloader = new Preloader(this);
 
     this.spotlight = new Spotlight(this.scene);
-    this.map = new Map(this.scene);
+    this.map = new Map(this.scene, this.camera);
     // this.plane = new Plane(this.scene);
   }
 

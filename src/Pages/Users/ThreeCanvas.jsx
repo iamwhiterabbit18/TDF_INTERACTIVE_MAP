@@ -5,7 +5,9 @@ import Markers from '../../Components/marker/Markers';
 
 const ThreeCanvas = () => {
 
+
   const containerRef = useRef(null);
+  const expRef = useRef(null);
   // here
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
@@ -17,11 +19,11 @@ const ThreeCanvas = () => {
     if (containerRef.current) {
       const container = containerRef.current;
       const exp = new Experience(container);
+      expRef.current = exp;
       const scene = exp.scene;
       sceneRef.current = scene;
 
       const camera = exp.camera;
-      camera.position.z = 50;
       cameraRef.current = camera;
 
       const renderer = exp.renderer;
