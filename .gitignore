@@ -25,6 +25,6 @@ dist-ssr
 .code-workspace
 
 # Ignoring heavy files
-map.glb
-map-navmesh.glb
+*.glb
+
 

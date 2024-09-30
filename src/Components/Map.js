@@ -1,12 +1,20 @@
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader, DRACOLoader } from "three/examples/jsm/Addons.js";
 import { Pathfinding, PathfindingHelper } from 'three-pathfinding';
 import Shiba from "./Shiba";
 import * as THREE from 'three';
+import Preloader from './Preloader';
 
 export default class Map {
-    constructor(scene, camera){
-        this.map = new GLTFLoader();
-        this.map.load('map/map.glb', (gltfScene) => {
+    constructor(scene, camera) {
+        this.preloader = new Preloader();
+
+        this.dracoloader = new DRACOLoader();
+        this.dracoloader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
+
+        this.map = new GLTFLoader(this.preloader.loadingManager);
+        this.map.setDRACOLoader(this.dracoloader);
+
+        this.map.load('map/try.glb', (gltfScene) => {
           const mesh = gltfScene.scene;
           mesh.rotation.x = 0.5 * Math.PI;
           scene.add(mesh);
@@ -19,13 +27,13 @@ export default class Map {
         });
 
       // doggo
-      this.shiba = new Shiba(scene);
-      this.cube  = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 1, 1),
-        new THREE.MeshNormalMaterial()
-      )
-      this.cube.position.set(-8, 3, 2);
-      scene.add(this.cube);
+      // this.shiba = new Shiba(scene);
+      // this.cube  = new THREE.Mesh(
+      //   new THREE.BoxGeometry(1, 1, 1),
+      //   new THREE.MeshNormalMaterial()
+      // )
+      // this.cube.position.set(-8, 3, 2);
+      // scene.add(this.cube);
 
 
         this.pathfinding = new Pathfinding();
@@ -80,6 +88,7 @@ export default class Map {
             else{
               console.log('no target found');
             }
-        })
+        });
+
     }
 }

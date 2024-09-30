@@ -1,0 +1,43 @@
+$handheld: 320px;
+$wide: 720px;
+
+.preloader {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: #424952;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 1;
+  transition: opacity 1s ease;
+
+  .logo {
+    width: 20%;
+    img {
+      width: 100%;
+    }
+  }
+
+  h1 {
+    color: #e3e3e3;
+    font-size: 1rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-bottom: 30%;
+  }
+
+}
+
+@media (min-width: $wide) {
+  .preloader {
+    .logo {
+      width: 10%;
+    }
+    
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+}

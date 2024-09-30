@@ -2,6 +2,7 @@ import React, { useEffect, useRef ,useState } from 'react';
 import * as THREE from 'three';
 import Experience from '../../Components/Experience';
 import Markers from '../../Components/marker/Markers';
+import Preloader from './preloader/Preloader';
 
 const ThreeCanvas = () => {
 
@@ -14,7 +15,6 @@ const ThreeCanvas = () => {
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
   const [sceneAndCamera, setSceneAndCamera] = useState(null);
-
   useEffect(() => {
     if (containerRef.current) {
       const container = containerRef.current;
@@ -81,7 +81,6 @@ const ThreeCanvas = () => {
     }
   }, []);
 
-  // TO STUDY!
   const moveToMarker = (markerPosition, onComplete) => {
     if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current) {
       try {
@@ -129,6 +128,7 @@ const ThreeCanvas = () => {
 
   return(
     <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh' }}>
+      <Preloader />
       {sceneAndCamera && (
         <Markers
         scene={sceneAndCamera.scene}
