@@ -4,8 +4,9 @@ import Experience from '../../Components/Experience';
 import Markers from '../../Components/marker/Markers';
 import Preloader from './preloader/Preloader';
 
-const ThreeCanvas = () => {
+import Shhhh from './virus/Shhhh';
 
+const ThreeCanvas = () => {
 
   const containerRef = useRef(null);
   const expRef = useRef(null);
@@ -15,6 +16,9 @@ const ThreeCanvas = () => {
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
   const [sceneAndCamera, setSceneAndCamera] = useState(null);
+
+  const dogsRef = useRef([]);
+
   useEffect(() => {
     if (containerRef.current) {
       const container = containerRef.current;
@@ -63,6 +67,14 @@ const ThreeCanvas = () => {
       const animate = () => {
         requestAnimationFrame(animate);
         controls.update();
+
+        if (dogsRef.current.length > 0) {
+          dogsRef.current.forEach(dog => {
+              dog.rotation.x += 0.1;
+              dog.rotation.y += 0.1;
+          });
+      }
+
         renderer.render(scene, camera);
         camera.updateMatrixWorld();
         
@@ -136,6 +148,9 @@ const ThreeCanvas = () => {
         container={containerRef.current}
         moveToMarker={moveToMarker}
       />
+      )}
+      {sceneAndCamera &&(
+        <Shhhh renderer={rendererRef.current} scene={sceneAndCamera.scene} camera={sceneAndCamera.camera} dogsRef={dogsRef} />
       )}
     </div>
   ) 
