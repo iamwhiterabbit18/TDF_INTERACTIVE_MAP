@@ -5,6 +5,10 @@
     padding: 25px 20px 25px 20px;
     background-color: #e1e1e1;
     width: 300px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.23);
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.23);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.23);
 }
 .closeBtn{
     position: absolute;
@@ -49,7 +53,7 @@
             flex-direction: column;
             justify-content: center;
             p{
-                font-size: 0.8rem;
+                font-size: 0.6rem;
                 margin: 0;
             }
         }
@@ -59,10 +63,11 @@
 hr{
     border: none;
     height: 2px;
-    background-color: #dddddd;
+    background-color: #cabdbd;
 }
 
 .cont2{
+    padding: 0.5rem 0rem 0.5rem 0rem;
     display: flex;
     justify-content: space-between;
     align-items: center;

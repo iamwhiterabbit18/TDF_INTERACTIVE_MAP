@@ -33,10 +33,13 @@ export default class Experience {
     };
     this.controls.touches = {
       ONE: THREE.TOUCH.PAN,
-      TWO: THREE.TOUCH.DOLLY_ROTATE,
+      TWO: THREE.TOUCH.DOLLY_PAN,
     }
     this.controls.enableDamping = true;
-    
+    this.controls.enablePan = true;
+    this.controls.enableRotate = false;
+    this.controls.screenSpacePanning = true;
+
     // this.spotlight = new Spotlight(this.scene);
     this.map = new Map(this.scene, this.camera);
   }

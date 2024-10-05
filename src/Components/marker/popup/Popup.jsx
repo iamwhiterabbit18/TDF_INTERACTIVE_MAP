@@ -19,9 +19,9 @@ function Popup({ marker, onClose, isAdmin=true }) {
           id="popup"
           className={styles.popupContent}
           style={{ position: "absolute", zIndex: 100 }}>
-            {
+            {/* {
               isAdmin && <a href="/administrator">Edit</a>
-            }
+            } */}
           <div className={styles.closeBtn} onClick={onClose}>
               <button>
                   <img src={icon.actions.close} alt="close" />
