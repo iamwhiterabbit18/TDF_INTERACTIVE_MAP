@@ -1,0 +1,33 @@
+@import '../../../stylesVariables.scss';
+@import '../../../global.scss';
+
+.secondContainer {
+    align-items: center;
+    background-color: $primary;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 2%;
+    text-align: center;
+
+    .greetingContent {
+        animation: fadeIn 0.4s;
+    }
+
+    img {
+        height: 4.375rem;
+        margin-top: 1.25rem;
+        width: 4.375rem;
+    }
+
+    .txtTitle {
+        color: $tertiary;
+    }
+
+    .txtSubtitle {
+        color: $tertiary;
+        font-family: $subTitle;
+    }
+}
