@@ -3,15 +3,14 @@ const express = require('express');
 const multer = require('multer');   // Used for handling file uploads
 const path = require('path');       // Used to manage file paths
 const Modal = require('../models/Modal');  // Import the Modal model
-const fs = require('fs');           // File system module for deleting old files
-
+const fs = require('fs');
 const router = express.Router();     // Initialize Express router
 
 // Set up multer storage for handling image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     // Set upload directory to 'uploads/'
-    cb(null, 'uploads/');
+    cb(null, 'uploads/modalImages');
   },
   filename: (req, file, cb) => {
     // Generate a unique filename with the original name and a timestamp
@@ -50,81 +49,97 @@ const upload = multer({
   limits: { fileSize: 1024 * 1024 * 5 }  // Limit file size to 5MB
 });
 
-// GET route to retrieve modal data
-router.get('/', async (req, res) => {
+/*Get modal by areaName
+router.get('/modal/:areaName', async (req, res) => {
   try {
-    const modal = await Modal.findOne();  // Retrieve one modal document from the database
-    if (!modal) return res.status(404).json({ error: 'No modal data found' });  // Return 404 if no modal is found
-
-    // Prepare the response with modal data (excluding empty values)
-    const responseData = {
-      modalTitle: modal.title || '',  // Fallback to empty string if title is missing
-      modalDescription: modal.description || '',  // Fallback to empty string if description is missing
-      modalImages: [
-        modal.image1 || null,
-        modal.image2 || null,
-        modal.image3 || null,
-        modal.image4 || null,
-        modal.image5 || null
-      ].filter(image => image)  // Remove any null or empty image fields
-    };
-
-    res.json(responseData);  // Send the modal data as JSON response
-  } catch (error) {
-    console.error('Error fetching modal data:', error);  // Log the error
-    res.status(500).json({ error: 'Server error while fetching modal data' });  // Return server error
-  }
-});
-
-// POST route to update or create modal data
-router.post('/', upload.array('modalImages', 5), async (req, res) => {
-  try {
-    // Destructure the title and description from the request body
-    const { modalTitle, modalDescription } = req.body;
-
-    // Ensure title and description are present
-    if (!modalTitle || !modalDescription) {
-      return res.status(400).json({ error: 'Title and description are required.' });
-    }
-
-    // Get file paths of uploaded images from multer
-    const modalImages = req.files.map(file => file.path);
-
-    // Check if a modal already exists in the database
-    let modal = await Modal.findOne();
-
-    // If no modal is found, create a new instance
+    const modal = await Modal.findOne({ title: new RegExp('^' + req.params.areaName + '$', 'i') });
     if (!modal) {
-      modal = new Modal();
+      return res.status(404).json({ message: 'Modal not found' });
     }
-
-    // Delete old images if new ones are uploaded
-    const oldImages = [modal.image1, modal.image2, modal.image3, modal.image4, modal.image5];
-    oldImages.forEach((oldImage, index) => {
-      // If new image is uploaded and an old image exists, delete the old image
-      if (modalImages[index] && oldImage) {
-        fs.unlinkSync(path.join(__dirname, '..', oldImage));  // Remove old image from the filesystem
-      }
-    });
-
-    // Update modal fields with new data
-    modal.title = modalTitle;
-    modal.description = modalDescription;
-    modal.image1 = modalImages[0] || modal.image1;
-    modal.image2 = modalImages[1] || modal.image2;
-    modal.image3 = modalImages[2] || modal.image3;
-    modal.image4 = modalImages[3] || modal.image4;
-    modal.image5 = modalImages[4] || modal.image5;
-
-    // Save the updated modal to the database
-    await modal.save();
-
-    // Send success message
-    res.json({ message: 'Modal data saved successfully' });
+    res.json(modal);
   } catch (error) {
-    console.error('Error saving modal data:', error);  // Log any errors
-    res.status(500).json({ error: 'Server error while saving modal data' });  // Return server error response
+    console.error('Error fetching modal:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}); */
+
+// Get modal by ID
+router.get('/modal/:id', async (req, res) => {
+  try {
+    const modal = await Modal.findById(req.params.id);
+    if (!modal) {
+      return res.status(404).json({ message: 'Modal not found' });
+    }
+    res.status(200).json(modal);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 });
+
+
+// Get all modal data
+router.get('/modal', async (req, res) => {
+  try {
+    const modals = await Modal.find(); // Fetch all modals
+    res.json(modals);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error fetching modals' });
+  }
+});
+
+
+
+router.put('/modal/:id', upload.fields([{ name: 'modalImages' }]), async (req, res) => {
+  const { id } = req.params;
+  const { description } = req.body; 
+  const uploadedFiles = req.files.modalImages || []; 
+
+  try {
+      const modal = await Modal.findById(id);
+      if (!modal) {
+          return res.status(404).json({ message: 'Modal not found' });
+      }
+
+      const oldImages = modal.modalImages; // Get the existing images from the modal
+
+      // Delete old images if new ones are uploaded
+      oldImages.forEach((oldImage, index) => {
+          if (uploadedFiles[index] && oldImage) {
+              const oldImagePath = path.join(__dirname,'..', 'uploads', 'modalImages', oldImage);
+              console.log(`Attempting to delete old image at: ${oldImagePath}`);
+
+              if (fs.existsSync(oldImagePath)) {
+                  fs.unlinkSync(oldImagePath); 
+                  console.log(`Deleted old image: ${oldImagePath}`);
+              } else {
+                  console.warn(`File not found: ${oldImagePath}`);
+              }
+          }
+      });
+
+      // Update the description
+      modal.description = description;
+
+      // Update modalImages if any files were uploaded
+      if (uploadedFiles.length > 0) {
+          const filenames = uploadedFiles.map(file => file.filename);
+          modal.modalImages = filenames; // Update modalImages with new filenames
+      }
+
+      // Save the updated modal
+      const updatedModal = await modal.save();
+
+      res.status(200).json(updatedModal);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+  }
+});
+
+
+
+
+
 
 module.exports = router;  // Export the router for use in the main app

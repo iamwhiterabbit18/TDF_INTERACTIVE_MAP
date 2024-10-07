@@ -1,0 +1,95 @@
+.modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.modal-editing-section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px; /* Set a width for the modal */
+  max-height: 90vh; /* Set a maximum height for the modal */
+  overflow-y: auto; /* Allow vertical scrolling if content exceeds max height */
+
+  h2 {
+    margin-bottom: 10px; /* Space below the heading */
+    font-size: 1.5rem; /* Heading size */
+    color: #333; /* Dark color for the heading */
+  }
+
+  h3 {
+    margin-bottom: 15px; /* Space below the title */
+    font-size: 1.2rem; /* Title size */
+    color: #555; /* Slightly lighter color for the title */
+  }
+
+  label {
+    display: block; /* Make labels block elements */
+    margin-bottom: 8px; /* Space below labels */
+    font-weight: bold; /* Bold labels */
+  }
+
+  textarea {
+    width: 100%; /* Full width for inputs */
+    padding: 10px; /* Padding inside inputs */
+    border: 1px solid #ccc; /* Border for inputs */
+    border-radius: 4px; /* Rounded corners */
+    margin-bottom: 20px; /* Space below inputs */
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+  }
+
+  .image-upload-container {
+    margin-bottom: 20px; /* Space below image upload section */
+
+    h3 {
+      margin-bottom: 10px; /* Space below subheading */
+    }
+
+    input[type='file'] {
+      display: block; /* Ensure the file input is displayed as block */
+      margin-bottom: 10px; /* Space below the input */
+    }
+  }
+
+.image-carousel {
+  margin-top: 20px; /* Space above carousel */
+  width: 100%;
+  max-width: 400px; /* Adjust based on your layout */
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid black;
+  
+  .slick-slide {
+    display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .carousel-image {
+    width: 100%;
+    height: 100%; /* Ensures image fills the carousel slide */
+    object-fit: cover; /* Ensures uniform image display while maintaining aspect ratio */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  }
+}
+
+
+  button {
+    margin: 10px;
+    padding: 10px 15px; /* Padding inside buttons */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor for buttons */
+    transition: background-color 0.3s; /* Transition for hover effect */
+
+  }
+}

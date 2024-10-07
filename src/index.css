@@ -7,5 +7,5 @@
 body{  
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto; /*change from hidden because editing page affected scrolling */
 }
