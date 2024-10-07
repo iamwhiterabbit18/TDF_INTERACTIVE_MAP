@@ -1,12 +1,15 @@
 import React, { useEffect, useRef ,useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as THREE from 'three';
-import Experience from '../../Components/Experience';
-import Markers from '../../Components/marker/Markers';
-import Preloader from './preloader/Preloader';
+import Experience from './Components/Experience';
+import Markers from './Components/marker/Markers';
+import Preloader from '../preloader/Preloader';
 
-import Shhhh from './virus/Shhhh';
+import Shhhh from '../virus/Shhhh';
 
 const ThreeCanvas = () => {
+  const location = useLocation();
+  const { user } = location.state || {};
 
   const containerRef = useRef(null);
   const expRef = useRef(null);
@@ -18,6 +21,7 @@ const ThreeCanvas = () => {
   const [sceneAndCamera, setSceneAndCamera] = useState(null);
 
   const dogsRef = useRef([]);
+  
 
   useEffect(() => {
     if (containerRef.current) {

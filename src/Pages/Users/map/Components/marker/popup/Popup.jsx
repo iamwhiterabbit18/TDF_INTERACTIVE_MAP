@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import styles from './Popup.module.scss';
-import icon from '../../../assets/Icon.js';
+import icon from '../../../../../../assets/Icon.js';  
 import Time from './Time.jsx';
 import Modal from "./modal/Modal.jsx";
 import axios from 'axios';

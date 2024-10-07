@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import * as THREE from 'three';
 import styles from './Markers.module.scss';
+<<<<<<< HEAD:src/Components/marker/Markers.jsx
 import fetchMarkerData from '../../assets/API/marker_data';
+=======
+import markerData from '../../../../../assets/API/marker_data';
+>>>>>>> upstream/main:src/Pages/Users/map/Components/marker/Markers.jsx
 import Popup from './popup/Popup';
 
 // data pipe here

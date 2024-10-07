@@ -63,32 +63,32 @@ export default class Map {
         });
 
         // raycasting
-        const raycaster = new THREE.Raycaster();
-        const clickMouse = new THREE.Vector2();
-        window.addEventListener('click', (e) => {
-            clickMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-            clickMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(clickMouse, camera);
-            const found = raycaster.intersectObjects(scene.children);
-            if(found.length > 0){
-              let target = found[0].point;
-              this.groupId = this.pathfinding.getGroup(this.zone, this.cube.position);
-              const closest = this.pathfinding.getClosestNode(this.cube.position, this.zone, this.groupId);
-              this.navpath = this.pathfinding.findPath(closest.centroid, target, this.zone, this.groupId);
-              if(this.navpath){
-                this.pathfindingHelper.reset();
-                this.pathfindingHelper.setPlayerPosition(this.cube.position);
-                this.pathfindingHelper.setTargetPosition(target);
-                this.pathfindingHelper.setPath(this.navpath);
-              }
-              else{
-                console.log('no path found');
-              }
-            }
-            else{
-              console.log('no target found');
-            }
-        });
+        // const raycaster = new THREE.Raycaster();
+        // const clickMouse = new THREE.Vector2();
+        // window.addEventListener('click', (e) => {
+        //     clickMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        //     clickMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        //     raycaster.setFromCamera(clickMouse, camera);
+        //     const found = raycaster.intersectObjects(scene.children);
+        //     if(found.length > 0){
+        //       let target = found[0].point;
+        //       this.groupId = this.pathfinding.getGroup(this.zone, this.cube.position);
+        //       const closest = this.pathfinding.getClosestNode(this.cube.position, this.zone, this.groupId);
+        //       this.navpath = this.pathfinding.findPath(closest.centroid, target, this.zone, this.groupId);
+        //       if(this.navpath){
+        //         this.pathfindingHelper.reset();
+        //         this.pathfindingHelper.setPlayerPosition(this.cube.position);
+        //         this.pathfindingHelper.setTargetPosition(target);
+        //         this.pathfindingHelper.setPath(this.navpath);
+        //       }
+        //       else{
+        //         console.log('no path found');
+        //       }
+        //     }
+        //     else{
+        //       console.log('no target found');
+        //     }
+        // });
 
     }
 }
