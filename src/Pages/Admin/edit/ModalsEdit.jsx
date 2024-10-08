@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 import Slider from 'react-slick';
-import './styles/ModalsEdit.scss'; // Ensure you have proper CSS
+import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
+
+import styles from './styles/ModalsEdit.module.scss'; // Ensure you have proper CSS
 
 const Modal = () => {
   const [modals, setModals] = useState([]); // Store all modals
@@ -136,6 +140,10 @@ const handleModalFileChange = (e) => {
     }
   };
   
+  const navigate = useNavigate();
+  const handleBackClick  = () => {
+    navigate(`/admin`); // Navigate to the specific card display page
+  };
   
   const settings = {
     dots: true,
@@ -146,58 +154,64 @@ const handleModalFileChange = (e) => {
   };
 
   return (
-    <div className="modal-container">
-      <h1>All Modals</h1>
-      <div className="modals-list">
-        {modals.map((modal) => (
-          <div key={modal._id}>
-            <h3>{modal.title}</h3>
-            <button onClick={() => handleEditClick(modal)}>Edit</button>
-          </div>
-        ))}
+<div className={styles.modalContainer}>
+  <div className={styles.Header}>
+  <h1>All Modals</h1>
+  <button className={styles.backButton} onClick={handleBackClick}>
+           <img src={ArrowIcon} alt="Back" className={styles.icon} />
+          </button>
+  </div>
+  <div className={styles.modalsList}>
+    {modals.map((modal) => (
+      <div key={modal._id}>
+        <h3>{modal.title}</h3>
+        <button onClick={() => handleEditClick(modal)}>Edit</button>
       </div>
+    ))}
+  </div>
 
-      {currentModal && (
-        <div className="modal-overlay">
-          <div className="modal-editing-section">
-            <label>
-              Edit Modal:
-              <h2>{currentModal.title}</h2>
-            </label>
-            <form onSubmit={handleSubmit}>
-              <label>Description:
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                />
-              </label>
+  {currentModal && (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalEditingSection}>
+        <label>
+          Edit Modal:
+          <h2>{currentModal.title}</h2>
+        </label>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Description:
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </label>
 
-              <div className="image-upload-container">
-                <h3>Upload Images:</h3>
-                <input
-                  type="file"
-                  accept="image/jpeg, image/jpg, image/png" 
-                  multiple
-                  onChange={handleModalFileChange}
-                />
-              </div>
+          <div className={styles.imageUploadContainer}>
+            <h3>Upload Images:</h3>
+            <input
+              type="file"
+              accept="image/jpeg, image/jpg, image/png"
+              multiple
+              onChange={handleModalFileChange}
+            />
+          </div>
 
-              {modalImagePreviews.length > 0 && (
-                <div className="image-carousel">
-                  <Slider {...settings}>
-                    {modalImagePreviews.map((image, index) => (
-                      <div key={index} className="slick-slide">
-                        <img
-                          src={image}
-                          alt={`Uploaded preview ${index}`}
-                          className="carousel-image"
-                        />
-                      </div>
-                    ))}
-                  </Slider>
-                </div>
-              )}
+          {modalImagePreviews.length > 0 && (
+            <div className={styles.imageCarousel}>
+              <Slider {...settings}>
+                {modalImagePreviews.map((image, index) => (
+                  <div key={index} className="slick-slide">
+                    <img
+                      src={image}
+                      alt={`Uploaded preview ${index}`}
+                      className={styles.carouselImage}
+                    />
+                  </div>
+                ))}
+              </Slider>
+            </div>
+          )}
 
               <button type="submit">Save</button>
               {/* Add a Close button to close the modal */}

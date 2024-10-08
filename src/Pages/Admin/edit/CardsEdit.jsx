@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './styles/CardsEdit.scss';
+import styles from './styles/CardsEdit.module.scss';
+import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 //import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -109,48 +110,52 @@ const handleSubmit = async (e) => {
   };
 
   const navigate = useNavigate();
-  const handleCardDisplayClick = () => {
-    navigate(`/`); // Navigate to the specific card display page
+  const handleBackClick  = () => {
+    navigate(`/admin`); // Navigate to the specific card display page
   };
 
  
 
   return (
-    <div className="cards-container">
-      <form onSubmit={handleSubmit}>
-        {cards.map(card => (
-          <div key={card._id} className="card">
-            <h3>{card.areaName}</h3> {/* Fixed Area Name */}
+      <div className={styles.cardsContainer}>
+       <div className={styles.header}>
+        <h1>Edit Cards</h1>
+        <button className={styles.backButton} onClick={handleBackClick}>
+           <img src={ArrowIcon} alt="Back" className={styles.icon} />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit}>
+          {cards.map(card => (
+            <div key={card._id} className={styles.card}>
+              <h3>{card.areaName}</h3>
 
-            <div className="image-upload">
-              <label htmlFor={`image-upload-${card._id}`}>Upload Image</label>
-              <input
-                type="file"
-                accept="image/"
-                id={`image-upload-${card._id}`}
-                onChange={(e) => handleImageUpload(e, card._id)}
-              />
-              {card.image && <img src={`http://localhost:5000${card.image || placeholderImage}`} alt="Uploaded preview" />}
-            </div>
+              <div className={styles.imageUpload}>
+                <label htmlFor={`image-upload-${card._id}`}>Upload Image</label>
+                <input
+                  type="file"
+                  accept="image/"
+                  id={`image-upload-${card._id}`}
+                  onChange={(e) => handleImageUpload(e, card._id)}
+                />
+                {card.image && <img src={`http://localhost:5000${card.image || placeholderImage}`} alt="Uploaded preview" />}
+              </div>
 
-            <div className="quick-facts">
-              <label htmlFor={`quick-facts-${card._id}`}>Quick Facts:</label>
-              <textarea
-                id={`quick-facts-${card._id}`}
-                value={card.quickFacts}
-                onChange={(e) => handleQuickFactsChange(e, card._id)}
-              />
+              <div className={styles.quickFacts}>
+                <label htmlFor={`quick-facts-${card._id}`}>Quick Facts:</label>
+                <textarea
+                  id={`quick-facts-${card._id}`}
+                  value={card.quickFacts}
+                  onChange={(e) => handleQuickFactsChange(e, card._id)}
+                />
+              </div>
             </div>
-            {/* Button to open the modal for editing */}
-           
+          ))}
+          <button className={styles.submitBtn} type="submit">Save Changes</button>
+          <div className={styles.navigationButton}>
           </div>
-        ))}
-        <button type="submit">Save All Cards</button> {/* Submit button */}
-        <div className='navigation-button'>
-        <button onClick={handleCardDisplayClick}>View Card</button>
-       </div>
-      </form>
+        </form>
       </div>
+
 
 
     
