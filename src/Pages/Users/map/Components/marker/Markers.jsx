@@ -1,18 +1,50 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import * as THREE from 'three';
 import styles from './Markers.module.scss';
+import fetchMarkerData from '/src/assets/API/marker_data';
 import markerData from '../../../../../assets/API/marker_data';
 import Popup from './popup/Popup';
 
 // data pipe here
-const markers = markerData;
+//const markers = fetchMarkerData;
 const screenWidth = window.innerWidth;
+
+ 
 
 const Markers = ({ scene, camera, container, moveToMarker }) => {
   const[hoveredMarker, setHoveredMarker] = useState(null);
   const animationFrameRef = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
   // const [popups, setPopups] = useState({});
+
+//Added for Modal Debugging 
+
+const [modals, setModals] = useState([]);
+    // Fetch modals from the backend
+    useEffect(() => {
+      const fetchModals = async () => {
+        const response = await axios.get('http://localhost:5000/api/modal');
+        setModals(response.data);
+      };
+      fetchModals();
+    }, []);
+
+    
+
+  //Added for Fetching Updated cards
+
+
+  const [markers, setMarkers] = useState([]);
+  
+  useEffect(() => {
+    const loadMarkers = async () => {
+        const data = await fetchMarkerData(); // Fetch the latest marker data
+        console.log('Markers after fetching:', data); // Check the fetched markers
+        setMarkers(data); // Update state with the fetched data
+    };
+    
+    loadMarkers();
+}, []);
 
   const handleHover = (index) =>{
     setHoveredMarker(index);
@@ -64,17 +96,23 @@ const Markers = ({ scene, camera, container, moveToMarker }) => {
   }, [markers, calculatePosition, selectedMarker]);
 
   const handleMarkerCLick = (marker) => {
+    console.log('Marker clicked:', marker); // Debugging log
+    //setSelectedMarker(marker); // Set the selected marker
     if(selectedMarker == marker){
+      setModalId(marker.modalId); // Set the modalId from the clicked marker
       console.log('same marker');
       return;
     }
-    else{
+   else{
       setSelectedMarker(null);
       moveToMarker(marker.position, () => {
         setSelectedMarker(marker);  // Display popup after moving to the marker
       });
     }
-  };
+  }; 
+
+  //console.log('Selected:',selectedMarker) // for debugging selected marker 
+
   const handleClosePopup = (marker) =>{
     setSelectedMarker(null);
   }
@@ -114,11 +152,14 @@ const Markers = ({ scene, camera, container, moveToMarker }) => {
 
       {
         selectedMarker && (
+          
           <Popup
+          modalId={selectedMarker.modalId}
             marker={selectedMarker}
             position={calculatePosition(selectedMarker.position)}
             onClose={handleClosePopup}
           />
+          
         )
       }
     </>
