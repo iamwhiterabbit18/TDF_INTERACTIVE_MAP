@@ -1,0 +1,82 @@
+/* import font styles */
+@import url("https://fonts.googleapis.com/css2?family=Lalezar&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap");
+/* for setting animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  100% {
+    opacity: 1;
+  }
+  0% {
+    opacity: 0;
+  }
+}
+/* Global variables */
+/* color pallete */
+/* font styles */
+.navBarList {
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  display: flex;
+  transform: translateY(-100%);
+  transform: translateX(5%);
+  opacity: 0;
+  padding: 40px 0;
+  position: fixed;
+  transition: 0.4s ease-in-out;
+  width: 250px;
+  z-index: 1;
+}
+.navBarList .navList li {
+  align-items: center;
+  color: rgb(23, 21, 59);
+  display: flex;
+  font-family: "Lalezar", system-ui;
+  font-size: 20px;
+  padding: 21px 20px;
+  width: 100%;
+}
+.navBarList .navList li .icon {
+  filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%);
+  height: 30px;
+  transition: all 0.2s ease-in-out;
+  width: 30px;
+}
+.navBarList .navList li .text {
+  align-items: center;
+  display: flex;
+  margin: 0 0 0 20px;
+  padding: 5px 0 0 0;
+  transition: 0.2s ease-in-out;
+}
+.navBarList .navList li:hover .icon {
+  filter: invert(32%) sepia(95%) saturate(906%) hue-rotate(232deg) brightness(100%) contrast(91%);
+}
+.navBarList .navList li:hover .text {
+  color: rgb(131, 83, 226);
+}
+.navBarList .navList li::after {
+  background-color: transparent;
+  content: "";
+  height: 3px;
+  left: 20px;
+  margin-top: 50px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  width: 30%;
+}
+.navBarList .navList li:hover::after {
+  background: rgb(131, 83, 226);
+}
+
+.navBarList.active {
+  transform: translate(5%, 27%);
+  opacity: 1;
+}/*# sourceMappingURL=navListStyles.module.css.map */

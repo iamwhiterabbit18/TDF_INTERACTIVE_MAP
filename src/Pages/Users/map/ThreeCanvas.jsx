@@ -5,6 +5,8 @@ import Experience from './Components/Experience';
 import Markers from './Components/marker/Markers';
 import Preloader from '../preloader/Preloader';
 
+import NavigationModule from '../navBar/NavigationModule';
+
 import Shhhh from '../virus/Shhhh';
 
 const ThreeCanvas = () => {
@@ -143,7 +145,10 @@ const ThreeCanvas = () => {
   };
 
   return(
-    <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh' }}>
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh', zIndex: '0' }}>
+      
+      <NavigationModule />
+
       <Preloader />
       {sceneAndCamera && (
         <Markers
@@ -153,9 +158,9 @@ const ThreeCanvas = () => {
         moveToMarker={moveToMarker}
       />
       )}
-      {sceneAndCamera &&(
+      {/* {sceneAndCamera &&(
         <Shhhh renderer={rendererRef.current} scene={sceneAndCamera.scene} camera={sceneAndCamera.camera} dogsRef={dogsRef} />
-      )}
+      )} */}
     </div>
   ) 
 };

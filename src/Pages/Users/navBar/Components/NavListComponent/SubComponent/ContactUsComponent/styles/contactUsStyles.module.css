@@ -1,0 +1,197 @@
+/* import font styles */
+@import url("https://fonts.googleapis.com/css2?family=Lalezar&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap");
+/* for setting animations */
+@import url("https://fonts.googleapis.com/css2?family=Lalezar&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap");
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  100% {
+    opacity: 1;
+  }
+  0% {
+    opacity: 0;
+  }
+}
+/* Global variables */
+/* color pallete */
+/* font styles */
+/* import font styles */
+/* for setting animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  100% {
+    opacity: 1;
+  }
+  0% {
+    opacity: 0;
+  }
+}
+/* Global variables */
+/* color pallete */
+/* font styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* navigation global styles */
+ul {
+  padding: 0;
+}
+
+li {
+  cursor: pointer;
+  list-style-type: none;
+}
+
+/* all kind of input box global styles */
+/* label, title and subTitle global styles */
+label, .txtTitle, .txtSubTitle {
+  color: rgb(23, 21, 59);
+}
+
+.txtTitle {
+  font-family: "Lalezar", system-ui;
+  font-size: 2.525rem;
+}
+
+.txtSubTitle {
+  font-family: "Noto Sans Lao", sans-serif;
+}
+
+/* close/return icons */
+.return {
+  align-self: flex-start;
+  align-items: center;
+  background-color: rgb(210, 210, 210);
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  transition: 0.2s ease-in-out;
+  width: 50px;
+}
+.return img {
+  height: 25px;
+  filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%);
+  transition: all 0.2s ease-in-out;
+  width: 25px;
+}
+
+.return:hover {
+  background-color: rgb(23, 21, 59);
+}
+.return:hover img {
+  filter: invert(30%) sepia(72%) saturate(1526%) hue-rotate(240deg) brightness(101%) contrast(90%);
+}
+
+.close {
+  align-self: flex-end;
+  align-items: center;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+.close img {
+  height: 25px;
+  filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%);
+  transition: all 0.2s ease-in-out;
+  width: 25px;
+}
+
+.close:hover img {
+  filter: invert(30%) sepia(72%) saturate(1526%) hue-rotate(240deg) brightness(101%) contrast(90%);
+}
+
+.arrowBtn {
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  font-size: 50px;
+  position: absolute;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.arrowBtn:hover {
+  color: rgb(131, 83, 226);
+  scale: 1.125;
+}
+
+.contactUsContainer {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  max-height: 70%;
+  padding: 30px 40px;
+  pointer-events: all;
+  position: absolute;
+}
+.contactUsContainer .contactUsContent {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.contactUsContainer .contactUsContent .form {
+  display: flex;
+  flex-direction: column;
+}
+.contactUsContainer .contactUsContent .form label {
+  font-family: "Noto Sans Lao", sans-serif;
+}
+.contactUsContainer .contactUsContent .form textarea {
+  font-family: "Noto Sans Lao", sans-serif;
+  height: 150px;
+  resize: none;
+}
+.contactUsContainer .contactUsContent .form .submitBtn {
+  align-self: center;
+  background-color: rgb(0, 189, 214);
+  color: rgb(255, 255, 255);
+  margin: 30px 0 0 0;
+  transition: 0.2s ease-in-out;
+}
+.contactUsContainer .contactUsContent .form .submitBtn:hover {
+  background-color: rgb(131, 83, 226);
+  color: rgb(23, 21, 59);
+}
+.contactUsContainer button {
+  border: 0;
+  border-radius: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-family: "Lalezar", system-ui;
+  height: 3rem;
+  width: 15rem;
+}
+.contactUsContainer input, .contactUsContainer textarea {
+  border-radius: 5px;
+  border: 1.5px solid black;
+  padding: 5px;
+  outline: transparent;
+  transition: all 0.2s ease-in-out;
+}
+.contactUsContainer input:focus, .contactUsContainer textarea:focus {
+  border: 1.5px solid rgb(131, 83, 226);
+}/*# sourceMappingURL=contactUsStyles.module.css.map */

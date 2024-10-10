@@ -8,17 +8,39 @@ a {
 
 /* navigation global styles */
 
+// button { // note
+//     border: 0;
+//     border-radius: 40px;
+//     box-sizing: border-box;
+//     cursor: pointer;
+//     font-size: 1.5rem;
+//     font-family: $title;
+//     height: 3rem;
+//     width: 15rem;
+// }
+
 ul {
     padding: 0;
 }
 
 li {
     cursor: pointer;
+    list-style-type: none;
 }
 
 /* all kind of input box global styles */
 
+// input, textarea { //note
+//     border-radius: 5px;
+//     border: 1.5px solid black;
+//     padding: 5px;
+//     outline: transparent;
+//     transition: all 0.2s ease-in-out;
 
+//     &:focus { // works for input but not for textarea
+//         border: 1.5px solid $primary;
+//     }
+// }
 
 /* label, title and subTitle global styles */
 
