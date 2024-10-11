@@ -127,6 +127,21 @@ export default class Map {
                     const pointA = {x: 0.6886628051797364, y: 0.13065154359055978, z: 0.08134138359739033};
                     const pointB = {x: 0.36337729226361404, y: 0.1164302958235701, z: 0.0822346552740091};
 
+                    const points = [];
+                    points.push(pointA);
+                    points.push(pointB);
+
+                    //creates temporary line
+                    // Create BufferGeometry and add the points
+                    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                    // Define the material for the line
+                    const material = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 500 });
+                    // Create the line
+                    const line = new THREE.Line(geometry, material);
+                    // Add the line to the scene
+                    line.position.set(0, 0, 0.0075);
+                    scene.add(line);
+
                     // checks if points are in the same group
                     const groupIdA = this.pathfinding.getGroup(this.zone, new THREE.Vector3(0.6886628051797364, 0.13065154359055978, 0.08134138359739033));
                     const groupIdB = this.pathfinding.getGroup(this.zone, new THREE.Vector3(0.36337729226361404, 0.1164302958235701, 0.0822346552740091));

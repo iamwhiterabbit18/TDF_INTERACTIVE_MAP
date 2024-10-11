@@ -10,6 +10,7 @@
     padding: 40px 0;
     position: fixed;
     transition: 0.4s ease-in-out; // set animation for when is visibile/!visible
+    visibility: hidden;
     width: 250px;
     z-index: 1;
     
@@ -68,5 +69,6 @@
 
 .navBarList.active {
     transform: translate(5%, 27%); // to show
+    visibility: visible;
     opacity: 1;
 }
