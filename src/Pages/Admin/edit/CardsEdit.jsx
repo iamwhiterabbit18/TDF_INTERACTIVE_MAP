@@ -111,7 +111,7 @@ const handleSubmit = async (e) => {
 
   const navigate = useNavigate();
   const handleBackClick  = () => {
-    navigate(`/admin`); // Navigate to the specific card display page
+    navigate(`/map`); // Navigate to the specific card display page
   };
 
  

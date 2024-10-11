@@ -25,7 +25,7 @@ const AudioManagement = () => {
     }
   };
 
-  const handleAssign = async (audioId) => {
+ /* const handleAssign = async (audioId) => {
     if (!assignedTo) {
       alert('Please select a route to assign the audio.');
       return;
@@ -42,7 +42,7 @@ const AudioManagement = () => {
     } catch (error) {
       console.error('Error assigning audio:', error);
     }
-  };
+  }; */
 
   const handleOpenModal = () => {
     setShowUploadModal(true);
@@ -120,7 +120,7 @@ const AudioManagement = () => {
         <button className={styles.uploadButton} onClick={handleOpenModal}>
           Upload
         </button>
-        <button className={styles.navigateButton} onClick={() => navigate('/admin')}>
+        <button className={styles.navigateButton} onClick={() => navigate('/map')}>
            Go to Admin Page
         </button>
       </div>

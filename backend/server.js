@@ -3,10 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cardRoutes = require('./routes/cardRoutes'); // Import card routes
 const modalRoutes = require('./routes/modalRoutes'); 
 const audioRoutes = require('./routes/audioRoutes'); 
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+dotenv.config(); 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,7 +23,7 @@ app.use(bodyParser.json()); // Add this line to parse JSON requests
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // MongoDB connection
-const dbUri = process.env.MONGO_URI || 'mongodb://localhost:27017/CardsArray'; // Name or change the Card&Audio if you create new DB in MongoDB
+const dbUri = process.env.MONGO_URI || 'mongodb+srv://millardjohnortillano:millard09xd@tdfdb.apd2o.mongodb.net/TDF_DATA'; // Name or change the Card&Audio if you create new DB in MongoDB
 mongoose.connect(dbUri);
 
 // Database connection events
@@ -34,10 +38,12 @@ mongoose.connection.on('disconnected', () => {
 });
 
 
-// Use the card routes
+// All the routes used
 app.use('/api/cards', cardRoutes);
 app.use('/api', modalRoutes); // Ensure this line exists
 app.use('/api/audio', audioRoutes); // Ensure this line exists
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // Start the server
 app.listen(PORT, () => {

@@ -1,0 +1,192 @@
+[{
+  "_id": {
+    "$oid": "66fd5616e8c88882cd60f1ad"
+  },
+  "title": "Fish/Prawn Culture",
+  "description": "\"At the Fish and Prawn Culture area, explore the sustainable practices of aquaculture. This area showcases how fish and prawns are farmed in environmentally friendly ways.\"",
+  "modalImages": [
+    "modalImages-1728047331894-FishPond with dirty water.jpg",
+    "modalImages-1728047331896-Fishpond with Koi.jpg",
+    "modalImages-1728047331897-fishpond with lily.jpg"
+  ],
+  "__v": 16,
+  "modal_id": "670260404e1b3d8cc134aafc"
+},
+{
+  "_id": {
+    "$oid": "66fd5616e8c88882cd60f1ae"
+  },
+  "title": "Feathered Place",
+  "description": "\"Feathered Place, where you can observe a variety of bird species in their natural habitat. This peaceful area is dedicated to bird conservation and provides a relaxing spot for bird enthusiasts.\"",
+  "modalImages": [
+    "modalImages-1727937477017-FishPond with dirty water.jpg",
+    "modalImages-1727937477019-Fishpond with Koi.jpg",
+    "modalImages-1727937477020-fishpond with lily.jpg"
+  ],
+  "__v": 2,
+  "modal_id": "670260064e1b3d8cc134aaf8"
+},
+{
+  "_id": {
+    "$oid": "66fd5616e8c88882cd60f1af"
+  },
+  "title": "Bahay Kubo",
+  "description": "\"Bahay Kubo, a traditional Filipino house made from native materials. This cultural icon demonstrates the principles of sustainable living and is surrounded by a variety of native plants and crops.\"",
+  "modalImages": [
+    "modalImages-1727937486235-Koi Close up shot.png",
+    "modalImages-1727937486240-meta logo.png",
+    "modalImages-1727937486241-microsoft-logo-4.png"
+  ],
+  "__v": 1,
+  "modal_id": "6702781ae2bbc33bdb5d6930"
+},
+{
+  "_id": {
+    "$oid": "66fd5616e8c88882cd60f1b0"
+  },
+  "title": "House of Greens",
+  "description": "\"The House of Greens, you’ll find an innovative display of sustainable greenhouse farming. Explore how advanced techniques help grow fresh vegetables and herbs in controlled environments.\"",
+  "modalImages": [
+    "modalImages-1727937496765-Fishpond with Koi.jpg",
+    "modalImages-1727937496767-fishpond with lily.jpg",
+    "modalImages-1727937496769-Fishpond with plants.jpg"
+  ],
+  "__v": 1,
+  "modal_id": "670260844e1b3d8cc134ab10"
+},
+{
+  "_id": {
+    "$oid": "66fd5616e8c88882cd60f1b1"
+  },
+  "title": "Urban Garden",
+  "description": "\"The Urban Garden, a space that showcases the possibilities of gardening in urban settings. Learn about compact, vertical, and container gardening techniques for maximizing small spaces.\"",
+  "modalImages": [
+    "modalImages-1727937540305-fishpond with lily.jpg",
+    "modalImages-1727937540307-Fishpond with plants.jpg",
+    "modalImages-1727937540309-Koi Close up shot.png"
+  ],
+  "__v": 7,
+  "modal_id": "670260e14e1b3d8cc134ab24"
+},
+{
+  "_id": {
+    "$oid": "66fd5616e8c88882cd60f1b2"
+  },
+  "title": "GuestHouse",
+  "description": "\"The Guest House, a cozy retreat for visitors looking to stay and explore the Agri-Eco Park. This serene spot offers a comfortable and inviting place for rest amidst nature.\"",
+  "modalImages": [
+    "modalImages-1727937556012-FishPond with dirty water.jpg",
+    "modalImages-1727937556013-Fishpond with Koi.jpg",
+    "modalImages-1727937556014-microsoft-logo-4.png"
+  ],
+  "__v": 1,
+  "modal_id": "6702606c4e1b3d8cc134ab08"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966b7"
+  },
+  "title": "Extension Hall",
+  "description": "\"The Extension Hall. This multifunctional space is perfect for hosting events, seminars, and gatherings. With its spacious interior, it’s a hub for agricultural learning and community interaction.\"",
+  "modalImages": [],
+  "modal_id": "6702782fe2bbc33bdb5d6934"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966b8"
+  },
+  "title": "Agri-Eco Park Main Building",
+  "description": "\"The heart of the Agri-Eco Park, the Main Building. This facility is dedicated to sustainable farming practices and innovations that shape the future of eco-friendly agriculture.\"",
+  "modalImages": [],
+  "modal_id": "67025f504e1b3d8cc134aae8"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966b9"
+  },
+  "title": "Birds Paradise",
+  "description": "\"Birds Paradise, a sanctuary for colorful and exotic bird species. Listen closely and you’ll hear the chirps and calls of nature’s finest feathered friends in this peaceful aviary.\"",
+  "modalImages": [],
+  "modal_id": "67025ff34e1b3d8cc134aaf0"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966ba"
+  },
+  "title": "Poultry Village",
+  "description": "\"Poultry Village, where modern and traditional poultry farming methods coexist. Learn about raising chickens, ducks, and other fowl, and see how these essential animals contribute to sustainable farming.\"",
+  "modalImages": [],
+  "modal_id": "670260a84e1b3d8cc134ab1c"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966bb"
+  },
+  "title": "Native Organics",
+  "description": "\"Native Organics, discover the world of organic farming with native plants. This area promotes sustainable practices that nurture our environment while producing healthy, natural crops.\"",
+  "modalImages": [],
+  "modal_id": "6702608e4e1b3d8cc134ab14"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966bc"
+  },
+  "title": "Garden Scape",
+  "description": "\"Garden Scape, a delightful exhibition of creative garden designs. From vertical gardens to ornamental landscapes, get inspired to create your own green masterpiece.\"",
+  "modalImages": [],
+  "modal_id": "670260554e1b3d8cc134ab00"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966bd"
+  },
+  "title": "Green Haven",
+  "description": "\"Green Haven, a lush, eco-friendly space where sustainability is at the forefront. Explore various environmental initiatives that make this area a green sanctuary.\"",
+  "modalImages": [],
+  "modal_id": "670260614e1b3d8cc134ab04"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966be"
+  },
+  "title": "Herb Land",
+  "description": "\"Herb Land awaits, filled with fragrant herbs used in both culinary and medicinal practices. Here, you can explore the scents and benefits of different herbs, from rosemary to lavender.\"",
+  "modalImages": [],
+  "modal_id": "6702612d4e1b3d8cc134ab28"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966bf"
+  },
+  "title": "Healing Garden",
+  "description": "\"The Healing Garden, take a moment to unwind and reconnect with nature. This serene space promotes relaxation and healing, offering a peaceful retreat amidst the greenery.\"",
+  "modalImages": [],
+  "modal_id": "670260794e1b3d8cc134ab0c"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966c0"
+  },
+  "title": "Bee Program Demo Site",
+  "description": "\"The Bee Program Demo Site. Learn how bees play a vital role in pollination and agriculture. This area highlights the importance of bee conservation and the incredible work they do for our ecosystem.\"",
+  "modalImages": [],
+  "modal_id": "67025f644e1b3d8cc134aaec"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966c1"
+  },
+  "title": "Nursery",
+  "description": "\"The Nursery, where young plants are nurtured with care. Witness the growth process from seed to sapling, as this area supports the future of sustainable farming.\"",
+  "modalImages": [],
+  "modal_id": "670260984e1b3d8cc134ab18"
+},
+{
+  "_id": {
+    "$oid": "6702048d6449a8c5bd9966c2"
+  },
+  "title": "Theatre",
+  "description": "\"The Theatre, where agricultural educational programs come to life. From documentaries to live presentations, this venue offers an engaging way to learn about the world of agriculture.\"",
+  "modalImages": [],
+  "modal_id": "670260c34e1b3d8cc134ab20"
+}]

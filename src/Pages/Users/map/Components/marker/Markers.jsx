@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import axios from 'axios';
 import * as THREE from 'three';
 import styles from './Markers.module.scss';
 import fetchMarkerData from '/src/assets/API/marker_data';
@@ -39,7 +40,7 @@ const [modals, setModals] = useState([]);
   useEffect(() => {
     const loadMarkers = async () => {
         const data = await fetchMarkerData(); // Fetch the latest marker data
-        console.log('Markers after fetching:', data); // Check the fetched markers
+       // console.log('Markers after fetching:', data); // Check the fetched markers
         setMarkers(data); // Update state with the fetched data
     };
     

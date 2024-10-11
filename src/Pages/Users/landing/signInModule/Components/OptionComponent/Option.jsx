@@ -12,7 +12,7 @@ export default function Option({ handleBtnClick, handleUser }) {
                     <button className = { styles.btnSignIn } onClick = { handleBtnClick }>Sign in</button>
                     <span className = { styles.txtSubTitle }>OR</span>
                     <button className = { styles.btnGuest }
-                    onClick = { () => handleUser('Guest') }>
+                   onClick={() => handleUser('guest', 'guest')}>
                         <Link to ={ "/map"}>Guest Login</Link>
                     </button> 
                 </div>
