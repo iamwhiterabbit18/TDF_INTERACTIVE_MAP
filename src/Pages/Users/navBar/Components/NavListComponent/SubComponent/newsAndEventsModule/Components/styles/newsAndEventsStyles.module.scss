@@ -1,0 +1,23 @@
+@import '../../../../../../../landing/signInModule/stylesVariables.scss';
+@import '../../../../../../../landing/signInModule/global.scss';
+
+.newsAndEventContainer {
+    background-color: $tertiary;
+    border-radius: 10px;
+    height: 75%; // don't forget to convert into max height once content is implemented
+    // overflow: hidden;
+    width: 64%;
+    pointer-events: all; //!important
+
+    .newsAndEventContent {
+        display: flex;
+        flex-direction: column;
+        margin: 20px 30px;
+
+        .imageSlider {
+            align-self: center;
+            width: 49vw;
+            height: 49vh;
+        }
+    }
+}

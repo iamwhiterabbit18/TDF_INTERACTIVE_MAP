@@ -1,0 +1,74 @@
+@import '../../../../landing/signInModule/stylesVariables.scss';
+
+.navBarList {
+    background-color: $tertiary;
+    border-radius: 20px;
+    display: flex;
+    transform: translateY(-100%); // to hide the content
+    transform: translateX(5%);
+    opacity: 0;
+    padding: 40px 0;
+    position: fixed;
+    transition: 0.4s ease-in-out; // set animation for when is visibile/!visible
+    visibility: hidden;
+    width: 250px;
+    z-index: 1;
+    
+    .navList {
+        li {
+            align-items: center;
+            color: $secondary;
+            display: flex;
+            font-family: $title;
+            font-size: 20px;
+            padding: 21px 20px;
+            width: 100%;
+
+            .icon {
+                filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); // change the icon color to $secondary
+                height: 30px;
+                transition: all 0.2s ease-in-out;
+                width: 30px;
+            }
+
+            .text {
+                align-items: center;
+                display: flex;
+                margin: 0 0 0 20px;
+                padding: 5px 0 0 0;
+                transition: 0.2s ease-in-out;
+            }
+
+            &:hover {
+                .icon {
+                    filter: invert(32%) sepia(95%) saturate(906%) hue-rotate(232deg) brightness(100%) contrast(91%); // change the icon color into $primary   
+                }
+                .text {
+                    color: $primary;
+                }
+            }
+
+            &::after { // adds a line below the hovered navList but invisible
+                background-color: transparent;
+                content: '';
+                height: 3px;
+                left: 20px;
+                margin-top: 50px;
+                position: absolute;
+                transition: all 0.3s ease-in-out;
+                width: 30%;
+            }
+            
+            &:hover::after { 
+                background: $primary;
+            }
+        }
+        
+    }
+}
+
+.navBarList.active {
+    transform: translate(5%, 27%); // to show
+    visibility: visible;
+    opacity: 1;
+}

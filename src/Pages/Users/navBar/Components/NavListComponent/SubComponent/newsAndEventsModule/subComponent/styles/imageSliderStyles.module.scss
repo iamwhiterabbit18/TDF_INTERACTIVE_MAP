@@ -1,0 +1,63 @@
+@import '../../../../../../../landing/signInModule/stylesVariables.scss';
+@import '../../../../../../../landing/signInModule/global.scss';
+
+
+.sliderContainer {
+    height: 100%;
+    position: relative;
+
+    .arrowBtn.next{
+        top: 50%;
+        transform: translate(0, -50%);
+        right: 30px;
+    }
+
+    .arrowBtn.prev {
+        top: 50%;
+        transform: translate(0, -50%);
+        left: 30px;
+    }
+    
+    .imageContainer {
+        border-radius: 10px;
+        display: flex;
+        height: 100%;
+        margin: 0 0 -35px 0;
+        width: 100%;
+        overflow: hidden;
+
+        .sliderImage {
+            background-position: center;
+            background-size: cover;
+            height: 100%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            transition: translate 0.4s ease-in-out;
+            width: 100%;
+        }
+    }
+
+    .dotContainer {
+        display: flex;
+        justify-content: center;  
+
+        .dot {
+            color: $tertiary;
+            cursor: pointer;
+            font-size: 22px;
+            margin: 0 6px;
+            transition: all 0.3s ease-in-out;
+            user-select: none;
+            z-index: 1; // important so that the dots will show
+        }
+
+        .dot.active {
+            color: $primary;
+            scale: 1.4;
+        }
+
+        .dot:hover {
+            scale: 1.4;
+        }
+    }
+}
