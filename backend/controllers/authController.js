@@ -1,5 +1,8 @@
 //authController.js 
 const User = require('../models/User');
+const AdminLog = require('../models/AdminLog');
+const StaffLog = require('../models/StaffLog');
+const GuestLog = require('../models/GuestLog');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -25,11 +28,17 @@ const loginUser = async (req, res) => {
             expiresIn: '1d',
         });
 
-       /* Log admin login (Time In)
-        if (user.role === 'admin') {
-            const adminLog = new AdminLog({ adminName: user.name, timeIn: Date.now() });
-            await adminLog.save();
-        } */
+            // Log admin or staff login time
+            if (user.role === 'admin') {
+                const adminLog = new AdminLog({ adminName: user.name });
+                await adminLog.save();
+            } else if (user.role === 'staff') {
+                const staffLog = new StaffLog({ staffName: user.name });
+                await staffLog.save();
+            } else if (user.role === 'guest') {
+                const guestLog = new GuestLog({ guestId: user._id });
+                await guestLog.save();
+}
 
         res.json({
             _id: user._id,
@@ -44,7 +53,51 @@ const loginUser = async (req, res) => {
     } 
 };
 
+const logoutUser = async (req, res) => {
+    const authHeader = req.header('Authorization');
+
+    if (!authHeader) {
+        return res.status(401).json({ message: 'No authorization header provided' });
+    }
+
+    try {
+        const token = authHeader.replace('Bearer ', '');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const { role, name } = decoded;
+
+        // Log out the user based on role and set the timeOut
+        if (role === 'admin') {
+            console.log('Logging out:', { role, name });
+
+            await AdminLog.findOneAndUpdate(
+                { adminName: name, timeOut: null }, // Ensure we are finding the right log entry
+                { timeOut: new Date() } // Set the timeOut to the current date
+            );
+        } else if (role === 'staff') {
+            console.log('Logging out:', { role, name });
+
+            await StaffLog.findOneAndUpdate(
+                { staffName: name, timeOut: null }, // Ensure we are finding the right log entry
+                { timeOut: new Date() } // Set the timeOut to the current date
+            );
+        } else if (role === 'guest') {
+            console.log('Logging out:', { role, name });
+
+            await GuestLog.findOneAndUpdate(
+                { guestId: decoded.id, timeOut: null }, // Ensure we are finding the right log entry
+                { timeOut: new Date() } // Set the timeOut to the current date
+            );
+        }
+
+        return res.status(200).json({ message: 'Logged out successfully' });
+    } catch (error) {
+        console.error('Logout error:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
 
 module.exports = {
-    loginUser
+    loginUser,
+    logoutUser, // Add the logout function here
 };

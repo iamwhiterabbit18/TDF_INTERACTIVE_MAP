@@ -25,27 +25,28 @@ export default function SignIn ({ handleBtnClick, handleUser }) {
 
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const userData = { email, password };
-            const response = await login(userData);
 
-            const decodedUser = jwtDecode(response.token); // Decode the token here
-            localStorage.setItem('token', response.token);
-            setUser(decodedUser); // Update user context with decoded user
-    
-            handleUser(decodedUser.role, decodedUser.role); // Set the user role
-    
-            if (decodedUser.role === 'admin' || decodedUser.role === 'staff') {
-                navigate('/map', { state: { user: decodedUser } }); // Pass decoded user object for admin and staff
-            } else if (decodedUser.role === 'guest') {
-                navigate('/map'); // Guest just navigates without passing user
-            }
-        } catch (error) {
-            setError('Failed to login');
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const userData = { email, password };
+        const response = await login(userData);
+
+        localStorage.setItem('user', JSON.stringify(response));
+        localStorage.setItem('token', response.token);
+        setUser(response);
+
+        // Now you can navigate based on the user role
+        if (response.role === 'admin' || response.role === 'staff') {
+            navigate('/map', { state: { user: response } }); // Pass user object for admin and staff
+        } else if (response.role === 'guest') {
+            navigate('/map'); // Guest just navigates without passing user
         }
-    };
+    } catch (error) {
+        setError('Failed to login');
+    }
+};
+
     
 
     return (

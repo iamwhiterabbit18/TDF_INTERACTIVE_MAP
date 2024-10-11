@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
 import './styles/UserManagement.scss';  // Import CSS
 import UserModal from './UserModal'; // Component for handling modal input
 
+import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
+import styles from '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
+
 const UserManagement = () => {
+        //passing props from the AccessBtn
+        const location = useLocation();
+        const userProp = location.state?.user;
+
     const [users, setUsers] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
@@ -104,8 +111,13 @@ const UserManagement = () => {
     </tbody>
 </table>
             {modalOpen && <UserModal user={currentUser} onSave={handleAddOrUpdateUser} onClose={() => setModalOpen(false)} />}
+                 {/* Button container for absolute positioning */}
+      <div className={styles.accessBtnContainer}>
+            <AccessBtn userProp={user} /> {/* Pass user as prop if needed */}
+        </div>
         </div>
     );
+    
 };
 
 export default UserManagement;
