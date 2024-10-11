@@ -27,86 +27,87 @@ export default function NavList ({ handleClickOutside, isHamClicked, isNavListCl
 
     return (
         <>
-            <section id = "navigationList" className = { isHamClicked && !isNavListClosed ? `${styles.navBarList} ${styles.active}`: styles.navBarList }> {/* navBarList active (for showing list if hamburger is clicked) */}
-                {/* <div class = "minimize">min</div> [add it after main nav list is done] */}
-                <ul className = { styles.navList }> 
-                    <AnimatePresence>
+        <AnimatePresence>
+            {isHamClicked && (
+                <motion.section 
+                    id = "navigationList" 
+                    className = { styles.navBarList }
+                    initial = {{opacity: 0, translateY: 120, translateX: 20}}
+                    animate = {{opacity: 1,}}
+                    exit = {{opacity: 0, translateX: 20, transition: {duration: 0.21, delay: 0.72, ease: "easeInOut"}}}
+                    transition = {{duration: 0.4, ease: "easeInOut"}}
+                >
+                    {/* <div class = "minimize">min</div> [add it after main nav list is done] */}
+                    <ul className = { styles.navList }> 
                         {isHamClicked && (
                             <motion.li
                                 key = {1}
                                 initial = {{opacity: 0, translateY: -50}}
                                 animate = {{opacity: 1, translateY: !isHamClicked ? -50 : 0}}
-                                exit = {{opacity: 0, translateY: -50, transition: {duration: 0.6}}}
-                                transition = {{duration: 0.6, delay: 0.4, ease: "easeInOut"}}
+                                exit = {{opacity: 0, translateY: -50, transition: {duration: 0.2, delay: 0.18 * 4, ease: "easeInOut"}}}
+                                transition = {{duration: 0.2, ease: "easeInOut"}}
                                 
                             >
                                 <img className = { `${styles.icon} ${styles.map}` } src = { icons.map } alt = "Map" />
                                 <span className = { styles.text }>Map</span>
                             </motion.li>
                         )}
-                    </AnimatePresence>
-                    <AnimatePresence>
                         {isHamClicked && (
                             <motion.li 
                                 key = {2}
                                 onClick = { function() { handleModalClick(); captureNavListClick('newsAndEvents'); } }
                                 initial = {{opacity: 0, translateY: -80}}
                                 animate = {{opacity: 1, translateY: !isHamClicked ? -80 : 0}}//-80
-                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.6}}}
-                                transition = {{duration: 0.6, delay: 0.4 * 2, ease: "easeInOut"}}
+                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.2, delay: 0.18 * 3, ease: "easeInOut"}}}
+                                transition = {{duration: 0.2, delay: 0.18 * 1, ease: "easeInOut"}}
                             >
                                 <img className = { `${styles.icon} ${styles.calendar}` } src = { icons.calendar } alt = "News and Events" />
                                 <span className = { styles.text }>News and Events</span>
                             </motion.li>
                         )}
-                    </AnimatePresence>
-                    <AnimatePresence>
                         {isHamClicked && (
                             <motion.li 
                                 key = {3}
                                 onClick = { function() { handleModalClick(); captureNavListClick('aboutUs'); } }
                                 initial = {{opacity: 0, translateY: -80}}
                                 animate = {{opacity: 1, translateY: !isHamClicked ? -80 : 0}}
-                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.6}}}
-                                transition = {{duration: 0.6, delay: 0.4 * 3, ease: "easeInOut"}}    
+                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.2, delay: 0.18 * 2, ease: "easeInOut"}}}
+                                transition = {{duration: 0.2, delay: 0.18 * 2, ease: "easeInOut"}}    
                             >
                                 <img className = { `${styles.icon} ${styles.info}` } src = { icons.info } alt = "About Us" />
                                 <span className = { styles.text }>About Us</span>
                             </motion.li>
                         )}
-                    </AnimatePresence>
-                    <AnimatePresence>
                         {isHamClicked && (
                             <motion.li 
                                 key = {4}
                                 onClick = { function() { handleModalClick(); captureNavListClick('contactUs'); } }
                                 initial = {{opacity: 0, translateY: -80}}
                                 animate = {{opacity: 1, translateY: !isHamClicked ? -80 : 0}}
-                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.6}}}
-                                transition = {{duration: 0.6, delay: 0.4 * 4, ease: "easeInOut"}}
+                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.2, delay: 0.18, ease: "easeInOut"}}}
+                                transition = {{duration: 0.2, delay: 0.18 * 3, ease: "easeInOut"}}
                             >
                                 <img className = { `${styles.icon} ${styles.contact}` } src = { icons.contact } alt = "Contact Us" />
                                 <span className = { styles.text }>Contact Us</span>
                             </motion.li>
                         )}
-                    </AnimatePresence>
-                    <AnimatePresence>
                         {isHamClicked && (
                             <motion.li 
                                 key = {5}
                                 onClick = { function() { handleModalClick(); captureNavListClick('submitFeedback'); } }
                                 initial = {{opacity: 0, translateY: -80}}
                                 animate = {{opacity: 1, translateY: !isHamClicked ? -80 : 0}}
-                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.6}}}
-                                transition = {{duration: 0.6, delay: 0.4 * 5, ease: "easeInOut"}}
+                                exit = {{opacity: 0, translateY: -80, transition: {duration: 0.18, ease: "easeInOut"}}}
+                                transition = {{duration: 0.2, delay: 0.18 * 4, ease: "easeInOut"}}
                             >
                                 <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.feedback } alt = "Submit Feedback" />
                                 <span className = { styles.text }>Submit Feedback</span>
                             </motion.li>
                         )}
-                    </AnimatePresence>
-                </ul>
-            </section>
+                    </ul>
+            </motion.section>
+            )}
+        </AnimatePresence>
         </>
     )
 }
