@@ -34,8 +34,8 @@ export default function NavBar({ isHamClicked, isNavListClosed, handleNavClick, 
                             className = { `${ styles.icon } ${ styles.hamburger }` } 
                             onClick = { handleNavClick }
                             initial = {{rotate: 0}}
-                            animate = {{rotate: isHamClicked? 270 : 0}}
-                            transition = {{duration: 0.8}}
+                            animate = {{rotate: isHamClicked? 450 : 0}} //270
+                            transition = {{duration: 1}} //0.8
                         >
                             <img 
                                 //change the used icon depending on the set bool value of isCliked
