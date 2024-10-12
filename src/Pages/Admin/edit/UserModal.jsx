@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import styles from '/src/Pages/Admin/edit/styles/UserModal.module.scss';
+
 
 const UserModal = ({ user, onSave, onClose }) => {
     const [name, setName] = useState(user ? user.name : '');
@@ -20,11 +22,11 @@ const UserModal = ({ user, onSave, onClose }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <span className="close" onClick={onClose}>&times;</span>
+        <div className={styles.modal}>
+            <div className={styles.modalContent}>
+                <span className={styles.close} onClick={onClose}>&times;</span>
                 <h2>{user ? 'Edit User' : 'Add User'}</h2>
-                <form onSubmit={handleSubmit}>
+                <form className ={styles.Form} onSubmit={handleSubmit}>
                     <label>Name:</label>
                     <input
                         type="text"

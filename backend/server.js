@@ -10,6 +10,7 @@ const modalRoutes = require('./routes/modalRoutes');
 const audioRoutes = require('./routes/audioRoutes'); 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const guestLogRoutes = require('./routes/guestLogRoutes');
 dotenv.config(); 
 
 const app = express();
@@ -44,6 +45,7 @@ app.use('/api', modalRoutes); // Ensure this line exists
 app.use('/api/audio', audioRoutes); // Ensure this line exists
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/auth', guestLogRoutes);
 
 // Start the server
 app.listen(PORT, () => {

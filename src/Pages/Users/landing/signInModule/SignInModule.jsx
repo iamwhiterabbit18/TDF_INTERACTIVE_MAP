@@ -30,7 +30,8 @@ export default function SignInModule() {
     const [isUser, setIsUser] = useState(null);
     const handleUser = (user, role) => {
         setIsUser(user);
-        console.log(`${user} logged in with role: ${role}`); // Log the user role
+        console.log(`${user} logged in with ID: ${role}`); // Log the user role
+
     };
     
 

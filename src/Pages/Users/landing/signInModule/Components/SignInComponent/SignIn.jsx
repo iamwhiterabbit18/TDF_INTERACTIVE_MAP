@@ -38,6 +38,7 @@ const handleSubmit = async (e) => {
 
         // Now you can navigate based on the user role
         if (response.role === 'admin' || response.role === 'staff') {
+            console.log(response.role ,'Logged In!')
             navigate('/map', { state: { user: response } }); // Pass user object for admin and staff
         } else if (response.role === 'guest') {
             navigate('/map'); // Guest just navigates without passing user
