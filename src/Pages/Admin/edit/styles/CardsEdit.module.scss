@@ -7,7 +7,7 @@
   background-color: #f5f5f5;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 970px;
+  max-width: 780px;
   margin: 0 auto;
 
   .header {
@@ -52,114 +52,107 @@
       box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); // Add a subtle outline on focus for accessibility
     }
   }
-
   
 
   form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 5px;
+    gap: 20px;
     max-width: 100%;
     overflow: hidden;
-  
+  }
 
   .card {
     flex-grow: 1;
-    background-color: #f8f9fa; /* Light background for contrast */
-    border: 1px solid #e0e0e0; /* Softer border color */
-    border-radius: 12px; /* Slightly more rounded corners */
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
     padding: 20px;
-    width: 256px; /* A bit wider for better layout */
-    margin: 20px;
-    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s, transform 0.3s;
+    width: 220px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
     position: relative;
-    overflow: hidden; /* Ensures content doesn't overflow */
-  
+
     &:hover {
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
-      transform: translateY(-4px); /* Slight lift effect */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
-  
+
     h3 {
-      font-size: 24px; /* Slightly larger font */
-      margin-bottom: 12px; /* More spacing below title */
+      font-size: 16px;
+      margin-bottom: 8px;
       color: #333;
       text-align: left;
-      font-weight: 600; /* Bolder heading */
     }
-  
+
     .imageUpload {
       display: flex;
       flex-direction: column;
-      margin-bottom: 15px; /* Increased margin for better spacing */
-  
+      margin-bottom: 10px;
+
       label {
-        margin-bottom: 8px; /* Better spacing between label and input */
+        margin-bottom: 5px;
         font-weight: bold;
         color: #555;
-        font-size: 14px;
       }
-  
+
       input {
-        border: transparent;
-        border-radius: 4px;
-        padding: 0px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.3s;
-  
-        &:focus {
-          border-color: #007bff;
-        }
-      }
-  
-      img {
-        margin-top: 10px; /* More spacing between input and image */
-        max-width: 100%;
-        border-radius: 6px; /* Slightly more rounded */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for image */
-      }
-    }
-  
-    .quickFacts {
-      label {
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #555;
-        font-size: 14px;
-      }
-  
-      textarea {
-        width: 100%;
-        height: 100px; /* Increased height for more content */
         border: 1px solid #dddddd;
         border-radius: 4px;
-        padding: 8px;
+        padding: 5px;
         font-size: 14px;
         outline: none;
         transition: border-color 0.3s;
-  
+
+        &:focus {
+          border-color: #007bff;
+        }
+      }
+
+      img {
+        margin-top: 5px;
+        max-width: 100%;
+        border-radius: 4px;
+      }
+    }
+
+    .quickFacts {
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      textarea {
+        width: 100%;
+        height: 80px;
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+        padding: 5px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s;
+
         &:focus {
           border-color: #007bff;
         }
       }
     }
+
     button {
-      background-color: #17a2b8;
+      background-color: #007bff;
       color: white;
-      padding: 10px 20px;
       border: none;
       border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 14px;
       cursor: pointer;
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #138496;
+        background-color: #0056b3;
       }
     }
-  
   }
 
   .submitBtn {
@@ -195,6 +188,4 @@
     display: flex;
     justify-content: center;
   }
-}
-
 }

@@ -28,7 +28,7 @@ const AccessBtn = ({ onClick, disabled }) => {
     
 
     if (user?.role === 'admin' || user?.role === 'staff') {
-        //console.log(user.role,'logged in');
+        console.log(user.role,'logged in');
         return (
             <div className={styles.accessBtnContainer}>
                 <button 
