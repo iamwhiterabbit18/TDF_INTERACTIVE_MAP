@@ -34,8 +34,18 @@ const PrivateRoute = ({ children, roles }) => {
 
     try {
         const decodedToken = jwtDecode(token); // Use the dynamically imported jwt_decode function
-        const userRole = decodedToken.role;
+        const currentTime = Date.now() / 1000; // Current time in seconds
 
+        // Check if token is expired
+        if (decodedToken.exp < currentTime) {
+            // Token has expired, clear it and redirect
+            localStorage.removeItem('token'); // Clear expired token
+            localStorage.removeItem('user');
+            return <Navigate to="/" />; // Redirect user to the login page
+        }
+
+        const userRole = decodedToken.role;
+        
         if (roles && !roles.includes(userRole)) {
             return <Navigate to="/" />;
         }

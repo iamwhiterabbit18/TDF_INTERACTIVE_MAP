@@ -1,6 +1,5 @@
 // middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 
 const authMiddleware = (roles = []) => {
     if (typeof roles === 'string') {
@@ -8,13 +7,14 @@ const authMiddleware = (roles = []) => {
     }
 
     return (req, res, next) => {
-        const token = req.header('x-auth-token');
+        const token = req.header('Authorization')?.replace('Bearer ', ''); // Check for the Authorization header
         if (!token) {
             return res.status(401).json({ message: 'No token, authorization denied' });
         }
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            //console.log("Decoded Token:", decoded);
             req.user = decoded;
 
             if (roles.length && !roles.includes(req.user.role)) {

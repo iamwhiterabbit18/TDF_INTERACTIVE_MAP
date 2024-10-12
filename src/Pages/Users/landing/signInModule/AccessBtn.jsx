@@ -20,7 +20,7 @@ const AccessBtn = ({ onClick, disabled }) => {
     const handleLogout = () => {
         logout(); // Call the logout function from context
         console.log(user.role,'logout')
-        navigate('/'); // Redirect to home or login page after logout
+        //navigate('/'); // Redirect to home or login page after logout
     };
 
     // Combine user from Auth context and location state
