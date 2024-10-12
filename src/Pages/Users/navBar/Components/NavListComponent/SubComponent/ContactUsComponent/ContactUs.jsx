@@ -63,7 +63,7 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
                                     name = "question"
                                 />
 
-                                <button className = { styles.submitBtn }>Submit</button>
+                                <button className = { `${styles.button} ${styles.submitBtn}` }>Submit</button>
                             </form>
                         </div>
                     </motion.div>

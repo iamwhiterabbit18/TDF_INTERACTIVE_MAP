@@ -70,7 +70,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                         </div>
                         <form className = { styles.form }>
                             <textarea name = "feedback" />
-                            <button className = { styles.submitBtn }>Submit</button>
+                            <button className = { `${styles.button} ${styles.submitBtn}` }>Submit</button>
                         </form>
                     </div>
                     </motion.div>

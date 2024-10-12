@@ -29,19 +29,6 @@
                 height: 150px;
                 resize: none;
             }
-
-            .submitBtn { // consider placing in global
-                align-self: center;
-                background-color: $guest;
-                color: $tertiary;
-                margin: 30px 0 0 0;
-                transition: 0.2s ease-in-out;
-
-                &:hover {
-                    background-color: $primary;
-                    color: $secondary;
-                }
-            }
         }
     }
 

@@ -21,7 +21,7 @@
 
 // Login container
 .loginContainer {
-
+    background-color: $tertiary;
     border-radius: 10px;
     box-shadow: 0 0 10px rgb(15, 15, 15);
     display: flex;
@@ -31,6 +31,13 @@
     width: 100%;
     overflow: hidden;
 
+.firstContainer {
+    display: flex;
+    flex: 1;
+    flex-grow: 1.45;
+    padding: 5%;
+    width: 20vw;
+}
     /*
         before:
             No 'height: 100%;
@@ -60,15 +67,4 @@
         }
     }
     
-}
-
-// Test
-
-.optionContainer-enter {
-    opacity: 0;
-}
-
-.optionContainer-enter-active {
-    opacity: 1;
-    transition: opacity 1.3s ease-in;
 }

@@ -2,18 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lalezar&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap');
 
-/* for setting animations */
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes fadeOut {
-    100% { opacity: 1; }
-    0% { opacity: 0; }
-}
-
-
 /* Global variables */
     /* color pallete */
     $primary: rgb(131, 83, 226); // #8353E2
