@@ -7,7 +7,7 @@
   margin: auto; // Center the container horizontally
 
   h1 {
-    font-size: 24px; // Title font size
+    font-size: 28px; // Title font size
     margin-bottom: 15px; // Space below the title
     color: #333; // Dark text color
     text-align: center; // Center the title
@@ -66,7 +66,7 @@
       display: flex; // Flexbox for modal item layout
       justify-content: space-between; // Space between title and button
       align-items: center; // Center align items vertically
-      padding: 8px; // Padding inside each modal item
+      padding: 16px; // Padding inside each modal item
       background-color: #fff; // White background for each item
       border-radius: 5px; // Slightly rounded corners
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Light shadow for each item
@@ -78,7 +78,7 @@
       }
 
       h3 {
-        font-size: 16px; // Smaller title font size
+        font-size: 20px; // Smaller title font size
         margin: 0; // Remove default margin
         color: #555; // Slightly lighter text color
       }
@@ -139,6 +139,7 @@
 
     textarea {
       width: 100%; /* Full width for inputs */
+      height: 100px;
       padding: 10px; /* Padding inside inputs */
       border: 1px solid #ccc; /* Border for inputs */
       border-radius: 4px; /* Rounded corners */
@@ -155,6 +156,8 @@
 
       input[type='file'] {
         display: block; /* Ensure the file input is displayed as block */
+        height: auto;
+        border: transparent;
         margin-bottom: 10px; /* Space below the input */
       }
     }
@@ -182,12 +185,40 @@
       }
     }
 
-    button {
+    .saveBtn {
       margin: 10px;
       padding: 10px 15px; /* Padding inside buttons */
       border-radius: 4px; /* Rounded corners */
       cursor: pointer; /* Pointer cursor for buttons */
       transition: background-color 0.3s; /* Transition for hover effect */
+      border: none;
+      background-color: #17a2b8; 
+      color: white;
+      font-size: 16px;
+      
+      &:hover {
+          background-color: #138496; 
+          color: white;
+          font-size: 17px; 
+      }
     }
+    .closeBtn {
+      margin: 10px;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+      background-color: #dc3545; /* Red to indicate a 'close' or 'cancel' action */
+      color: white;
+      font-size: 16px;
+    
+      &:hover {
+        background-color: #c82333; /* Darker red on hover */
+        color: white;
+        font-size: 17px; /* Slight increase for hover */
+      }
+    }
+    
   }
 }

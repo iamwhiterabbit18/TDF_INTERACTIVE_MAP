@@ -124,7 +124,7 @@ const handleSubmit = async (e) => {
 
   return (
       <div className={styles.cardsContainer}>
-       <div className={styles.header}>
+        <div className={styles.header}>
         <h1>Edit Cards</h1>
         <button className={styles.backButton} onClick={handleBackClick}>
            <img src={ArrowIcon} alt="Back" className={styles.icon} />
