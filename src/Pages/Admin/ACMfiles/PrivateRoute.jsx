@@ -47,7 +47,10 @@ const PrivateRoute = ({ children, roles }) => {
         const userRole = decodedToken.role;
         
         if (roles && !roles.includes(userRole)) {
-            return <Navigate to="/" />;
+            // Display an alert if user does not have the required role
+            alert('Access denied: You do not have permission to view this page.');
+            // Redirect again to map page
+            return <Navigate to="/map" />;            
         }
     } catch (error) {
         console.error('Invalid token or decoding issue', error);
