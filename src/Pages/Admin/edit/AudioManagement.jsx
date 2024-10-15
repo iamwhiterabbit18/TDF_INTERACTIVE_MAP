@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import './styles/AudioManagement.scss';
+import styles from './styles/AudioManagement.module.scss';
 import { useNavigate } from 'react-router-dom';
 import AudioUpload from './AudioUpload';
 
@@ -114,24 +114,22 @@ const AudioManagement = () => {
   };
 
   return (
-    <div className="audio-management-container">
-      <div className="table-header">
+    <div className={styles.audioManagementContainer}>
+     <div className={styles.tableHeader}>
         <h1>Audio Management</h1>
-        <button className="upload-button" onClick={handleOpenModal}>
+        <button className={styles.uploadButton} onClick={handleOpenModal}>
           Upload
         </button>
-        <button className="navigate-button" onClick={() => navigate('/admin')}>
-          Go to Admin Page
+        <button className={styles.navigateButton} onClick={() => navigate('/admin')}>
+           Go to Admin Page
         </button>
       </div>
 
-      <table className="audio-management-table">
+      <table className={styles.audioManagementTable}>
         <thead>
           <tr>
             <th>Title</th>
             <th>File Name</th>
-            <th>Assigned To</th>
-            <th>Assign</th>
             <th>Play</th>
             <th>Update</th>
             <th>Delete</th>
@@ -142,18 +140,6 @@ const AudioManagement = () => {
             <tr key={audio._id}>
               <td>{audio.title}</td>
               <td>{audio.originalName}</td>
-              <td>{audio.isAssignedToOnload ? 'Onload' : audio.isAssignedToOnclick ? 'Onclick' : 'Unassigned'}</td>
-              <td>
-                <select
-                  value={audio.isAssignedToOnload ? 'onload' : audio.isAssignedToOnclick ? 'onclick' : 'unassigned'}
-                  onChange={(e) => setAssignedTo(e.target.value)}
-                >
-                  <option value="unassigned">Unassigned</option>
-                  <option value="onload">Onload</option>
-                  <option value="onclick">Onclick</option>
-                </select>
-                <button onClick={() => handleAssign(audio._id)}>Assign</button>
-              </td>
               <td>
                 <button onClick={() => handlePlayAudio(audio.filePath, audio._id)}>Play</button>
               </td>
@@ -170,9 +156,9 @@ const AudioManagement = () => {
 
       {/* Modal for AudioUpload */}
       {showUploadModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close-button" onClick={handleCloseModal}>
+        <div className={styles.modal}>
+        <div className={styles.modalContent}>
+          <span className={styles.closeButton} onClick={handleCloseModal}>
               &times;
             </span>
             <AudioUpload onClose={handleCloseModal} />

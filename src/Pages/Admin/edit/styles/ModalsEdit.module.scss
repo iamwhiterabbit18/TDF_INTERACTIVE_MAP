@@ -1,0 +1,193 @@
+.modalContainer {
+  padding: 20px; // Space around the container
+  background-color: #f9f9f9; // Light background color
+  border-radius: 8px; // Rounded corners
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+  max-width: 600px; // Maximum width for the modal container
+  margin: auto; // Center the container horizontally
+
+  h1 {
+    font-size: 24px; // Title font size
+    margin-bottom: 15px; // Space below the title
+    color: #333; // Dark text color
+    text-align: center; // Center the title
+  }
+  .Header {
+    display: flex;
+    justify-content: space-between; // Space between the title and back button
+    align-items: center; // Center vertically
+    margin-bottom: 20px;
+  }
+  
+  .backButton {
+    background-color: transparent; // Transparent background for a clean look
+    border: none; // No border
+    color: #007bff; // Primary color for text and icon
+    font-size: 16px; // Font size for the text
+    cursor: pointer; // Pointer cursor on hover
+    display: flex; // Flexbox for aligning icon and text
+    align-items: center; // Center align items vertically
+    padding: 10px; // Add padding for better click area
+    border-radius: 5px; // Rounded corners for the button
+    transition: color 0.3s, background-color 0.3s; // Smooth transition for hover effects
+    margin-left: 20rem; // Pushes the button to the right
+    margin-right: auto; // Adjust this value as needed to add space from the edge
+
+    // Icon styling
+    .icon {
+      width: 30px; // Set width for the icon
+      height: auto; // Maintain aspect ratio
+      margin-right: 8px; // Space between icon and text
+      vertical-align: middle; // Align icon vertically with text
+    }
+  
+    // Hover effect
+    &:hover {
+      color: #0056b3; // Darker blue on hover
+      background-color: rgba(0, 123, 255, 0.1); // Light blue background on hover for visibility
+      border-radius: 5px; // Maintain rounded corners on hover
+    }
+  
+    // Focus state
+    &:focus {
+      outline: none; // Remove default focus outline
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); // Add a subtle outline on focus for accessibility
+    }
+  }
+
+  
+
+  .modalsList {
+    display: grid; // Use grid layout for two columns
+    grid-template-columns: repeat(2, 1fr); // Create two equal columns
+    gap: 15px; // Space between modal items
+
+    div {
+      display: flex; // Flexbox for modal item layout
+      justify-content: space-between; // Space between title and button
+      align-items: center; // Center align items vertically
+      padding: 8px; // Padding inside each modal item
+      background-color: #fff; // White background for each item
+      border-radius: 5px; // Slightly rounded corners
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Light shadow for each item
+      transition: background-color 0.3s; // Smooth transition for background color
+
+      // Hover effect
+      &:hover {
+        background-color: #e6f0ff; // Light blue background on hover
+      }
+
+      h3 {
+        font-size: 16px; // Smaller title font size
+        margin: 0; // Remove default margin
+        color: #555; // Slightly lighter text color
+      }
+
+      button {
+        padding: 6px 10px; // Button padding
+        background-color: #007bff; // Primary button color
+        color: white; // Button text color
+        border: none; // Remove default border
+        border-radius: 4px; // Rounded button corners
+        cursor: pointer; // Pointer cursor on hover
+
+        &:hover {
+          background-color: #0056b3; // Darker shade on hover
+        }
+      }
+    }
+  }
+
+  .modalOverlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it appears above other content */
+  }
+
+  .modalEditingSection {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px; /* Set a width for the modal */
+    max-height: 90vh; /* Set a maximum height for the modal */
+    overflow-y: auto; /* Allow vertical scrolling if content exceeds max height */
+
+    h2 {
+      margin-bottom: 10px; /* Space below the heading */
+      font-size: 1.5rem; /* Heading size */
+      color: #333; /* Dark color for the heading */
+    }
+
+    h3 {
+      margin-bottom: 15px; /* Space below the title */
+      font-size: 1.2rem; /* Title size */
+      color: #555; /* Slightly lighter color for the title */
+    }
+
+    label {
+      display: block; /* Make labels block elements */
+      margin-bottom: 8px; /* Space below labels */
+      font-weight: bold; /* Bold labels */
+    }
+
+    textarea {
+      width: 100%; /* Full width for inputs */
+      padding: 10px; /* Padding inside inputs */
+      border: 1px solid #ccc; /* Border for inputs */
+      border-radius: 4px; /* Rounded corners */
+      margin-bottom: 20px; /* Space below inputs */
+      box-sizing: border-box; /* Ensure padding and border are included in width */
+    }
+
+    .imageUploadContainer {
+      margin-bottom: 20px; /* Space below image upload section */
+
+      h3 {
+        margin-bottom: 10px; /* Space below subheading */
+      }
+
+      input[type='file'] {
+        display: block; /* Ensure the file input is displayed as block */
+        margin-bottom: 10px; /* Space below the input */
+      }
+    }
+
+    .imageCarousel {
+      margin-top: 20px; /* Space above carousel */
+      width: 100%;
+      max-width: 400px; /* Adjust based on your layout */
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid black;
+
+      .slick-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .carouselImage {
+        width: 100%;
+        height: 100%; /* Ensures image fills the carousel slide */
+        object-fit: cover; /* Ensures uniform image display while maintaining aspect ratio */
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 15px; /* Padding inside buttons */
+      border-radius: 4px; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor for buttons */
+      transition: background-color 0.3s; /* Transition for hover effect */
+    }
+  }
+}

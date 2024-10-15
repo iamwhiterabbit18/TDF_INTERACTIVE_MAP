@@ -27,4 +27,5 @@ dist-ssr
 # Ignoring heavy files
 *.glb
 
-
+# Ignore history files
+.history/

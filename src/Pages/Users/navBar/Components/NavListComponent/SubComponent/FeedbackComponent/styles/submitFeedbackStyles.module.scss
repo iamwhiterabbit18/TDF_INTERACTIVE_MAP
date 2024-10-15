@@ -1,0 +1,71 @@
+@import '../../../../../../landing/signInModule/stylesVariables.scss';
+@import '../../../../../../landing/signInModule/global.scss';
+
+.submitFeedbackContainer {
+    background-color: $tertiary;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    max-height: 70%;
+    padding:  20px 30px;
+    position: absolute;
+    pointer-events: all; //!important
+
+    .submitFeedbackContent {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        .txtSubTitle {
+            text-align: center;
+        }
+
+        .starContainer {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            width: 53%;
+
+            .icon.star {
+                cursor: pointer;
+                height: 30px;
+                filter: invert(92%) sepia(8%) saturate(180%) hue-rotate(22deg) brightness(92%) contrast(88%);
+                width: 30px;
+
+            }
+
+            .icon.star:hover,
+            .icon.star.active {
+                filter: invert(82%) sepia(34%) saturate(3726%) hue-rotate(355deg) brightness(104%) contrast(100%);
+            }
+
+            
+        }
+
+        .form {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 10px 0;
+
+            textarea {
+                height: 150px;
+                resize: none;
+                width: 320px;
+            }
+
+        }
+    }
+
+    input, textarea { //note
+        border-radius: 5px;
+        border: 1.5px solid black;
+        padding: 5px;
+        outline: transparent;
+        transition: all 0.2s ease-in-out;
+    
+        &:focus { // works for input but not for textarea
+            border: 1.5px solid $primary;
+        }
+    }
+}

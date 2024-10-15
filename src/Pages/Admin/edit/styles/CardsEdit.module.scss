@@ -1,0 +1,189 @@
+.cardsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 750px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    justify-content: space-between; // Space between the title and back button
+    align-items: center; // Center vertically
+    margin-bottom: 20px;
+  }
+  
+  .backButton {
+    background-color: transparent; // Transparent background for a clean look
+    border: none; // No border
+    color: #007bff; // Primary color for text and icon
+    font-size: 16px; // Font size for the text
+    cursor: pointer; // Pointer cursor on hover
+    display: flex; // Flexbox for aligning icon and text
+    align-items: center; // Center align items vertically
+    padding: 10px; // Add padding for better click area
+    border-radius: 5px; // Rounded corners for the button
+    transition: color 0.3s, background-color 0.3s; // Smooth transition for hover effects
+    margin-left: 25rem; // Pushes the button to the right
+    margin-right: auto; // Adjust this value as needed to add space from the edge
+
+    // Icon styling
+    .icon {
+      width: 30px; // Set width for the icon
+      height: auto; // Maintain aspect ratio
+      margin-right: 8px; // Space between icon and text
+      vertical-align: middle; // Align icon vertically with text
+    }
+  
+    // Hover effect
+    &:hover {
+      color: #0056b3; // Darker blue on hover
+      background-color: rgba(0, 123, 255, 0.1); // Light blue background on hover for visibility
+      border-radius: 5px; // Maintain rounded corners on hover
+    }
+  
+    // Focus state
+    &:focus {
+      outline: none; // Remove default focus outline
+      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); // Add a subtle outline on focus for accessibility
+    }
+  }
+  
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    padding: 20px;
+    width: 220px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    position: relative;
+
+    &:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #333;
+      text-align: left;
+    }
+
+    .imageUpload {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      input {
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+        padding: 5px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s;
+
+        &:focus {
+          border-color: #007bff;
+        }
+      }
+
+      img {
+        margin-top: 5px;
+        max-width: 100%;
+        border-radius: 4px;
+      }
+    }
+
+    .quickFacts {
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #555;
+      }
+
+      textarea {
+        width: 100%;
+        height: 80px;
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+        padding: 5px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.3s;
+
+        &:focus {
+          border-color: #007bff;
+        }
+      }
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .submitBtn {
+    background-color: #28a745;  // Green background for the submit button
+    color: white;  // White text color
+    border: none;  // No border
+    border-radius: 5px;  // Slightly rounded corners
+    padding: 10px 20px;  // Padding inside the button
+    font-size: 16px;  // Larger font size for the text
+    font-weight: bold;  // Bold text
+    cursor: pointer;  // Pointer cursor on hover
+    transition: background-color 0.3s, transform 0.2s;  // Smooth transition for background color and transform
+  
+    &:hover {
+      background-color: #218838;  // Darker green on hover
+      transform: scale(1.05);  // Slightly increase the button size on hover
+    }
+  
+    &:active {
+      background-color: #1e7e34;  // Even darker green when the button is clicked
+      transform: scale(0.98);  // Slightly shrink the button when clicked
+    }
+  
+    &:focus {
+      outline: none;  // Remove the default focus outline
+      box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.2);  // Green focus ring
+    }
+  }
+  
+
+  .navigationButton {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+}

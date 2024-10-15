@@ -16,12 +16,6 @@ const audioSchema = new mongoose.Schema({
   
   // The format of the audio file (e.g., MP3, WAV), required field.
   format: { type: String, required: true },
-  
-  // Boolean field to mark if this audio is assigned to be played on the "Onload" page.
-  isAssignedToOnload: { type: Boolean, default: false },
-  
-  // Boolean field to mark if this audio is assigned to be played on the "Onclick" button.
-  isAssignedToOnclick: { type: Boolean, default: false }
 });
 
 // Creating the Audio model based on the audioSchema.
