@@ -1,0 +1,45 @@
+@import '../../../../../../landing/signInModule/stylesVariables.scss';
+@import '../../../../../../landing/signInModule/global.scss';
+
+.aboutUsContainer {
+    background-color: $tertiary;
+    border-radius: 10px;
+    max-height: 70%;
+    overflow: auto;
+    position: absolute;
+    width: 50%;
+    pointer-events: all; //!important
+
+    .aboutUsContent {
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+
+        .close {
+            margin: 0 0 15px 0;
+        }
+
+        .firstSubContainer {
+            display: flex;
+            justify-content: space-between;
+            
+            .secondSubGroup {
+    
+                .highlightImg {
+                    border-radius: 10px;
+                    height: 40vh;
+                    width: 25vw;
+                }
+            }
+        }
+    
+        .secondSubGroup {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+        // .txtTitle {
+        //     font-size: 
+        // }
+    }
+}
