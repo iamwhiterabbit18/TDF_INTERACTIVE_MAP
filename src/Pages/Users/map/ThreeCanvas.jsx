@@ -176,8 +176,6 @@ const ThreeCanvas = () => {
         <div className={styles.accessBtnContainer}>
             <AccessBtn user={user} /> {/* Pass user as prop if needed */}
         </div>
-
-      )} */}
     </div>
   ) 
 };
