@@ -1,5 +1,6 @@
 // import { CSSTransition } from 'react-transition-group';
 import { useState, useEffect } from 'react';
+import { UserProvider } from '/src/Pages/Admin/ACMfiles/UserContext';
 import Option from './Components/OptionComponent/Option.jsx';
 import SignIn from './Components/SignInComponent/SignIn.jsx';
 import Greeting from './Components/GreetingComponent/Greeting.jsx';
@@ -27,12 +28,15 @@ export default function SignInModule() {
     }
     
     const [isUser, setIsUser] = useState(null);
-    const handleUser = (user) => {
+    const handleUser = (user, role) => {
         setIsUser(user);
-        console.log(`${user} logged in`);
-    }
+        console.log(`${user} logged in with ID: ${role}`); // Log the user role
+
+    };
+    
 
     return(
+        <UserProvider>
         <div className={styles.mainContainer}>
             <div className = { styles.loginContainer }> {/* Main container for option and login form*/}
                 {isBtnClicked 
@@ -47,5 +51,6 @@ export default function SignInModule() {
                 <Greeting />
             </div>
         </div>
+        </UserProvider>
     )
 }

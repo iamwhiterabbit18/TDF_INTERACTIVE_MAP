@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles/CardsEdit.module.scss';
 import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 //import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
+import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
+
+
 
 const Cards = () => {
+  const location = useLocation();
+  const user = location.state?.user;
   //const { id } = useParams(); // Get the card ID from the route
   const [cards, setCards] = useState([]);  // Stores the current card data
   const [originalCards, setOriginalCards] = useState([]); // Stores the original data
@@ -111,14 +117,14 @@ const handleSubmit = async (e) => {
 
   const navigate = useNavigate();
   const handleBackClick  = () => {
-    navigate(`/admin`); // Navigate to the specific card display page
+    navigate(`/map`); // Navigate to the specific card display page
   };
 
  
 
   return (
       <div className={styles.cardsContainer}>
-       <div className={styles.header}>
+        <div className={styles.header}>
         <h1>Edit Cards</h1>
         <button className={styles.backButton} onClick={handleBackClick}>
            <img src={ArrowIcon} alt="Back" className={styles.icon} />
@@ -154,8 +160,13 @@ const handleSubmit = async (e) => {
           <div className={styles.navigationButton}>
           </div>
         </form>
-      </div>
+        {/* Button container for absolute positioning */}
+        <div className={styles.accessBtnContainer}>
+            <AccessBtn user={user} /> {/* Pass user as prop if needed */}
+        </div>
 
+      </div>
+      
 
 
     

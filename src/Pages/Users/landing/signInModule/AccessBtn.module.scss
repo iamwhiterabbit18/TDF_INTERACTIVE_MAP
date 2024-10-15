@@ -1,0 +1,78 @@
+// AccessBtn.module.scss
+.accessBtnContainer {
+    position: absolute; // Position it relative to the parent div
+    top: 1px; // Adjust this value to position the button from the top
+    left: 20px; // Adjust this value to position the button from the left
+    z-index: 10; // Ensure it appears above other elements
+}
+.accessBtn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #0056b3;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+    }
+
+    &.disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
+
+// Responsive styles...
+@media (max-width: 600px) {
+    .accessBtn {
+        width: 100%;
+        font-size: 14px;
+    }
+    // AccessBtn.module.scss
+}
+
+    .dropdownMenu {
+        position: absolute;
+        top: 100%; // Position below the AccessBtn
+        left: 0; // Align to the left of the button
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 20;
+        border-radius: 5px;
+        padding: 10px 0;
+        min-width: 200px;
+    }
+    
+    .dropdownItem {
+        display: block;
+        padding: 10px 15px;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+            background-color: #f0f0f0;
+        }
+         .dropdownItem {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        
+    }
+
+    }

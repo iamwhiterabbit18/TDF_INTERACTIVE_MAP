@@ -1,0 +1,42 @@
+[{
+  "_id": {
+    "$oid": "66ae8b56456cb0d0c11f07c1"
+  },
+  "email": "millard@yahoo.com",
+  "password": "$2a$10$zBuTdWAx6bzUafmJwt2BvuFVN6vVwWjpgHDDaPDWPUywhzIt7nLJm",
+  "role": "admin",
+  "__v": 0,
+  "name": "Millard John",
+  "updatedAt": {
+    "$date": "2024-08-15T12:22:35.942Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66afe2832ec374de8b165719"
+  },
+  "email": "ezno@yahoo.com",
+  "password": "$2a$10$HlgjCifSprs1DG8MS2acKueFZbVEKh2w4OR33lvSiIyjSr.HrXvVO",
+  "role": "staff",
+  "__v": 0,
+  "name": "Enzo",
+  "updatedAt": {
+    "$date": "2024-08-15T12:15:30.298Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66be678aba806bf27e4a5222"
+  },
+  "name": "Gene",
+  "email": "gene@yahoo.com",
+  "password": "$2a$10$jgwaPFVYAcl2wYABYQoIr.djswj.NRa.jNBLSOELtGODJuF5mP79K",
+  "role": "staff",
+  "createdAt": {
+    "$date": "2024-08-15T20:39:38.407Z"
+  },
+  "updatedAt": {
+    "$date": "2024-08-15T20:39:38.407Z"
+  },
+  "__v": 0
+}]

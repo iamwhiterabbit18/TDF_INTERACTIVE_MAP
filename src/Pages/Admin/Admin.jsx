@@ -3,6 +3,8 @@ import './Admin.module.scss';
 import Cards from '/src/Pages/Admin/edit/CardsEdit';
 import Modal from '/src/Pages/Admin/edit/ModalsEdit';
 import Audio from '/src/Pages/Admin/edit/AudioManagement';
+import { UserProvider } from '/src/Pages/Admin/ACMfiles/UserContext';
+
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';

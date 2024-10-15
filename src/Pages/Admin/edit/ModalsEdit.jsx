@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-
+import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
+import styles from '/src/Pages/Admin/edit/styles/ModalsEdit.module.scss'; // Ensure you have proper CSS
 
-import styles from './styles/ModalsEdit.module.scss'; // Ensure you have proper CSS
+import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
+import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const Modal = () => {
+  const location = useLocation();
+  const user = location.state?.user;
+
   const [modals, setModals] = useState([]); // Store all modals
   const [currentModal, setCurrentModal] = useState(null); // Store selected modal for editing
   const [description, setDescription] = useState('');
@@ -142,7 +146,7 @@ const handleModalFileChange = (e) => {
   
   const navigate = useNavigate();
   const handleBackClick  = () => {
-    navigate(`/admin`); // Navigate to the specific card display page
+    navigate(`/map`); // Navigate to the specific card display page
   };
   
   const settings = {
@@ -213,13 +217,17 @@ const handleModalFileChange = (e) => {
             </div>
           )}
 
-              <button type="submit">Save</button>
+              <button className={styles.saveBtn} type="submit">Save</button>
               {/* Add a Close button to close the modal */}
-              <button type="button" onClick={closeModal}>Close</button>
+              <button className={styles.closeBtn} type="button" onClick={closeModal}>Close</button>
             </form>
           </div>
         </div>
       )}
+      {/* Button container for absolute positioning */}
+      <div className={styles.accessBtnContainer}>
+            <AccessBtn user={user} /> {/* Pass user as prop if needed */}
+        </div>
     </div>
   );
 };

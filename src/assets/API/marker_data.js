@@ -60,7 +60,7 @@ const fetchMarkerData = async () => {
           const normalizedAreaName = card.areaName.trim(); // No lowercase conversion for exact match
           const position = areaPositions[normalizedAreaName] || new THREE.Vector3(0, 0, 0); // Default position
 
-          console.log(`Marker for ${card.areaName}:`, position); // Log the position
+         // console.log(`Marker for ${card.areaName}:`, position); // Log the position
 
           return {
               position: position,

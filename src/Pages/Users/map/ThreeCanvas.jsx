@@ -5,14 +5,20 @@ import Experience from './Components/Experience';
 import Markers from './Components/marker/Markers';
 import Preloader from '../preloader/Preloader';
 
-import NavigationModule from '../navBar/NavigationModule';
+import styles from '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
+import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 
+import NavigationModule from '../navBar/NavigationModule';
 
 import Shhhh from '../virus/Shhhh';
 
+import { useAuth } from '/src/Pages/Admin/ACMfiles/AuthContext'; // Adjust the path accordingly
+import { useNavigate } from 'react-router-dom';
+
 const ThreeCanvas = () => {
+  
   const location = useLocation();
-  const { user } = location.state || {};
+  const user = location.state?.user;
 
   const containerRef = useRef(null);
   const expRef = useRef(null);
@@ -68,6 +74,8 @@ const ThreeCanvas = () => {
       //     console.log(clickPosition);
       //   }
       // });
+
+     
 
       setSceneAndCamera({scene, camera});
 
@@ -145,6 +153,8 @@ const ThreeCanvas = () => {
     
   };
 
+
+
   return(
     <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh' }}>
 
@@ -161,6 +171,12 @@ const ThreeCanvas = () => {
       )}
       {/* {sceneAndCamera &&(
         <Shhhh renderer={rendererRef.current} scene={sceneAndCamera.scene} camera={sceneAndCamera.camera} dogsRef={dogsRef} />
+      )}
+        {/* Button container for absolute positioning */}
+        <div className={styles.accessBtnContainer}>
+            <AccessBtn user={user} /> {/* Pass user as prop if needed */}
+        </div>
+
       )} */}
     </div>
   ) 

@@ -1,10 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import styles from './styles/AudioManagement.module.scss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AudioUpload from './AudioUpload';
+import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
+import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const AudioManagement = () => {
+  const location = useLocation();
+  const user = location.state?.user;
+  
   const [audios, setAudios] = useState([]);
   const [assignedTo, setAssignedTo] = useState(''); // 'onload' or 'onclick'
   const [playingAudioId, setPlayingAudioId] = useState(null); // Track which audio is currently playing
@@ -25,7 +30,7 @@ const AudioManagement = () => {
     }
   };
 
-  const handleAssign = async (audioId) => {
+ /* const handleAssign = async (audioId) => {
     if (!assignedTo) {
       alert('Please select a route to assign the audio.');
       return;
@@ -42,7 +47,7 @@ const AudioManagement = () => {
     } catch (error) {
       console.error('Error assigning audio:', error);
     }
-  };
+  }; */
 
   const handleOpenModal = () => {
     setShowUploadModal(true);
@@ -120,7 +125,7 @@ const AudioManagement = () => {
         <button className={styles.uploadButton} onClick={handleOpenModal}>
           Upload
         </button>
-        <button className={styles.navigateButton} onClick={() => navigate('/admin')}>
+        <button className={styles.navigateButton} onClick={() => navigate('/map')}>
            Go to Admin Page
         </button>
       </div>
@@ -165,11 +170,15 @@ const AudioManagement = () => {
           </div>
         </div>
       )}
-
+            {/* Button container for absolute positioning */}
+        <div className={styles.accessBtnContainer}>
+        <AccessBtn user={user} /> {/* Pass user as prop if needed */}
+      </div>
       {/* Audio player */}
       <audio ref={audioRef} hidden />
     </div>
   );
+  
 };
 
 export default AudioManagement;
