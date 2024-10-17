@@ -17,6 +17,8 @@ const AudioManagement = () => {
   const navigate = useNavigate();
   const audioRef = useRef(null); // Ref for controlling the audio element
 
+  const [modalProps, setModalProps] = useState({ audioId: null, currentTitle: '' });
+
   useEffect(() => {
     fetchAudios();
   }, []);
@@ -93,6 +95,7 @@ const AudioManagement = () => {
     }
   };
 
+  /*
   const handleDelete = async (audioId) => {
     if (window.confirm('Are you sure you want to delete this audio?')) {
       try {
@@ -103,28 +106,21 @@ const AudioManagement = () => {
         console.error('Error deleting audio:', error);
       }
     }
-  };
+  }; */
 
-  const handleUpdate = async (audioId) => {
-    const newTitle = prompt('Enter new title for the audio:');
-    if (newTitle) {
-      try {
-        await axios.put(`http://localhost:5000/api/audio/update/${audioId}`, { title: newTitle });
-        fetchAudios(); // Refresh the audio list after updating
-        alert('Audio updated successfully');
-      } catch (error) {
-        console.error('Error updating audio:', error);
-      }
-    }
+  const handleUpdate = (audioId, currentTitle) => {
+    setModalProps({ audioId, currentTitle });
+    handleOpenModal(); // Opens the AudioUpload modal
   };
+  
 
   return (
     <div className={styles.audioManagementContainer}>
      <div className={styles.tableHeader}>
         <h1>Audio Management</h1>
-        <button className={styles.uploadButton} onClick={handleOpenModal}>
+        {/*<button className={styles.uploadButton} onClick={handleOpenModal}>
           Upload
-        </button>
+        </button> */}
         <button className={styles.navigateButton} onClick={() => navigate('/map')}>
            Go to Admin Page
         </button>
@@ -135,9 +131,9 @@ const AudioManagement = () => {
           <tr>
             <th>Title</th>
             <th>File Name</th>
-            <th>Play</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th>Play Audio</th>
+            <th>Update Audio</th>
+            {/*<th>Delete</th> */}
           </tr>
         </thead>
         <tbody>
@@ -149,24 +145,30 @@ const AudioManagement = () => {
                 <button onClick={() => handlePlayAudio(audio.filePath, audio._id)}>Play</button>
               </td>
               <td>
-                <button onClick={() => handleUpdate(audio._id)}>Update</button>
+                <button onClick={() => handleUpdate(audio._id,audio.title)}>Update</button>
               </td>
-              <td>
+              {/*<td>
                 <button onClick={() => handleDelete(audio._id)}>Delete</button>
-              </td>
+          </td> */}
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Modal for AudioUpload */}
-      {showUploadModal && (
+  {/* Modal for AudioUpload */}
+  {showUploadModal && (
         <div className={styles.modal}>
-        <div className={styles.modalContent}>
-          <span className={styles.closeButton} onClick={handleCloseModal}>
-              &times;
+          <div className={styles.modalContent}>
+            <span className={styles.closeButton} onClick={handleCloseModal}>
+              &times; {/* Close button */}
             </span>
-            <AudioUpload onClose={handleCloseModal} />
+
+            {/* AudioUpload component with dynamic audioId and currentTitle */}
+            <AudioUpload
+              audioId={modalProps.audioId} // Pass audioId
+              currentTitle={modalProps.currentTitle} // Pass currentTitle
+              onClose={handleCloseModal} // Pass the onClose function to close the modal
+            />
           </div>
         </div>
       )}

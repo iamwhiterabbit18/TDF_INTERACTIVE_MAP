@@ -83,7 +83,7 @@ const logoutUser = async (req, res) => {
 
         // Format logout date and time
         const now = moment.tz("Asia/Shanghai");
-        const dateTimeOUT = now.format("YYYY-MM-DD, h:mm A");
+        const dateTimeOUT = now.format("YYYY-MM-DD : h:mm A");
 
         let updatedLog;
         if (role === 'admin') {

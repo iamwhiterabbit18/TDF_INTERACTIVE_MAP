@@ -44,14 +44,14 @@ const handleModalFileChange = (e) => {
 
   if (unsupportedFiles.length > 0) {
     alert('Unsupported file format. Only JPG, JPEG, and PNG images are allowed.');
-    return; // Prevent the reload, just return
+    return window.location.reload();
   }
 
   // Check if selected files are within the range
   if (fileArray.length < 3 || fileArray.length > 5) {
     alert('Please upload between 3 to 5 images.');
-    return; // Prevent the reload, just return
-  }
+    return window.location.reload();
+  }  
 
   // Update state with valid files and their preview URLs
   setModalImages(fileArray); // Store actual files for submission
