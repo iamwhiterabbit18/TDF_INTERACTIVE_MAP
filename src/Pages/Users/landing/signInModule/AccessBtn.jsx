@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './AccessBtn.module.scss';
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
+import NewsEventImage from '/src/Pages/Admin/edit/EditNewsEvent';
 
 
 const AccessBtn = ({ onClick, disabled }) => {
@@ -12,7 +13,12 @@ const AccessBtn = ({ onClick, disabled }) => {
 
     //const user = location.state?.user; // Access the user passed in state
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
     
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen); // Toggle modal visibility
+    };
+
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
@@ -48,6 +54,14 @@ const AccessBtn = ({ onClick, disabled }) => {
                         {user?.role === 'admin' && (
                             <a href="/usermanage" className={styles.dropdownItem}>User Management</a>
                         )}
+
+                        {/* Trigger Image Upload Modal */}
+                        <button 
+                            className={styles.dropdownItem} 
+                            onClick={toggleModal} // Open modal on click
+                            style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'inherit' }}
+                        >Edit News&Event
+                        </button>
                         
                         {/* Logout Button */}
                         <button 
@@ -58,6 +72,8 @@ const AccessBtn = ({ onClick, disabled }) => {
                         </button>
                     </div>
                 )}
+                {/* Image Upload Modal */}
+                <NewsEventImage isOpen={isModalOpen} onClose={toggleModal} /> {/* Trigger modal here */}
             </div>
         );
     }
