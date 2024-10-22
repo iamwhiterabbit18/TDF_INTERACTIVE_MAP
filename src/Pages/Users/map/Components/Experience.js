@@ -9,7 +9,8 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js';
 import Map from './Map';
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
-
+// import utils when needed
+import Click from './utils/Click';
 
 
 export default class Experience {
@@ -23,7 +24,8 @@ export default class Experience {
         0.1,
         1000
     );
-    this.camera.position.z = 3;
+    this.camera.position.set(0, 5, 0);
+    this.camera.lookAt(0, 0, 0);
 
     this.renderer = new Renderer(this.scene, this.camera, this.container);
 
@@ -40,8 +42,11 @@ export default class Experience {
     this.controls.enableRotate = false;
     this.controls.screenSpacePanning = true;
 
-    // this.spotlight = new Spotlight(this.scene);
     this.map = new Map(this.scene, this.camera);
+
+    // window.addEventListener('mousedown', (event) => {
+    //   this.click = new Click(event, this.camera, this.scene);
+    // });
   }
 
 }
