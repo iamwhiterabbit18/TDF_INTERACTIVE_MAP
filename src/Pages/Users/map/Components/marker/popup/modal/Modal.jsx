@@ -51,7 +51,7 @@ const Modal = ({ onClose, details, modalData }) => {
 
   const settings = { // Carousel settings
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,

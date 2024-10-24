@@ -4,74 +4,123 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     z-index: 1000;
-}
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 20px;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 10px;
+    position: relative;
+  }
 
-.modalContent {
-    background: white;
+  .modalEditingSection {
+    background-color: white;
     padding: 20px;
     border-radius: 8px;
-    width: 90%; /* Adjusted for better responsiveness */
-    max-width: 600px; /* Increased max width */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative; /* Make sure close button is positioned correctly */
+    width: 500px; /* Set a width for the modal */
+    max-height: 90vh; /* Set a maximum height for the modal */
+    overflow-y: auto; /* Allow vertical scrolling if content exceeds max height */
+
+    h2 {
+      margin-bottom: 10px; /* Space below the heading */
+      font-size: 1.5rem; /* Heading size */
+      color: #333; /* Dark color for the heading */
+    }
+
+    h3 {
+      margin-bottom: 15px; /* Space below the title */
+      font-size: 1.2rem; /* Title size */
+      color: #555; /* Slightly lighter color for the title */
+    }
+
+
+
+    .imageCarousel {
+      margin-top: 20px; /* Space above carousel */
+      width: 100%;
+      max-width: 500px; /* Adjust based on your layout */
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid black;
+
+      .slick-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .carouselImage {
+        width: 100%;
+        height: 100%; /* Ensures image fills the carousel slide */
+        object-fit: cover; /* Ensures uniform image display while maintaining aspect ratio */
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+    }
+
+    .saveBtn {
+      margin: 10px;
+      padding: 10px 15px; /* Padding inside buttons */
+      border-radius: 4px; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor for buttons */
+      transition: background-color 0.3s; /* Transition for hover effect */
+      border: none;
+      background-color: #17a2b8; 
+      color: white;
+      font-size: 16px;
+      
+      &:hover {
+          background-color: #138496; 
+          color: white;
+          font-size: 17px; 
+      }
+    }
+    .closeBtn {
+      margin: 10px;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+      background-color: #dc3545; /* Red to indicate a 'close' or 'cancel' action */
+      color: white;
+      font-size: 16px;
+    
+      &:hover {
+        background-color: #c82333; /* Darker red on hover */
+        color: white;
+        font-size: 17px; /* Slight increase for hover */
+      }
+    }
+    
 }
 
 .closeButton {
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.imageTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px; /* Space above the table */
+.updatePreview {
+  display: flex;
+  flex-wrap: wrap; // Allow multiple images to wrap
+  margin-top: 10px; // Add some space above the preview
 }
 
-.imageTable th, .imageTable td {
-    border: 1px solid #ddd; /* Border for cells */
-    padding: 10px; /* Padding for cells */
-    //text-align: left; /* Left-align text */
-}
-
-.fileName{
-    border: 1px solid #ddd; /* Border for cells */
-    padding: 10px; /* Padding for cells */
-    word-wrap: break-word; /* Allow long words to break and wrap onto the next line */
-    overflow: hidden; /* Hide any overflow */
-    max-width: 150px; /* Set a max width to control how wide the cell can be */
-}
-
-
-.actionBtn button {
-    margin: 0 5px; /* Space between buttons */
-}
-
-
-
-.imageTable th {
-    background-color: #f2f2f2; /* Light grey background for header */
-}
-
-.imageTable button {
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px; /* Padding for buttons */
-    cursor: pointer;
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
-
-.imageTable button:hover {
-    background-color: #0056b3; /* Darker shade for hover */
+.previewImage {
+  width: 100%; // Set width for preview images
+  height: auto; // Maintain aspect ratio
+  margin-right: 10px; // Add space between images
+  border-radius: 1rem;
 }

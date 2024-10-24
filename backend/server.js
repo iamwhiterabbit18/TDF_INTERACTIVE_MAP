@@ -42,7 +42,7 @@ mongoose.connection.on('disconnected', () => {
 
 // All the routes used
 app.use('/api/cards', cardRoutes);
-app.use('/api', modalRoutes); // Ensure this line exists
+app.use('/api/modal', modalRoutes); // Ensure this line exists
 app.use('/api/audio', audioRoutes); // Ensure this line exists
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -50,6 +50,6 @@ app.use('/api/guest', guestLogRoutes);
 app.use('/api/images', newsEventRoutes);
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
