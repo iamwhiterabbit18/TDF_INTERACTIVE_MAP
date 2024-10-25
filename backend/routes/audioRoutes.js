@@ -53,33 +53,41 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-//Routes for updating audio file/title
+
+
+
+//Routes for adding/updating audio file/title
 router.put('/update/:id', upload.single('audio'), async (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-  const audioFile = req.file; // Check if a new file is uploaded
-  let filePath = audioFile ? audioFile.path : null; // Get the path of the new file (if any)
+  const audioFile = req.file;  // Check if a new file is uploaded
+  const filePath = audioFile ? audioFile.path : null;  // Get the new file path, if provided
 
   try {
     // Find the existing audio record by ID
     const audio = await Audio.findById(id);
     if (!audio) return res.status(404).send('Audio not found');
 
-    // Update title if provided
+    // Update the title if a new title is provided
     if (title) {
       audio.title = title;
     }
 
-    // Replace the audio file if a new one is uploaded
+    // If a new audio file is uploaded, replace the old file
     if (filePath) {
-      // Delete the old file from the directory
-      const oldFilePath = path.join(__dirname, '..', audio.filePath);
-      if (fs.existsSync(oldFilePath)) {
-        fs.unlinkSync(oldFilePath); // Remove the old file
+      // Delete the old file from the directory if `filePath` exists and is valid
+      if (audio.filePath) {
+        const oldFilePath = path.join(__dirname, '..', audio.filePath);
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath); // Remove the old file
+          console.log(`Deleted old file at: ${oldFilePath}`);
+        }
       }
 
-      // Update the file path in the audio document
+      // Update the file path and original file name in the audio document
       audio.filePath = filePath;
+      audio.originalName = audioFile.originalname; // Update originalName with the new file's name
+      audio.format = path.extname(audioFile.originalname).toUpperCase().replace('.', ''); // Set the new format
     }
 
     // Save the updated audio record
@@ -133,30 +141,71 @@ router.post('/upload', upload.single('audio'), async (req, res) => {
     console.error('Error uploading audio:', error);
     res.status(400).json({ error: 'Error uploading audio' });
   }
-}); */}
+}); 
 
-{/* // Delete an audio file
+
+// Route to handle new audio upload (POST) (ver2)
+router.post('/uploads/:id', upload.single('audio'), async (req, res) => {
+  const { title } = req.body;
+
+  // Error if an ID is inadvertently provided for a new document
+  if (req.body.audioId) return res.status(400).json({ error: 'ID should not be provided for new uploads' });
+
+  // Logic similar to update, without `findById`
+  const newAudio = new Audio({
+    title,
+    filePath: req.file.path,
+    originalName: req.file.originalname,
+    format: path.extname(req.file.originalname).toUpperCase().replace('.', ''),
+  });
+
+  try {
+    await newAudio.save();
+    res.status(201).json(newAudio);
+  } catch (error) {
+    console.error('Error saving new audio:', error);
+    res.status(500).json({ error: 'Error saving new audio' });
+  }
+});
+
+*/}
+
+// DELETE route for removing audio file while retaining document
 router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Find the audio file in the database
+    // Find the audio document
     const audio = await Audio.findById(id);
     if (!audio) return res.status(404).send('Audio not found');
 
-    // Delete the file from the filesystem
-    if (audio.filePath) {
-      fs.unlinkSync(audio.filePath); // Delete the file from the 'uploads' directory
+    // Normalize file path for compatibility and attempt deletion
+    const normalizedPath = path.normalize(audio.filePath);
+    console.log('Attempting to delete file at:', normalizedPath);  // Log for confirmation
+
+    // Delete the file only if it exists
+    if (fs.existsSync(normalizedPath)) {
+      fs.unlinkSync(normalizedPath);
+      console.log('File deleted successfully.');
+    } else {
+      console.warn('File path does not exist:', normalizedPath);
     }
 
-    // Remove the audio entry from the database
-    await Audio.findByIdAndDelete(id);
-    res.send('Audio deleted successfully, including file from uploads.');
+    // Update filePath to null and save the document
+    audio.filePath = null;
+    audio.originalName = "";
+    audio.format = null;
+    await audio.save();
+
+    res.send('Audio file deleted successfully; document retained.');
   } catch (err) {
-    console.error('Error deleting audio:', err);
-    res.status(500).send('Error deleting audio');
+    console.error('Error in delete route:', err.message || err);
+    res.status(500).send('Error occurred during deletion.');
   }
-}); */}
+});
+
+
+
 
 
 

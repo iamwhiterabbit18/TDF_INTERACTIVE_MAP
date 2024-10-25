@@ -212,7 +212,7 @@ const fetchImages = async () => {
                         </Slider>
                     </div>
                 ) : (
-                    <p>No image available</p> // Message when no images are available
+                    <p className={styles.noImageMessage}>No image available</p> // Message when no images are available
                 )}
         
     

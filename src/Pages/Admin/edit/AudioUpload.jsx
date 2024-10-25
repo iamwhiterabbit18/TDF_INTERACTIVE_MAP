@@ -3,22 +3,23 @@ import axios from 'axios';
 import styles from './styles/AudioUpload.module.scss';
 
 const AudioUpload = ({ audioId, currentTitle, onClose }) => {
-  const [title, setTitle] = useState(''); // Title of the audio
+  const [title, setTitle] = useState(currentTitle || ''); // Title of the audio
   const [audioFile, setAudioFile] = useState(null); // Selected audio file
   const [message, setMessage] = useState(''); // Error or informational messages
-  const [showSuccess, setShowSuccess] = useState(false); // Controls the success message visibility
 
   // Handler for file input change
   const handleFileChange = (e) => {
     setAudioFile(e.target.files[0]); // Set the selected file
   };
 
-  const handleSubmit = async (e) => {
+  // Handler for updating existing audio record
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (!title || (!audioFile && !audioId)) {
-      setMessage('Please provide a title and select an audio file.');
-      return;
+    if (!audioId) return; // No action if there's no audio ID
+    if (!audioFile) {
+      alert("Please select an audio file to upload."); // Alert if no file is selected
+      return; // Stop execution if no file is selected
     }
 
     const formData = new FormData();
@@ -26,23 +27,22 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
     if (audioFile) formData.append('audio', audioFile);
 
     try {
-      if (audioId) {
-        // Update existing audio record
-        await axios.put(`http://localhost:5000/api/audio/update/${audioId}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        alert('Audio updated successfully');
-      } else {
-        // Handle new audio upload logic if needed
-      }
+      await axios.put(`http://localhost:5000/api/audio/update/${audioId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      alert('Audio updated successfully');
       onClose(); // Close the modal
     } catch (error) {
       console.error('Error updating audio:', error);
+      setMessage('Error updating audio, please try again.'); // Show error message
     }
   };
 
   // Handler to close the modal
   const handleClose = () => {
+    setTitle(''); // Reset title
+    setAudioFile(null); // Clear file selection
+    setMessage(''); // Clear messages
     onClose(); // Trigger the onClose function to close the modal
   };
 
@@ -52,31 +52,38 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
         <span className={styles.closeButton} onClick={handleClose}>
           &times;
         </span>
-        <form onSubmit={handleSubmit} className={styles.formContainer}>
-          <h1>Update Audio File</h1>
+
+        <div className={styles.formContainer}>
+          <h1>Upload Audio File</h1>
+          
           <label>Audio Title: </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter audio title"
+            required
+            disabled
           />
-          <input type="file" onChange={handleFileChange} accept="audio/*" required/>
-          <button type="submit">Update</button>
-          <button type="button" onClick={handleClose}>Cancel</button>
-        </form>
+          <input 
+            type="file" 
+            onChange={handleFileChange} 
+            accept="audio/*" 
+            required 
+          />
+          <button type="submit" onClick={handleUpdate}>
+            Upload
+          </button>
+          <button type="button" onClick={handleClose}>
+            Cancel
+          </button>
+        </div>
 
-        {message && <p>{message}</p>}
-
-        {showSuccess && (
-          <div className={styles.messageContainer}>
-            <p>Audio updated successfully: {title}</p>
-            <button onClick={handleClose}>OK</button>
-          </div>
-        )}
+        {message && <p>{message}</p>} {/* Display message if exists */}
       </div>
     </div>
   );
+  
 };
 
 export default AudioUpload;
