@@ -16,7 +16,7 @@ const Cards = () => {
   const [cards, setCards] = useState([]);  // Stores the current card data
   const [originalCards, setOriginalCards] = useState([]); // Stores the original data
 
-  const placeholderImage = "https://via.placeholder.com/150"; // URL for a placeholder image
+
   
   // Fetch cards from the database
   const fetchCards = async () => {
@@ -37,10 +37,29 @@ const Cards = () => {
     fetchCards();
   }, []);
 
+    //const placeholderImage = "https://via.placeholder.com/150"; // URL for a placeholder image
   // Handle image upload for card
   const handleImageUpload = (e, cardId) => {
     const file = e.target.files[0];
     console.log('File selected:', file);
+
+    // Allowed image formats
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+      // Check if file exceeds 5MB
+  if (file && file.size > 5 * 1024 * 1024) { // 10MB in bytes
+    alert('File exceeds 5MB. Please select an image with smaller file size.');
+    window.location.reload(); // Reload the page if file exceeds 10MB
+    return;
+  }
+
+    // Check if file type is allowed
+    if (file && !allowedTypes.includes(file.type)) {
+      alert('Only JPEG, PNG, and GIF image formats are allowed.');
+      window.location.reload(); // Reload the page if file type is not allowed
+      return;
+    }
+
     
     if (file) {
       const imageUrl = URL.createObjectURL(file); // Create a local URL for the uploaded image
@@ -48,7 +67,7 @@ const Cards = () => {
       // Update the card state with the new image URL
       setCards(prevCards =>
         prevCards.map(card =>
-          card._id === cardId ? { ...card, image: imageUrl, file } : card
+          card._id === cardId ? { ...card, imagePreview: imageUrl, file } : card
         )
       );
     } else {
@@ -143,8 +162,12 @@ const handleSubmit = async (e) => {
                   id={`image-upload-${card._id}`}
                   onChange={(e) => handleImageUpload(e, card._id)}
                 />
-                {card.image && <img src={`http://localhost:5000${card.image || placeholderImage}`} alt="Uploaded preview" />}
-              </div>
+                {card.imagePreview ? (
+                    <img src={card.imagePreview} alt="Uploaded Image preview" />
+                  ) : (
+                    <img src={`http://localhost:5000${card.image}`} alt="Fetched DB Image Preview" />
+                  )}             
+                  </div>
 
               <div className={styles.quickFacts}>
                 <label htmlFor={`quick-facts-${card._id}`}>Quick Facts:</label>

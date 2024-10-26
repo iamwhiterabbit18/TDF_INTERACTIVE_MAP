@@ -5,29 +5,31 @@ import styles from './styles/optionStyles.module.scss';
 
 export default function Option({ handleBtnClick, handleUser }) {
     const navigate = useNavigate();
-    const handleGuestLogin = async () => {
-        // Call the API to log the guest and generate guest ID
-        try {
-            const response = await fetch('http://localhost:5000/api/auth/logGuest', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({}),
-            });
 
-            if (response.ok) {
-                const data = await response.json();
-                // Now you can handle the guest user state as well
-                handleUser('guest', data.guestId); // Pass the guestId from the response
-                navigate('/map');
-            } else {
-                console.error('Failed to log guest login');
-            }
-        } catch (error) {
-            console.error('Error logging guest login:', error);
+const handleGuestLogin = async () => {
+    try {
+        const response = await fetch('http://localhost:5000/api/guest/logGuest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // Store guestId in localStorage
+            localStorage.setItem('guestId', data.guestId); 
+            handleUser('guest', data.guestId); // Pass the guestId to handleUser function
+            navigate('/map');
+        } else {
+            console.error('Failed to log guest login');
         }
-    };
+    } catch (error) {
+        console.error('Error logging guest login:', error);
+    }
+};
+
 
     return (
         <>

@@ -86,3 +86,7 @@
 }
 
 
+.editBtn:disabled, .delBtn:disabled {
+    opacity: 0.5; /* Make the button look disabled */
+    cursor: not-allowed; /* Change cursor to indicate non-clickable */
+}

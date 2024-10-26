@@ -101,8 +101,8 @@ const UserManagement = () => {
             <td>{new Date(user.createdAt).toLocaleString()}</td>
             <td>{new Date(user.updatedAt).toLocaleString()}</td>
             <td>
-                <button className = {styles.editBtn} onClick={() => openModal(user)}>Edit</button>
-                <button className = {styles.delBtn} onClick={() => handleDeleteUser(user._id)}>Delete</button>
+                <button className = {styles.editBtn} onClick={() => openModal(user)} disabled={user.role === 'admin'}>Edit</button>
+                <button className = {styles.delBtn} onClick={() => handleDeleteUser(user._id)} disabled={user.role === 'admin'}>Delete</button>
             </td>
             </tr>
         ))}
