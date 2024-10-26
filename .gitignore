@@ -29,6 +29,4 @@ dist-ssr
 
 # Ignore history files
 .history/
-CardsArray.audios.json
-src/App.jsx
 backend/.env
