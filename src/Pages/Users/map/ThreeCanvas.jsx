@@ -49,34 +49,7 @@ const ThreeCanvas = () => {
 
       const controls = exp.controls;
       controlsRef.current = controls;
-
-      // tes pos
-
-      // function getClickPosition(event, camera, scene) {
-      //   const raycaster = new THREE.Raycaster();
-      //   const mousePosition = new THREE.Vector2();
       
-      //   mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
-      //   mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      
-      //   raycaster.setFromCamera(mousePosition, camera);
-      //   const intersects = raycaster.intersectObjects(scene.children, true);
-      
-      //   if (intersects.length > 0) {
-      //     return intersects[0].point;
-      //   } else {
-      //     return null;
-      //   }
-      // }
-      // document.addEventListener('click', (event) => {
-      //   const clickPosition = getClickPosition(event, camera, scene);
-      //   if (clickPosition) {
-      //     console.log(clickPosition);
-      //   }
-      // });
-
-     
-
       setSceneAndCamera({scene, camera});
 
       const animate = () => {
@@ -111,7 +84,7 @@ const ThreeCanvas = () => {
   const moveToMarker = (markerPosition, onComplete) => {
     if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current) {
       try {
-        const targetPosition = new THREE.Vector3(markerPosition.x, markerPosition.y, controlsRef.current.target.z);
+        const targetPosition = new THREE.Vector3(markerPosition.x, controlsRef.current.target.y, markerPosition.z);
         console.log("target pos", targetPosition)
 
         const startTarget = controlsRef.current.target.clone();
@@ -176,8 +149,6 @@ const ThreeCanvas = () => {
         <div className={styles.accessBtnContainer}>
             <AccessBtn user={user} /> {/* Pass user as prop if needed */}
         </div>
-
-      
     </div>
   ) 
 };
