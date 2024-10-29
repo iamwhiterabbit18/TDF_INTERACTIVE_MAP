@@ -15,6 +15,11 @@ import Shhhh from '../virus/Shhhh';
 import { useAuth } from '/src/Pages/Admin/ACMfiles/AuthContext'; // Adjust the path accordingly
 import { useNavigate } from 'react-router-dom';
 
+// for pathfinding
+import Pick from './Components/sites/Pick';
+import positions from '../../../assets/API/positions';
+import { exp } from 'three/webgpu';
+
 const ThreeCanvas = () => {
   
   const location = useLocation();
@@ -30,6 +35,12 @@ const ThreeCanvas = () => {
   const [sceneAndCamera, setSceneAndCamera] = useState(null);
 
   const dogsRef = useRef([]);
+
+  // pathfinding
+  const [isOnPF, setIsOnPF] = useState(false);
+  const initialCameraPositionRef = useRef(null);
+  const initialCameraRotationRef = useRef(null);
+  const initialControlsTargetRef = useRef(null);
   
 
   useEffect(() => {
@@ -43,12 +54,17 @@ const ThreeCanvas = () => {
       const camera = exp.camera;
       cameraRef.current = camera;
 
+      initialCameraPositionRef.current = camera.position.clone();
+      initialCameraRotationRef.current = camera.rotation.clone();
+
       const renderer = exp.renderer;
       container.appendChild(renderer.domElement);
       rendererRef.current = renderer;
 
       const controls = exp.controls;
       controlsRef.current = controls;
+
+      initialControlsTargetRef.current = controls.target.clone();
       
       setSceneAndCamera({scene, camera});
 
@@ -81,8 +97,9 @@ const ThreeCanvas = () => {
     }
   }, []);
 
+  // for markers
   const moveToMarker = (markerPosition, onComplete) => {
-    if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current) {
+    if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current && !isOnPF) {
       try {
         const targetPosition = new THREE.Vector3(markerPosition.x, controlsRef.current.target.y, markerPosition.z);
         console.log("target pos", targetPosition)
@@ -96,6 +113,7 @@ const ThreeCanvas = () => {
     
         const animateCamera = () => {
           if (progress < 1) {
+            console.log('this')
             progress += 0.02; // Adjust speed here
   
             controlsRef.current.target.lerpVectors(startTarget, targetPosition, progress);
@@ -126,13 +144,40 @@ const ThreeCanvas = () => {
     
   };
 
+  // for pathfinding
+  const moveArrow = (startPos, targetPos) =>{
+    if (expRef.current) {
+      const path = expRef.current.map.pathfinding;  // Access the Path instance
+      path.moveArrow(startPos, targetPos);      // Call moveArrow directly
+    }
+  }
+  const removeLine = () =>{
+    const path = expRef.current.map.pathfinding;
+    path.dispose();
+  }
+  const cameraPF = () => {
+    if(!isOnPF){
+    setIsOnPF(true);
+    // Reset camera position and rotation
+    cameraRef.current.position.copy(initialCameraPositionRef.current);
+    cameraRef.current.rotation.copy(initialCameraRotationRef.current);
 
+    // Reset controls target
+    controlsRef.current.target.copy(initialControlsTargetRef.current);
+    controlsRef.current.update();
+    controlsRef.current.enabled = false;
+    }
+    else if(isOnPF){
+      setIsOnPF(false);
+      controlsRef.current.enabled = true;
+    }
+  }
 
   return(
     <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh' }}>
 
-    <NavigationModule />
-
+      <NavigationModule />
+      <Pick pos={positions} moveArrow={moveArrow} removeLine={removeLine} cameraPF={cameraPF} />
       <Preloader />
       {sceneAndCamera && (
         <Markers

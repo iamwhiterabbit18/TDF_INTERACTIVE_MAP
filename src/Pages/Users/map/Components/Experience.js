@@ -19,14 +19,14 @@ export default class Experience {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(
-        45,
+        70,
         window.innerWidth / window.innerHeight,
         0.1,
-        1000
+        2000
     );
-    this.camera.position.set(0, 5, 0);
-    this.camera.lookAt(0, 0, 0);
-
+    this.helper = new THREE.CameraHelper(this.camera);
+    this.scene.add(this.helper);
+    this.camera.position.set(0, 3, 0);
     this.renderer = new Renderer(this.scene, this.camera, this.container);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -42,7 +42,7 @@ export default class Experience {
     this.controls.enableRotate = false;
     this.controls.screenSpacePanning = true;
 
-    this.map = new Map(this.scene, this.camera);
+    this.map = new Map(this.scene, this.camera, this.renderer, this.controls);
 
     // window.addEventListener('mousedown', (event) => {
     //   this.click = new Click(event, this.camera, this.scene);
