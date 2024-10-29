@@ -8,6 +8,11 @@ import styles from './styles/signInModuleStyles.module.scss';
 
 export default function SignInModule() {
 
+    useEffect(() => {
+        // Remove guestId from localStorage when this navigated to SignUp Module
+        localStorage.removeItem('guestId');
+    }, []);
+
     // adds the className rootContainer to the #root and removes it once the component unmounts
     useEffect(function() {
         const root = document.getElementById('root');

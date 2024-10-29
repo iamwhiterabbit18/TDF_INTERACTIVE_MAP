@@ -31,7 +31,82 @@ const upload = multer({
   }
 });
 
-// Route to handle audio upload
+// Fetch all audio files from the database
+router.get('/', async (req, res) => {
+  try {
+    const audios = await Audio.find(); // Fetch all audio entries
+    res.status(200).json(audios);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching audios' });
+  }
+});
+
+// Fetch an audio file by its ID
+router.get('/:id', async (req, res) => {
+  try {
+    const audio = await Audio.findById(req.params.id); // Find audio by ID
+    if (!audio) return res.status(404).json({ error: 'Audio not found' });
+
+    res.sendFile(audio.filePath, { root: './' }); // Send the file to the client
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching audio' });
+  }
+});
+
+
+
+
+//Routes for adding/updating audio file/title
+router.put('/update/:id', upload.single('audio'), async (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  const audioFile = req.file;  // Check if a new file is uploaded
+  const filePath = audioFile ? audioFile.path : null;  // Get the new file path, if provided
+
+  try {
+    // Find the existing audio record by ID
+    const audio = await Audio.findById(id);
+    if (!audio) return res.status(404).send('Audio not found');
+
+    // Update the title if a new title is provided
+    if (title) {
+      audio.title = title;
+    }
+
+    // If a new audio file is uploaded, replace the old file
+    if (filePath) {
+      // Delete the old file from the directory if `filePath` exists and is valid
+      if (audio.filePath) {
+        const oldFilePath = path.join(__dirname, '..', audio.filePath);
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath); // Remove the old file
+          console.log(`Deleted old file at: ${oldFilePath}`);
+        }
+      }
+
+      // Update the file path and original file name in the audio document
+      audio.filePath = filePath;
+      audio.originalName = audioFile.originalname; // Update originalName with the new file's name
+      audio.format = path.extname(audioFile.originalname).toUpperCase().replace('.', ''); // Set the new format
+    }
+
+    // Save the updated audio record
+    await audio.save();
+
+    res.send(audio); // Send back the updated audio record
+  } catch (err) {
+    console.error('Error updating audio:', err);
+    res.status(500).send('Error updating audio');
+  }
+});
+
+
+
+
+
+ // Comment out muna might need the delete / assign routes !!will delete after approval!!
+ 
+{/*} // Route to handle audio upload
 router.post('/upload', upload.single('audio'), async (req, res) => {
   const { title } = req.body;
   const filePath = req.file.path; // Path of the uploaded file
@@ -66,47 +141,75 @@ router.post('/upload', upload.single('audio'), async (req, res) => {
     console.error('Error uploading audio:', error);
     res.status(400).json({ error: 'Error uploading audio' });
   }
-});
+}); 
 
 
-// Update audio details
-router.put('/update/:id', async (req, res) => {
-  const { id } = req.params;
-  const { title } = req.body; // Assuming only title is updated; adjust as needed
+// Route to handle new audio upload (POST) (ver2)
+router.post('/uploads/:id', upload.single('audio'), async (req, res) => {
+  const { title } = req.body;
+
+  // Error if an ID is inadvertently provided for a new document
+  if (req.body.audioId) return res.status(400).json({ error: 'ID should not be provided for new uploads' });
+
+  // Logic similar to update, without `findById`
+  const newAudio = new Audio({
+    title,
+    filePath: req.file.path,
+    originalName: req.file.originalname,
+    format: path.extname(req.file.originalname).toUpperCase().replace('.', ''),
+  });
 
   try {
-    const audio = await Audio.findByIdAndUpdate(id, { title }, { new: true });
-    if (!audio) return res.status(404).send('Audio not found');
-    res.send(audio);
-  } catch (err) {
-    res.status(500).send('Error updating audio');
+    await newAudio.save();
+    res.status(201).json(newAudio);
+  } catch (error) {
+    console.error('Error saving new audio:', error);
+    res.status(500).json({ error: 'Error saving new audio' });
   }
 });
 
-// Delete an audio file
+*/}
+
+// DELETE route for removing audio file while retaining document
 router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Find the audio file in the database
+    // Find the audio document
     const audio = await Audio.findById(id);
     if (!audio) return res.status(404).send('Audio not found');
 
-    // Delete the file from the filesystem
-    if (audio.filePath) {
-      fs.unlinkSync(audio.filePath); // Delete the file from the 'uploads' directory
+    // Normalize file path for compatibility and attempt deletion
+    const normalizedPath = path.normalize(audio.filePath);
+    console.log('Attempting to delete file at:', normalizedPath);  // Log for confirmation
+
+    // Delete the file only if it exists
+    if (fs.existsSync(normalizedPath)) {
+      fs.unlinkSync(normalizedPath);
+      console.log('File deleted successfully.');
+    } else {
+      console.warn('File path does not exist:', normalizedPath);
     }
 
-    // Remove the audio entry from the database
-    await Audio.findByIdAndDelete(id);
-    res.send('Audio deleted successfully, including file from uploads.');
+    // Update filePath to null and save the document
+    audio.filePath = null;
+    audio.originalName = "";
+    audio.format = null;
+    await audio.save();
+
+    res.send('Audio file deleted successfully; document retained.');
   } catch (err) {
-    console.error('Error deleting audio:', err);
-    res.status(500).send('Error deleting audio');
+    console.error('Error in delete route:', err.message || err);
+    res.status(500).send('Error occurred during deletion.');
   }
 });
 
 
+
+
+
+
+{/*
 
 // Route to assign audio to Onload/Onclick routes
 router.post('/assign', async (req, res) => {
@@ -141,16 +244,6 @@ router.post('/assign', async (req, res) => {
   }
 });
 
-// Fetch all audio files from the database
-router.get('/', async (req, res) => {
-  try {
-    const audios = await Audio.find(); // Fetch all audio entries
-    res.status(200).json(audios);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching audios' });
-  }
-});
-
 // Route to fetch the audio file assigned to "Onload"
 router.get('/onload', async (req, res) => {
   try {
@@ -175,18 +268,8 @@ router.get('/onclick', async (req, res) => {
     console.error('Error fetching Onclick audio:', error);
     res.status(500).json({ error: 'Error fetching Onclick audio' });
   }
-});
+}); */}
 
-// Fetch an audio file by its ID
-router.get('/:id', async (req, res) => {
-  try {
-    const audio = await Audio.findById(req.params.id); // Find audio by ID
-    if (!audio) return res.status(404).json({ error: 'Audio not found' });
 
-    res.sendFile(audio.filePath, { root: './' }); // Send the file to the client
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching audio' });
-  }
-});
 
 module.exports = router;

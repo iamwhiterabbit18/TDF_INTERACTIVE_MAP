@@ -49,22 +49,10 @@ const upload = multer({
   limits: { fileSize: 1024 * 1024 * 5 }  // Limit file size to 5MB
 });
 
-/*Get modal by areaName
-router.get('/modal/:areaName', async (req, res) => {
-  try {
-    const modal = await Modal.findOne({ title: new RegExp('^' + req.params.areaName + '$', 'i') });
-    if (!modal) {
-      return res.status(404).json({ message: 'Modal not found' });
-    }
-    res.json(modal);
-  } catch (error) {
-    console.error('Error fetching modal:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-}); */
+
 
 // Get modal by ID
-router.get('/modal/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const modal = await Modal.findById(req.params.id);
     if (!modal) {
@@ -77,9 +65,8 @@ router.get('/modal/:id', async (req, res) => {
   }
 });
 
-
 // Get all modal data
-router.get('/modal', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const modals = await Modal.find(); // Fetch all modals
     res.json(modals);
@@ -88,56 +75,121 @@ router.get('/modal', async (req, res) => {
   }
 });
 
-
-
-router.put('/modal/:id', upload.fields([{ name: 'modalImages' }]), async (req, res) => {
+router.post('/:id', upload.array('modalImages', 10), async (req, res) => {
   const { id } = req.params;
-  const { description } = req.body; 
-  const uploadedFiles = req.files.modalImages || []; 
+  const filenames = req.files.map(file => file.filename); // Array of filenames
 
   try {
-      const modal = await Modal.findById(id);
-      if (!modal) {
-          return res.status(404).json({ message: 'Modal not found' });
-      }
+    const modal = await Modal.findById(id);
 
-      const oldImages = modal.modalImages; // Get the existing images from the modal
+    if (!modal) {
+      return res.status(404).json({ message: 'Modal not found' });
+    }
 
-      // Delete old images if new ones are uploaded
-      oldImages.forEach((oldImage, index) => {
-          if (uploadedFiles[index] && oldImage) {
-              const oldImagePath = path.join(__dirname,'..', 'uploads', 'modalImages', oldImage);
-              console.log(`Attempting to delete old image at: ${oldImagePath}`);
+    // Ensure modalImages is initialized as an array
+    if (!modal.modalImages) {
+      modal.modalImages = [];
+    }
 
-              if (fs.existsSync(oldImagePath)) {
-                  fs.unlinkSync(oldImagePath); 
-                  console.log(`Deleted old image: ${oldImagePath}`);
-              } else {
-                  console.warn(`File not found: ${oldImagePath}`);
-              }
-          }
-      });
+    // Push the new image filenames to the modalImages array
+    modal.modalImages.push(...filenames);
 
-      // Update the description
-      modal.description = description;
+    // Save the updated modal document
+    const updatedModal = await modal.save();
 
-      // Update modalImages if any files were uploaded
-      if (uploadedFiles.length > 0) {
-          const filenames = uploadedFiles.map(file => file.filename);
-          modal.modalImages = filenames; // Update modalImages with new filenames
-      }
-
-      // Save the updated modal
-      const updatedModal = await modal.save();
-
-      res.status(200).json(updatedModal);
+    res.status(200).json(updatedModal);
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: error.message });
   }
 });
 
 
+
+router.put('/:id/updateImage', upload.single('modalImage'), async (req, res) => {
+  const { id } = req.params;
+  const { imageIndex } = req.body; // Get the index from the request
+  const uploadedFile = req.file; // Get the new uploaded image
+
+  try {
+    const modal = await Modal.findById(id);
+    if (!modal) {
+      return res.status(404).json({ message: 'Modal not found' });
+    }
+
+    if (!uploadedFile) {
+      return res.status(400).json({ message: 'No image file uploaded' });
+    }
+
+    // Ensure modalImages exists and the index is valid
+    if (!modal.modalImages || !modal.modalImages[imageIndex]) {
+      return res.status(400).json({ message: 'Invalid image index' });
+    }
+
+    // Delete the old image
+    const oldImage = modal.modalImages[imageIndex];
+    const oldImagePath = path.join(__dirname, '..', 'uploads', 'modalImages', oldImage);
+    if (fs.existsSync(oldImagePath)) {
+      fs.unlinkSync(oldImagePath); // Delete the old image file
+    }
+
+    // Update the image at the specific index
+    modal.modalImages[imageIndex] = uploadedFile.filename;
+
+    // Save the updated modal
+    const updatedModal = await modal.save();
+
+    res.status(200).json(updatedModal);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
+router.delete('/uploads/modalImages/:filename', async (req, res) => {
+  const { filename } = req.params;
+  const imagePath = path.join(__dirname, '..', 'uploads', 'modalImages', filename); // Path to the image file
+
+  console.log('Attempting to delete file:', filename);
+  console.log('Image path:', imagePath);
+
+  try {
+    // Find and update the modal by removing the filename from the modalImages array
+    const updatedModal = await Modal.findOneAndUpdate(
+      { modalImages: filename }, // Assuming only filename is stored in DB, without full path
+      { $pull: { modalImages: filename } }, // Ensure matching without path
+      { new: true }
+    );
+
+    if (!updatedModal) {
+      console.error('Image not found in database');
+      return res.status(404).json({ message: 'Image not found in database' });
+    }
+
+    // Check if the file exists and delete it
+    fs.access(imagePath, fs.constants.F_OK, (err) => {
+      if (err) {
+        console.error('File not found on server:', imagePath);
+        return res.status(404).json({ message: 'File not found on server' });
+      }
+
+      // Delete the file from the server
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Error deleting file from directory:', err);
+          return res.status(500).json({ message: 'Error deleting file from server' });
+        }
+
+        console.log('File deleted from directory:', filename);
+        res.status(200).json({ message: 'Image deleted successfully', modal: updatedModal });
+      });
+    });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ message: 'Error deleting image' });
+  }
+});
 
 
 

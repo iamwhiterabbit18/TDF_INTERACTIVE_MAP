@@ -11,11 +11,12 @@ const AudioManagement = () => {
   const user = location.state?.user;
   
   const [audios, setAudios] = useState([]);
-  const [assignedTo, setAssignedTo] = useState(''); // 'onload' or 'onclick'
   const [playingAudioId, setPlayingAudioId] = useState(null); // Track which audio is currently playing
   const [showUploadModal, setShowUploadModal] = useState(false);
   const navigate = useNavigate();
   const audioRef = useRef(null); // Ref for controlling the audio element
+
+  const [modalProps, setModalProps] = useState({ audioId: null, currentTitle: '' });
 
   useEffect(() => {
     fetchAudios();
@@ -30,33 +31,7 @@ const AudioManagement = () => {
     }
   };
 
- /* const handleAssign = async (audioId) => {
-    if (!assignedTo) {
-      alert('Please select a route to assign the audio.');
-      return;
-    }
-
-    try {
-      const payload = {
-        audioId,
-        route: assignedTo
-      };
-      const response = await axios.post('http://localhost:5000/api/audio/assign', payload);
-      fetchAudios(); // Refresh the audios list after assigning
-      alert(`Audio assigned to ${assignedTo}`);
-    } catch (error) {
-      console.error('Error assigning audio:', error);
-    }
-  }; */
-
-  const handleOpenModal = () => {
-    setShowUploadModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowUploadModal(false);
-    fetchAudios(); // Refresh the audio list after upload
-  };
+ 
 
   const handlePlayAudio = async (filePath, audioId) => {
     // Stop currently playing audio if different
@@ -67,7 +42,7 @@ const AudioManagement = () => {
       }
       setPlayingAudioId(null);
     }
-
+  
     // If same audio is clicked again, stop it
     if (playingAudioId === audioId) {
       if (audioRef.current) {
@@ -77,21 +52,27 @@ const AudioManagement = () => {
       setPlayingAudioId(null);
       return;
     }
-
+  
     try {
       const response = await axios.get(`http://localhost:5000/${filePath}`, { responseType: 'blob' });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      setPlayingAudioId(audioId);
-
-      // Play the audio file
-      if (audioRef.current) {
-        audioRef.current.src = url;
-        audioRef.current.play();
+      
+      // Check if the response status is 200 (OK)
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        setPlayingAudioId(audioId);
+  
+        // Play the audio file
+        if (audioRef.current) {
+          audioRef.current.src = url;
+          audioRef.current.play();
+        }
       }
     } catch (error) {
       console.error('Error playing audio:', error);
+      alert("No Audio Available or Audio File dont exist!!"); // Alert the user
     }
   };
+  
 
   const handleDelete = async (audioId) => {
     if (window.confirm('Are you sure you want to delete this audio?')) {
@@ -105,26 +86,21 @@ const AudioManagement = () => {
     }
   };
 
-  const handleUpdate = async (audioId) => {
-    const newTitle = prompt('Enter new title for the audio:');
-    if (newTitle) {
-      try {
-        await axios.put(`http://localhost:5000/api/audio/update/${audioId}`, { title: newTitle });
-        fetchAudios(); // Refresh the audio list after updating
-        alert('Audio updated successfully');
-      } catch (error) {
-        console.error('Error updating audio:', error);
-      }
-    }
+   const handleOpenModal = (audioId = null, currentTitle = '') => {
+    console.log("Opening modal with audioId:", audioId);
+    setModalProps({ audioId, currentTitle });
+    setShowUploadModal(true);
   };
 
-  return (
+  const handleCloseModal = () => {
+    setShowUploadModal(false);
+    fetchAudios(); // Refresh the audio list after upload/update
+  };
+  
+ return (
     <div className={styles.audioManagementContainer}>
-     <div className={styles.tableHeader}>
+      <div className={styles.tableHeader}>
         <h1>Audio Management</h1>
-        <button className={styles.uploadButton} onClick={handleOpenModal}>
-          Upload
-        </button>
         <button className={styles.navigateButton} onClick={() => navigate('/map')}>
            Go to Admin Page
         </button>
@@ -135,24 +111,27 @@ const AudioManagement = () => {
           <tr>
             <th>Title</th>
             <th>File Name</th>
-            <th>Play</th>
-            <th>Update</th>
-            <th>Delete</th>
+            <th>Play Audio</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {audios.map((audio) => (
             <tr key={audio._id}>
               <td>{audio.title}</td>
-              <td>{audio.originalName}</td>
+              <td>{audio.originalName || 'No Audio Available'}</td>
               <td>
                 <button onClick={() => handlePlayAudio(audio.filePath, audio._id)}>Play</button>
               </td>
               <td>
-                <button onClick={() => handleUpdate(audio._id)}>Update</button>
-              </td>
-              <td>
-                <button onClick={() => handleDelete(audio._id)}>Delete</button>
+                {audio.originalName ? (
+                  <>
+                    <button onClick={() => handleOpenModal(audio._id, audio.title)}>Update</button>
+                    <button onClick={() => handleDelete(audio._id)}>Delete</button>
+                  </>
+                ) : (
+                  <button onClick={() => handleOpenModal(audio._id, audio.title)}>Add Audio</button>
+                )}
               </td>
             </tr>
           ))}
@@ -161,24 +140,22 @@ const AudioManagement = () => {
 
       {/* Modal for AudioUpload */}
       {showUploadModal && (
-        <div className={styles.modal}>
-        <div className={styles.modalContent}>
-          <span className={styles.closeButton} onClick={handleCloseModal}>
-              &times;
-            </span>
-            <AudioUpload onClose={handleCloseModal} />
-          </div>
-        </div>
+        <AudioUpload
+          audioId={modalProps.audioId} // Pass audioId
+          currentTitle={modalProps.currentTitle} // Pass currentTitle
+          onClose={handleCloseModal} // Pass the onClose function to close the modal
+        />
       )}
-            {/* Button container for absolute positioning */}
-        <div className={styles.accessBtnContainer}>
+      
+      {/* Button container for absolute positioning */}
+      <div className={styles.accessBtnContainer}>
         <AccessBtn user={user} /> {/* Pass user as prop if needed */}
       </div>
+      
       {/* Audio player */}
       <audio ref={audioRef} hidden />
     </div>
   );
-  
 };
 
 export default AudioManagement;

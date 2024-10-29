@@ -7,8 +7,39 @@ const path = require('path');
 const Card = require('../models/Cards');
 
 
-const upload = multer({ dest: 'uploads/' }); // Define the upload directory
+// Set up multer storage configuration for file uploads
+const storage = multer.diskStorage({
+  // Destination folder for uploaded files
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Save files to 'uploads/' directory
+  },
+  // Generate a unique filename for the uploaded file using the current timestamp
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`); // Prepend timestamp to the original filename
+  }
+});
 
+// File filter function to allow only specific image formats
+const fileFilter = (req, file, cb) => {
+  // Allowed extensions: jpeg, png, gif
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/gif') {
+    cb(null, true); // Accept the file
+  } else {
+    cb(new Error('Only .jpeg, .png, and .gif formats are allowed!'), false); // Reject the file
+  }
+};
+
+// Initialize multer with the defined storage configuration and file size limit (10MB)
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+  }
+});
 
 // Get a specific card by ID
 router.get('/:id', async (req, res) => {
