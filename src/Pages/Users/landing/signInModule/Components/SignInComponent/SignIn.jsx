@@ -87,7 +87,7 @@ const handleSubmit = async (e) => {
                             onChange = {(e) => setPassword(e.target.value)}
                         />
                         {/* Change button names into general names */}
-                        <button className = { `${styles.button } ${styles.btnGuest }` } type = "submit">
+                        <button className = { `${styles.button } ${styles.submitBtn }` } type = "submit">
                             Sign in
                         </button>
                     </form>

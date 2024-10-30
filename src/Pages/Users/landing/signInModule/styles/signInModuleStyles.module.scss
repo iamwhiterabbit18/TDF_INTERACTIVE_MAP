@@ -11,10 +11,10 @@
 
 
 .mainContainer {
-    // backdrop-filter: blur(3px) brightness(70%);
     align-items: center;
     display: flex;
     justify-content: center;
+    height: 100%;
     margin: 0 auto;
     padding: 0 0.625rem;
 } 
@@ -25,34 +25,32 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgb(15, 15, 15);
     display: flex;
-    height: 550px;
-    max-height: 65vh;
-    max-width: 75vw;
+    flex-direction: column;
+    justify-content: space-between;
+    // height: 95%;
+    // height: 65vh;
+    max-width: 90vw; //75vw
     width: 100%;
     overflow: hidden;
 
     .firstContainer {
         display: flex;
-        flex: 1;
-        flex-grow: 1.45;
+        align-items: center;
+        // flex: 1;
+        // flex-grow: 1.45;
         padding: 5%;
-        width: 20vw;
+        width: 100%; //20%
     }
 
-    /*
-        before:
-            No 'height: 100%;
-            min-height: 65vh;
-    */
     button {
         border: 0;
         border-radius: 40px;
         box-sizing: border-box;
         cursor: pointer;
-        font-size: 1.5rem;
+        font-size: 15px; // 1.5rem
         font-family: $title;
-        height: 3rem;
-        width: 15rem;
+        height: 40px; //3rem
+        width: 150px; //15rem
     }
 
     input, textarea {
@@ -68,4 +66,33 @@
         }
     }
     
+}
+
+@media (min-width: 576px) {
+    .loginContainer {
+    
+        button {
+            font-size: 20px; // 1.5rem
+            height: 40px; //3rem
+            width: 200px; //15rem
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .loginContainer {
+        height: 65vh;
+        flex-direction: row;
+    
+        .firstContainer {
+            flex: 1;
+            flex-grow: 1.45;
+        }
+    
+        button {
+            font-size: 1.5rem; 
+            height: 3rem;
+            width: 15rem;
+        }
+    }
 }

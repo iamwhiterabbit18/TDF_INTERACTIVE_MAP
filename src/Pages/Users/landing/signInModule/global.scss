@@ -84,26 +84,6 @@ label, .txtTitle, .txtSubTitle {
 
 /* close/return icons */
 
-.return {
-    align-self: flex-start;
-    align-items: center;
-    background-color: $outOfFocus;
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    height: 50px;
-    justify-content: center;
-    transition: 0.2s ease-in-out;
-    width: 50px;
-
-    img {
-        height: 25px;
-        filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); 
-        transition: all 0.2s ease-in-out;
-        width: 25px;
-    }
-}
-
 .return:hover {
     background-color: $secondary;
 

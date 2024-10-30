@@ -9,13 +9,29 @@
     flex-direction: column;
     justify-content: center;
     
+
+
+    .txtTitle { 
+        font-size: 30px;
+        margin-bottom: 0.938rem; 
+    }
+
+    .txtSubTitle { 
+        font-family: $subTitle;
+        font-size: 10px;
+        margin: 0.563rem 0; 
+    }
+
 }
 
-.txtTitle { 
-    margin-bottom: 0.938rem; 
-}
+@media (min-width: 576px) {
+    .optionContent{
+        .txtTitle {
+            font-size: 40px;
+        }
 
-.txtSubTitle { 
-    font-family: $subTitle;
-    margin: 0.563rem 0; 
+        .txtSubTitle {
+            font-size: 15px;
+        }
+    }
 }
