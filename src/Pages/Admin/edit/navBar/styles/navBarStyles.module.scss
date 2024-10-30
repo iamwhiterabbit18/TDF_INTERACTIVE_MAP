@@ -1,0 +1,232 @@
+@import '../../../../Users/landing/signInModule/stylesVariables.scss';
+@import '../../../../Users/landing/signInModule/global.scss';
+
+
+.navBar {
+    align-items: center;
+    background-color: $primary;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: fixed;
+    width: 180px;
+    z-index: 3;
+
+    .menu {
+        background-color: $primary;
+        border-radius: 15px;
+        left: 140px;
+        padding: 8px 20px 25px 20px;
+        position: absolute;
+        transform: rotate(90deg);
+        top: 121px;
+        z-index: -1;
+
+        .line {
+            border-bottom: .5px solid $outOfFocus;
+            width: 100%;
+        }
+
+        span {
+            color: $tertiary;
+            cursor: pointer;
+            font-family: $title;
+            transform-origin: 0 0;
+            transition: all 0.2s ease-in-out;
+
+            &:hover { // not working 
+                color: $secondary;
+            }
+        }
+    }
+
+    .greeting {
+        align-items: center;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 30px 0;
+        width: 90%;
+
+        .txtTitle {
+            color: $tertiary;
+            font-size: 20px;
+            line-height: 1.2;
+        }
+
+        .iconContainer { //add a dropdown for the user icon
+            align-items: center;
+            background-color: $guest;
+            border-radius: 50%;
+            display: flex;
+            height: 50px;
+            justify-content: center;
+            width: 50px;
+        
+            .icon.user {
+                height: 25px;
+                width: 25px;
+            }
+        }
+    }
+
+    
+}
+
+.navList {
+    padding: 20px 0;
+    width: 85%; 
+
+    li {
+        align-items: center;
+        border-radius: 10px;
+        display: flex;
+        justify-items: center;
+        list-style-type: none;
+        margin: 10px 0; 
+        padding: 10px 10px;
+        width: auto;
+
+        .icon {
+            filter: brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(465%) hue-rotate(314deg) brightness(114%) contrast(100%);
+        }
+
+        span {
+            line-height: 1;
+        }
+
+        &, .icon, span {
+            transition: all 0.2s ease-in-out;
+        }
+
+        &:hover, &.activeList{
+            background-color: $guest;
+
+            .icon {
+                filter: brightness(0) saturate(100%) invert(8%) sepia(44%) saturate(2716%) hue-rotate(227deg) brightness(90%) contrast(99%);
+            }
+
+            span {
+                color: $secondary;
+            }
+        }
+    }
+}
+
+.footer {
+    // background-color: red;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    margin-top: auto;
+    width: 100%;
+
+    .logout {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    
+        .icon.logout {
+            filter: brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(465%) hue-rotate(314deg) brightness(114%) contrast(100%);
+            transform: rotate(-180deg);
+        }
+
+        .icon.logout, span {
+            transition: all 0.2s ease-in-out;
+        }
+
+        &:hover {
+            .icon.logout {
+                filter: brightness(0) saturate(100%) invert(8%) sepia(44%) saturate(2716%) hue-rotate(227deg) brightness(90%) contrast(99%);
+            }
+            span {
+                color: $secondary;
+            }
+        }
+    }
+}
+
+//general icon styles
+.icon {  
+    height: 20px;
+    width: 20px;
+}
+
+.text {
+    color: $tertiary;
+    font-family: $title;
+    margin: 0 0 0 9px;
+}
+
+.line { //line separator
+    border-bottom: 1.5px solid $outOfFocus;
+    width: 80%;
+}
+
+
+
+//RESPONSIVE DESIGN
+
+@media (min-width: 768px) {
+    .navBar {
+        position: relative;
+        width: 30%;
+
+        .menu {
+            display: none;
+        }
+    }    
+}
+
+@media (min-width: 1200px) {
+    .navBar {
+        .greeting {
+
+            .txtTitle {
+                font-size: 30px;
+            }
+
+            .iconContainer {
+                height: 70px;
+                width: 70px;
+
+                .icon.user {
+                    height: 40px;
+                    width: 40px;
+                }
+            }
+        }
+    }
+
+    .navList { 
+        li {
+            .icon {
+                height: 30px;
+                width: 30px;
+            }
+
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+
+    .footer {
+        .logout {
+            .icon.logout {
+                height: 30px;
+                width: 30px;
+            }
+
+            span {
+                font-size: 20px;
+            }
+        }
+    }
+
+    .line {
+        border-bottom: 2.5px solid $outOfFocus;
+    }
+}

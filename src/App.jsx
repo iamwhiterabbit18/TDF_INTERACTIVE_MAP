@@ -10,7 +10,7 @@ import UserManagement from './Pages/Admin/edit/UserManagement'; // Admin Only
 import PrivateRoute from  '/src/Pages/Admin/ACMfiles/PrivateRoute'; 
 import { AuthProvider } from  '/src/Pages/Admin/ACMfiles/AuthContext';
 
-import PageAnimation from '/src/Pages/PageAnimations';
+// import PageAnimation from '/src/Pages/PageAnimations';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 

@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './styles/CardsEdit.module.scss';
 import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 //import { useParams } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import { motion, AnimatePresence } from 'framer-motion'
+import NavBar from './navBar/NavBar';
+import images from '../../../assets/for_landingPage/Images';
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
@@ -15,8 +19,9 @@ const Cards = () => {
   //const { id } = useParams(); // Get the card ID from the route
   const [cards, setCards] = useState([]);  // Stores the current card data
   const [originalCards, setOriginalCards] = useState([]); // Stores the original data
+  const [selectedCardId, setSelectedCardId] = useState(null);
 
-
+  // const placeholderImage = "https://via.placeholder.com/150"; // URL for a placeholder image
   
   // Fetch cards from the database
   const fetchCards = async () => {
@@ -37,21 +42,20 @@ const Cards = () => {
     fetchCards();
   }, []);
 
-    //const placeholderImage = "https://via.placeholder.com/150"; // URL for a placeholder image
   // Handle image upload for card
   const handleImageUpload = (e, cardId) => {
     const file = e.target.files[0];
     console.log('File selected:', file);
 
     // Allowed image formats
-  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
-      // Check if file exceeds 5MB
-  if (file && file.size > 5 * 1024 * 1024) { // 10MB in bytes
-    alert('File exceeds 5MB. Please select an image with smaller file size.');
-    window.location.reload(); // Reload the page if file exceeds 10MB
-    return;
-  }
+    // Check if file exceeds 5MB
+    if (file && file.size > 5 * 1024 * 1024) { // 10MB in bytes
+      alert('File exceeds 5MB. Please select an image with smaller file size.');
+      window.location.reload(); // Reload the page if file exceeds 10MB
+      return;
+    }
 
     // Check if file type is allowed
     if (file && !allowedTypes.includes(file.type)) {
@@ -60,20 +64,20 @@ const Cards = () => {
       return;
     }
 
-    
     if (file) {
       const imageUrl = URL.createObjectURL(file); // Create a local URL for the uploaded image
       console.log('Image URL created:', imageUrl);
       // Update the card state with the new image URL
       setCards(prevCards =>
         prevCards.map(card =>
-          card._id === cardId ? { ...card, imagePreview: imageUrl, file } : card
+          card._id === cardId ? { ...card, image: imageUrl, file } : card
         )
       );
     } else {
         console.error('No file selected'); // Debugging log
     }
   };
+
   // Handle quick facts update for card 
   const handleQuickFactsChange = (e, cardId) => {
     const newQuickFacts = e.target.value;
@@ -139,61 +143,104 @@ const handleSubmit = async (e) => {
     navigate(`/map`); // Navigate to the specific card display page
   };
 
- 
+  // Get the root ID and and apply className 
+  useEffect(() => {
+    const rootDiv = document.getElementById("root");
+
+    // Add or remove className based on current page
+
+    if (location.pathname === "/cards") {
+      rootDiv.classList.add(styles.rootDiv);
+    } else {
+      rootDiv.classList.remove(styles.rootDiv);
+    }
+  }, [location])
+
+
+  // resize textarea based on content
+  const textareaRef = useRef(null);
+
+  const adjustHeight = (ref) => {
+    if (ref) {
+      ref.current.style.height = 'auto'; // Reset height
+      ref.current.style.height = `${ref.current.scrollHeight}px`; // Set height to scroll height
+    }
+  };
 
   return (
+    <>
+      <NavBar />
       <div className={styles.cardsContainer}>
-        <div className={styles.header}>
-        <h1>Edit Cards</h1>
-        <button className={styles.backButton} onClick={handleBackClick}>
-           <img src={ArrowIcon} alt="Back" className={styles.icon} />
-          </button>
+        <div className = { styles.header }>
+          <span className = { styles.txtTitle }>EDIT CARDS</span>
         </div>
-        <form onSubmit={handleSubmit}>
-          {cards.map(card => (
-            <div key={card._id} className={styles.card}>
-              <h3>{card.areaName}</h3>
 
-              <div className={styles.imageUpload}>
-                <label htmlFor={`image-upload-${card._id}`}>Upload Image</label>
-                <input
-                  type="file"
-                  accept="image/"
-                  id={`image-upload-${card._id}`}
-                  onChange={(e) => handleImageUpload(e, card._id)}
-                />
-                {card.imagePreview ? (
-                    <img src={card.imagePreview} alt="Uploaded Image preview" />
-                  ) : (
-                    <img src={`http://localhost:5000${card.image}`} alt="Fetched DB Image Preview" />
-                  )}             
+        <span className = { `${ styles.txtTitle} ${ styles.listHeader }` }>Select Card</span>
+        
+        <div className={styles.cardsList}>
+        {cards.map((card) => (
+          <div className = { styles.infoContainer } key={card._id}>
+            <span className = { styles.txtTitle }>{card.areaName}</span>
+            <button onClick={() => setSelectedCardId(card._id)}>Edit</button>
+          </div>
+        ))}
+        </div>
+
+        <button 
+          className = { `${styles.txtTitle} ${ styles.btnSave }` } 
+          onClick = {handleSubmit}
+        > 
+          Save Changes 
+        </button>
+
+        <AnimatePresence mode="wait">
+          {cards.map(card => (
+            card._id === selectedCardId && (
+              <motion.div 
+                key = {selectedCardId}
+                className = { styles.cardEditingSection }
+                initial = {{opacity: 0}}
+                animate = {{opacity: 1}}
+                exit = {{opacity: 0}}
+                transition = {{duration: 0.2, ease: "easeInOut"}}
+                onAnimationComplete = {() => adjustHeight(textareaRef)}
+              >
+                <div className = { styles.card }>
+                  <div className={styles.popupImage}>
+                    <img src={ images.image1 } alt={ card.areaName }/> {/* tempoorary replace the marker.img for visualization */}
+                    <div className = { styles.overlay }>
+                      <button className = { `${ styles.txtTitle} ${ styles.uploadBtn }` }>Upload Image</button>
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/"
+                      id={`image-upload-${card._id}`}
+                      onChange={(e) => handleImageUpload(e, card._id)}
+                    />
                   </div>
 
-              <div className={styles.quickFacts}>
-                <label htmlFor={`quick-facts-${card._id}`}>Quick Facts:</label>
-                <textarea
-                  id={`quick-facts-${card._id}`}
-                  value={card.quickFacts}
-                  onChange={(e) => handleQuickFactsChange(e, card._id)}
-                />
-              </div>
-            </div>
+                  <div className={styles.cont1}>
+
+                    <span className = {styles.txtTitle} >{card.areaName}</span>
+
+                    <div className = { styles.line }></div>
+
+                    <textarea 
+                      ref = {textareaRef}
+                      className = { styles.quickFacts } 
+                      value = { card.quickFacts }
+                      onInput = {() => adjustHeight(textareaRef)}
+                      onChange = {(e) => handleQuickFactsChange(e, card._id)}
+                    />
+
+                  </div>  
+                </div>
+              </motion.div>
+            )
           ))}
-          <button className={styles.submitBtn} type="submit">Save Changes</button>
-          <div className={styles.navigationButton}>
-          </div>
-        </form>
-        {/* Button container for absolute positioning */}
-        <div className={styles.accessBtnContainer}>
-            <AccessBtn user={user} /> {/* Pass user as prop if needed */}
-        </div>
-
+        </AnimatePresence>
       </div>
-      
-
-
-    
-    
+    </>
   );
 };
 

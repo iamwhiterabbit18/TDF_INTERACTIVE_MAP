@@ -5,6 +5,7 @@ import styles from './Markers.module.scss';
 import fetchMarkerData from '/src/assets/API/marker_data';
 import markerData from '../../../../../assets/API/marker_data';
 import Popup from './popup/Popup';
+import { motion, AnimatePresence } from 'framer-motion'
 
 // data pipe here
 //const markers = fetchMarkerData;
@@ -82,8 +83,8 @@ const [modals, setModals] = useState([]);
     // calculate popup pos
     if(selectedMarker){
       let offset = {
-        top: screenWidth > 666 ? 10 : -150,
-        left: screenWidth > 666 ? 10 : -150,
+        top: window.innerWidth > 666 ? -50 : -150,
+        left: window.innerWidth > 666 ? 40 : -150,
       }
       const { x, y } = calculatePosition(selectedMarker.position);
       const popupElement = document.getElementById('popup');
@@ -137,7 +138,7 @@ const [modals, setModals] = useState([]);
           key={index}
           id={`marker-${index}`}
           className={styles.marker}
-          style={{ position: 'absolute' }}
+          style={{ position: 'absolute',}}
           onClick={() => handleMarkerCLick(marker)}
           onMouseEnter={() => handleHover(index)}
           onMouseLeave={handleExit}
@@ -151,18 +152,17 @@ const [modals, setModals] = useState([]);
         </div>
       ))}
 
-      {
-        selectedMarker && (
-          
+      <AnimatePresence>
+      {selectedMarker && (    
           <Popup
-          modalId={selectedMarker.modalId}
+            modalId={selectedMarker.modalId}
             marker={selectedMarker}
             position={calculatePosition(selectedMarker.position)}
             onClose={handleClosePopup}
           />
           
-        )
-      }
+      )}
+      </AnimatePresence>
     </>
   );
 };

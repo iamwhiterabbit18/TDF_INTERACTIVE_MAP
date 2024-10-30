@@ -7,16 +7,25 @@
     display: flex;
     justify-content: center;
     max-height: 70%;
+    max-width: 400px;
     padding:  20px 30px;
     position: absolute;
     pointer-events: all; //!important
+    width: 90%;
+
 
     .submitFeedbackContent {
         align-items: center;
         display: flex;
         flex-direction: column;
+        width: 100%;
+
+        .txtTitle {
+            font-size: 25px;
+        }
 
         .txtSubTitle {
+            font-size: 12px;
             text-align: center;
         }
 
@@ -51,7 +60,8 @@
             textarea {
                 height: 150px;
                 resize: none;
-                width: 320px;
+                max-width: 400px;
+                width: 100%;
             }
 
             .submitBtn { // consider placing in global
@@ -89,6 +99,38 @@
     
         &:focus { // works for input but not for textarea
             border: 1.5px solid $primary;
+        }
+    }
+}
+
+@media (min-width: 520px) {
+    .submitFeedbackContainer {
+        background-color: $tertiary;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        max-height: 70%;
+        max-width: 400px;
+        padding:  20px 30px;
+        position: absolute;
+        pointer-events: all; //!important
+        width: 90%;
+    
+    
+        .submitFeedbackContent {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+    
+            .txtTitle {
+                font-size: 35px;
+            }
+    
+            .txtSubTitle {
+                font-size: 15px;
+                text-align: center;
+            }
         }
     }
 }

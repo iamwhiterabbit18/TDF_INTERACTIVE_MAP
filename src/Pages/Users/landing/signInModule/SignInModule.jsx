@@ -27,12 +27,32 @@ export default function SignInModule() {
     // --------- Option Component ---------
     const [isBtnClicked, setIsBtnClicked] = useState(false);
 
+    const [optionUnmountDelay, setOptionUnmountDelay] = useState(false);
+    const [signinUnmountDelay, setSigninUnmountDelay] = useState(true);
+
     // checks if the sign in button is clicked
     function handleBtnClick() {
-        setIsBtnClicked(!isBtnClicked);
+         if(!isBtnClicked) {
+            setIsBtnClicked(!isBtnClicked);
+
+            // sets unmount delay
+            setTimeout(() => {
+                setOptionUnmountDelay(!optionUnmountDelay); 
+                setSigninUnmountDelay(!signinUnmountDelay); 
+            }, 150);
+        } else {
+            setIsBtnClicked(!isBtnClicked);
+
+            // sets unmount delay
+            setTimeout(() => {
+                setOptionUnmountDelay(!optionUnmountDelay); 
+                setSigninUnmountDelay(!signinUnmountDelay); 
+            }, 150)
+        }
     }
     
     const [isUser, setIsUser] = useState(null);
+
     const handleUser = (user, role) => {
         setIsUser(user);
         console.log(`${user} logged in with ID: ${role}`); // Log the user role
@@ -44,15 +64,22 @@ export default function SignInModule() {
         <UserProvider>
         <div className={styles.mainContainer}>
             <div className = { styles.loginContainer }> {/* Main container for option and login form*/}
-                {isBtnClicked 
-                    ? <SignIn 
-                        handleBtnClick = { handleBtnClick }
-                        handleUser = { handleUser }
+                <div className = { styles.firstContainer }>
+                    {optionUnmountDelay && (
+                        <SignIn 
+                            handleBtnClick = { handleBtnClick }
+                            isBtnClicked = {isBtnClicked}
+                            handleUser = { handleUser }
                         />
-                    : <Option 
-                        handleBtnClick = { handleBtnClick }
-                        handleUser = { handleUser }
-                        /> }
+                    )} 
+                    {signinUnmountDelay && ( 
+                        <Option 
+                            handleBtnClick = { handleBtnClick }
+                            isBtnClicked = {isBtnClicked}
+                            handleUser = { handleUser }
+                        /> 
+                    )}   
+                </div>
                 <Greeting />
             </div>
         </div>

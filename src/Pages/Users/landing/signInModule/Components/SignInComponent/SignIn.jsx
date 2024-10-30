@@ -7,16 +7,18 @@ import { Link , useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import { login } from '/src/Pages/Admin/ACMfiles/authService';
 import { useUser } from '/src/Pages/Admin/ACMfiles/UserContext';
+
 import styles from './styles/signInStyles.module.scss';
 import icons from '../../../../../../assets/for_landingPage/Icons.jsx';
 import { jwtDecode } from 'jwt-decode'; // Correctly import jwtDecode
 
 import { useEffect } from "react";
+import { motion, AnimatePresence } from 'framer-motion'
 
 // import axios from 'axios'
 
 
-export default function SignIn ({ handleBtnClick, handleUser }) {
+export default function SignIn ({ handleBtnClick, isBtnClicked, handleUser }) {
     const { login: setUser } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -51,41 +53,46 @@ const handleSubmit = async (e) => {
     
 
     return (
-        <div className = {`${ styles.firstContainer } ${ styles.signIn }`}> {/* Login form */}  
-            <div className = { `${ styles.signInContent }`}>
-                <div className = { styles.return } onClick = { handleBtnClick}>
-                    <img src = { icons.arrow } alt = "Close" />
-                </div>
-                <span className = { styles.txtTitle }>Sign in</span>
-                {error && <p className={styles.error}>{error}</p>} {/* Display error if any */}
+        <AnimatePresence>
+            {isBtnClicked && (
+                <motion.div 
+                    className = { `${ styles.signInContent }`}
+                    initial = {{opacity: 0}}
+                    animate = {{opacity: 1}}
+                    exit = {{opacity: 0, transition: {delay: 0}}}
+                    transition = {{duration: 0.3, delay: 0.2, ease: "easeInOut"}}
+                >
+                    <div className = { styles.return } onClick = { handleBtnClick }>
+                        <img src = { icons.arrow } alt = "Close" />
+                    </div>
 
-                <form className = { styles.form }  onSubmit = {handleSubmit}  >
-                    <label htmlFor = "email">Email</label>
-                    <input
-                        autoComplete="off"
-                        name="email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                    <span className = { styles.txtTitle }>Sign in</span>
 
-                    <label htmlFor = "password">Password</label>
-                    <input
-                        autoComplete="off"
-                        name="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    {/* Change button names into general names */}
-                    <button className = { styles.btnGuest } type = "submit">
-                                Sign in
-                       {/*  <Link to = "/map">Sign in</Link>*/}
-                    </button>
-                </form>
-            </div>    
-        </div>
+                    <form className = { styles.form } onSubmit = {handleSubmit} >
+                        <label htmlFor = "email">Email</label>
+                        <input 
+                            autoComplete = "off"
+                            name = "email"
+                            type = "email" 
+                            required
+                            onChange = {(e) => setEmail(e.target.value)}
+                        />
+
+                        <label htmlFor = "password">Password</label>
+                        <input 
+                            autoComplete = "off"
+                            name = "password"
+                            type = "password" 
+                            required
+                            onChange = {(e) => setPassword(e.target.value)}
+                        />
+                        {/* Change button names into general names */}
+                        <button className = { `${styles.button } ${styles.btnGuest }` } type = "submit">
+                            Sign in
+                        </button>
+                    </form>
+                </motion.div>   
+            )}
+        </AnimatePresence>
     )
 }

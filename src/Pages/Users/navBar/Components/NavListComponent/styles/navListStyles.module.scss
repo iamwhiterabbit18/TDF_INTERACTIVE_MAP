@@ -3,33 +3,33 @@
 .navBarList {
     display: flex;
     position: fixed;
-    width: 250px;
+    width: 130px; 
     z-index: 1;
-    
-    .navList {
+
+    .navList, .editListContainer {
         li {
             align-items: center;
             background-color: $tertiary;
-            border-radius: 20px;
+            border-radius: 10px;
             color: $secondary;
             display: flex;
             font-family: $title;
-            font-size: 20px;
-            margin: 15px 0;
-            padding: 15px 20px;
+            font-size: 11px;
+            margin: 12px 0;
+            padding: 5px 10px;
             width: 100%;
 
             .icon {
-                filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); // change the icon color to $secondary
-                height: 30px;
+                // filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); // change the icon color to $secondary
+                height: 15px;
                 transition: all 0.2s ease-in-out;
-                width: 30px;
+                width: 15px;
             }
 
             .text {
                 align-items: center;
                 display: flex;
-                margin: 0 0 0 20px;
+                margin: 0 0 0 10px;
                 padding: 5px 0 0 0;
                 transition: 0.2s ease-in-out;
             }
@@ -43,21 +43,67 @@
                 }
             }
 
-            &::after { // adds a line below the hovered navList but invisible
-                background-color: transparent;
-                content: '';
-                height: 3px;
-                left: 20px;
-                margin-top: 50px;
-                position: absolute;
-                transition: all 0.3s ease-in-out;
-                width: 30%;
-            }
+            // &::after { // adds a line below the hovered navList but invisible
+            //     background-color: transparent;
+            //     content: '';
+            //     height: 3px;
+            //     left: 20px;
+            //     margin-top: 50px;
+            //     position: absolute;
+            //     transition: all 0.3s ease-in-out;
+            //     width: 30%;
+            // }
             
-            &:hover::after { 
-                background: $primary;
+            // &:hover::after { 
+            //     background: $primary;
+            // }
+        }
+    }
+
+    .editListContainer {
+        left: 140px;
+        position: absolute;
+        top: 100px;
+
+        li {
+            width: 115px;
+        }
+    }
+}
+
+// RESPONSIVE DESIGN
+
+@media (min-width: 800px) {
+
+    .navBarList {
+        width: 250px;
+
+        .navList, .editListContainer {
+            li {
+                border-radius: 20px; 
+                font-size: 20px;
+                margin: 15px 0;
+                padding: 15px 20px;
+    
+                .icon {
+                    height: 30px;
+                    width: 30px;
+                }
+
+                .text {
+                    margin: 0 0 0 20px;
+                }
             }
         }
-        
+
+        .editListContainer {
+            left: 250px;
+            position: absolute;
+            top: 200px;
+    
+            li {
+                width: 200px;
+            }
+        }
     }
 }
