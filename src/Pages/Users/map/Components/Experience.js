@@ -25,7 +25,7 @@ export default class Experience {
         2000
     );
     this.helper = new THREE.CameraHelper(this.camera);
-    this.scene.add(this.helper);
+    // this.scene.add(this.helper);
     this.camera.position.set(0, 3, 0);
     this.renderer = new Renderer(this.scene, this.camera, this.container);
 

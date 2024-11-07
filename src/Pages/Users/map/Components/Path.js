@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Pathfinding, PathfindingHelper } from "three-pathfinding";
 // array of sites
 import positions from "../../../../assets/API/positions";
+import { Line2, LineGeometry, LineMaterial } from "three/examples/jsm/Addons.js";
 
 class Path {
     constructor(scene, camera, renderer, controls){
@@ -137,7 +138,7 @@ class Path {
               console.log("Found Path: ", path);
               this.arrowPath = path.slice();
               this.arrowMoving = true;
-    
+              this.points = [currentVector.clone()];
               // // create o update the arrow helper
     
               // if(!currentArrow){
@@ -145,14 +146,16 @@ class Path {
               //   scene.add(currentArrow);
               // }
               // currentArrow.position.copy(startPos);
-              this.points = [currentVector.clone()];
+              
     
               const geometry = new THREE.BufferGeometry().setFromPoints(this.points);
               const material = new THREE.LineBasicMaterial({ color: 0xffff00});
     
               if(!this.line){
+                const lineGeometry = new LineGeometry();
                 this.line = new THREE.Line(geometry, material);
                 this.line.position.y = this.line.position.y + 0.04;
+                this.line.frustumCulled = false;
                 this.scene.add(this.line);
               }
               else{
@@ -209,7 +212,6 @@ class Path {
 
             if(this.line){
                 this.line.visible = pathInView;
-                console.log(pathInView);
             }
         }
     }

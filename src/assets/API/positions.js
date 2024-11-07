@@ -1,7 +1,7 @@
 // This is for placeholders of sites that don't have a backend
 const positions = [
     {
-        name: "1",
+        name: "The Feathered Place",
         position: {
             x: -2.54,
             y: 0.08,
@@ -10,7 +10,7 @@ const positions = [
         color: 'red'
     },
     {
-        name: "2",
+        name: "Bahay Kubo",
         position: {
             x: -1.68,
             y: 0.13,
@@ -19,7 +19,7 @@ const positions = [
         color: 'green'
     },
     {
-        name: "4",
+        name: "House of Greens",
         position: {
             x: -0.69,
             y: 0.08,
@@ -28,7 +28,7 @@ const positions = [
         color: 'purple'
     },
     {
-        name: "5",
+        name: "The Urban Garden",
         position: {
             x: 0.02,
             y: 0.13,
@@ -37,7 +37,7 @@ const positions = [
         color: 'pink'
     },
     {
-        name: "6",
+        name: "Native Organics",
         position: {
             x: 1.38,
             y: 0.08,
@@ -46,7 +46,7 @@ const positions = [
         color: 'white'
     },
     {
-        name: "7",
+        name: "Native Pig Barnyard",
         position: {
             x: 1.17,
             y: 0.08,
@@ -55,7 +55,7 @@ const positions = [
         color: 'yellow'
     },
     {
-        name: "8",
+        name: "Gardenscape",
         position: {
             x: 2.74,
             y: 0.08,

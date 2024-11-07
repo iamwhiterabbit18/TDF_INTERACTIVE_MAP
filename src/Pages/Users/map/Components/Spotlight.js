@@ -9,8 +9,8 @@ export default class Spotlight{
         this.sLightHelper = new THREE.SpotLightHelper(this.spotLight);
         this.sLightShadowHelper = new THREE.CameraHelper(this.spotLight.shadow.camera);
 
-        scene.add(this.spotLight);
-        scene.add(this.sLightHelper);
-        scene.add(this.sLightShadowHelper);
+        // scene.add(this.spotLight);
+        // scene.add(this.sLightHelper);
+        // scene.add(this.sLightShadowHelper);
     }
 }
