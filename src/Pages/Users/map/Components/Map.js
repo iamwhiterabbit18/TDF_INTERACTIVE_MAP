@@ -16,7 +16,6 @@ export default class Map {
 
         this.map.load('map/map.glb', (gltfScene) => {
           const mesh = gltfScene.scene;
-          mesh.rotation.x = 0.5 * Math.PI;
           scene.add(mesh);
 
           mesh.traverse((object) => {

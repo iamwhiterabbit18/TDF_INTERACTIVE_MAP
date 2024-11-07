@@ -130,8 +130,8 @@ const ThreeCanvas = () => {
 
   return(
     <div ref={containerRef} style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
-
-    <NavigationModule />
+    
+    <NavigationModule user={user}/>
 
       <Preloader />
       {sceneAndCamera && (
@@ -145,10 +145,7 @@ const ThreeCanvas = () => {
       {/* {sceneAndCamera &&(
         <Shhhh renderer={rendererRef.current} scene={sceneAndCamera.scene} camera={sceneAndCamera.camera} dogsRef={dogsRef} />
       )}
-        {/* Button container for absolute positioning */}
-        <div className={styles.accessBtnContainer}>
-            <AccessBtn user={user} /> {/* Pass user as prop if needed */}
-        </div>
+      */}
     </div>
   ) 
 };
