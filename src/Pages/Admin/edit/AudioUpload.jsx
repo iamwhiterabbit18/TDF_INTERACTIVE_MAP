@@ -3,100 +3,105 @@ import axios from 'axios';
 import styles from './styles/AudioUpload.module.scss';
 import icons from "../../../assets/for_landingPage/Icons";
 
-const AudioUpload = ({ onClose }) => {
-  const [title, setTitle] = useState(''); // For storing the title of the audio
-  const [audioFile, setAudioFile] = useState(null); // For storing the selected audio file
-  const [message, setMessage] = useState(''); // For error or informational messages
-  const [showConfirmation, setShowConfirmation] = useState(false); // Controls the visibility of the replace confirmation dialog
-  const [showSuccess, setShowSuccess] = useState(false); // Controls the visibility of the success message
+const AudioUpload = ({ audioId, currentTitle, onClose }) => {
+  const [title, setTitle] = useState(currentTitle || ''); // Title of the audio
+  const [audioFile, setAudioFile] = useState(null); // Selected audio file
+  const [message, setMessage] = useState(''); // Error or informational messages
 
   // Handler for file input change
   const handleFileChange = (e) => {
-    const file = e.target.files[0]; // Set the selected file to state
-    if (file) {
-      setAudioFile(file.name);
-    } else {
-      setAudioFile("");
-    }
+    setAudioFile(e.target.files[0]); // Set the selected file
   };
 
-  // Handler for form submission
-  const handleSubmit = async (e) => {
+  // Handler for updating existing audio record
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
-    // Check if title and audio file are provided
-    if (!title || !audioFile) {
-      setMessage('Please provide a title and select an audio file.');
-      return;
+    if (!audioId) return; // No action if there's no audio ID
+    if (!audioFile) {
+      alert("Please select an audio file to upload."); // Alert if no file is selected
+      return; // Stop execution if no file is selected
     }
 
-    // Create a FormData object to send the title and file in the POST request
+          // Allowed audio file extensions
+      const allowedExtensions = ['.mp3', '.wav', '.m4a'];
+      
+      // Check if the file extension is in the allowed list
+      const fileExtension = audioFile.name.split('.').pop().toLowerCase();
+      if (!allowedExtensions.includes(`.${fileExtension}`)) {
+        alert("Unsupported audio format. Please upload one of the following formats: mp3, wav, m4a");
+        return; // Stop execution if the file extension is not allowed
+      }
+
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('audio', audioFile);
+    if (audioFile) formData.append('audio', audioFile);
 
     try {
-      // Send a POST request to the server to upload the audio file
-      const response = await axios.post('http://localhost:5000/api/audio/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      await axios.put(`http://localhost:5000/api/audio/update/${audioId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-
-      // Check if the server indicates that the audio file with the same title is being replaced
-      if (response.data.replaced) {
-        setShowConfirmation(true); // Show the replace confirmation dialog
-      } else {
-        setShowSuccess(true); // Show success message if no replacement occurred
-      }
+      alert('Audio updated successfully');
+      onClose(); // Close the modal
     } catch (error) {
-      alert('Error uploading audio. Only audio files (mp3, wav, ogg, m4a, flac) are allowed!'); // Show error message if the upload fails
-      window.location.reload(); // Reload the page
-      return;
+      console.error('Error updating audio:', error);
+      setMessage('Error updating audio, please try again.'); // Show error message
     }
   };
 
-  // Handler to confirm the replacement of an existing audio file
-  const handleConfirmReplace = async () => {
-    setShowConfirmation(false); // Close the confirmation dialog
-    setShowSuccess(true); // Show success message after replacing the file
-  };
-
-  // Handler to close the modal (for both success or cancel actions)
+  // Handler to close the modal
   const handleClose = () => {
-    onClose(); // Trigger the onClose function passed as a prop to close the upload form/modal
+    setTitle(''); // Reset title
+    setAudioFile(null); // Clear file selection
+    setMessage(''); // Clear messages
+    onClose(); // Trigger the onClose function to close the modal
   };
 
   return (
-    <div className={styles.modalContent}> {/* Modal content container */}
-      <button className = { styles.close } onClick = { onClose }>
-          <img src={icons.close} alt="close" />
-      </button>
-      <div className = { styles.header }>
-        <span className = { styles.txtTitle }>
+    <div className={styles.modalContent}>
+      <span className={styles.close} onClick={handleClose}>
+        <img src={icons.close} alt="close" />
+      </span>
+
+      <div className={styles.header}>
+        <span className = { styles.txtTitle}>
           UPLOAD AUDIO FILE
         </span>
       </div>
-      <form onSubmit={handleSubmit} className={styles.form}>
+
+      <form className = { styles.form }>
+        <div className = { styles.audioTitleCont}>
+          <label className = { styles.txtSubTitle }>Audio Title: </label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter audio title"
+            required
+            disabled
+          />
+        </div>
+        
         <label className = { styles.customLabel }>
           {/* Just a visual representation of the input tag */}
           <button className = { styles.browseBtn }>Browse...</button>
           <span className = { styles.fileName }>
-            { audioFile || "No file selected" }
+            { audioFile ? audioFile.name : "No file selected" }
           </span>
           {/* Hidden */}
           <input 
-            className = { styles.input }
             type="file" 
             onChange={handleFileChange} 
+            accept="audio/*" 
             required 
           />
         </label>
-        
+
         <div className = { styles.btns }>
           <button 
-            className = { `${styles.saveBtn} ${styles.txtTitle}` } 
-            type="submit"
+            className = { `${styles.saveBtn} ${styles.txtTitle}` }
+            type="submit" 
+            onClick={handleUpdate}
           >
             Save
           </button>
@@ -108,26 +113,12 @@ const AudioUpload = ({ onClose }) => {
             Cancel
           </button>
         </div>
+        
+        {message && <p>{message}</p>} {/* Display message if exists */}
       </form>
-
-      {message && <p>{message}</p>}
-
-      {showConfirmation && (
-        <div className={styles.confirmationContainer}>
-          <p>An audio file named "{title}" already exists. Do you wish to replace it?</p>
-          <button onClick={handleConfirmReplace}>Continue</button>
-          <button onClick={() => setShowConfirmation(false)}>No</button>
-        </div>
-      )}
-
-      {showSuccess && (
-        <div className={styles.messageContainer}>
-          <p>File uploaded successfully: {title}</p>
-          <button onClick={handleClose}>OK</button>
-        </div>
-      )}
     </div>
   );
+  
 };
 
 export default AudioUpload;

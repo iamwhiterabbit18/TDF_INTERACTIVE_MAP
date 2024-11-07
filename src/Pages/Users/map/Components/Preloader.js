@@ -8,7 +8,9 @@ class Preloader {
     this.loadingManager.onLoad = this.onLoad.bind(this);
     this.loadingManager.onProgress = this.onProgress.bind(this);
     this.loadingManager.onError = this.onError.bind(this);
-    // this.loadAssets();
+
+    // pathfinding
+    this.pathfinding = document.querySelector('#pathfinding');
   }
 
 
@@ -41,6 +43,7 @@ class Preloader {
     // Optional: Remove the preloader from the DOM after fading out
     setTimeout(() => {
       this.pScreen.style.display = 'none'; // Hide the preloader after transition
+      this.pathfinding.style.display = 'block';
     }, 1000); // Match with your transition duration
   }
 }

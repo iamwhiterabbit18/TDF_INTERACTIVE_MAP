@@ -107,11 +107,12 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
 
         </motion.div>
       )}
-        {isOpen && modalData && <Modal modalId={modalId} modalData={modalData} onClose={onCloseModal} />}
-
-        { /*
-          isOpen && <Modal details={marker} onClose={onCloseModal} />
-          */}
+        <Modal 
+          isOpen = {isOpen} 
+          modalId={modalId} 
+          modalData={modalData} 
+          onClose={onCloseModal} 
+        />
     </AnimatePresence>
     </>
   )

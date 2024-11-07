@@ -6,7 +6,7 @@
 .cardsContainer {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100%;
 
   .header {
@@ -18,6 +18,8 @@
     justify-content: center;
     margin-bottom: 20px;
     width: 86%;
+    flex-shrink: 0;
+    flex-grow: 0;
 
     .txtTitle {
       color: $tertiary;
@@ -103,22 +105,77 @@
       
 
       .popupImage {
+        justify-content: center;
+        display: flex;
         margin: -20px -25px 0 -25px; 
         position: relative;
         width: calc(100% + 50px);
         transition: all 0.2s ease-in-out;
+        max-height: 400px;
+        height: 100%;
         
-        img{
+        .previewImg, .uploadedImg {
+          height: 190px;
+          width: 300px;
+
+          img{
             border-radius: 20px 20px 0 0;
             width: 100%;
+            object-fit: cover;
+            height: 190px;
+          }
         }
+
+        .uploadedImg {
+          display: flex;
+          gap: 20px;
+
+          .overlay {
+            gap: 20px;
+
+            .uploadBtn {
+              scale: 1;
+              
+              &:hover {
+                scale: 1.1;
+              }
+            }
+
+            .deleteBtn {
+              background-color: $danger;
+              border-radius: 30px;
+              color: $tertiary;
+              font-size: 15px;
+              padding: 5px 25px;
+              transition: all 0.2s ease-in-out;
+
+              &:hover {
+                scale: 1.1;
+              }
+            }
+          }
+        }
+
+        .noImg {
+          background-color: $outOfFocus;
+          border-radius: 20px 20px 0 0;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+
+          span {
+            font-size: 20px;
+          }
+        }
+        
 
         .overlay {
           align-items: center;
           background-color: rgba(0, 0, 0, 0.5);
           border-radius: 20px 20px 0 0;
           display: flex;
-          height: 98%;
+          height: 100%;
           justify-content: center;
           left: 0;
           opacity: 0;
@@ -149,10 +206,6 @@
 
         &:hover .overlay {
           opacity: 1;
-        }
-
-        &:hover .uploadBtn {
-          scale: 1.1;
         }
       }
 
@@ -193,6 +246,17 @@
 .line { //line separator
   border-bottom: 2px solid $outOfFocus;
   width: 93%;
+}
+
+.confirmation, .modal {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
 }
 
 

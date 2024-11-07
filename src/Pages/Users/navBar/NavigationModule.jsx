@@ -15,6 +15,7 @@ import ContactUsComponent from './Components/NavListComponent/SubComponent/Conta
 import AboutUsComponent from './Components/NavListComponent/SubComponent/AboutUsComponent/AboutUs.jsx'
 import NewsAndEvents from './Components/NavListComponent/SubComponent/newsAndEventsModule/Components/NewsAndEvents.jsx'
 import SubmitFeedback from './Components/NavListComponent/SubComponent/FeedbackComponent/SubmitFeedback.jsx'
+import NewsEventImage from '../../Admin/edit/EditNewsEvent.jsx';
 
 export default function NavigationModule () {
 
@@ -33,6 +34,8 @@ export default function NavigationModule () {
         }
     }
 
+    
+
 // ------- NavBar Logic Section -------
     const [isHamClicked, setIsHamClicked] = useState(false);
 
@@ -50,6 +53,15 @@ export default function NavigationModule () {
     const [currentModal, setCurrentModal] = useState(null);
     const [isEditContent, setIsEditContent] = useState(false);
 
+    // ----------- For Edit News and Event Modal --------------
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal 
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen); // Toggle modal visibility
+    };
+
+    // --------------------------------------------------------
+
     function toggleEditContent() {
         setIsEditContent(!isEditContent);
     }
@@ -64,13 +76,6 @@ export default function NavigationModule () {
         setIsNavListClosed(!isNavListClosed);
         setIsHamClicked(!isHamClicked);
     }
-
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen); // Toggle modal visibility
-    };
     
 // ------- UserDropdown Logic Section -------
 
@@ -83,6 +88,8 @@ export default function NavigationModule () {
     function handleDropClick() {
         setIsDropClicked(!isDropClicked);
     }
+    
+    console.log(currentModal);
 
     return (
         <>
@@ -102,6 +109,7 @@ export default function NavigationModule () {
                     captureNavListClick = { captureNavListClick }  
                     isEditContent = { isEditContent }
                     toggleEditContent = { toggleEditContent }
+                    toggleModal = { toggleModal }
                 />
                 
                 <UserDropdown
@@ -134,6 +142,13 @@ export default function NavigationModule () {
                     
                     {/* ------- SubmitFeedback Component Section ------- */}
                         <SubmitFeedback 
+                            setCurrentModal = { setCurrentModal }
+                            currentModal = { currentModal }
+                            handleClickOutside = { handleClickOutside }
+                        />
+
+                    {/* EditNewsEvent */}
+                        <NewsEventImage 
                             setCurrentModal = { setCurrentModal }
                             currentModal = { currentModal }
                             handleClickOutside = { handleClickOutside }

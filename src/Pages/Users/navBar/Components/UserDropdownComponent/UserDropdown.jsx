@@ -45,6 +45,7 @@ export default function UserDropdown({ handleClickOutside, isDropClicked }) {
             <AnimatePresence>
                 {isDropClicked && (
                     <motion.div
+                        className = { styles.dropdownContainer }
                         initial = {window.innerWidth > 992 ? {opacity: 0, translateY: 70, translateX: -37} : {opacity: 0, translateY: 70, translateX: -10}}
                         animate = {window.innerWidth > 992 ? {opacity: 1, translateY: 120} : {opacity: 1, translateY: 100}}
                         exit = {{opacity: 0, translateY: 70}}

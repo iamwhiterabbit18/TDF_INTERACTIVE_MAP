@@ -146,6 +146,31 @@ router.put('/:id/updateImage', upload.single('modalImage'), async (req, res) => 
   }
 });
 
+// Update modal description and technologies by ID
+router.put('/:id/description', async (req, res) => {
+  const { id } = req.params;
+  const { description, technologies } = req.body;
+
+  try {
+    const modal = await Modal.findById(id);
+    if (!modal) {
+      return res.status(404).json({ message: 'Modal not found' });
+    }
+
+    // Update the description field
+    modal.description = description;
+    modal.technologies = technologies;
+
+    // Save the updated modal
+    const updatedModal = await modal.save();
+
+    res.status(200).json({ message: 'Description updated successfully', modal: updatedModal });
+  } catch (error) {
+    console.error('Error updating description:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 router.delete('/uploads/modalImages/:filename', async (req, res) => {
   const { filename } = req.params;

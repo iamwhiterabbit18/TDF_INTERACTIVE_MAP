@@ -1,7 +1,7 @@
 
 import styles from "./styles/confirmationStyles.module.scss"
 
-export default function Confirmation({ onCancel, onDelete }) {
+export default function Confirmation({ onCancel, setConfirmDelete }) {
     
     return (
         <>
@@ -16,7 +16,7 @@ export default function Confirmation({ onCancel, onDelete }) {
                         <div className = { styles.delete }>
                             <button 
                                 className = { styles.txtTitle}
-                                onClick = { onDelete }    
+                                onClick = { setConfirmDelete }    
                             >
                                 Delete
                             </button>

@@ -7,87 +7,109 @@
     display: flex;
     justify-content: center;
     max-height: 70%; 
-    padding: 30px 40px;
+    max-width: 400px;
+    padding: 20px 30px; //30px 40px
     pointer-events: all; //!important
     position: absolute;
+    width: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
     
     .contactUsContent {
         align-items: center;
         display: flex;
         flex-direction: column;
+        width: 100%;
+
+        .close {
+            position: absolute;
+
+            img {
+                height: 15px;
+                width: 15px;
+            }
+        }
+
+        .header {
+            background-color: $secondary;
+            border-radius: 0 0 50px 50px;
+            padding: 10px 10px;
+            width: 70%;
+            text-align: center;
+            margin-top: -20px;
+
+            .txtTitle {
+                color: $tertiary;
+                font-size: 20px;
+                text-align: center;
+            }
+        }
 
         .form {
             display: flex;
             flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
             
-            label {
-                font-family: $subTitle;
+            .txtTitle {
+                text-align: start;
+                font-size: 20px;
             }
 
-            textarea {
-                font-family: $subTitle;
-                height: 150px;
-                resize: none;
+            .txtSubTitle {
+                font-size: 12px;
+                margin: -5px 0 10px 0;
+                width: 100%;
+                word-wrap: break-word;
             }
-
-            .submitBtn { // consider placing in global
-                align-self: center;
-                background-color: $guest;
-                color: $tertiary;
-                margin: 30px 0 0 0;
-                transition: 0.2s ease-in-out;
-
-                &:hover {
-                    background-color: $primary;
-                    color: $secondary;
-                }
-            }
-        }
-    }
-
-    button {
-        border: 0;
-        border-radius: 40px;
-        box-sizing: border-box;
-        cursor: pointer;
-        font-size: 1.5rem;
-        font-family: $title;
-        height: 3rem;
-        width: 15rem;
-    }
-
-    input, textarea { //note
-        border-radius: 5px;
-        border: 1.5px solid black;
-        padding: 5px;
-        outline: transparent;
-        transition: all 0.2s ease-in-out;
-    
-        &:focus { // works for input but not for textarea
-            border: 1.5px solid $primary;
-        }
-    }
-    button {
-        border: 0;
-        border-radius: 40px;
-        box-sizing: border-box;
-        cursor: pointer;
-        font-size: 1.5rem;
-        font-family: $title;
-        height: 3rem;
-        width: 15rem;
-    }
-
-    input, textarea { //note
-        border-radius: 5px;
-        border: 1.5px solid black;
-        padding: 5px;
-        outline: transparent;
-        transition: all 0.2s ease-in-out;
-    
-        &:focus { // works for input but not for textarea
-            border: 1.5px solid $primary;
         }
     }
 }
 
+@media (min-width: 520px) {
+    .contactUsContainer {
+        .contactUsContent {
+
+            .close {
+                img {
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 920px) {
+    .contactUsContainer {
+        .contactUsContent {
+            width: 100%;
+
+            .close {
+                img {
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+
+            .header {
+    
+                .txtTitle {
+                    font-size: 30px;
+                }
+            }
+
+            .form {
+
+                .txtTitle {
+                    font-size: 25px;
+                }
+
+                .txtSubTitle {
+                    font-size: 18px;
+                }
+
+            }
+        }
+    }
+}

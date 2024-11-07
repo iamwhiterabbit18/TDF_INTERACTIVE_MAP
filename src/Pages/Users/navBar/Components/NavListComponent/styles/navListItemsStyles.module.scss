@@ -1,5 +1,6 @@
 
 .modalContainer {
+    position: absolute;
     align-items: center;
     display: flex;
     height: 100%;
@@ -7,25 +8,5 @@
     pointer-events: none; //!important
     position: absolute;
     width: 100%;
-    z-index: 11; // stack infront of marker
+    z-index: 99; // stack infront of marker
 }
-
-// CSSTransition section
-
-// .modal-enter {
-//     opacity: 0;
-// }
-
-// .modal-enter-active {
-//     opacity: 1;
-//     transition: all 0.3s ease;
-// }
-
-// .modal-exit {
-//     opacity: 1;
-// }
-
-// .modal-exit-active {
-//     opacity: 0;
-//     transition: all 0.3s ease;
-// }

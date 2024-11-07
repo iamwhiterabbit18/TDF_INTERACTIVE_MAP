@@ -12,7 +12,6 @@
     margin: 0 20px;
     max-width: 350px;
     padding: 20px;
-    // width: 100%;
 
     .close { // adapts styles from global
         position: absolute;
@@ -41,6 +40,26 @@
         justify-content: center;
         width: 100%;
 
+        .audioTitleCont {
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-bottom: 15px; 
+
+          label {
+            font-size: 13px;
+          }
+
+          input {
+            border: 1.5px solid grey;
+            border-radius: 5px;
+            font-family: $subTitle;
+            font-size: 10px;
+            text-align: center;
+          }
+        }
+
         .customLabel {
           align-items: center;
           display: flex;
@@ -60,10 +79,14 @@
               scale: 1.1;
             }
           }
+
           .fileName {
             border: 1.5px solid black;
             border-radius: 5px;
             padding: 2px 15px;
+            max-width: 150px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
           }
 
           input {

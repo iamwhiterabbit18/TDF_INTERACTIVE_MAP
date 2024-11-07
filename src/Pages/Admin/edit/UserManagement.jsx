@@ -13,13 +13,32 @@ import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Impo
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const UserManagement = () => {
-        //passing props from the AccessBtn
-        const location = useLocation();
-        const userProp = location.state?.user;
+    //passing props from the AccessBtn
+    const location = useLocation();
+    const userProp = location.state?.user;
 
     const [users, setUsers] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
+    const [userToDelete, setUserToDelete] = useState(null);
+    
+    const handleDeleteBtn = (userId) => {
+        setUserToDelete(userId);
+        setIsDelete(!isDelete);
+    }
+
+    const confirmAndDelete = () => {
+        setConfirmDelete(true);
+    }
+
+    useEffect(() => {
+        if (confirmDelete && userToDelete) {
+            handleDeleteUser();
+            setConfirmDelete(false);
+        }
+    }, [confirmDelete, userToDelete]);
 
     useEffect(() => {
         fetchUsers();
@@ -40,23 +59,33 @@ const UserManagement = () => {
         try {
             if (currentUser) {
                 await axios.put(`http://localhost:5000/api/users/update/${currentUser._id}`, user);
+                alert('User update successful');
+                setModalOpen(false);
             } else {
                 await axios.post('http://localhost:5000/api/users/add', user);
+                alert('User successfully added');
+                setModalOpen(false);
             }
             fetchUsers();
-            setModalOpen(false);
+            
             setCurrentUser(null);
         } catch (error) {
             console.error('Failed to save user:', error);
         }
     };
 
-    const handleDeleteUser = async (id) => {
-        // const confirmed = window.confirm('Are you sure you want to delete this user?');
-        if (!confirmed) return;
+    console.log(confirmDelete);
+
+    const handleDeleteUser = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/users/delete/${id}`);
-            fetchUsers();
+            if (confirmDelete && userToDelete) {
+                await axios.delete(`http://localhost:5000/api/users/delete/${userToDelete}`);
+                fetchUsers();
+                alert('User deleted successfully');
+                setConfirmDelete(false);
+                setUserToDelete(null);
+                setIsDelete(false);
+            }
         } catch (error) {
             console.error('Failed to delete user:', error);
         }
@@ -89,13 +118,6 @@ const UserManagement = () => {
         rootDiv.classList.remove(styles.rootDiv);
         }
     }, [location])
-
-    // Confirmation Modal 
-    const [isDelete, setIsDelete] = useState(false);
-
-    function handleDeleteBtn() {
-        setIsDelete (!isDelete);
-    }
 
     return (
         <>
@@ -148,7 +170,7 @@ const UserManagement = () => {
                                                 <button className = {styles.editBtn} onClick={() => openModal(user)}>
                                                     <img className = { `${ styles.icon } ${ styles.pencil}` } src = { icons.pencil } alt = "Edit Item" />
                                                 </button>
-                                                <button className = {styles.delBtn} onClick = {setIsDelete}>
+                                                <button className = {styles.delBtn} onClick = {() => { handleDeleteBtn(user._id);}}>
                                                     <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.remove } alt = "Delete Item" />
                                                 </button>
                                             </div>
@@ -161,12 +183,6 @@ const UserManagement = () => {
                 </div>
                 
                 {/* onClick={() => handleDeleteUser(user._id)} */}
-
-
-                {/* Button container for absolute positioning */}
-                {/* <div className={styles.accessBtnContainer}>
-                    <AccessBtn userProp={user} /> {/* Pass user as prop if needed
-                </div> */}
             </div>
 
 
@@ -197,7 +213,7 @@ const UserManagement = () => {
                     >
                         <Confirmation 
                             onCancel = {() => handleDeleteBtn()}
-                            onDelete = {() => handleDeleteUser(user._id)}    
+                            setConfirmDelete = { confirmAndDelete }
                         />
                     </motion.div>
                 )}

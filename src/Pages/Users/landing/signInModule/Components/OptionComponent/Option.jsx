@@ -47,7 +47,7 @@ const handleGuestLogin = async () => {
                         <button className = { `${styles.button} ${styles.btnSignIn}` } onClick = { handleBtnClick }>Sign in</button>
                         <span className = { styles.txtSubTitle }>OR</span>
                         <button className = { `${styles.button} ${styles.btnGuest}`}
-                            onClick = { () => handleUser('Guest') }>
+                            onClick = { () => handleGuestLogin('Guest') }>
                             <Link to ={ "/map"}>Guest Login</Link>
                         </button> 
                     </motion.div>  

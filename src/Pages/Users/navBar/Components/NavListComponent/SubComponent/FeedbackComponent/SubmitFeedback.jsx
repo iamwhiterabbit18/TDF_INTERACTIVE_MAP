@@ -23,6 +23,12 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
         setSelectedStar(index); // Save the rating (index + 1)
     }
 
+    function resetFeedback() {
+        setSelectedStar(-1);
+        setIsStarClicked(false);
+        setComment('');
+    }
+
 
     const handleSubmit = async () => {
         console.log('handleSubmit is triggered'); // Check if this is triggered
@@ -77,6 +83,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
         if (currentModal) {
             document.addEventListener('mousedown', handleClickOutside);
         } else {
+            resetFeedback();
             document.removeEventListener('mousedown', handleClickOutside);
         }
         
@@ -90,7 +97,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
             <AnimatePresence>
                 {currentModal === 'submitFeedback' && (
                     <motion.div
-                        className = { ` ${ styles.submitFeedbackContainer } ${ props.className }` }
+                        className = { styles.submitFeedbackContainer }
                         id = "submitFeedback"
                         initial = {{opacity: 0}}
                         animate = {{opacity: 1}}
@@ -126,9 +133,10 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                                     placeholder="Enter your feedback (optional)"
                                     //maxLength="300" // Set the maximum length for the textarea
                                 />
-                                <div>
-                                    <span style={{ color: comment.length > 300 ? 'red' : 'black' }}>
-                                        {300 - comment.length} characters remaining</span> {/* Show remaining characters */}
+                                <div className = { styles.txtLimit }>
+                                    <span className = { comment.length > 300 ? ` ${styles.txtSubTitle} ${styles.error} ` : styles.txtSubTitle }>
+                                        {300 - comment.length} characters remaining
+                                    </span> {/* Show remaining characters */}
                                 </div>
                                 <button className={styles.submitBtn} type="submit" >Submit</button>
                             </form>

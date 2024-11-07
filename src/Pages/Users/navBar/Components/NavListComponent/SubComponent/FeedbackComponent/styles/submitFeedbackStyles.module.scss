@@ -7,11 +7,11 @@
     display: flex;
     justify-content: center;
     max-height: 70%;
-    max-width: 400px;
+    max-width: 300px;
     padding:  20px 30px;
     position: absolute;
     pointer-events: all; //!important
-    width: 90%;
+    width: 70%;
 
 
     .submitFeedbackContent {
@@ -20,26 +20,34 @@
         flex-direction: column;
         width: 100%;
 
+        .close {
+            img {
+                height: 15px;
+                width: 15px;
+            }
+        }
+
         .txtTitle {
-            font-size: 25px;
+            font-size: 20px;
+            text-align: center;
         }
 
         .txtSubTitle {
-            font-size: 12px;
+            font-size: 9px;
             text-align: center;
         }
 
         .starContainer {
             display: flex;
             justify-content: space-between;
-            margin: 30px 0;
-            width: 53%;
+            margin: 15px 0;
+            width: 60%;
 
             .icon.star {
                 cursor: pointer;
-                height: 30px;
+                height: 20px;
                 filter: invert(92%) sepia(8%) saturate(180%) hue-rotate(22deg) brightness(92%) contrast(88%);
-                width: 30px;
+                width: 20px; 
 
             }
 
@@ -56,20 +64,34 @@
             display: flex;
             flex-direction: column;
             margin: 0 0 10px 0;
+            width: 100%;
 
             textarea {
-                height: 150px;
+                height: 100%;
+                font-size: 8px; //
+                max-height: 400px;
+                max-width: 400px; 
                 resize: none;
-                max-width: 400px;
-                width: 100%;
+                width: 80%;
+            }
+
+            .txtSubTitle {
+                color: $secondary;
+
+                &.error {
+                    color: $danger;
+                }
             }
 
             .submitBtn { // consider placing in global
                 align-self: center;
                 background-color: $guest;
                 color: $tertiary;
-                margin: 30px 0 0 0;
+                font-size: 15px;
+                margin: 15px 0 0 0; // 30px 0 0 0 
+                height: 40px;
                 transition: 0.2s ease-in-out;
+                width: 120px;
 
                 &:hover {
                     background-color: $primary;
@@ -105,31 +127,73 @@
 
 @media (min-width: 520px) {
     .submitFeedbackContainer {
-        background-color: $tertiary;
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        max-height: 70%;
-        max-width: 400px;
-        padding:  20px 30px;
-        position: absolute;
-        pointer-events: all; //!important
-        width: 90%;
-    
-    
+
         .submitFeedbackContent {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-    
-            .txtTitle {
-                font-size: 35px;
+
+            .close {
+                img {
+                    height: 20px;
+                    width: 20px;
+                }
             }
     
             .txtSubTitle {
-                font-size: 15px;
+                font-size: 10px;
                 text-align: center;
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .submitFeedbackContainer {
+        max-width: 400px;
+           
+        .submitFeedbackContent {
+
+            .close {
+                img {
+                  height: 25px;
+                  width: 25px
+                }
+            }
+    
+            .txtTitle {
+                font-size: 30px;
+            }
+    
+            .txtSubTitle {
+                font-size: 13px;
+            }
+
+            .starContainer {
+                margin: 30px 0;
+                width: 53%;
+
+                .icon.star {
+                    height: 30px;
+                    width: 30px;
+                }
+            }
+
+            .form {
+                align-items: center;
+                display: flex;
+                flex-direction: column;
+                margin: 0 0 10px 0;
+                width: 100%;
+    
+                textarea {
+                    font-size: 12px;
+                    height: 150px;
+                }
+    
+                .submitBtn {
+                    font-size: 20px;
+                    margin: 30px 0 0 0; 
+                    height: 40px;
+                    width: 200px;
+                }
             }
         }
     }

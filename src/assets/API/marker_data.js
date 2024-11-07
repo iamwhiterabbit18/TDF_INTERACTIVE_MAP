@@ -32,9 +32,11 @@ const areaPositions = {
   'Green Haven': new THREE.Vector3(1.15, 0.33, 0),
   'Herb Land': new THREE.Vector3(1.35, 0.29, 0),
   'Healing Garden': new THREE.Vector3(1.35, 0.4, 0),
-  'Bee Program Demo Site': new THREE.Vector3(-2, -1.80, 0),
-  'Nursery': new THREE.Vector3(3.5, 1.5, 0),
-  'Theatre': new THREE.Vector3(3.5, 1, 0),
+
+  // for testing
+  'Bee Program Demo Site': new THREE.Vector3(-0.86, 0.08, 0.60),
+  'Nursery': new THREE.Vector3(-2.56, 0.08, 1.48),
+  'Theatre': new THREE.Vector3(-0.02, 0.08, -0.09),
 };
 
 

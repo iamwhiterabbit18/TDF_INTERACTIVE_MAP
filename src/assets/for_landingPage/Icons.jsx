@@ -27,6 +27,7 @@ import star from '/for_landingPage/icons/star.png'
 import audio from '/for_landingPage/icons/audio.png'
 import location from '/for_landingPage/icons/location.png'
 
+import add from '/for_landingPage/icons/add.png'
 import remove from '/for_landingPage/icons/delete.png'
 import pencil from '/for_landingPage/icons/pencil.png'
 
@@ -42,6 +43,6 @@ export default {
         contact, info, feedback, calendar, map, // navList assets 
         star, // submit feedback assets
         audio, location,
-        remove, pencil,
+        add, remove, pencil,
         card, edit, profile, upload
     }; 
