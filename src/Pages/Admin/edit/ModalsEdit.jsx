@@ -402,7 +402,7 @@ const handleDescTech = async () => {
               modals.map((modal) => (
                 <div className = { styles.infoContainer } key={modal._id}>
                   <span className = { styles.txtTitle }>{modal.title}</span>
-                  <button onClick={() => handleEditClick(modal._id)}>Edit</button>
+                  <button onClick={() => handleEditClick(modal)}>Edit</button>
                 </div>
               ))
             ) : (

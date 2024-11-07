@@ -73,20 +73,21 @@
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
           }
+        }
 
-          .noImg {
-            align-items: center;
-            background-color: $outOfFocus;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-            text-align: center;
+        .noImg {
+          align-items: center;
+          background-color: $outOfFocus;
+          border-radius: 20px;
+          margin-top: 15px;
+          display: flex;
+          justify-content: center;
+          height: 100%;
+          width: 100%;
+          text-align: center;
 
-            .txtTitle {
-              font-size: 20px;
-            }
+          .txtTitle {
+            font-size: 20px;
           }
         }
     }
