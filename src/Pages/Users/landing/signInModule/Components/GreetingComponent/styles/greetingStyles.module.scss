@@ -5,29 +5,50 @@
     align-items: center;
     background-color: $primary;
     display: flex;
-    flex: 1;
     flex-direction: column;
-    flex-grow: 1;
     justify-content: center;
-    padding: 2%;
+    padding: 21px;
     text-align: center;
 
-    .greetingContent {
-        animation: fadeIn 0.4s;
-    }
-
     img {
-        height: 4.375rem;
+        height: 40px;
         margin-top: 1.25rem;
-        width: 4.375rem;
+        width: 40px;
     }
 
     .txtTitle {
+        font-size: 30px;
         color: $tertiary;
     }
 
     .txtSubtitle {
+        font-size: 13px;
         color: $tertiary;
         font-family: $subTitle;
+    }
+}
+
+@media (min-width: 576px) {
+    .secondContainer {
+
+        img {
+            height: 4.375rem;
+            width: 4.375rem;
+        }
+
+        .txtTitle {
+            font-size: 40px;
+        }
+
+        .txtSubTitle {
+            font-size: 15px;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .secondContainer {
+        flex: 1;
+        flex-grow: 1;
     }
 }

@@ -210,7 +210,7 @@ const ThreeCanvas = () => {
   return(
     <div id="container" ref={containerRef}>
 
-      <NavigationModule />
+      <NavigationModule user = { user }/>
       <Preloader />
       {sceneAndCamera && (
         <Markers
@@ -222,11 +222,7 @@ const ThreeCanvas = () => {
       )}
       {/* {sceneAndCamera &&(
         <Shhhh renderer={rendererRef.current} scene={sceneAndCamera.scene} camera={sceneAndCamera.camera} dogsRef={dogsRef} />
-      )}
-        {/* Button container for absolute positioning */}
-        <div className={styles1.accessBtnContainer}>
-            <AccessBtn user={user} /> {/* Pass user as prop if needed */}
-        </div>
+      )} */}
 
         {/* Here will be the map be rendered */}
         <div ref={mapContainerRef} id="mapCont"></div>

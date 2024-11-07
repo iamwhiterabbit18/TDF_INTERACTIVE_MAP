@@ -8,9 +8,9 @@
 .navBar {
     align-items: center;
     display: flex;
-    height: 150px;
+    height: 110px;
     justify-content: space-between;
-    padding: 50px 50px;
+    padding: 30px 30px;
     pointer-events: none; //!important
     position: absolute;
     width: 100%;
@@ -47,9 +47,9 @@
 .icon.user { //add a dropdown for the user icon
     background-color: $guest;
     border-radius: 50%;
-    height: 60px;
+    height: 50px;
     margin: 0 0 0 10px;
-    width: 60px;
+    width: 50px;
 
     img {
         height: 25px;
@@ -60,15 +60,41 @@
 .icon.hamburger {
     background-color: $primary;
     border-radius: 50%;
-    height: 70px;
-    width: 70px;
+    height: 50px;
+    width: 50px;
     img {
-        height: 30px;
-        width: 30px;
+        height: 20px;
+        width: 20px;
     }
     
 }
 
-// .icon.logo {
-//     margin: 0 0 0 13px; 
-// }
+// RESPONSIVE DESIGN 
+
+@media (min-width: 992px) {
+    .navBar {
+        height: 150px;
+        padding: 50px;
+
+        .icon.user {
+            height: 60px;
+            width: 60px;
+
+            img {
+                height: 30px;
+                width: 30px;
+            }
+        }
+
+        .icon.hamburger {
+            height: 70px;
+            width: 70px;
+
+            img {
+                height: 30px;
+                width: 30px;
+            }
+        }
+    }
+    
+}

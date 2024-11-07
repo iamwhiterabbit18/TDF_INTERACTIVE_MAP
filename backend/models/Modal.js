@@ -7,6 +7,7 @@ const ModalSchema = new mongoose.Schema({
   modal_id: { type: String, required: true },
   title: { type: String, required: true },      // Title of the modal, required field
   description: { type: String, required: true },// Description text for the modal, required field
+  technologies: { type: String},// Technologies text for the modal, required field
   modalImages: { type: [String], default: [] }           // Array of optional image URLs, default is an empty array
 });
 

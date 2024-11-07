@@ -1,42 +1,97 @@
 @import '../../../stylesVariables.scss';
-@import '../../OptionComponent/styles/optionStyles.module.scss'; // imports the style for optionStyles since it is technically the same container.
+@import '../../../global.scss';
 
-.firstContainer {
-
-    &.signIn {
-        display: inherit;
-    }
-
-    .signInContent {
-        align-items: center;
-        animation: fadeIn 0.6s;
-        opacity: 1;
-        display: inherit;
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
-    }
-}
-
-.form {
-    display: flex;
+.signInContent {
+    align-items: center;
+    display: inherit;
+    flex: 1;
     flex-direction: column;
-    margin-bottom: 25px;
+    justify-content: center;
 
-    .btnGuest {
-        align-self: center;
-        margin-top: 20px;
+    .return {
+        align-self: flex-start;
+        align-items: center;
+        background-color: $outOfFocus;
+        border-radius: 50px;
+        cursor: pointer;
+        display: flex;
+        height: 30px;
+        justify-content: center;
+        transition: 0.2s ease-in-out;
+        width: 30px;
+    
+        img {
+            height: 15px;
+            filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); 
+            transition: all 0.2s ease-in-out;
+            width: 15px;
+        }
+    }
+
+    .txtTitle {
+        font-size: 30px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+    
+        .submitBtn {
+            background-color: $primary;
+            align-self: center;
+            margin-top: 15px;
+            height: 30px;
+            width: 120px;
+        }
+        
+        label {
+            font-family: $subTitle;
+        }
+        
+        input {
+            border: 1.5px solid black; 
+            border-radius: 5px;
+            height: 19px;
+            margin-bottom: 10px; 
+            width: 100%;
+        }
     }
 }
 
-label {
-    font-family: $subTitle;
+
+@media (min-width: 576px) {
+    .signInContent {
+        .return {
+            height: 50px;
+            width: 50px;
+
+            img {
+                height: 25px;
+                width: 25px;
+            }
+        }
+
+        .txtTitle {
+            font-size: 40px;
+        }
+
+        .form {
+            .submitBtn {
+                margin-top: 20px;
+                height: 40px;
+                width: 180px;
+            }
+
+            input {
+                height: 28px;
+                margin-bottom: 20px;
+                min-width: 17rem;
+            }
+        }
+    }
 }
 
-input {
-    border: 1.5px solid black; 
-    border-radius: 5px;
-    height: 28px;
-    margin-bottom: 20px;
-    min-width: 17rem;
+@media (min-width: 768px) {
+    
 }

@@ -5,17 +5,40 @@ import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
 import styles from  '/src/Pages/Admin/edit/styles/UserManagement.module.scss';  // Import CSS
 import UserModal from './UserModal'; // Component for handling modal input
 
+import icons from "../../../assets/for_landingPage/Icons";
+import { motion, AnimatePresence } from 'framer-motion'
+import Confirmation from '../utility/ConfirmationComponent/Confirmation';
+import NavBar from './navBar/NavBar';
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const UserManagement = () => {
-        //passing props from the AccessBtn
-        const location = useLocation();
-        const userProp = location.state?.user;
+    //passing props from the AccessBtn
+    const location = useLocation();
+    const userProp = location.state?.user;
 
     const [users, setUsers] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
+    const [userToDelete, setUserToDelete] = useState(null);
+    
+    const handleDeleteBtn = (userId) => {
+        setUserToDelete(userId);
+        setIsDelete(!isDelete);
+    }
+
+    const confirmAndDelete = () => {
+        setConfirmDelete(true);
+    }
+
+    useEffect(() => {
+        if (confirmDelete && userToDelete) {
+            handleDeleteUser();
+            setConfirmDelete(false);
+        }
+    }, [confirmDelete, userToDelete]);
 
     useEffect(() => {
         fetchUsers();
@@ -36,23 +59,33 @@ const UserManagement = () => {
         try {
             if (currentUser) {
                 await axios.put(`http://localhost:5000/api/users/update/${currentUser._id}`, user);
+                alert('User update successful');
+                setModalOpen(false);
             } else {
                 await axios.post('http://localhost:5000/api/users/add', user);
+                alert('User successfully added');
+                setModalOpen(false);
             }
             fetchUsers();
-            setModalOpen(false);
+            
             setCurrentUser(null);
         } catch (error) {
             console.error('Failed to save user:', error);
         }
     };
 
-    const handleDeleteUser = async (id) => {
-        const confirmed = window.confirm('Are you sure you want to delete this user?');
-        if (!confirmed) return;
+    console.log(confirmDelete);
+
+    const handleDeleteUser = async () => {
         try {
-            await axios.delete(`http://localhost:5000/api/users/delete/${id}`);
-            fetchUsers();
+            if (confirmDelete && userToDelete) {
+                await axios.delete(`http://localhost:5000/api/users/delete/${userToDelete}`);
+                fetchUsers();
+                alert('User deleted successfully');
+                setConfirmDelete(false);
+                setUserToDelete(null);
+                setIsDelete(false);
+            }
         } catch (error) {
             console.error('Failed to delete user:', error);
         }
@@ -71,49 +104,121 @@ const UserManagement = () => {
         } else {
           navigate('/');
         }
-      };
+    };
 
+    // Get the root ID and and apply className 
+    useEffect(() => {
+        const rootDiv = document.getElementById("root");
 
+        // Add or remove className based on current page
+
+        if (location.pathname === "/usermanage") {
+        rootDiv.classList.add(styles.rootDiv);
+        } else {
+        rootDiv.classList.remove(styles.rootDiv);
+        }
+    }, [location])
 
     return (
-        <div>
-        <h2 className={styles.header}>User Management</h2>
-        <button className={styles.btn} onClick={() => openModal()}>Add User</button>
-        <table className={styles.table}>
-<thead>
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Role</th>
-        <th>Created At</th>
-        <th>Updated At</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody>
-    {users.map(user => (
-        <tr key={user._id}>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.password}</td>
-            <td>{user.role}</td>
-            <td>{new Date(user.createdAt).toLocaleString()}</td>
-            <td>{new Date(user.updatedAt).toLocaleString()}</td>
-            <td>
-                <button className = {styles.editBtn} onClick={() => openModal(user)} disabled={user.role === 'admin'}>Edit</button>
-                <button className = {styles.delBtn} onClick={() => handleDeleteUser(user._id)} disabled={user.role === 'admin'}>Delete</button>
-            </td>
-            </tr>
-        ))}
-    </tbody>
-</table>
-            {modalOpen && <UserModal user={currentUser} onSave={handleAddOrUpdateUser} onClose={() => setModalOpen(false)} />}
-                 {/* Button container for absolute positioning */}
-      <div className={styles.accessBtnContainer}>
-            <AccessBtn userProp={user} /> {/* Pass user as prop if needed */}
-        </div>
-        </div>
+        <>
+            <NavBar />
+
+            <div className = { styles.userManageContainer}>
+                <div className = { styles.header }>
+                    <span className = { styles.txtTitle }>User Management</span>
+                </div>
+            
+                <div className = { styles.tblWrapper }>
+                    <div className = { styles.btn }>
+                        <button className={styles.addBtn} onClick={() => openModal()}>Add User</button>
+                    </div>
+                    <table className={styles.table}>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Created At</th>
+                                {/* <th>Updated At</th> */}
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map(user => (
+                                <tr key={user._id}>
+                                    <td>
+                                        <div className = { styles.nameColumn }>
+                                            {/* remove user Icon for now */}
+                                            {/* <div className = { styles.userIcon }>
+                                                <img className = { styles.icon } src = { icons.user } />
+                                            </div> */}
+                                            <div className = { styles.userInfo }>
+                                                <span>{user.name}</span>
+                                                <span className = { styles.email }>{user.email}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span className = { user?.role === "admin" ? `${ styles.role } ${ styles.admin}` : `${ styles.role } ${ styles.staff}` }>
+                                            {user.role}
+                                        </span>
+                                    </td>
+                                    <td>{new Date(user.createdAt).toLocaleString()}</td>
+                                    {/* <td>{new Date(user.updatedAt).toLocaleString()}</td> */}
+                                    <td>
+                                        { user?.role !== "admin" && (
+                                            <div className = { styles.actionBtns}>
+                                                <button className = {styles.editBtn} onClick={() => openModal(user)}>
+                                                    <img className = { `${ styles.icon } ${ styles.pencil}` } src = { icons.pencil } alt = "Edit Item" />
+                                                </button>
+                                                <button className = {styles.delBtn} onClick = {() => { handleDeleteBtn(user._id);}}>
+                                                    <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.remove } alt = "Delete Item" />
+                                                </button>
+                                            </div>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                
+                {/* onClick={() => handleDeleteUser(user._id)} */}
+            </div>
+
+
+            {/* Add and edit user modal */}
+            <AnimatePresence>
+            {modalOpen && 
+                <motion.div 
+                    className = { styles.modal }
+                    initial = {{opacity: 0}}
+                    animate = {{opacity: 1}}
+                    exit = {{opacity: 0}}
+                    transition = {{duration: 0.2, ease: "easeInOut"}}
+                >
+                    <UserModal user={currentUser} onSave={handleAddOrUpdateUser} onClose={() => setModalOpen(false)} />
+                </motion.div>
+            }
+            </AnimatePresence>
+            
+            {/* Confirmation Modal */}
+            <AnimatePresence>
+                {isDelete && (
+                    <motion.div 
+                        className = { styles.confirmation }
+                        initial = {{opacity: 0}}
+                        animate = {{opacity: 1}}
+                        exit = {{opacity: 0}}
+                        transition = {{duration: 0.2, ease: "easeInOut"}}
+                    >
+                        <Confirmation 
+                            onCancel = {() => handleDeleteBtn()}
+                            setConfirmDelete = { confirmAndDelete }
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>    
+        </>
     );
     
 };

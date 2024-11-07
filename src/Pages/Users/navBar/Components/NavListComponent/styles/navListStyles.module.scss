@@ -1,35 +1,35 @@
 @import '../../../../landing/signInModule/stylesVariables.scss';
 
-.navBarList {
+.navBarList, .editContentList {
     display: flex;
     position: fixed;
-    width: 250px;
-    z-index: 1;
-    
-    .navList {
+    width: 130px; 
+    z-index: 98;
+
+    .navList, .editList {
         li {
             align-items: center;
             background-color: $tertiary;
-            border-radius: 20px;
+            border-radius: 10px;
             color: $secondary;
             display: flex;
             font-family: $title;
-            font-size: 20px;
-            margin: 15px 0;
-            padding: 15px 20px;
+            font-size: 11px;
+            margin: 12px 0;
+            padding: 5px 10px;
             width: 100%;
 
             .icon {
-                filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); // change the icon color to $secondary
-                height: 30px;
+                // filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); // change the icon color to $secondary
+                height: 15px;
                 transition: all 0.2s ease-in-out;
-                width: 30px;
+                width: 15px;
             }
 
             .text {
                 align-items: center;
                 display: flex;
-                margin: 0 0 0 20px;
+                margin: 0 0 0 10px;
                 padding: 5px 0 0 0;
                 transition: 0.2s ease-in-out;
             }
@@ -42,22 +42,63 @@
                     color: $primary;
                 }
             }
+        }
+    }
+}
 
-            &::after { // adds a line below the hovered navList but invisible
-                background-color: transparent;
-                content: '';
-                height: 3px;
-                left: 20px;
-                margin-top: 50px;
-                position: absolute;
-                transition: all 0.3s ease-in-out;
-                width: 30%;
-            }
-            
-            &:hover::after { 
-                background: $primary;
+.editContentList {
+
+    .editList {
+        left: 150px;
+        position: absolute;
+        top: 170px;
+    }
+}
+
+// RESPONSIVE DESIGN
+
+@media (min-width: 800px) {
+
+    .navBarList, .editContentList {
+        width: 250px;
+
+        .navList, .editList{
+            li {
+                border-radius: 20px; 
+                font-size: 20px;
+                margin: 15px 0;
+                padding: 15px 20px;
+    
+                .icon {
+                    height: 30px;
+                    width: 30px;
+                }
+
+                .text {
+                    margin: 0 0 0 20px;
+                }
             }
         }
-        
+    }
+
+    .editContentList {
+        left: 120px;
+        position: absolute;
+        top: 85px;
+
+        .editList {
+            li {
+                width: 200px;
+
+                .icon {
+                    height: 30px;
+                    width: 30px;
+                }
+
+                .text {
+                    font-size: 18px;
+                }
+            }
+        }
     }
 }

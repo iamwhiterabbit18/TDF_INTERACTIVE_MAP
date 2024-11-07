@@ -51,7 +51,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
             <AnimatePresence>
                 {currentModal === 'newsAndEvents' && (
                     <motion.div
-                        className={` ${styles.newsAndEventContainer} ${props.className}`}
+                        className={ styles.newsAndEventContainer }
                         id="newsAndEvents"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -62,22 +62,26 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                             <div className={styles.close} onClick={() => setCurrentModal(null)}>
                                 <img src={icons.close} alt="Close" />
                             </div>
-                            <span className={styles.txtTitle}>News and Events</span>
-                            <div className={styles.imageSlider}>
-                                <Slider {...settings}>
-                                    {images.length > 0 ? (
-                                        images.map((image, index) => (
-                                            <div key={index} className ={styles.slickSlide}>
-                                                <img src={`http://localhost:5000/${image}`} 
-                                                alt={`Slide ${index}`} 
-                                                className ={styles.carouselImg}/>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <div>No images available</div>
-                                    )}
-                                </Slider>
+                            <div className = { styles.header }>
+                                <span className={styles.txtTitle}>News and Events</span>
                             </div>
+                                {images.length > 0 ? (
+                                    <div className={styles.imageSlider}>
+                                        <Slider {...settings}>
+                                            {images.map((image, index) => (
+                                                <div key={index} className ={styles.slickSlide}>
+                                                    <img src={`http://localhost:5000/${image}`} 
+                                                    alt={`Slide ${index}`} 
+                                                    className ={styles.carouselImg}/>
+                                                </div>
+                                            ))}
+                                        </Slider>
+                                    </div>
+                                ) : (
+                                    <div className = { styles.noImg }>
+                                        <span className = { styles.txtTitle }>No Image Available</span>
+                                    </div>
+                                )}
                         </div>
                     </motion.div>
                 )}

@@ -4,7 +4,11 @@ import styles from './styles/AudioManagement.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AudioUpload from './AudioUpload';
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
-import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
+
+import icons from "../../../assets/for_landingPage/Icons";
+import { motion, AnimatePresence } from 'framer-motion'
+import NavBar from './navBar/NavBar';
+import Confirmation from '../utility/ConfirmationComponent/Confirmation';
 
 const AudioManagement = () => {
   const location = useLocation();
@@ -15,6 +19,26 @@ const AudioManagement = () => {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const navigate = useNavigate();
   const audioRef = useRef(null); // Ref for controlling the audio element
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
+  const [audioToDelete, setAudioToDelete] = useState(null);
+
+  const handleDeleteBtn = (audioId) => {
+      setAudioToDelete(audioId);
+      setIsDelete(!isDelete);
+  }
+
+  const confirmAndDelete = () => {
+      setConfirmDelete(true);
+  }
+
+  useEffect(() => {
+    if (confirmDelete && audioToDelete) {
+        handleDelete();
+        setConfirmDelete(false);
+    }
+  }, [confirmDelete, audioToDelete]);
 
   const [modalProps, setModalProps] = useState({ audioId: null, currentTitle: '' });
 
@@ -74,15 +98,18 @@ const AudioManagement = () => {
   };
   
 
-  const handleDelete = async (audioId) => {
-    if (window.confirm('Are you sure you want to delete this audio?')) {
-      try {
-        await axios.delete(`http://localhost:5000/api/audio/delete/${audioId}`);
+  const handleDelete = async () => {
+    try {
+      if (confirmDelete && audioToDelete) {
+        await axios.delete(`http://localhost:5000/api/audio/delete/${audioToDelete}`);
         fetchAudios(); // Refresh the audio list after deletion
         alert('Audio deleted successfully');
-      } catch (error) {
-        console.error('Error deleting audio:', error);
+        setConfirmDelete(false);
+        setAudioToDelete(null);
+        setIsDelete(false);
       }
+    } catch (error) {
+      console.error('Error deleting audio:', error);
     }
   };
 
@@ -96,66 +123,123 @@ const AudioManagement = () => {
     setShowUploadModal(false);
     fetchAudios(); // Refresh the audio list after upload/update
   };
+
+  // importat. Related to CSS
+  // Get the root ID and and apply className 
+  useEffect(() => {
+    const rootDiv = document.getElementById("root");
+
+    // Add or remove className based on current page
+
+    if (location.pathname === "/audio") {
+      rootDiv.classList.add(styles.rootDiv);
+    } else {
+      rootDiv.classList.remove(styles.rootDiv);
+    }
+  }, [location])
   
  return (
+  <>
+    <NavBar />
+
     <div className={styles.audioManagementContainer}>
-      <div className={styles.tableHeader}>
-        <h1>Audio Management</h1>
-        <button className={styles.navigateButton} onClick={() => navigate('/map')}>
-           Go to Admin Page
-        </button>
+
+      <div className={styles.header}>
+        <span className = { styles.txtTitle }>Audio Management</span>
       </div>
 
-      <table className={styles.audioManagementTable}>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>File Name</th>
-            <th>Play Audio</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {audios.map((audio) => (
-            <tr key={audio._id}>
-              <td>{audio.title}</td>
-              <td>{audio.originalName || 'No Audio Available'}</td>
-              <td>
-                <button onClick={() => handlePlayAudio(audio.filePath, audio._id)}>Play</button>
-              </td>
-              <td>
-                {audio.originalName ? (
-                  <>
-                    <button onClick={() => handleOpenModal(audio._id, audio.title)}>Update</button>
-                    <button onClick={() => handleDelete(audio._id)}>Delete</button>
-                  </>
-                ) : (
-                  <button onClick={() => handleOpenModal(audio._id, audio.title)}>Add Audio</button>
-                )}
-              </td>
+      <div className = { styles.tblWrapper }>
+        <table className={styles.audioManagementTable}>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>File Name</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Modal for AudioUpload */}
-      {showUploadModal && (
-        <AudioUpload
-          audioId={modalProps.audioId} // Pass audioId
-          currentTitle={modalProps.currentTitle} // Pass currentTitle
-          onClose={handleCloseModal} // Pass the onClose function to close the modal
-        />
-      )}
-      
-      {/* Button container for absolute positioning */}
-      <div className={styles.accessBtnContainer}>
-        <AccessBtn user={user} /> {/* Pass user as prop if needed */}
+          </thead>
+          <tbody>
+            {audios.map((audio) => (
+              <tr key={audio._id}>
+                <td>
+                  <button 
+                    onClick={() => handlePlayAudio(audio.filePath, audio._id)}
+                    className = { styles.playBtn }
+                  >
+                    <img className = { `${ styles.icon } ${ styles.play}` } src = { icons.audio } alt = "Play Audio" />
+                  </button>
+                </td>
+                <td>{audio.title}</td>
+                <td className = { styles.fileName }>{audio.originalName || 'No Audio Available'}</td>
+                <td>
+                  <div className = {styles.actionBtns }>
+                    {audio.originalName ? (
+                      <>
+                        <button onClick={() => handleOpenModal(audio._id, audio.title)}>
+                          <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.pencil } alt = "Delete Item" />
+                        </button>
+                        <button onClick={() => handleDeleteBtn(audio._id)}>
+                          <img className = { `${ styles.icon } ${ styles.update }` } src = { icons.remove } alt = "Delete Item" />
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={() => handleOpenModal(audio._id, audio.title)}>
+                        <img className = { `${ styles.icon } ${ styles.add}` } src = { icons.add } alt = "Add Audio"/>
+                      </button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      
-      {/* Audio player */}
-      <audio ref={audioRef} hidden />
     </div>
-  );
-};
+
+    {/* Modal for AudioUpload */}
+    <AnimatePresence>
+      {showUploadModal && (
+        <motion.div 
+          className={styles.modal}
+          initial = {{opacity: 0}}
+          animate = {{opacity: 1}}
+          exit = {{opacity: 0}}
+          transition = {{duration: 0.2, ease: "easeInOut"}}
+        >
+          <div className={styles.modalContent}>
+            <AudioUpload
+              audioId={modalProps.audioId} // Pass audioId
+              currentTitle={modalProps.currentTitle} // Pass currentTitle
+              onClose={handleCloseModal} // Pass the onClose function to close the modal
+            />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+    {/* Confirmation Modal */}
+    <AnimatePresence>
+      {isDelete && (
+        <motion.div 
+            className = { styles.confirmation }
+            initial = {{opacity: 0}}
+            animate = {{opacity: 1}}
+            exit = {{opacity: 0}}
+            transition = {{duration: 0.2, ease: "easeInOut"}}
+        >
+            <Confirmation 
+                onCancel = {() => handleDeleteBtn()}
+                setConfirmDelete = { confirmAndDelete }
+            />
+        </motion.div>
+      )}
+    </AnimatePresence>  
+    
+    {/* Audio player */}
+    <audio ref={audioRef} hidden />
+    
+  </>
+ )
+}
 
 export default AudioManagement;

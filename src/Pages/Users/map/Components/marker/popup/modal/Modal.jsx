@@ -4,9 +4,15 @@ import icon from '/src/assets/Icon.js';
 import Slider from 'react-slick';
 import styles from './Modal.module.scss';
 
-const Modal = ({ onClose, details, modalData }) => {
+import { motion, AnimatePresence } from 'framer-motion'
+import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
+import images from '../../../../../../../assets/for_landingPage/Images.jsx';
+
+const Modal = ({ isOpen, onClose, details, modalData }) => {
   const audioRef = useRef(new Audio()); // Create a reference for the audio element
   const [isPlaying, setIsPlaying] = useState(false); // State to track if audio is playing
+
+  const [isInfo, setIsInfo] = useState(false); // set which info to display
 
   const onClickAudio = async (modalId) => {
     if (!modalId) {
@@ -49,9 +55,13 @@ const Modal = ({ onClose, details, modalData }) => {
     onClose(); // Call the original onClose function
   };
 
+  const handleInfoBtn = () => {
+    setIsInfo(!isInfo);
+  }
+
   const settings = { // Carousel settings
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -60,39 +70,129 @@ const Modal = ({ onClose, details, modalData }) => {
   console.log('Modal Data:', modalData);
 
   return (
-    <div className={styles.modalBackdrop}>
-      <div className={styles.modalContent}>
-        <button className={styles.closeButton} onClick={handleClose}>Close</button>
+    <AnimatePresence>
+      {isOpen && modalData && (
+        <motion.div 
+          className={styles.modalBackdrop}
+          initial = {{opacity: 0}}
+          animate = {{opacity: 1}}
+          exit = {{opacity: 0}}
+          transition = {{duration: 0.2, ease: "easeInOut"}}
+        >
+        <div className={styles.modalContent}>
+          <button className={styles.closeButton} onClick={handleClose}>
+            <img src={icons.close} alt="close" />
+          </button>
 
-        <h1>{modalData.title}</h1>
-        <button onClick={() => onClickAudio(modalData.modal_id)} disabled={isPlaying}>
-          <img src={icon.actions.speaker} alt="speaker" />
-          {isPlaying && <span> Playing...</span>} {/* Optional message */}
-        </button>
-        <p>{modalData.description}</p>
-        
-        {/* Carousel for images */}
-        <div className={styles.imgCont}>
-          {modalData.modalImages && modalData.modalImages.length > 0 ? (
-            <div className={styles.imageCarousel}>
-              <Slider {...settings}>
-                {modalData.modalImages.map((image, index) => (
-                  <div key={index} className="slickSlide">
-                    <img 
-                      src={`http://localhost:5000/uploads/modalImages/${image}`}
-                      alt={`Image ${index}`} 
-                      className="carouselImage"
-                    />
-                  </div>
-                ))}
-              </Slider>
+          <div className = { styles.headerBg }>
+            <span className = { styles.txtTitle }>{modalData.title}</span>
+          </div>
+
+          {/* <div className = { styles.imageContainer }>
+            <div className = { styles.featuredImage }>
+              <img src={images.image1}/>
             </div>
-          ) : (
-            <center><p>No images available.</p></center>
-          )}
+            <div className = { styles.sideImages}>
+              <img src={images.image2}/>
+              <img src={images.image2}/>
+              <img src={images.image2}/>
+            </div>
+          </div> */}
+
+          {/* Carousel for images */}
+          <div className = { styles.imageContainer }>
+            <Slider {...settings} className = { styles.featuredImage }>
+              <img src={images.image1}/>
+              <img src={images.image2}/>
+              <img src={images.image2}/>
+              <img src={images.image2}/>
+            </Slider>
+          </div>
+        
+          <div className = { isInfo ? `${ styles.infoContainer } ${ styles.active }` : styles.infoContainer }>
+            <AnimatePresence mode="wait">
+              {!isInfo && (
+                <motion.div 
+                  className = { styles.description }
+                  key = {"description"}
+                  initial = {{opacity: 0}}
+                  animate = {{opacity: 1, transition: {delay: 0.2}}}
+                  exit = {{opacity: 0}}
+                  transition = {{duration: 0.2,  ease: "easeInOut"}}
+                >
+                  <p className = { styles.txtSubTitle }>{modalData.description}</p>
+                  
+                  <div className = { styles.line }></div>
+                </motion.div>
+              )}
+              
+              {isInfo && (
+                <motion.div 
+                  className = { styles.technologies }
+                  key = {"technologies"}
+                  initial = {{opacity: 0}}
+                  animate = {{opacity: 1, transition: {delay: 0.2}}}
+                  exit = {{opacity: 0}}
+                  transition = {{duration: 0.2, ease: "easeInOut"}}
+                >
+                  <p className ={ styles.txtSubTitle }>
+                    {/* placeholder */}
+                    1. Somebullshit Somebullshit Somebullshit <br />
+                    2. Somebullshit Somebullshit Somebullshit <br />
+                    3. Somebullshit Somebullshit Somebullshit <br />
+                    4. Somebullshit Somebullshit Somebullshit <br />
+                  </p>  
+
+                  <div className = { styles.line }></div>
+                </motion.div>
+              )}
+              
+            </AnimatePresence>
+          
+            <div className = { styles.infoBtn }>
+                <ul className = { styles.btns }>
+                  <li>
+                    <span 
+                      className = { styles.descBtn }
+                      onClick = { isInfo ? handleInfoBtn : undefined }
+                    >
+                      DESCRIPTION
+                    </span>
+                  </li>
+                  <li>
+                    <span 
+                      className = { styles.techBtn }
+                      onClick = { !isInfo ? handleInfoBtn : undefined }
+                    >
+                        TECHNOLOGIES
+                    </span>
+                  </li>
+                </ul>
+
+                <AnimatePresence mode="wait">
+                  {!isInfo && (
+                    <motion.button 
+                      key = {"playAudio"}
+                      className = { styles.speaker } 
+                      onClick={() => onClickAudio(modalData.modal_id)} 
+                      disabled={isPlaying}
+                      initial = {{opacity: 0}}
+                      animate = {{opacity: 1, transition: {delay: 0.4}}}
+                      exit = {{opacity: 0}}
+                      transition = {{duration: 0.2, ease: "easeInOut"}}
+                    >
+                      <img className = { styles.icon } src={icons.audio} alt="speaker" />
+                      {isPlaying && <span> Playing...</span>} {/* Optional message */}
+                    </motion.button>
+                  )} 
+                </AnimatePresence>
+                
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    )}
+  </AnimatePresence>
   );
 };
 

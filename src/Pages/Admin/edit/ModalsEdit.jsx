@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 import styles from '/src/Pages/Admin/edit/styles/ModalsEdit.module.scss'; // Ensure you have proper CSS
 
+import { motion, AnimatePresence } from 'framer-motion'
+import icons from '../../../assets/for_landingPage/Icons';
+import Confirmation from '../utility/ConfirmationComponent/Confirmation';
+import NavBar from './navBar/NavBar';
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
@@ -15,6 +19,7 @@ const Modal = () => {
   const [modals, setModals] = useState([]); // Store all modals
   const [currentModal, setCurrentModal] = useState(null); // Store selected modal for editing
   const [description, setDescription] = useState('');
+  const [technologies, setTechnologies] = useState('');
   const [originalModalImages, setOriginalModalImages] = useState([]); // To store original images
   const [modalImages, setModalImages] = useState([]);
   const [modalImagePreviews, setModalImagePreviews] = useState([]);
@@ -28,7 +33,21 @@ const Modal = () => {
   const [updatePreviewImages, setUpdatePreviewImages] = useState([]);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false); // Toggle for delete modal
   const [deleteFile, setDeleteFile] = useState('');
-  
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const confirmAndDelete = () => {
+    setConfirmDelete(true);
+  }
+
+  useEffect(() => {
+    if (confirmDelete && deleteFile) {
+        handleDelete();
+        setConfirmDelete(false);
+    }
+  }, [confirmDelete, deleteFile]);
+
+
   // Fetch all modals on component mount
 useEffect(() => {
   const fetchModals = async () => {
@@ -61,6 +80,10 @@ const fetchModalData = async () => {
       // Update currentModal with latest data
       setCurrentModal(response.data);
 
+      setDescription(response.data.description);
+
+      setTechnologies(response.data.technologies || '');
+
       // Update image previews based on the fetched images
       const imagePreviews = fetchedImages
         ? fetchedImages.map((img) => `http://localhost:5000/uploads/modalImages/${img}`)
@@ -84,12 +107,26 @@ useEffect(() => {
 }, [isOpen]);
 
 const handleEditClick = (modal) => {
-  setCurrentModal(modal);
-  setIsOpen(true); // Open the modal
-  setDescription(modal.description);
+  if (currentModal) {
+    // Close the currently open modal
+    setCurrentModal(null);
+    setIsOpen(false);
 
-  // Optionally fetch the latest modal data (can be removed since useEffect handles it)
-  fetchModalData();
+    // After closing, open the new modal with a small delay to ensure smooth transitions
+    setTimeout(() => {
+      setCurrentModal(modal);
+      setDescription(modal.description);
+      setIsOpen(true);
+      fetchModalData(); // Optionally fetch latest data
+    }, 300); // Adjust delay as needed for smooth transition
+  } else {
+    // If no modal is open, open the new modal immediately
+    setCurrentModal(modal);
+    setDescription(modal.description);
+    setTechnologies(modal.technologies);
+    setIsOpen(true);
+    fetchModalData();
+  }
 };
 
 // Function to handle the close modal action
@@ -109,31 +146,6 @@ const cancelBtn = () => {
   // setModalImages([]);
 };
 
-
-{/*  OLD Handle file changes (not in use)
-const handleModalFileChange = (e) => {
-  const fileArray = Array.from(e.target.files);
-  const imageUrls = fileArray.map((file) => URL.createObjectURL(file)); // Create URLs for previews
-  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-  // Check for unsupported files
-  const unsupportedFiles = fileArray.filter(file => !allowedTypes.includes(file.type));
-
-  if (unsupportedFiles.length > 0) {
-    alert('Unsupported file format. Only JPG, JPEG, and PNG images are allowed.');
-    return; // Remove the page reload to improve user experience
-  }
-
-  // Check if selected files are within the range
-   //if (fileArray.length < 3 || fileArray.length > 5) {
-   //alert('Please upload between 3 to 5 images.');
-  //return; // Remove the page reload to improve user experience
-   //}  
-
-  // Update state with valid files and their preview URLs
-  setModalImages(fileArray); // Store actual files for submission
-  setUploadImagePreviews(imageUrls); // Generate preview URLs
-  setUpdatePreviewImages(imageUrls); // Update state with preview URLs
-}; */}
 
 const handleUploadFileChange = (e) => {
   const fileArray = Array.from(e.target.files);
@@ -214,7 +226,7 @@ const handleUploadFileChange = (e) => {
     try {
       const formData = new FormData();
       formData.append('title', originalModalImages.title); // Keep the fixed title
-      formData.append('description', description); // Update the description
+      // formData.append('description', description); // Update the description
   
       // Append only the new image for the specific index
       if (modalImages[0]) {
@@ -249,36 +261,68 @@ const handleUploadFileChange = (e) => {
 
 
 // Handle the deletion of specific images
-const handleDelete = async (filename) => {
-  if (!currentModal) {
-    alert('No modal selected for deleting images.');
-    return;
-  }
+const handleDelete = async () => {
 
   try {
-    const response = await axios.delete(`http://localhost:5000/api/modal/uploads/modalImages/${filename}`, {
-      data: {
-        id: currentModal._id, // Pass the modal ID
-      },
-    });
-
-    if (response.status === 200) {
-      alert('Image deleted successfully!');
-      
-      // Re-fetch modal data to get the updated list of images
-      fetchModalData(); // Ensure this function properly updates currentModal and modalImages
-
-      // Optionally clear any modal state
-      setDeleteModalVisible(null);
+    if (!currentModal) {
+      alert('No modal selected for deleting images.');
+      return;
     } else {
-      throw new Error('Failed to delete image');
+      const response = await axios.delete(`http://localhost:5000/api/modal/uploads/modalImages/${deleteFile}`, {
+        data: {
+          id: currentModal._id, // Pass the modal ID
+        },
+      });
+
+      if (response.status === 200) {
+        alert('Image deleted successfully!');
+        
+        // Re-fetch modal data to get the updated list of images
+        fetchModalData(); // Ensure this function properly updates currentModal and modalImages
+
+        // Optionally clear any modal state
+        setDeleteModalVisible(null);
+      } else {
+        throw new Error('Failed to delete image');
+      }
     }
   } catch (error) {
     console.error('Error deleting image:', error);
     alert('Error deleting image. Please try again.');
   }
 };
-  
+
+// New function to save the description
+const handleDescTech = async () => {
+  if (!currentModal) return;
+
+  // Check if there's any change in description or technologies
+  if (
+    description === currentModal.description &&
+    technologies === currentModal.technologies
+  ) {
+    alert('No changes in description or technologies data.');
+    return;
+  }
+
+  try {
+    const response = await axios.put(`http://localhost:5000/api/modal/${currentModal._id}/description`, {
+      description,
+      technologies,
+    });
+
+    if (response.status === 200) {
+      alert('Description and technologies saved successfully!');
+      fetchModalData(); // Refresh data after saving
+    } else {
+      alert('Failed to save description and technologies.');
+    }
+  } catch (error) {
+    console.error('Error saving description:', error);
+    alert('Error saving description. Please try again.');
+  }
+};
+
   
   const navigate = useNavigate();
   const handleBackClick  = () => {
@@ -294,178 +338,364 @@ const handleDelete = async (filename) => {
     slidesToScroll: 1,
   };
 
+  // Get the root ID and and apply className 
+  useEffect(() => {
+    const rootDiv = document.getElementById("root");
+
+    // Add or remove className based on current page
+
+    if (location.pathname === "/modal") {
+      rootDiv.classList.add(styles.rootDiv);
+    } else {
+      rootDiv.classList.remove(styles.rootDiv);
+    }
+  }, [location])
+
+  // resize textarea based on content
+  const descriptionRef = useRef(null);
+  const technologiesRef = useRef(null);
+
+  const adjustHeight = (ref) => {
+    if (ref && ref.current) {
+      ref.current.style.height = 'auto'; // Reset height
+      ref.current.style.height = `${ref.current.scrollHeight}px`; // Set height to scroll height
+    }
+  };
+
+  // switch description or technologies
+  const [isInfo, setIsInfo] = useState(false);
+
+  const handleInfoBtn = () => {
+    setIsInfo(!isInfo);
+  }
+
+  //for description
+  useEffect(() => {
+    if (!isInfo) {
+      adjustHeight(descriptionRef);
+    }
+    
+  }, [isInfo, description]);
+
+  //for technologies
+  useEffect(() => {
+    if (isInfo) {
+      adjustHeight(technologiesRef);
+    }
+  }, [isInfo, description]);
+
   return (
+    <>
+    <NavBar /> 
     <div className={styles.modalContainer}>
-      <div className={styles.Header}>
-        <h1>All Modals</h1>
-        <button className={styles.backButton} onClick={handleBackClick}>
-          <img src={ArrowIcon} alt="Back" className={styles.icon} />
-        </button>
+      <div className={styles.header}>
+        <span className = { styles.txtTitle }>EDIT MODAL</span>
       </div>
   
       {isLoading ? (
         <div>Loading...</div>  /* Show loading message when data is being fetched */
       ) : (
-        
-        <div className={styles.modalsList}>
-          {modals.length > 0 ? (
-            modals.map((modal) => (
-              <div key={modal._id}>
-                <h3>{modal.title}</h3>
-                <button onClick={() => handleEditClick(modal)}>Edit</button>
+        <>
+          <span className = { `${ styles.txtTitle} ${ styles.listHeader }` }>Select Modal</span>
+          <div className={styles.modalsList}>
+            {modals.length > 0 ? (
+              modals.map((modal) => (
+                <div className = { styles.infoContainer } key={modal._id}>
+                  <span className = { styles.txtTitle }>{modal.title}</span>
+                  <button onClick={() => handleEditClick(modal)}>Edit</button>
+                </div>
+              ))
+            ) : (
+              <p>No modals available</p>  /* Fallback when no modals are fetched */
+            )}
+          </div>
+        </>
+      )}
+
+      <button 
+        className = { `${styles.txtTitle} ${ styles.btnSave }` } 
+        onClick = { handleDescTech }
+      > 
+        Save Changes 
+      </button>
+
+      <AnimatePresence>
+        {currentModal && (
+            <motion.div 
+              className={styles.modalEditingSection}
+              initial = {{opacity: 0}}
+              animate = {{opacity: 1}}
+              exit = {{opacity: 0}}
+              transition = {{duration: 0.2, ease: "easeInOut"}}
+            >
+              <div className={styles.modal}>
+                <label className = { styles.headerBg }>
+                  <span className = { styles.txtTitle }>{currentModal.title}</span>
+                </label>
+              
+                {/* <button className = { `${ styles.addBtn } ${ styles.onlyIcon }`} type="button" onClick={() => setUploadModalVisible(true)}>
+                  <img src = { icons.add } alt = "Add Image Button" />
+                </button>  */}
+
+                {modalImagePreviews.length > 0 ? (
+                  <div className = { styles.uploadedImg }>
+                    <div className={styles.imageCarousel}>
+                      
+                      <Slider {...settings}>
+                      {modalImagePreviews.map((image, index) => (
+                          <div key={index} className = { styles.slickSlide }>
+                            <div className = { styles.imageContainer }>
+                              <img
+                                src={image}
+                                alt={`Uploaded preview ${index}`}
+                                className={styles.carouselImage}
+                              />
+                              <div className = { styles.overlay }>
+                                <div className = { styles.btnSet1 }>
+                                  <button
+                                    className={styles.saveBtn}
+                                    type="button"
+                                    onClick={() => {
+                                      setUpdateModalVisible(true);
+                                      setUpdateImageIndex(index); // Store the index of the image to update
+                                    }}
+                                  >
+                                    Update Image
+                                  </button>
+                                  <button
+                                    className={styles.deleteBtn}
+                                    onClick={() => {
+                                      setDeleteFile(currentModal.modalImages[index]); // Set the filename to delete
+                                      setDeleteModalVisible(true); // Open delete modal
+                                    }}
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                                <div className = { styles.btnSet2 }>
+                                  <button className = { `${ styles.txtTitle} ${ styles.uploadBtn }` } onClick={() => setUploadModalVisible(true)}>Add Image</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </Slider>
+                    </div>
+                  </div>
+                ) : (
+                  <div className = { styles.imageContainer}>
+                    <div className = { styles.noImg }>
+                      <div className = { styles.overlay }>
+                        <button className = { `${ styles.txtTitle} ${ styles.uploadBtn }` } onClick={() => setUploadModalVisible(true)}>Add Image</button>
+                      </div>
+                      
+                      <span className = { styles.txtTitle }>No Image available</span>
+                    </div>
+
+                  </div>
+                )}
+
+                {/* Description and technologies */}
+                <div className = { isInfo ? `${ styles.infoContainer } ${ styles.active }` : styles.infoContainer }>
+                  <AnimatePresence mode="wait">
+                    {!isInfo && (
+                      <motion.div 
+                        className = { styles.description }
+                        key = {"description"}
+                        initial = {{opacity: 0}}
+                        animate = {{opacity: 1, transition: {delay: 0.2}}}
+                        exit = {{opacity: 0}}
+                        transition = {{duration: 0.2,  ease: "easeInOut"}}
+                        onAnimationComplete={() => adjustHeight(descriptionRef)}
+                      >               
+                        <textarea
+                          ref = {descriptionRef}
+                          row = "1"
+                          className = { styles.txtSubTitle } 
+                          value={description}
+                          onInput={() => adjustHeight(descriptionRef)}
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder = "Enter description here..."
+                          required
+                        />       
+
+                        <div className = { styles.line }></div>
+                      </motion.div>
+                    )}
+
+                    {isInfo && (
+                      <motion.div 
+                        className = { styles.technologies }
+                        key = {"technologies"}
+                        initial = {{opacity: 0}}
+                        animate = {{opacity: 1, transition: {delay: 0.2}}}
+                        exit = {{opacity: 0}}
+                        transition = {{duration: 0.2, ease: "easeInOut"}}
+                        onAnimationComplete={() => adjustHeight(technologiesRef)}
+                      >
+                        <textarea 
+                          ref = {technologiesRef}
+                          row = "1"
+                          className ={ styles.txtSubTitle }
+                          value = { technologies }
+                          onInput={() => adjustHeight(technologiesRef)}
+                          onChange={(e) => setTechnologies(e.target.value)}
+                          placeholder = "Enter technologies here..."
+                          required 
+                        />
+
+                        <div className = { styles.line }></div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <div className = { styles.infoBtn }>
+                    <ul className = { styles.btns }>
+                      <li>
+                        <span 
+                          className = { styles.descBtn }
+                          onClick = { isInfo ? handleInfoBtn : undefined }
+                        >
+                          DESCRIPTION
+                        </span>
+                      </li>
+                      <li>
+                        <span 
+                          className = { styles.techBtn }
+                          onClick = { !isInfo ? handleInfoBtn : undefined }
+                        >
+                            TECHNOLOGIES
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-            ))
-          ) : (
-            <p>No modals available</p>  /* Fallback when no modals are fetched */
-          )}
+            </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+    
+    {/* Update Modal */}
+    <AnimatePresence>
+      {updateModalVisible && (
+        <div className = { styles.popUpContainer }>
+          <motion.div 
+            className = { styles.uploadImageContainer }
+            initial = {{opacity: 0}}
+            animate = {{opacity: 1}}
+            exit = {{opacity: 0}}
+            transition = {{duration: 0.2, ease: "easeInOut"}}
+          >
+            <div className = { styles.header }>
+              <span className = { styles.txtTitle }>Update Images</span>
+            </div>
+
+            <div className = { styles.customLabel }>
+              <button className = { styles.browseBtn }>Browse...</button>
+              <span className = { styles.fileName }>
+                { "Temporary Placholder" } {/* Add, file name if one, n files selected if multiple */}
+              </span>
+              <input
+                type="file"
+                accept="image/jpeg, image/jpg, image/png"
+                onChange={handleUpdateFileChange}
+              />
+            </div>
+
+            <div className={styles.updatePreview}>
+              {updatePreviewImages.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Preview ${index}`}
+                  className={styles.previewImage}
+                />
+              ))}
+            </div>
+            <div className = { styles.btnContainer }>
+              <button type="button" className={styles.uploadBtn} onClick={handleUpdate}>Upload</button>
+              <button type="button" className={styles.cancelBtn} onClick={cancelBtn}>Cancel</button>
+            </div>
+          </motion.div>
         </div>
       )}
-  
-      {currentModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalEditingSection}>
-            <label>
-              Edit Modal:
-              <h2>{currentModal.title}</h2>
-            </label>
-          
-              <label>
-                Description:
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
+    </AnimatePresence>
+
+    {/* Upload Modal */}
+    <AnimatePresence>
+      {uploadModalVisible && (
+        <div className = { styles.popUpContainer }>
+          <motion.div 
+            className = { styles.uploadImageContainer }
+            initial = {{opacity: 0}}
+            animate = {{opacity: 1}}
+            exit = {{opacity: 0}}
+            transition = {{duration: 0.2, ease: "easeInOut"}}
+          >
+              <div className = { styles.header }>
+                <span className = { styles.txtTitle }>Upload New Images</span>
+              </div>
+
+              <div className = { styles.customLabel }>
+                <button className = { styles.browseBtn }>Browse...</button>
+                <span className = { styles.fileName }>
+                  { "Temporary Placholder" } {/* Add, file name if one, n files selected if multiple */}
+                </span>
+                <input 
+                  type="file" 
+                  accept="image/jpeg, image/jpg, image/png" 
+                  multiple 
+                  onChange={handleUploadFileChange} 
                 />
-              </label>
-              <button className={styles.saveBtn} type="button" onClick={() => setUploadModalVisible(true)}>Add Image</button> 
-              <h2>Modal Images:</h2>
-              {modalImagePreviews.length > 0 && (
+              </div>
+
+              {/* Image Carousel for Preview */}
+              <div className = { styles.preview }>
+              <span className = { styles.txtTitle}>Preview Image:</span>
                 <div className={styles.imageCarousel}>
                   <Slider {...settings}>
-                  {modalImagePreviews.map((image, index) => (
+                    {uploadImagePreviews.map((image, index) => (
                       <div key={index} className="slick-slide">
                         <img
                           src={image}
                           alt={`Uploaded preview ${index}`}
                           className={styles.carouselImage}
                         />
-                        <button
-                          className={styles.saveBtn}
-                          type="button"
-                          onClick={() => {
-                            setUpdateModalVisible(true);
-                            setUpdateImageIndex(index); // Store the index of the image to update
-                          }}
-                        >
-                          Update Image
-                        </button>
-                        <button
-                          className={styles.closeBtn}
-                          onClick={() => {
-                            setDeleteFile(currentModal.modalImages[index]); // Set the filename to delete
-                            setDeleteModalVisible(true); // Open delete modal
-                          }}
-                        >
-                          Delete
-                        </button>
                       </div>
                     ))}
                   </Slider>
                 </div>
-              )}
+              </div>
 
-            {/* Update Modal */}
-            {updateModalVisible && (
-                <div className={styles.modalOverlay}>
-                  <div className={styles.modalContent}>
-                    <div className={styles.imageUploadContainer}>
-                      <h3>Update Image:</h3>
-                      <input
-                        type="file"
-                        accept="image/jpeg, image/jpg, image/png"
-                        onChange={handleUpdateFileChange}
-                      />
-                      <div className={styles.updatePreview}>
-                        {updatePreviewImages.map((image, index) => (
-                          <img
-                            key={index}
-                            src={image}
-                            alt={`Preview ${index}`}
-                            className={styles.previewImage}
-                          />
-                        ))}
-                      </div>
-                      <button type="button" className={styles.saveBtn} onClick={handleUpdate}>
-                        Upload
-                      </button>
-                      <button type="button" className={styles.closeBtn} onClick={cancelBtn}>
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Upload Modal */}
-              {uploadModalVisible && (
-                    <div className={styles.modalOverlay}>
-                      <div className={styles.modalContent}>
-                        <div className={styles.imageUploadContainer}>
-                          <h3>Upload New Images</h3>
-                          <input 
-                            type="file" 
-                            accept="image/jpeg, image/jpg, image/png" 
-                            multiple 
-                            onChange={handleUploadFileChange} 
-                          />
-
-                          {/* Image Carousel for Preview */}
-                          <h2>Preview Image:</h2>
-                            <div className={styles.imageCarousel}>
-                              <Slider {...settings}>
-                                {uploadImagePreviews.map((image, index) => (
-                                  <div key={index} className="slick-slide">
-                                    <img
-                                      src={image}
-                                      alt={`Uploaded preview ${index}`}
-                                      className={styles.carouselImage}
-                                    />
-                                  </div>
-                                ))}
-                              </Slider>
-                            </div>
-                          
-                    <button type="button" className={styles.saveBtn} onClick={handleUpload}>Upload</button>
-                    <button type="button" className={styles.closeBtn} onClick={cancelBtn}>Cancel</button>
-                  </div>
-                </div>
-                </div>
-              )}
-
-              {/* Delete Modal */}
-              {deleteModalVisible && (
-                <div className={styles.modalOverlay}>
-                  <div className={styles.modalContent}>
-                    <h3>Confirm Delete</h3>
-                    <p>Are you sure you want to delete this image?</p>
-                    <button type="button" className={styles.closeBtn} onClick={() => handleDelete(deleteFile)}>Yes, Delete</button>
-                    <button type="button" className={styles.saveBtn} onClick={cancelBtn}>Cancel</button>
-                  </div>
-                </div>
-              )}
-                    
-  
-            {/* <button className={styles.saveBtn} type="submit">Save</button>*/}
-              <button className={styles.closeBtn} type="button" onClick={closeModal}>Close</button>
-          </div>
+              <div className = { styles.btnContainer }>
+                <button type="button" className={styles.uploadBtn} onClick={handleUpload}>Upload</button>
+                <button type="button" className={styles.cancelBtn} onClick={cancelBtn}>Cancel</button>
+              </div>
+          </motion.div>
         </div>
       )}
-  
-      {/* Button container for absolute positioning */}
-      <div className={styles.accessBtnContainer}>
-        <AccessBtn user={user} />  {/* Pass user as prop if needed */}
-      </div>
-    </div>
+    </AnimatePresence>
+
+    <AnimatePresence>
+      {/* Delete Modal */}
+      {deleteModalVisible && (
+        <motion.div 
+          className = { styles.popUpContainer }
+          initial = {{opacity: 0}}
+          animate = {{opacity: 1}}
+          exit = {{opacity: 0}}
+          transition = {{duration: 0.2, ease: "easeInOut"}}
+        >
+          <Confirmation 
+            setConfirmDelete = { confirmAndDelete }
+            onCancel = { cancelBtn }
+          />
+        </motion.div>
+        
+      )}
+    </AnimatePresence>
+    </>
   );
   
 };

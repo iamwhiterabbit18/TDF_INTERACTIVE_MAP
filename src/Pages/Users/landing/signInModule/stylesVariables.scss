@@ -2,17 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lalezar&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@100..900&display=swap');
 
-/* for setting animations */
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@keyframes fadeOut {
-    100% { opacity: 1; }
-    0% { opacity: 0; }
-}
-
 
 /* Global variables */
     /* color pallete */
@@ -21,6 +10,8 @@
     $tertiary: rgb(255, 255, 255); // #FFFFFF
     $outOfFocus: rgb(210, 210, 210); //#D2D2C9
     $guest: rgb(0, 189, 214); // #00BDD6
+    $danger: rgb(255, 51, 51); //#ff3333
+    $background: rgb(225,225,225); //#E1E1E1
     // Active Star Color Hex #FFC107
 
     /* font styles */

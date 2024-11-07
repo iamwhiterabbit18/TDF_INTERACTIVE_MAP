@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from './styles/AudioUpload.module.scss';
+import icons from "../../../assets/for_landingPage/Icons";
 
 const AudioUpload = ({ audioId, currentTitle, onClose }) => {
   const [title, setTitle] = useState(currentTitle || ''); // Title of the audio
@@ -21,6 +22,16 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
       alert("Please select an audio file to upload."); // Alert if no file is selected
       return; // Stop execution if no file is selected
     }
+
+          // Allowed audio file extensions
+      const allowedExtensions = ['.mp3', '.wav', '.m4a'];
+      
+      // Check if the file extension is in the allowed list
+      const fileExtension = audioFile.name.split('.').pop().toLowerCase();
+      if (!allowedExtensions.includes(`.${fileExtension}`)) {
+        alert("Unsupported audio format. Please upload one of the following formats: mp3, wav, m4a");
+        return; // Stop execution if the file extension is not allowed
+      }
 
     const formData = new FormData();
     formData.append('title', title);
@@ -47,16 +58,20 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
   };
 
   return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContent}>
-        <span className={styles.closeButton} onClick={handleClose}>
-          &times;
-        </span>
+    <div className={styles.modalContent}>
+      <span className={styles.close} onClick={handleClose}>
+        <img src={icons.close} alt="close" />
+      </span>
 
-        <div className={styles.formContainer}>
-          <h1>Upload Audio File</h1>
-          
-          <label>Audio Title: </label>
+      <div className={styles.header}>
+        <span className = { styles.txtTitle}>
+          UPLOAD AUDIO FILE
+        </span>
+      </div>
+
+      <form className = { styles.form }>
+        <div className = { styles.audioTitleCont}>
+          <label className = { styles.txtSubTitle }>Audio Title: </label>
           <input
             type="text"
             value={title}
@@ -65,22 +80,42 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
             required
             disabled
           />
+        </div>
+        
+        <label className = { styles.customLabel }>
+          {/* Just a visual representation of the input tag */}
+          <button className = { styles.browseBtn }>Browse...</button>
+          <span className = { styles.fileName }>
+            { audioFile ? audioFile.name : "No file selected" }
+          </span>
+          {/* Hidden */}
           <input 
             type="file" 
             onChange={handleFileChange} 
             accept="audio/*" 
             required 
           />
-          <button type="submit" onClick={handleUpdate}>
-            Upload
+        </label>
+
+        <div className = { styles.btns }>
+          <button 
+            className = { `${styles.saveBtn} ${styles.txtTitle}` }
+            type="submit" 
+            onClick={handleUpdate}
+          >
+            Save
           </button>
-          <button type="button" onClick={handleClose}>
+          <button 
+            className = { `${styles.cancelBtn} ${styles.txtTitle}` } 
+            type="button" 
+            onClick={handleClose}
+          >
             Cancel
           </button>
         </div>
-
+        
         {message && <p>{message}</p>} {/* Display message if exists */}
-      </div>
+      </form>
     </div>
   );
   
