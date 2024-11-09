@@ -125,9 +125,8 @@ class Path {
           // convert to Vector3
           if(currentPos && destinationPos){
     
-            const currentVector = new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
+            const currentVector = this.player ? this.player.position.clone() : new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
             const destinationVector = new THREE.Vector3(destinationPos.position.x, destinationPos.position.y, destinationPos.position.z);
-            console.log(currentVector, destinationVector);
     
             // Create or update the arrow direction and helper
             const groupId = this.pathfinding.getGroup(this.zone, currentVector);
@@ -137,8 +136,12 @@ class Path {
             if (path && path.length > 0) {
               console.log("Found Path: ", path);
               this.arrowPath = path.slice();
-              this.arrowMoving = true;
               this.points = [currentVector.clone()];
+              const fullPath = this.calculateFullPath(currentVector, path);
+              this.createPathLine(fullPath);
+              this.arrowMoving = true;
+
+              
               // // create o update the arrow helper
     
               // if(!currentArrow){
@@ -167,30 +170,57 @@ class Path {
           }
         }
     }
+
+    // new functionality TEST
+    calculateFullPath(startPoint, pathPoints){
+        const fullPath = [startPoint.clone()];
+        // add all path points
+        pathPoints.forEach(point => {
+            fullPath.push(new THREE.Vector3(point.x, point.y, point.z));
+        });
+
+        return fullPath;
+    }
+    createPathLine(pathPoints){
+        // remove any existing line
+        if(this.line) {
+            this.scene.remove(this.line);
+            this.line.geometry.dispose();
+            this.line.material.dispose();
+            this.line = null;
+        }
+        
+        const geometry = new THREE.BufferGeometry().setFromPoints(pathPoints);
+        const material = new THREE.LineBasicMaterial({ color: 0xffff00 });
+        
+        this.line = new THREE.Line(geometry, material);
+        this.line.position.y = this.line.position.y + 0.04;
+        this.line.frustumCulled = false;
+        this.scene.add(this.line);
+        
+        // Store the points for future reference
+        this.points = pathPoints;
+    }
+
     updateArrowPosition() {
         const speed = 0.05;
-        if (this.arrowMoving && this.arrowPath.length > 0) {
+        if (this.arrowMoving && this.arrowPath && this.arrowPath.length > 0) {
             const targetPosition = this.arrowPath[0]; // Get the next waypoint
-            const direction = new THREE.Vector3().subVectors(targetPosition, this.points[this.points.length - 1]).normalize();
+            const currentPosition = this.player ? this.player.position.clone() : this.points[this.points.length - 1];
+            const direction = new THREE.Vector3().subVectors(targetPosition, currentPosition).normalize();
             const step = direction.clone().multiplyScalar(speed);
-            const lastPoint = new THREE.Vector3().copy(this.points[this.points.length - 1]).add(step);
-            
-            // const newPoint = new THREE.Vector3(lastPoint.x + step.x, lastPoint.y + step.y, lastPoint.z + step.z);
-            this.points.push(lastPoint);
-            this.line.geometry.setFromPoints(this.points);
-            
-            
-            if(lastPoint.distanceTo(targetPosition) < speed) {
-                this.arrowPath.shift();
-            }
+            const nextPosition = currentPosition.clone().add(step);
 
             if (this.player) {
-                this.player.position.copy(lastPoint); // Move the asset to the new point
+                this.player.position.copy(nextPosition); // Move the asset to the new point
             }
 
-            if(this.arrowPath.length === 0){
-                console.log("Arrived");
-                this.arrowMoving = false;
+            if(nextPosition.distanceTo(targetPosition) < speed){
+                this.arrowPath.shift();
+                if(this.arrowPath.length === 0){
+                    console.log('arrived');
+                    this.arrowMoving = false;
+                }
             }
             }
     }
@@ -221,9 +251,10 @@ class Path {
             this.line.geometry.dispose();
             this.line.material.dispose();
             this.line = null;
-            this.points = [];
-            console.log('line disposed');
         }
+        this.points = [];
+        this.arrowPath = [];
+        this.arrowMoving = false;
     }
 
     
