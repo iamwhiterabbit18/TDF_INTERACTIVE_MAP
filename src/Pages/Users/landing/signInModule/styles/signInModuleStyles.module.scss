@@ -2,13 +2,22 @@
 
 /* Main container for login */
 .rootContainer {
-    background-color: #f1b780;
+    background-image: url("../../../../../../public/for_landingPage/images/landingPageBackground.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     height: 100vh;
     margin: 0;
     padding: 0;
 } 
 
+.overlay {
+    backdrop-filter: blur(3px) brightness(70%) contrast(60%);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
 
 .mainContainer {
     align-items: center;
@@ -17,6 +26,8 @@
     height: 100%;
     margin: 0 auto;
     padding: 0 0.625rem;
+    position: inherit;
+    z-index: 1;
 } 
 
 // Login container

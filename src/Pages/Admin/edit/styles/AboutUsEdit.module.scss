@@ -1,0 +1,88 @@
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
+.editContainer {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    pointer-events: all;
+    width: 100%;
+
+    .editingSection {
+        background-color: $tertiary;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 500px;
+        height: 70%;
+        overflow: auto;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        margin: 20px;
+
+        .close {
+            position: absolute;
+            margin: 0 0 15px 0;
+            
+            img {
+                height: 15px;
+                width: 15px;
+            }
+        }
+
+        .header {
+            background-color: $secondary;
+            border-radius: 0 0 50px 50px;
+            display: flex;
+            justify-content: center;
+            margin-top: -20px;
+            padding: 10px 0;
+            width: 80%;
+
+            .txtTitle {
+                color: $tertiary;
+                font-size: 25px;
+            }
+        }
+
+        .content {
+
+            img {
+                border-radius: 20px;
+                width: 100%;
+            }
+
+            .noImg {
+                align-items: center;
+                background-color: $outOfFocus;
+                border-radius: 20px;
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+                height: 300px;
+
+                .txtTitle {
+                    font-size: 25px;
+                }
+            }
+
+            .history, .vision, .mission, .goal, .objective {
+
+                textarea {
+                    border: 1px solid black;
+                    border-radius: 5px;
+                    // font-size: 8px;
+                    margin-bottom: 15px;
+                    height: 200px;
+                    padding: 5px;
+                    resize: none;
+                    outline: transparent;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

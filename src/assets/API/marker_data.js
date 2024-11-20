@@ -17,35 +17,37 @@ const data = () => get();
 
 // Define area positions areaName should same case in DB do define properly (watch for naming)
 const areaPositions = {
-  'Feathered Place': new THREE.Vector3(1.57,-0.1, 0),
-  'Extension Hall': new THREE.Vector3(1.57, 0.17, 0),
-  'Bahay Kubo': new THREE.Vector3(1.75, 0.3, 0),
-  'House of Greens': new THREE.Vector3(1.6, 0.45, 0),
-  'Urban Garden': new THREE.Vector3(1.65,0.85, 0),
-  'GuestHouse': new THREE.Vector3(1.32,0.9, 0),
-  'Fish/Prawn Culture': new THREE.Vector3(2.88,0.95, 0),
-  'Agri-Eco Park Main Building': new THREE.Vector3(1.5, 1.45, 0),
-  'Birds Paradise': new THREE.Vector3(1.2, 1.45, 0),
-  'Poultry Village': new THREE.Vector3(0.9, 1.15, 0),
-  'Native Organics': new THREE.Vector3(0.96, 0.85, 0),
-  'Garden Scape': new THREE.Vector3(1.22, 0.55, 0),
-  'Green Haven': new THREE.Vector3(1.15, 0.33, 0),
-  'Herb Land': new THREE.Vector3(1.35, 0.29, 0),
-  'Healing Garden': new THREE.Vector3(1.35, 0.4, 0),
+  // 'Feathered Place': new THREE.Vector3(1.19, 0.8, 1.75),
+  // 'Extension Hall': new THREE.Vector3(1.48, 0.4, -1.24),
+  // 'Bahay Kubo': new THREE.Vector3(1.75, 0.3, 0),
+  // 'House of Greens': new THREE.Vector3(1.6, 0.45, 0),
+  // 'Urban Garden': new THREE.Vector3(1.65,0.85, 0),
+  // 'GuestHouse': new THREE.Vector3(1.32,0.9, 0),
+  // 'Fish/Prawn Culture': new THREE.Vector3(2.88,0.95, 0),
+  // 'Agri-Eco Park Main Building': new THREE.Vector3(1.5, 1.45, 0),
+  // 'Birds Paradise': new THREE.Vector3(1.2, 1.45, 0),
+  // 'Poultry Village': new THREE.Vector3(0.9, 1.15, 0),
 
   // for testing
   'Bee Program Demo Site': new THREE.Vector3(-0.86, 0.08, 0.60),
   'Nursery': new THREE.Vector3(-2.56, 0.08, 1.48),
   'Theatre': new THREE.Vector3(-0.02, 0.08, -0.09),
+  'Healing Garden': new THREE.Vector3(1.35, 0.08, 0),
+  'Herb Land': new THREE.Vector3(1.49, 0.08, -1.18),
+  'Green Haven': new THREE.Vector3(1.17, 0.08, 1.79),
+  'Garden Scape': new THREE.Vector3(1.22, 0.08, 0),
+  'Native Organics': new THREE.Vector3(-1.13, 0.08, 1.05),
+
+  
 };
 
 
 const fetchMarkerData = async () => {
   try {
-      const response = await axios.get('http://localhost:5000/api/cards');
+      const response = await axios.get('http://127.0.0.1:5000/api/cards');
 
         // Fetch modal data
-    const modalResponse = await axios.get('http://localhost:5000/api/modal'); // Adjust the endpoint as needed
+    const modalResponse = await axios.get('http://127.0.0.1:5000/api/modal'); // Adjust the endpoint as needed
     const modals = modalResponse.data;
 
       console.log('Fetched cards:', response.data); // Log fetched cards
@@ -68,7 +70,7 @@ const fetchMarkerData = async () => {
               position: position,
               icon: icon,
               name: card.areaName,
-              img: `http://localhost:5000${card.image}`,
+              img: `http://127.0.0.1:5000${card.image}`,
               quickFacts: card.quickFacts,
               modalId: card.card_id,
           };

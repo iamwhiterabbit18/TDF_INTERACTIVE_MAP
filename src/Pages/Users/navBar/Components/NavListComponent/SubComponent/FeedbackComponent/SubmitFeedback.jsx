@@ -54,7 +54,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
     
         try {
             console.log('Sending feedback data:', feedbackData); // Check before sending
-            const response = await axios.post('http://localhost:5000/api/guest/updateFeedback', feedbackData, {
+            const response = await axios.post('http://127.0.0.1:5000/api/guest/updateFeedback', feedbackData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

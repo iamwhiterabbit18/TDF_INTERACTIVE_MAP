@@ -13,6 +13,7 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
   console.log('Popup modalId:', modalId); // Check the received modalId
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+  const noImg = "http://127.0.0.1:5000null";
  /* const [isOpen, setIsOpen] = useState(false);
   const onViewFullDetail = (data) =>{
     setIsOpen(!isOpen);
@@ -28,10 +29,10 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
       return;
     }
     
-    console.log('Fetching URL:', `http://localhost:5000/api/modal/${modalId}`); // Log the full URL
+    console.log('Fetching URL:', `http://127.0.0.1:5000/api/modal/${modalId}`); // Log the full URL
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/modal/${modalId}`);
+      const response = await axios.get(`http://127.0.0.1:5000/api/modal/${modalId}`);
       setModalData(response.data);
       console.log('Modal Data:',response.data);
       setIsOpen(true);
@@ -56,11 +57,14 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
   }, 200);
 };
 
+console.log("IMAGE: ", marker.img);
+
   return (
     <>
     <AnimatePresence mode="wait">
       {!isClosing && marker && (
         <motion.div
+          key = {marker.name}
           id="popup"
           className={styles.popupContent}
           style={{ position: "absolute", zIndex: 100 }}
@@ -78,19 +82,27 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
               </button>
           </div>
 
-          <div className={styles.popupImage}>
-              <img src={images.image1} alt={marker.name}/> {/* tempoorary replace the marker.img for visualization */}
-          </div>
+          {marker.img !== noImg ? (
+            <div className={styles.popupImage}>
+              <img src={marker.img} alt={marker.name}/> {/* tempoorary replace the marker.img for visualization */}
+            </div>
+          ) : (
+            <div className = { styles.noImg }>           
+              <span className = { styles.txtTitle }>No Image available</span>
+            </div>
+          )}
+
+          
 
           <div className={styles.cont1}>
-            <div className={styles.btns}>
+            {/* <div className={styles.btns}>
               <button>
                 <img className = { `${styles.icon} ${styles.location}` } src={icons.location} alt="wayfind" />
               </button>
               <button>
                 <img className = { `${styles.icon} ${styles.audio}` } src={icons.audio} alt="speaker" />
               </button>
-            </div>
+            </div> */}
 
             <span className = {styles.txtTitle} >{marker.name}</span>
 

@@ -12,7 +12,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
         useEffect(() => {
             const fetchImages = async () => {
                 try {
-                    const response = await axios.get('http://localhost:5000/api/images');
+                    const response = await axios.get('http://127.0.0.1:5000/api/images');
                     setImages(response.data[0].images); // Assuming only one document
                 } catch (error) {
                     console.error("Error fetching images", error);
@@ -70,7 +70,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                                         <Slider {...settings}>
                                             {images.map((image, index) => (
                                                 <div key={index} className ={styles.slickSlide}>
-                                                    <img src={`http://localhost:5000/${image}`} 
+                                                    <img src={`http://127.0.0.1:5000/${image}`} 
                                                     alt={`Slide ${index}`} 
                                                     className ={styles.carouselImg}/>
                                                 </div>

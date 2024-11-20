@@ -9,7 +9,7 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
 
 const handleGuestLogin = async () => {
     try {
-        const response = await fetch('http://localhost:5000/api/guest/logGuest', {
+        const response = await fetch('http://127.0.0.1:5000/api/guest/logGuest', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

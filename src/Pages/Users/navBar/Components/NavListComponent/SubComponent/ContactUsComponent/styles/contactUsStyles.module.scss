@@ -10,7 +10,6 @@
     max-width: 400px;
     padding: 20px 30px; //30px 40px
     pointer-events: all; //!important
-    position: absolute;
     width: 80%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -62,6 +61,25 @@
                 width: 100%;
                 word-wrap: break-word;
             }
+        }
+    }
+}
+
+.editBtn {
+    margin-top: 20px;
+    pointer-events: all;
+
+    span {
+        background-color: $primary;
+        border-radius: 30px;
+        color: $tertiary;
+        font-size: 16px;
+        padding: 5px 30px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: $secondary;
+            color: $primary;
         }
     }
 }

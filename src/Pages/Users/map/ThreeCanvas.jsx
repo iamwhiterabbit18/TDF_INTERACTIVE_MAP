@@ -107,7 +107,7 @@ const ThreeCanvas = () => {
         const animateCamera = () => {
           if (progress < 1) {
             console.log('this')
-            progress += 0.02; // Adjust speed here
+            progress += 0.04; // Adjust speed here
   
             controlsRef.current.target.lerpVectors(startTarget, targetPosition, progress);
             

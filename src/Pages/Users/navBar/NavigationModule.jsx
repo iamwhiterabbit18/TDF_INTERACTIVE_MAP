@@ -16,6 +16,8 @@ import AboutUsComponent from './Components/NavListComponent/SubComponent/AboutUs
 import NewsAndEvents from './Components/NavListComponent/SubComponent/newsAndEventsModule/Components/NewsAndEvents.jsx'
 import SubmitFeedback from './Components/NavListComponent/SubComponent/FeedbackComponent/SubmitFeedback.jsx'
 import NewsEventImage from '../../Admin/edit/EditNewsEvent.jsx';
+import AboutUsEdit from '../../Admin/edit/AboutUsEdit.jsx';
+import ContactUsEdit from '../../Admin/edit/ContactUsEdit.jsx';
 
 export default function NavigationModule () {
 
@@ -149,6 +151,20 @@ export default function NavigationModule () {
 
                     {/* EditNewsEvent */}
                         <NewsEventImage 
+                            setCurrentModal = { setCurrentModal }
+                            currentModal = { currentModal }
+                            handleClickOutside = { handleClickOutside }
+                        />
+                    
+                    {/* AboutUsEdit */}
+                        <AboutUsEdit 
+                            setCurrentModal = { setCurrentModal }
+                            currentModal = { currentModal }
+                            handleClickOutside = { handleClickOutside }
+                        />
+                    
+                    {/* ContactUsEdit */}
+                        <ContactUsEdit 
                             setCurrentModal = { setCurrentModal }
                             currentModal = { currentModal }
                             handleClickOutside = { handleClickOutside }
