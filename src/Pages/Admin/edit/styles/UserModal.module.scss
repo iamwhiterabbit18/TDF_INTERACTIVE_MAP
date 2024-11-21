@@ -1,94 +1,104 @@
 /* UserModal.jsx scss */
-/* Modal Background */
-.modal {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-/* Modal Content */
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
 .modalContent {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 400px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    align-items: center;
+    background-color: $tertiary;
     border-radius: 10px;
-    animation-name: animateModal;
-    animation-duration: 0.4s;
-}
-
-/* Animation */
-@keyframes animateModal {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Form Styling */
-.Form {
     display: flex;
     flex-direction: column;
+    margin: 0 20px;
+    max-width: 350px;
+    padding: 20px;
+    width: 100%;
 
+    .close { // adapts styles from global
+        position: absolute;
 
-    label{
-        margin: 10px 0 5px;
-        font-weight: bold;
+        img {
+            height: 15px;
+            width: 15px;
+        }
     }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    select {
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        font-size: 16px;
+    .header {
+        background-color: $secondary;
+        border-radius: 0 0 50px 50px;
+        text-align: center;
+        margin: -20px 0 20px 0;
+        padding: 10px 20px;
+        width: 70%;
+
+        .txtTitle {
+            color: $tertiary;
+            font-size: 25px;
+        }
     }
 
-    button[type="submit"] {
-        background-color: #4CAF50;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+    .form {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
 
-    button[type="submit"]:hover {
-        background-color: #45a049;
+        .container1 {
+                
+            input {
+                border: 1.5px solid black;
+                border-radius: 5px;
+                padding: 5px;
+                outline: transparent;
+                transition: all 0.2s ease-in-out;
+                width: 100%;
+
+                &:focus {
+                    border: 1.5px solid $primary;
+                }
+            }
+        }
+
+        .container2 {
+            display: flex;
+            flex-direction: column;
+
+            select {
+                width: 100px;
+            }
+
+            button {
+                align-self: end;
+                background-color: $primary;
+                border-radius: 20px;
+                color: $tertiary;
+                font-family: $title;
+                margin-top: auto;
+                padding: 5px 35px;
+                transition: all 0.2s ease-in-out;
+
+                &:hover {
+                    scale: 1.1;
+                }
+            }
+        }
+
+        .subContainer {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-family: $subTitle;
+                font-size: 13px;
+            }
+
+            select {
+                background-color: transparent;
+                border: 1.5px solid black;
+                border-radius: 5px;
+                font-family: $subTitle;
+                padding: 2px;
+                width: 100%;
+            }
+        }
     }
 }

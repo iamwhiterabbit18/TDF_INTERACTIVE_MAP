@@ -1,200 +1,291 @@
+
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
+
 .cardsContainer {
   display: flex;
-	flex-wrap: wrap;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 970px;
-  margin: 0 auto;
+  overflow-x: hidden;
+  width: 100%;
 
   .header {
+    align-items: center;
+    background-color: $secondary;
+    border-radius: 0 0 90px 0;
     display: flex;
-    justify-content: space-between; // Space between the title and back button
-    align-items: center; // Center vertically
-    margin-bottom: 20px;
-  }
-  
-  .backButton {
-    background-color: transparent; // Transparent background for a clean look
-    border: none; // No border
-    color: #007bff; // Primary color for text and icon
-    font-size: 16px; // Font size for the text
-    cursor: pointer; // Pointer cursor on hover
-    display: flex; // Flexbox for aligning icon and text
-    align-items: center; // Center align items vertically
-    padding: 10px; // Add padding for better click area
-    border-radius: 5px; // Rounded corners for the button
-    transition: color 0.3s, background-color 0.3s; // Smooth transition for hover effects
-    margin-left: 25rem; // Pushes the button to the right
-    margin-right: auto; // Adjust this value as needed to add space from the edge
-
-    // Icon styling
-    .icon {
-      width: 30px; // Set width for the icon
-      height: auto; // Maintain aspect ratio
-      margin-right: 8px; // Space between icon and text
-      vertical-align: middle; // Align icon vertically with text
-    }
-  
-    // Hover effect
-    &:hover {
-      color: #0056b3; // Darker blue on hover
-      background-color: rgba(0, 123, 255, 0.1); // Light blue background on hover for visibility
-      border-radius: 5px; // Maintain rounded corners on hover
-    }
-  
-    // Focus state
-    &:focus {
-      outline: none; // Remove default focus outline
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); // Add a subtle outline on focus for accessibility
-    }
-  }
-
-  
-
-  form {
-    display: flex;
-    flex-wrap: wrap;
+    height: 100px;
     justify-content: center;
-    gap: 5px;
-    max-width: 100%;
-    overflow: hidden;
-  
+    margin-bottom: 20px;
+    width: 86%;
+    flex-shrink: 0;
+    flex-grow: 0;
 
-  .card {
-    flex-grow: 1;
-    background-color: #f8f9fa; /* Light background for contrast */
-    border: 1px solid #e0e0e0; /* Softer border color */
-    border-radius: 12px; /* Slightly more rounded corners */
-    padding: 20px;
-    width: 256px; /* A bit wider for better layout */
-    margin: 20px;
-    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s, transform 0.3s;
-    position: relative;
-    overflow: hidden; /* Ensures content doesn't overflow */
-  
+    .txtTitle {
+      color: $tertiary;
+      font-size: 21px;
+    }
+  }
+
+  .listHeader {
+    font-size: 21px;
+    margin-left: 35px; 
+  }
+
+  .cardsList {
+    display: flex;
+    gap: 20px;
+    padding: 10px 10px;
+    overflow: scroll;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    .infoContainer {
+      align-items: center;
+      background-color: $tertiary;
+      border-radius: 10px;
+      box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.23);
+      display: flex;
+      padding: 10px 15px;
+      
+      .txtTitle{
+        font-family: $subTitle;
+        font-size: 11px;
+        width: 130px;
+      }
+
+      button {
+        background-color: $primary;
+        border-radius: 30px;
+        color: $tertiary;
+        font-family: $title;
+        font-size: 11px;
+        padding: 0 20px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+          scale: 1.1;
+        }
+      }
+    }
+  }
+
+  .btnSave {
+    background-color: $primary;
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.23);
+    color: $tertiary;
+    font-size: 15px;
+    align-self: flex-end;
+    margin: 20px 20px 5px 20px;
+    padding: 5px 20px;
+    transition: all 0.2s ease-in-out;
+
     &:hover {
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
-      transform: translateY(-4px); /* Slight lift effect */
+      scale: 1.1;
     }
-  
-    h3 {
-      font-size: 24px; /* Slightly larger font */
-      margin-bottom: 12px; /* More spacing below title */
-      color: #333;
-      text-align: left;
-      font-weight: 600; /* Bolder heading */
-    }
-  
-    .imageUpload {
+  }
+
+  .cardEditingSection {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+
+    .card {
+      align-items: center;
+      background-color: $tertiary;
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
-      margin-bottom: 15px; /* Increased margin for better spacing */
-  
-      label {
-        margin-bottom: 8px; /* Better spacing between label and input */
-        font-weight: bold;
-        color: #555;
-        font-size: 14px;
-      }
-  
-      input {
-        border: transparent;
-        border-radius: 4px;
-        padding: 0px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.3s;
-  
-        &:focus {
-          border-color: #007bff;
+      height: 430px;
+      max-width: 300px;
+      padding: 20px 25px;
+      width: 80%;
+      
+
+      .popupImage {
+        justify-content: center;
+        display: flex;
+        margin: -20px -25px 0 -25px; 
+        position: relative;
+        width: calc(100% + 50px);
+        transition: all 0.2s ease-in-out;
+        max-height: 400px;
+        height: 100%;
+        
+        .previewImg, .uploadedImg {
+          height: 190px;
+          width: 300px;
+
+          img{
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+            object-fit: cover;
+            height: 190px;
+          }
+        }
+
+        .uploadedImg {
+          display: flex;
+          gap: 20px;
+
+          .overlay {
+            gap: 20px;
+
+            .uploadBtn {
+              scale: 1;
+              
+              &:hover {
+                scale: 1.1;
+              }
+            }
+
+            .deleteBtn {
+              background-color: $danger;
+              border-radius: 30px;
+              color: $tertiary;
+              font-size: 15px;
+              padding: 5px 25px;
+              transition: all 0.2s ease-in-out;
+
+              &:hover {
+                scale: 1.1;
+              }
+            }
+          }
+        }
+
+        .noImg {
+          background-color: $outOfFocus;
+          border-radius: 20px 20px 0 0;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          width: 100%;
+
+          span {
+            font-size: 20px;
+          }
+        }
+        
+
+        .overlay {
+          align-items: center;
+          background-color: rgba(0, 0, 0, 0.5);
+          border-radius: 20px 20px 0 0;
+          display: flex;
+          height: 100%;
+          justify-content: center;
+          left: 0;
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          transition: all 0.2s ease-in-out;
+          width: 100%;
+
+          .uploadBtn {
+            background-color: $primary;
+            border-radius: 30px;
+            color: $tertiary;
+            font-size: 15px;
+            padding: 5px 20px;
+            transition: all 0.2s ease-in-out;
+          }
+        }
+
+        input {
+          position: absolute;
+          height: 100%;
+          left: 0;
+          opacity: 0;
+          top: 0;
+          width: 100%;
+          cursor: pointer;
+        }
+
+        &:hover .overlay {
+          opacity: 1;
         }
       }
-  
-      img {
-        margin-top: 10px; /* More spacing between input and image */
-        max-width: 100%;
-        border-radius: 6px; /* Slightly more rounded */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for image */
-      }
-    }
-  
-    .quickFacts {
-      label {
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #555;
-        font-size: 14px;
-      }
-  
-      textarea {
-        width: 100%;
-        height: 100px; /* Increased height for more content */
-        border: 1px solid #dddddd;
-        border-radius: 4px;
-        padding: 8px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color 0.3s;
-  
-        &:focus {
-          border-color: #007bff;
+
+      .cont1 {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin: 15px 0;
+
+        .txtTitle {
+          font-size: 30px;
+          line-height: 1;
+          margin-bottom: 5px;
+          text-align: center;
+        }
+
+        .quickFacts { //textarea
+          border: 1px solid black;
+          border-radius: 5px;
+          font-family: $subTitle;
+          font-size: 13px;
+          justify-self: center;
+          margin-top: 10px;
+          max-height: 100px;
+          max-width: 210px;
+          padding: 5px;
+          resize: none;
+          outline: transparent;
+          overflow: hidden;
+          width: 90%;
         }
       }
     }
-    button {
-      background-color: #17a2b8;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-
-      &:hover {
-        background-color: #138496;
-      }
-    }
-  
-  }
-
-  .submitBtn {
-    background-color: #28a745;  // Green background for the submit button
-    color: white;  // White text color
-    border: none;  // No border
-    border-radius: 5px;  // Slightly rounded corners
-    padding: 10px 20px;  // Padding inside the button
-    font-size: 16px;  // Larger font size for the text
-    font-weight: bold;  // Bold text
-    cursor: pointer;  // Pointer cursor on hover
-    transition: background-color 0.3s, transform 0.2s;  // Smooth transition for background color and transform
-  
-    &:hover {
-      background-color: #218838;  // Darker green on hover
-      transform: scale(1.05);  // Slightly increase the button size on hover
-    }
-  
-    &:active {
-      background-color: #1e7e34;  // Even darker green when the button is clicked
-      transform: scale(0.98);  // Slightly shrink the button when clicked
-    }
-  
-    &:focus {
-      outline: none;  // Remove the default focus outline
-      box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.2);  // Green focus ring
-    }
-  }
-  
-
-  .navigationButton {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
+  } 
 }
 
+.line { //line separator
+  border-bottom: 2px solid $outOfFocus;
+  width: 93%;
+}
+
+.confirmation, .modal {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
+}
+
+
+@media (min-width: 992px) {
+  .cardsContainer {
+      .header {
+          border-radius: 0 0 150px 0;
+          padding: 80px 0;
+
+          .txtTitle {
+              font-size: 40px;
+          }
+      }
+
+      .listHeader {
+        font-size: 31px;
+      }
+
+      .cardsList {
+        .infoContainer {
+          .txtTitle {
+            font-size: 15px;
+          }
+
+          button {
+            font-size: 15px;
+            padding: 2px 25px;
+          }
+        }
+      }
+  }
 }

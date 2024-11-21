@@ -1,95 +1,113 @@
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
 .audioManagementContainer {
+  height: 100%;
+  overflow-x: hidden;
   width: 100%;
-  padding: 20px;
-}
 
-.tableHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  .header {
+    align-items: center;
+    background-color: $secondary;
+    border-radius: 0 0 90px 0;
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    width: 86%;
 
-  h1 {
-    margin: 0;
-  }
-}
-
-.uploadButton {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-}
-
-.audioManagementTable {
-  width: 100%;
-  border-collapse: collapse;
-
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    .txtTitle {
+      color: $tertiary;
+      font-size: 21px;
+    }
   }
 
-  th {
-    background-color: #f2f2f2;
-  }
+  .tblWrapper {
+    margin: 40px 15px 0 15px;
 
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
+    .audioManagementTable {
+      border-collapse: collapse;
+      table-layout: fixed;
+      width: 100%;
+  
+      th, td {
+        border-bottom: 1.5px solid $outOfFocus;
+        font-family: $subTitle;
+        font-size: 11px;
+        padding: 12px 5px;
+        text-align: center;
+      }
+  
+      button {
+        transition: all 0.2s ease-in-out;
+  
+        &:hover {
+          scale: 1.2;
+        }
+      }
+  
+      .playBtn {
+        background-color: $primary;
+        border-radius: 50px;
+        padding: 5px;
+      }
 
-  tr:hover {
-    background-color: #ddd;
-  }
-
-  td button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #218838;
+      .fileName {
+        overflow: none;
+        word-wrap: break-word;
+      }
+  
+      .actionBtns {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+  
+      .icon {
+        height: 15px;
+        width: 15px;
+      }
     }
   }
 }
 
-.navigateButton {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 10px;
+.confirmation, .modal {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  z-index: 5;
 }
 
-.navigateButton:hover {
-  background-color: #45a049;
-}
+@media (min-width: 992px) {
+  .audioManagementContainer {
+      .header {
+          border-radius: 0 0 150px 0;
+          padding: 80px 0;
 
-.audioManagementTable th, .audioManagementTable td {
-  text-align: center;
-}
+          .txtTitle {
+              font-size: 40px;
+          }
+      }
 
-.audioManagementTable button {
-  margin: 2px;
-}
+    .tblWrapper {
 
-.audioManagementTable .updateButton {
-  background-color: #007bff;
-}
+      .audioManagementTable {
+        th, td {
+          font-size: 15px;
+        }
 
-.audioManagementTable .deleteButton {
-  background-color: #dc3545;
+        .playBtn {
+          padding: 10px;
+        }
+
+        .icon {
+          height: 23px;
+          width: 23px;
+        }
+      }
+    }   
+  }
 }

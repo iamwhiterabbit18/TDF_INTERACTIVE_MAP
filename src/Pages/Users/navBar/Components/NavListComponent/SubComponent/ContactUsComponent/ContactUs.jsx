@@ -42,29 +42,27 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
                             <div className = { styles.close } onClick = { function() { setCurrentModal(null); }}>
                                 <img src = { icons.close } alt = "Close" />
                             </div>
-                            <span className = { styles.txtTitle }>Contact Us</span>
-                            <form className =  { styles.form }>
-                                <label htmlFor = "name">Name</label>
-                                <input 
-                                    autoComplete = "off"
-                                    name = "name"
-                                    type = "text"
-                                />
 
-                                <label htmlFor = "email">Email</label>
-                                <input
-                                    autoComplete = "off"
-                                    name = "email"
-                                    type = "email"
-                                />
+                            <div className = { styles.header }>
+                                <span className = { styles.txtTitle }>Contact Us</span>
+                            </div>
+                            
 
-                                <label htmlFor = "question">Question</label>
-                                <textarea 
-                                    name = "question"
-                                />
+                            <div className =  { styles.form }>
+                                <span className = { styles.txtTitle }>Location: </span>
+                                <p className = { styles.txtSubTitle }>Cavite State University, Brgy. Bancod, Indang, Cavite, Indang, Philippines, 4122</p>
 
-                                <button className = { styles.submitBtn }>Submit</button>
-                            </form>
+                                <span className = { styles.txtTitle }>Telephone Number: </span>
+                                <p className = { styles.txtSubTitle }>(046) 482 2010</p>
+
+                                <span className = { styles.txtTitle }>Email: </span>
+                                <p className = { styles.txtSubTitle }>extension@cvsu.edu.ph</p>
+
+                                <span className = { styles.txtTitle }>Facebook Page: </span>
+                                <p className = { styles.txtSubTitle }>https://www.facebook.com/CvSUExtensionServices</p>
+                                <p className = { styles.txtSubTitle }>https://www.facebook.com/pages/Cavite%20State%20University%20-%20Technology%20Demonstration%20Farm/107503934805285/</p>
+
+                            </div>
                         </div>
                     </motion.div>
                 )}

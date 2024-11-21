@@ -1,75 +1,37 @@
 @import '../../../stylesVariables.scss';
 @import '../../../global.scss';
 
-.firstContainer {
-    background-color: $tertiary;
-    display: flex;
+.optionContent {
+    align-items: center;
+    display: inherit;
     flex: 1;
     flex-grow: 1.45;
-    padding: 5%;
-    width: 20vw;
+    flex-direction: column;
+    justify-content: center;
+    
 
-
-    &.option {
-        display: inherit;
-    }
-
-    .optionContent{
-        align-items: center;
-        animation: fadeIn 0.4s; // fadeIn located in stylesVariables.scss
-        display: inherit;
-        flex: 1;
-        flex-direction: column;
-        justify-content: center;
-        opacity: 1;
-    }
 
     .txtTitle { 
+        font-size: 30px;
         margin-bottom: 0.938rem; 
     }
 
     .txtSubTitle { 
         font-family: $subTitle;
+        font-size: 10px;
         margin: 0.563rem 0; 
     }
 
-    .btnSignIn {
-        background-color: $outOfFocus;
-        color: $secondary;
-        transition: 0.2s ease-in-out;
+}
 
-        &:hover {
-            background-color: $primary;
-            color: $tertiary;
+@media (min-width: 576px) {
+    .optionContent{
+        .txtTitle {
+            font-size: 40px;
         }
-    }
-    
-    .btnGuest {
-        background-color: $primary;
-        color: $tertiary;
-        transition: 0.2s ease-in-out;
 
-        &:hover {
-            background-color: $secondary;
-            color: $primary;
+        .txtSubTitle {
+            font-size: 15px;
         }
     }
 }
-
-// .fade-enter {
-//     opacity: 0;
-// }
-
-// .fade-enter-active {
-//     opacity: 1;
-//     transition: opacity 0.4s ease;
-// }
-
-// .fade-exit {
-//     opacity: 1;
-// }
-
-// .fade-exit-active {
-//     opacity: 0;
-//     transition: opacity 0.4s ease;
-// }

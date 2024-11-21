@@ -25,8 +25,7 @@ const App = () => {
         <Route path="/map" element={<ThreeCanvas />} />
         {/* Redirect on landing page */}
         <Route path="*" element={<SignInModule />} />
-
-
+ 
         <Route path="/usermanage" element={ <PrivateRoute roles={['admin']}><UserManagement/> </PrivateRoute> } />
         <Route path='cards'  element={ <PrivateRoute roles={['admin', 'staff']}><Cards/> </PrivateRoute> } /> 
         <Route path='/modal' element={ <PrivateRoute roles={['admin', 'staff']}><Modal/> </PrivateRoute> } />

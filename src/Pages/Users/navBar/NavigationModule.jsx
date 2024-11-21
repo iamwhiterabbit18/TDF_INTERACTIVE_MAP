@@ -15,6 +15,7 @@ import ContactUsComponent from './Components/NavListComponent/SubComponent/Conta
 import AboutUsComponent from './Components/NavListComponent/SubComponent/AboutUsComponent/AboutUs.jsx'
 import NewsAndEvents from './Components/NavListComponent/SubComponent/newsAndEventsModule/Components/NewsAndEvents.jsx'
 import SubmitFeedback from './Components/NavListComponent/SubComponent/FeedbackComponent/SubmitFeedback.jsx'
+import NewsEventImage from '../../Admin/edit/EditNewsEvent.jsx';
 
 export default function NavigationModule () {
 
@@ -28,11 +29,12 @@ export default function NavigationModule () {
             setCurrentModal(null);
         } else if (isDropClicked && !document.getElementById("dropdown").contains(e.target) && !document.getElementById("userIcon").contains(e.target)) {
             setIsDropClicked(!isDropClicked);
-        }
-        else if (!isNavListClosed && !document.getElementById("navigationList").contains(e.target) && !document.getElementById("hamburger").contains(e.target)) {
-            handleNavClick();
+        } else if (!isNavListClosed && !document.getElementById("navigationList").contains(e.target) && !document.getElementById("hamburger").contains(e.target)) {
+            handleNavClick();   
         }
     }
+
+    
 
 // ------- NavBar Logic Section -------
     const [isHamClicked, setIsHamClicked] = useState(false);
@@ -41,6 +43,7 @@ export default function NavigationModule () {
     function handleNavClick() {
         setIsHamClicked(!isHamClicked);
         setIsNavListClosed(!isNavListClosed); 
+        setIsEditContent(false);
     }
 
 // ------- NavList Logic Section -------  
@@ -48,6 +51,20 @@ export default function NavigationModule () {
     
     const [isNavListClosed, setIsNavListClosed] = useState(true);
     const [currentModal, setCurrentModal] = useState(null);
+    const [isEditContent, setIsEditContent] = useState(false);
+
+    // ----------- For Edit News and Event Modal --------------
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal 
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen); // Toggle modal visibility
+    };
+
+    // --------------------------------------------------------
+
+    function toggleEditContent() {
+        setIsEditContent(!isEditContent);
+    }
 
     // fetch which modal is clicked from the navList (Applied for every modal within the navList)
     function captureNavListClick (modal) {
@@ -71,6 +88,8 @@ export default function NavigationModule () {
     function handleDropClick() {
         setIsDropClicked(!isDropClicked);
     }
+    
+    console.log(currentModal);
 
     return (
         <>
@@ -88,6 +107,9 @@ export default function NavigationModule () {
                     isNavListClosed = { isNavListClosed }
                     handleModalClick = { handleModalClick }  
                     captureNavListClick = { captureNavListClick }  
+                    isEditContent = { isEditContent }
+                    toggleEditContent = { toggleEditContent }
+                    toggleModal = { toggleModal }
                 />
                 
                 <UserDropdown
@@ -120,6 +142,13 @@ export default function NavigationModule () {
                     
                     {/* ------- SubmitFeedback Component Section ------- */}
                         <SubmitFeedback 
+                            setCurrentModal = { setCurrentModal }
+                            currentModal = { currentModal }
+                            handleClickOutside = { handleClickOutside }
+                        />
+
+                    {/* EditNewsEvent */}
+                        <NewsEventImage 
                             setCurrentModal = { setCurrentModal }
                             currentModal = { currentModal }
                             handleClickOutside = { handleClickOutside }

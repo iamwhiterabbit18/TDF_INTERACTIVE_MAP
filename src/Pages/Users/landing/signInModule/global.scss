@@ -19,6 +19,53 @@ li {
 /* all kind of input box global styles */
 
 
+/* button styles */
+.button {
+    border: 0;
+    border-radius: 40px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-family: $title;
+    height: 3rem;
+    width: 15rem;
+}
+
+.btnSignIn {
+    background-color: $outOfFocus;
+    color: $secondary;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $primary;
+        color: $tertiary;
+    }
+}
+
+.btnGuest {
+    background-color: $primary;
+    color: $tertiary;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $secondary;
+        color: $primary;
+    }
+}
+
+.submitBtn { // submit feedback and contact us button
+    align-self: center;
+    background-color: $guest;
+    color: $tertiary;
+    margin: 30px 0 0 0;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+        background-color: $primary;
+        color: $secondary;
+    }
+}
+
 
 /* label, title and subTitle global styles */
 
@@ -36,26 +83,6 @@ label, .txtTitle, .txtSubTitle {
 }
 
 /* close/return icons */
-
-.return {
-    align-self: flex-start;
-    align-items: center;
-    background-color: $outOfFocus;
-    border-radius: 50px;
-    cursor: pointer;
-    display: flex;
-    height: 50px;
-    justify-content: center;
-    transition: 0.2s ease-in-out;
-    width: 50px;
-
-    img {
-        height: 25px;
-        filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); 
-        transition: all 0.2s ease-in-out;
-        width: 25px;
-    }
-}
 
 .return:hover {
     background-color: $secondary;
@@ -106,3 +133,11 @@ label, .txtTitle, .txtSubTitle {
     color: $primary;
     scale: 1.125;
 }
+
+// important for admin side pages
+.rootDiv { // temporary, relocate if there is conflict
+    background-color: $background;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+  }

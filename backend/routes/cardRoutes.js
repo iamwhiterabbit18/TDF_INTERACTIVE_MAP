@@ -11,7 +11,7 @@ const Card = require('../models/Cards');
 const storage = multer.diskStorage({
   // Destination folder for uploaded files
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Save files to 'uploads/' directory
+    cb(null, 'uploads/cardsImg'); // Save files to 'uploads/cardsImg' directory
   },
   // Generate a unique filename for the uploaded file using the current timestamp
   filename: (req, file, cb) => {
@@ -75,8 +75,8 @@ router.put('/:id', upload.single('image'), async (req, res) => {
       return res.status(404).json({ error: 'Card not found' });
     }
 
-    const { areaName, quickFacts } = req.body;
-    const newImage = req.file ? `/uploads/${req.file.filename}` : card.image; // New image if uploaded
+    const { areaName, areaLocation, quickFacts } = req.body;
+    const newImage = req.file ? `/uploads/cardsImg/${req.file.filename}` : card.image; // New image if uploaded
 
     // Only delete the old image if a new one is uploaded and they are different
     if (req.file && card.image && newImage !== card.image) {
@@ -88,6 +88,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
 
     // Update card fields
     card.areaName = areaName; // Update area name
+    card.areaLocation = areaLocation, //Update area location
     card.quickFacts = quickFacts; // Update quick facts
     if (newImage) card.image = newImage; // Update image path if new image is uploaded
 
@@ -97,6 +98,27 @@ router.put('/:id', upload.single('image'), async (req, res) => {
   } catch (error) {
     console.error('Error updating card:', error);
     res.status(500).json({ error: 'Server error while updating card' });
+  }
+});
+router.delete('/:id/image', async (req, res) => {
+  try {
+    const card = await Card.findById(req.params.id);
+    if (!card || !card.image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+    const imagePath = path.join(__dirname, '..', card.image);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+
+    card.image = null; // Set image path to null
+    await card.save();
+
+    res.json({ message: 'Image deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting image:', error);
+    res.status(500).json({ message: 'Error deleting image' });
   }
 });
 

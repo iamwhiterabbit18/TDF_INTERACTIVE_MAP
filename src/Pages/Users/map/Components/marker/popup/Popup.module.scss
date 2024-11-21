@@ -1,107 +1,123 @@
+@import "../../../../landing/signInModule/stylesVariables.scss";
+@import "../../../../landing/signInModule/global.scss";
 
-.popupContent{
-    position: relative;
-    border-radius: 5px;
-    padding: 25px 20px 25px 20px;
-    background-color: #e1e1e1;
-    width: 300px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+.popupContent {
+    background-color: $tertiary;
+    border-radius: 20px;
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.23);
+    height: 430px;
+    margin: 25px 25px 25px 0;
+    padding: 20px 25px;
+    position: relative;
+    max-width: 300px;
+
     -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.23);
     -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.23);
-}
-.closeBtn{
-    position: absolute;
-    top: 0.5rem;
-    right: 0.3rem;
-    img{
-        width: 90%
-    }
-}
 
-.popupImage{
-    width: 100%;
-    img{
-        border-radius: 5px;
-        width: 100%;
-    }
-}
-
-.cont1{
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    h1{
-        width: 50%;
-        align-content: center;
-        font-size: 1.25rem;
-    }
-    .weather{
-        width: 50%;
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        justify-content: end;
-        .logo{
-            width: 1.5rem;
-            img{
-                width: 100%
-            }
+    .closeBtn {
+        right: 0.3rem;    
+        padding: 10px 10px;
+        position: absolute;
+        top: 0.3rem;
+        z-index: 1;
+        
+        img {
+            height: 20px;
+            filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); 
+            transition: all 0.2s ease-in-out;
+            width: 20px;
         }
-        .weatherDeets{
+    }
+
+    .popupImage {
+        margin: -20px -25px 0 -25px; 
+        position: relative;
+        width: calc(100% + 50px);
+        img{
+            border-radius: 20px 20px 0 0;
+            width: 100%;
+        }
+    }
+
+    .cont1 {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        height: 10.7rem;
+        margin: 15px 0;
+
+        .btns {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            p{
-                font-size: 0.6rem;
-                margin: 0;
+            margin: 10px 5px 10px 0;
+            position: absolute;
+            right: -1.7rem;
+
+            button {
+                background-color: $primary;
+                border-radius: 50%;
+                box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.23);
+                margin: 6px 0;
+                padding: 10px;
+                transition: all 0.2s ease-in-out;
+
+                -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.23);
+                -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.23);
+
+                .icon {
+                    height: 32px;
+                    width: 32px;
+                }
+
+                &:hover {
+                    scale: 1.1;
+                }
+            }
+        }
+
+        .txtTitle {
+            font-size: 30px;
+            line-height: 1;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .quickFacts {
+            font-family: $subTitle;
+            font-size: 13px;
+            justify-self: center;
+            margin-top: 5px;
+            width: 210px;
+
+        }
+
+        .fullDeets {
+            align-self: flex-end;
+            margin-top: auto;
+
+            .deets {
+                transition: all 0.2s ease-in-out;
+
+                p {
+                    color: $primary;
+                    font-family: $title;
+                }
+
+                &:hover {
+                    scale: 1.1;
+                }
             }
         }
     }
 }
 
-hr{
-    border: none;
-    height: 2px;
-    background-color: #cabdbd;
-}
-
-.cont2{
-    padding: 0.5rem 0rem 0.5rem 0rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h2{
-        font-size: 1rem;
-    }
-    .btns{
-        display: flex;
-        gap: 0.3rem;
-        img{
-            width: 1.5rem;
-        }
-    }
-}
-
-button{
+button {
     background: transparent;
     border: 0;
     cursor: pointer;
 }
 
-.fullDeets{
-    display: flex;
-    justify-content: right;
-    .deets{
-        color: blue;
-    }
-}
-
-p{
-    margin: 0px;
-}
-
-a{
-    text-decoration: none;
-    color: blue;
+.line { //line separator
+    border-bottom: 2px solid $outOfFocus;
+    width: 93%;
 }

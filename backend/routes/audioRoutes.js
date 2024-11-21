@@ -21,11 +21,13 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    const allowedTypes = ['audio/mp3', 'audio/wav', 'audio/ogg', 'audio/m4a', 'audio/flac', 'audio/mpeg'];
-
+    console.log(file.mimetype); 
+    const allowedTypes = [
+      'audio/mp3', 'audio/wav','audio/m4a', 'audio/x-m4a', 'audio/mpeg', 'audio/mp4'
+    ];
     // Only allow certain audio file types
     if (!allowedTypes.includes(file.mimetype)) {
-      return cb(new Error('Only audio files (mp3, wav, ogg, m4a, flac) are allowed!'));
+      return cb(new Error('Only audio files (mp3, wav, m4a) are allowed!'));
     }
     cb(null, true);
   }
