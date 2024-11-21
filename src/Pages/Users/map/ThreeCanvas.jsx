@@ -148,7 +148,7 @@ const ThreeCanvas = () => {
   const moveArrow = (startPos, targetPos) =>{
     if (expRef.current) {
       const path = expRef.current.map.pathfinding;  // Access the Path instance
-      path.moveArrow(startPos, targetPos);      // Call moveArrow directly
+      path.navigateToPosition(startPos, targetPos);      // Call moveArrow directly
     }
   }
   const removeLine = () =>{
