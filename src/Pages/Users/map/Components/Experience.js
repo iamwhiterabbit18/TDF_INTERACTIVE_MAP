@@ -10,7 +10,8 @@ import Map from './Map';
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 // import utils when needed
-import Click from './utils/Click';
+import Click from '@utils/Click';
+import DragAndScroll from '@utils/DragAndScroll';
 
 
 export default class Experience {
@@ -44,6 +45,7 @@ export default class Experience {
 
     this.map = new Map(this.scene, this.camera, this.renderer, this.controls);
 
+    this.dragAndScroll = new DragAndScroll(this.renderer.domElement, this.camera, this.scene);
     // window.addEventListener('mousedown', (event) => {
     //   this.click = new Click(event, this.camera, this.scene);
     // });
