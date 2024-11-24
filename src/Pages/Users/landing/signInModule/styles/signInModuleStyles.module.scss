@@ -13,7 +13,7 @@
 } 
 
 .overlay {
-    backdrop-filter: blur(3px) brightness(70%) contrast(60%);
+    backdrop-filter: blur(3px) brightness(50%); //contrast(60%)
     position: fixed;
     height: 100%;
     width: 100%;
@@ -73,7 +73,7 @@
         transition: all 0.2s ease-in-out;
     
         &:focus { // works for input but not for textarea
-            border: 1.5px solid $primary;
+            border: 1.5px solid $secondary;
         }
     }
     

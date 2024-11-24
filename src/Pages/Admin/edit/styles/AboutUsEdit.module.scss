@@ -1,27 +1,37 @@
 @import "../../../Users/landing/signInModule/global.scss";
 @import "../../../Users/landing/signInModule/stylesVariables.scss";
 
-.editContainer {
-    align-items: center;
+.holder {
+    position: absolute;
+    width: 100%;
     display: flex;
     justify-content: center;
-    position: absolute;
+    align-items: center;
+    flex-direction: column;
     pointer-events: all;
-    width: 100%;
+    max-height: 500px;
+    height: 70%;
+}
+
+.editContainer {
+    background-color: $tertiary;
+    border-radius: 8px;
+    // align-items: center;
+    display: flex;
+    justify-content: center;
+    pointer-events: all;
+    padding: 20px;
+    max-width: 600px;
+    width: 90%;
+    
+    overflow: auto;
+    margin: 20px;
 
     .editingSection {
-        background-color: $tertiary;
-        border-radius: 8px;
-        padding: 20px;
-        max-width: 600px;
-        width: 90%;
-        max-height: 500px;
-        height: 70%;
-        overflow: auto;
         align-items: center;
         display: flex;
         flex-direction: column;
-        margin: 20px;
+        width: 100%;
 
         .close {
             position: absolute;
@@ -49,10 +59,38 @@
         }
 
         .content {
+            width: 100%;
 
             img {
                 border-radius: 20px;
                 width: 100%;
+            }
+
+            .preview, .uploaded, .noImg {
+                margin: 20px 0;
+                position: relative;
+
+                &:hover .overlay {
+                    opacity: 1;
+                }
+            }
+
+            .preview {
+                &:hover .uploadBtn {
+                    scale: 1.1;
+                }
+            }
+
+            .uploaded {
+                .overlay {
+                    display: flex;
+                    gap: 20px;
+
+                    .deleteBtn:hover, .uploadBtn:hover {
+                        scale: 1.1;
+                    }
+                }
+                
             }
 
             .noImg {
@@ -61,26 +99,132 @@
                 border-radius: 20px;
                 display: flex;
                 justify-content: center;
-                margin: 20px 0;
                 height: 300px;
 
                 .txtTitle {
-                    font-size: 25px;
+                    font-size: 15px;
+                }
+
+                &:hover .uploadBtn {
+                    scale: 1.1;
                 }
             }
 
+            .overlay {
+                align-items: center;
+                background-color: rgba(0, 0, 0, 0.5);
+                border-radius: 20px;
+                display: flex;
+                height: 100%;
+                justify-content: center;
+                left: 0;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                transition: all 0.2s ease-in-out;
+                width: 100%;
+      
+                .uploadBtn, .deleteBtn {
+                  background-color: $primary;
+                  border-radius: 30px;
+                  color: $tertiary;
+                  font-size: 15px !important;
+                  padding: 5px 20px;
+                  transition: all 0.2s ease-in-out;
+                }
+
+                .deleteBtn {
+                    background-color: $danger;
+                }
+
+                
+            }
+
+            input {
+                position: absolute;
+                height: 100%;
+                left: 0;
+                opacity: 0;
+                top: 0;
+                width: 100%;
+                cursor: pointer;
+            }
+    
+            
+
             .history, .vision, .mission, .goal, .objective {
+
+                .txtTitle {
+                    font-size: 20px;
+                }
 
                 textarea {
                     border: 1px solid black;
                     border-radius: 5px;
-                    // font-size: 8px;
                     margin-bottom: 15px;
-                    height: 200px;
+                    font-size: 10px;
+                    height: 100px;
                     padding: 5px;
                     resize: none;
                     outline: transparent;
                     width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.saveBtn {
+    margin-top: 20px;
+    pointer-events: all;
+
+    span {
+        background-color: $primary;
+        border-radius: 30px;
+        color: $tertiary;
+        font-size: 16px;
+        padding: 5px 30px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: $secondary;
+            color: $primary;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .editContainer {
+        .editingSection {
+            .close {
+                img {
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+
+            .header {
+                .txtTitle {
+                    font-size: 35px;
+                }
+            }
+
+            .content {
+                .noImg {
+                    .txtTitle {
+                        font-size: 25px;
+                    }
+                }
+
+                .history, .vision, .mission, .goal, .objective {
+                    .txtTitle {
+                        font-size: 30px;
+                    }
+
+                    textarea {
+                        font-size: 15px;
+                        height: 200px;
+                    }
                 }
             }
         }

@@ -59,7 +59,7 @@
             }
     
             .text {
-                color: $secondary;
+                color: $fontColor1;
                 font-family: $subTitle;
                 font-size: 14px;
                 margin: 0 0 0 10px;
@@ -68,7 +68,7 @@
     
             li:hover {
                 .icon {
-                    filter: invert(32%) sepia(95%) saturate(906%) hue-rotate(232deg) brightness(100%) contrast(91%); // change the icon color into $primary   
+                    filter: brightness(0) saturate(100%) invert(58%) sepia(20%) saturate(5091%) hue-rotate(17deg) brightness(100%) contrast(98%); // change the icon color into $secondary   
                 }
                 .text {
                     color: $primary;

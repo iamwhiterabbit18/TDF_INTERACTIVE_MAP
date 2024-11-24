@@ -258,27 +258,6 @@ export default function NavList ({
                                             <span className = { styles.text }>Edit Audio</span>
                                         </motion.li>
                                     )}
-                                    {isEditListOpen && (
-                                        <motion.li 
-                                            key = {'editNewsAndEvents'}
-                                            onClick = { function() { handleModalClick(); captureNavListClick('editNewsEvent'); }  }
-                                            initial = {{opacity: 0, translateY: -40}}
-                                            animate = {{opacity: 1, translateY: !isEditListOpen  ? -40 : 0}}
-                                            exit = {{
-                                                opacity: 0, 
-                                                translateY: -40, 
-                                                transition: {
-                                                    duration: 0.18, 
-                                                    delay: user?.role === "staff" ? 0.18 * 4 : 0.18 * 3,
-                                                    ease: "easeInOut"
-                                                }}
-                                            }
-                                            transition = {{duration: 0.2, delay: 0.18 * 3, ease: "easeInOut"}}
-                                        >
-                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.card } alt = "Edit News and Event" />
-                                            <span className = { styles.text }>Edit News and Event</span>
-                                        </motion.li>
-                                    )}
                                     {user?.role === "admin" && (
                                         <>
                                             {isEditListOpen && (

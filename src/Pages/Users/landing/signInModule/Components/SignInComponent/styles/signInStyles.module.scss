@@ -22,7 +22,7 @@
     
         img {
             height: 15px;
-            filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); 
+            filter: brightness(0) saturate(100%) invert(30%) sepia(12%) saturate(1582%) hue-rotate(102deg) brightness(95%) contrast(86%);
             transition: all 0.2s ease-in-out;
             width: 15px;
         }
@@ -42,11 +42,17 @@
         margin-bottom: 25px;
     
         .submitBtn {
-            background-color: $primary;
+            background-color: $secondary;
+            color: $primary;
             align-self: center;
             margin-top: 15px;
             height: 30px;
             width: 120px;
+
+            &:hover {
+                background-color: $primary;
+                color: $secondary;
+            }
         }
         
         label {

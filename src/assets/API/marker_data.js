@@ -44,10 +44,10 @@ const areaPositions = {
 
 const fetchMarkerData = async () => {
   try {
-      const response = await axios.get('http://127.0.0.1:5000/api/cards');
+      const response = await axios.get('http://localhost:5000/api/cards');
 
         // Fetch modal data
-    const modalResponse = await axios.get('http://127.0.0.1:5000/api/modal'); // Adjust the endpoint as needed
+    const modalResponse = await axios.get('http://localhost:5000/api/modal'); // Adjust the endpoint as needed
     const modals = modalResponse.data;
 
       console.log('Fetched cards:', response.data); // Log fetched cards
@@ -70,7 +70,7 @@ const fetchMarkerData = async () => {
               position: position,
               icon: icon,
               name: card.areaName,
-              img: `http://127.0.0.1:5000${card.image}`,
+              img: `http://localhost:5000${card.image}`,
               quickFacts: card.quickFacts,
               modalId: card.card_id,
           };

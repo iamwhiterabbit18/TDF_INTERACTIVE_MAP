@@ -11,7 +11,7 @@
             align-items: center;
             background-color: $tertiary;
             border-radius: 10px;
-            color: $secondary;
+            color: $fontColor1;
             display: flex;
             font-family: $title;
             font-size: 11px;
@@ -20,7 +20,7 @@
             width: 100%;
 
             .icon {
-                // filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); // change the icon color to $secondary
+                filter: brightness(0) saturate(100%);
                 height: 15px;
                 transition: all 0.2s ease-in-out;
                 width: 15px;
@@ -36,10 +36,10 @@
 
             &:hover {
                 .icon {
-                    filter: invert(32%) sepia(95%) saturate(906%) hue-rotate(232deg) brightness(100%) contrast(91%); // change the icon color into $primary   
+                    filter: brightness(0) saturate(100%) invert(58%) sepia(20%) saturate(5091%) hue-rotate(17deg) brightness(100%) contrast(98%); // change the icon color into $secondary 
                 }
                 .text {
-                    color: $primary;
+                    color: $secondary;
                 }
             }
         }
@@ -84,7 +84,7 @@
     .editContentList {
         left: 120px;
         position: absolute;
-        top: 85px;
+        top: 140px;
 
         .editList {
             li {

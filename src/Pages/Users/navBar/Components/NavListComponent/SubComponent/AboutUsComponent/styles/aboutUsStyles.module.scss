@@ -58,6 +58,21 @@
                 border-radius: 20px;
                 width: 100%;
             }
+            .noImg {
+                align-items: center;
+                background-color: $outOfFocus;
+                border-radius: 20px;
+                display: flex;
+                justify-content: center;
+                position: relative;
+                margin: 20px 0;
+                height: 300px;
+                width: 100%;
+
+                .txtTitle {
+                    font-size: 20px;
+                }
+            }
 
             .history, .vision, .mission, .goal, .objective {
                 align-self: flex-start;
