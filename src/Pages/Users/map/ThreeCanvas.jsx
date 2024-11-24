@@ -5,6 +5,8 @@ import Experience from './Components/Experience';
 import Markers from './Components/marker/Markers';
 import Preloader from '../preloader/Preloader';
 
+import DragAndScroll from '@utils/DragAndScroll'
+
 import './ThreeCanvas.scss'; // global styles for the map
 import styles1 from '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss'; // this to be adjusted
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
@@ -60,9 +62,8 @@ const ThreeCanvas = () => {
       setSceneAndCamera({scene, camera});
 
       setPreloaderState(true);
-
-
-      const animate = () => {
+  
+   const animate = () => {
         requestAnimationFrame(animate);
         controls.update();
 
@@ -89,6 +90,7 @@ const ThreeCanvas = () => {
       };
     }
   }, []);
+
 
   // for markers
   const moveToMarker = (markerPosition, onComplete) => {
