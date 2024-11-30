@@ -19,6 +19,7 @@ export default defineConfig({
   resolve:{
     alias:{
       "@utils": path.resolve(__dirname, "./src/Pages/Users/map/Components/utils/"),
+      "@assets": path.resolve(__dirname, "./src/assets/"),
     },
   },
 

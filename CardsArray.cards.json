@@ -5,7 +5,8 @@
   "areaName": "Fish/Prawn Culture",
   "quickFacts": "Fish + Pond = Fish Pond.\r\n",
   "image": "/uploads/7a5f3940d7bd56d3e9ca80b9e1835e6f",
-  "card_id": "66fd5616e8c88882cd60f1ad"
+  "card_id": "66fd5616e8c88882cd60f1ad",
+  "iconType": "fish"
 },
 {
   "_id": {
@@ -14,7 +15,8 @@
   "areaName": "Feathered Place",
   "image": "/uploads/5d0313ce3b89961625d9debcf52b47b2",
   "quickFacts": "Mga ibon sa langit. Lumipad ang Lobo sa Langit.",
-  "card_id": "66fd5616e8c88882cd60f1ae"
+  "card_id": "66fd5616e8c88882cd60f1ae",
+  "iconType": "bird"
 },
 {
   "_id": {
@@ -23,7 +25,8 @@
   "areaName": "Bahay Kubo",
   "image": "/uploads/ff7dea73fe53bafb7694f91f1a60c161",
   "quickFacts": "This is a traditional Filipino house.",
-  "card_id": "66fd5616e8c88882cd60f1af"
+  "card_id": "66fd5616e8c88882cd60f1af",
+  "iconType": "building"
 },
 {
   "_id": {
@@ -32,7 +35,8 @@
   "areaName": "House of Greens",
   "image": "/uploads/2365f4671c56b84c0388dce493981d71",
   "quickFacts": "A lush garden filled with various plants.",
-  "card_id": "66fd5616e8c88882cd60f1b0"
+  "card_id": "66fd5616e8c88882cd60f1b0",
+  "iconType": "building"
 },
 {
   "_id": {
@@ -41,7 +45,8 @@
   "areaName": "Urban Garden",
   "image": "/uploads/ff2653eb1b0781f11d654be134f189bf",
   "quickFacts": "A garden in an urban setting.",
-  "card_id": "66fd5616e8c88882cd60f1b1"
+  "card_id": "66fd5616e8c88882cd60f1b1",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -50,7 +55,8 @@
   "areaName": "GuestHouse",
   "image": "/uploads/a72b6dba113bd922a17c42d5a355542c",
   "quickFacts": "A cozy place for visitors to stay.",
-  "card_id": "66fd5616e8c88882cd60f1b2"
+  "card_id": "66fd5616e8c88882cd60f1b2",
+  "iconType": "building"
 },
 {
   "_id": {
@@ -59,7 +65,8 @@
   "areaName": "Extension Hall",
   "quickFacts": "A multifunctional space for events and gatherings.",
   "image": "/uploads/a7a1c8ea684f67acec92ed421dc5f428",
-  "card_id": "6702048d6449a8c5bd9966b7"
+  "card_id": "6702048d6449a8c5bd9966b7",
+  "iconType": "building"
 },
 {
   "_id": {
@@ -68,7 +75,8 @@
   "areaName": "Agri-Eco Park Main Building",
   "quickFacts": "The hub for sustainable agriculture practices.",
   "image": "/uploads/f005527067d1142ea685d16394bb6335",
-  "card_id": "6702048d6449a8c5bd9966b8"
+  "card_id": "6702048d6449a8c5bd9966b8",
+  "iconType": "building"
 },
 {
   "_id": {
@@ -77,7 +85,8 @@
   "areaName": "Birds Paradise",
   "quickFacts": "A sanctuary for various bird species.",
   "image": "/uploads/e18d38afa30b53027f6ef180b178260a",
-  "card_id": "6702048d6449a8c5bd9966b9"
+  "card_id": "6702048d6449a8c5bd9966b9",
+  "iconType": "bird"
 },
 {
   "_id": {
@@ -86,7 +95,8 @@
   "areaName": "Poultry Village",
   "quickFacts": "Home to diverse poultry farming techniques.",
   "image": "/uploads/786d8b502bdde7672d14b6ed5f772475",
-  "card_id": "6702048d6449a8c5bd9966ba"
+  "card_id": "6702048d6449a8c5bd9966ba",
+  "iconType": "bird"
 },
 {
   "_id": {
@@ -95,7 +105,8 @@
   "areaName": "Native Organics",
   "quickFacts": "Promoting organic farming of native plants.",
   "image": "/uploads/efaf5c674cffd61b79f4b1b54d5407ae",
-  "card_id": "6702048d6449a8c5bd9966bb"
+  "card_id": "6702048d6449a8c5bd9966bb",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -104,7 +115,8 @@
   "areaName": "Garden Scape",
   "quickFacts": "Showcasing various garden designs and layouts.",
   "image": "/uploads/29fc7aec2ea86e1040b5b6ea2d7da708",
-  "card_id": "6702048d6449a8c5bd9966bc"
+  "card_id": "6702048d6449a8c5bd9966bc",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -113,7 +125,8 @@
   "areaName": "Green Haven",
   "quickFacts": "A green space focused on environmental sustainability.",
   "image": "/uploads/1c98d14120938645ed7eeb8ec14ccc85",
-  "card_id": "6702048d6449a8c5bd9966bd"
+  "card_id": "6702048d6449a8c5bd9966bd",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -122,7 +135,8 @@
   "areaName": "Herb Land",
   "quickFacts": "Cultivating a variety of herbs for culinary uses.",
   "image": "/uploads/e2e372a4bb02c64f83c296d2d86973e8",
-  "card_id": "6702048d6449a8c5bd9966be"
+  "card_id": "6702048d6449a8c5bd9966be",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -131,7 +145,8 @@
   "areaName": "Healing Garden",
   "quickFacts": "A serene garden for relaxation and healing.",
   "image": "/uploads/832b3d980171cbebf0c17a1946fe92e6",
-  "card_id": "6702048d6449a8c5bd9966bf"
+  "card_id": "6702048d6449a8c5bd9966bf",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -140,7 +155,8 @@
   "areaName": "Bee Program Demo Site",
   "quickFacts": "Educating about the importance of bees in agriculture.",
   "image": "/uploads/d4706652f8adf6786ded41159d1516b5",
-  "card_id": "6702048d6449a8c5bd9966c0"
+  "card_id": "6702048d6449a8c5bd9966c0",
+  "iconType": "swarm"
 },
 {
   "_id": {
@@ -149,7 +165,8 @@
   "areaName": "Nursery",
   "quickFacts": "Growing and nurturing young plants.",
   "image": "/uploads/ace3e68f77993f82a3b5a0ccf0ea53d3",
-  "card_id": "6702048d6449a8c5bd9966c1"
+  "card_id": "6702048d6449a8c5bd9966c1",
+  "iconType": "wheat"
 },
 {
   "_id": {
@@ -158,5 +175,6 @@
   "areaName": "Theatre",
   "quickFacts": "A venue for agricultural educational programs.",
   "image": "/uploads/ebfe566714070481b0d9be44add6e524",
-  "card_id": "6702048d6449a8c5bd9966c2"
+  "card_id": "6702048d6449a8c5bd9966c2",
+  "iconType": "building"
 }]
