@@ -39,7 +39,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
     // Fetch images from the single document
     const fetchImages = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/images');
+            const response = await axios.get('http://127.0.0.1:5000/api/images');
             const document = response.data[0]; // Assuming there's only one document
 
             // Set the images array
@@ -47,7 +47,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             setImages(fetchedImages);
 
             // Generate image preview URLs based on the fetched images
-            const imagePreviews = fetchedImages.map((img) => `http://localhost:5000/${img}`);
+            const imagePreviews = fetchedImages.map((img) => `http://127.0.0.1:5000/${img}`);
 
             // Set state to hold the preview URLs for the slider
             setImagePreviews(imagePreviews);
@@ -96,7 +96,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         });
 
         try {
-            await axios.post(`http://localhost:5000/api/images`, formData, {
+            await axios.post(`http://127.0.0.1:5000/api/images`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -126,7 +126,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         const filename = selectedImageFilename.split('/').pop(); // Get only the filename
     
         try {
-            const response = await axios.put(`http://localhost:5000/api/images/uploads/images/${filename}`, formData, {
+            const response = await axios.put(`http://127.0.0.1:5000/api/images/uploads/images/${filename}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
     
@@ -149,7 +149,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
 
         try {
             if (selectedImageFilename) {
-                const response = await axios.delete(`http://localhost:5000/api/images/uploads/images/${filename}`);
+                const response = await axios.delete(`http://127.0.0.1:5000/api/images/uploads/images/${filename}`);
                     if (response.status === 200) {
                         alert('Image deleted successfully!');
                         fetchImages(); // Refresh image list after successful deletion

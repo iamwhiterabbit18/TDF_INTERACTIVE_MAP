@@ -63,9 +63,11 @@ export default function NavBar({ isHamClicked, isNavListClosed, handleNavClick, 
                         <li className = { `${ styles.icon } ${ styles.youtube }` }>
                             <img src = { icons.yt } alt = "Youtube" />
                         </li> */}
-                        <li id = "userIcon" className = { `${ styles.icon } ${ styles.user }` } onClick = { handleDropClick }>
+
+                        {/* Removed, replaced with map legend list */}
+                        {/* <li id = "userIcon" className = { `${ styles.icon } ${ styles.user }` } onClick = { handleDropClick }>
                             <img src = { icons.user } alt = "User Icon" />
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </section>

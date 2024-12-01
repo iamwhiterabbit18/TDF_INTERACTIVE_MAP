@@ -81,6 +81,13 @@ export default function NavBar () {
                             <img className = { `${styles.icon} ${styles.map}` } src ={ icons.upload } />
                             <span className = { styles.text }>Edit Audio</span>
                         </li>
+                        <li
+                            className = { location.pathname === "/analytics" ? styles.activeList : undefined }
+                            onClick = {() => window.location.href = "/analytics"}
+                        >
+                            <img className = { `${styles.icon} ${styles.analytics}` } src ={ icons.upload } /*change icon*/ /> 
+                            <span className = { styles.text }>Analytics</span>
+                        </li>
                         {user?.role === "admin" && (
                             <li
                                 className = { location.pathname === "/usermanage" ? styles.activeList : undefined }
@@ -93,8 +100,8 @@ export default function NavBar () {
                         
                     </ul>
 
-                    {/* line separator */}
                     <div className = { styles.footer }>
+                        {/* line separator */}
                         <div className = { styles.line }></div>
 
                         <div className = { styles.logout } onClick = { handleLogout }>

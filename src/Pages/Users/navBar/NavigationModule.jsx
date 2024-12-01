@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react'
 // import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import dropdownStyles from './Components/UserDropdownComponent/styles/userDropdownStyles.module.scss';
+
 import navListItemsStyles from './Components/NavListComponent/styles/navListItemsStyles.module.scss';
 
 // ------- Navigation Components Section -------
 import NavBar from './Components/NavBarComponent/NavBar.jsx'
 import NavList from './Components/NavListComponent/NavList.jsx'
-import UserDropdown from './Components/UserDropdownComponent/UserDropdown.jsx'
+import Legend from './Components/LegendComponent/Legend.jsx'
 
 // ------- NavList Items Section -------
 import ContactUsComponent from './Components/NavListComponent/SubComponent/ContactUsComponent/ContactUs.jsx'
@@ -114,10 +114,8 @@ export default function NavigationModule () {
                     toggleModal = { toggleModal }
                 />
                 
-                <UserDropdown
-                    handleClickOutside = { handleClickOutside }
-                    isDropClicked = { isDropClicked }
-                />
+                {/* Not in use, replaced with map legend list */}
+                <Legend />
 
                 <div className = { navListItemsStyles.modalContainer } >
                     {/* ------- ContactUs Component Section ------- */}

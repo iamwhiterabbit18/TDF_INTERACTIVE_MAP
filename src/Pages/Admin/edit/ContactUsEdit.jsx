@@ -17,7 +17,7 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
 
     const fetchContactUsData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/contact');
+            const response = await axios.get('http://127.0.0.1:5000/api/contact');
             setContactUsData(response.data);
         } catch (error) {
             console.error("Error fetching Contact Us data:", error);
@@ -47,7 +47,7 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
         }
     
         try {
-            const response = await axios.put('http://localhost:5000/api/contact', contactUsData);
+            const response = await axios.put('http://127.0.0.1:5000/api/contact', contactUsData);
             
             alert("Contact Us updated successfully");
             setCurrentModal("contactUs");  // Close modal after saving

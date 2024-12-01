@@ -36,6 +36,8 @@ import edit from '/for_landingPage/icons/edit.png'
 import profile from '/for_landingPage/icons/profile.png'
 import upload from '/for_landingPage/icons/upload.png'
 
+import compass from '/for_landingPage/icons/compass.png'
+
 export default { 
         arrow, // globas
         mapIcon, hamburger, close, user, // navBar assets
@@ -44,5 +46,6 @@ export default {
         star, // submit feedback assets
         audio, location,
         add, remove, pencil,
-        card, edit, profile, upload
+        card, edit, profile, upload,
+        compass
     }; 

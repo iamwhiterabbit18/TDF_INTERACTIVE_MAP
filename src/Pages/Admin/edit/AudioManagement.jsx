@@ -48,7 +48,7 @@ const AudioManagement = () => {
 
   const fetchAudios = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/audio');
+      const response = await axios.get('http://127.0.0.1:5000/api/audio');
       setAudios(response.data);
     } catch (error) {
       console.error('Error fetching audios:', error);
@@ -78,7 +78,7 @@ const AudioManagement = () => {
     }
   
     try {
-      const response = await axios.get(`http://localhost:5000/${filePath}`, { responseType: 'blob' });
+      const response = await axios.get(`http://127.0.0.1:5000/${filePath}`, { responseType: 'blob' });
       
       // Check if the response status is 200 (OK)
       if (response.status === 200) {
@@ -101,7 +101,7 @@ const AudioManagement = () => {
   const handleDelete = async () => {
     try {
       if (confirmDelete && audioToDelete) {
-        await axios.delete(`http://localhost:5000/api/audio/delete/${audioToDelete}`);
+        await axios.delete(`http://127.0.0.1:5000/api/audio/delete/${audioToDelete}`);
         fetchAudios(); // Refresh the audio list after deletion
         alert('Audio deleted successfully');
         setConfirmDelete(false);

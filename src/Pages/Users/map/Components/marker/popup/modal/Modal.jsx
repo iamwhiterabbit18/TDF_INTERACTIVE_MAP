@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
 
     try {
       let audio = [];
-      const response = await axios.get(`http://localhost:5000/api/audio`);
+      const response = await axios.get(`http://127.0.0.1:5000/api/audio`);
       audio = response.data;
       const playAudio = audio.find(obj => obj._id === modalId);
 
@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
           return; 
         }
 
-        audioRef.current.src = `http://localhost:5000/${playAudio.filePath}`; // Set audio source
+        audioRef.current.src = `http://127.0.0.1:5000/${playAudio.filePath}`; // Set audio source
         audioRef.current.play(); // Play the audio
         setIsPlaying(true); // Set audio state to playing
         console.log('Playing Audio:', playAudio.filePath);
@@ -96,7 +96,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
                   {modalData.modalImages.map((image, index) => (
                     <div key={index} className={styles.slickSlide}>
                       <img 
-                        src={`http://localhost:5000/uploads/modalImages/${image}`}
+                        src={`http://127.0.0.1:5000/uploads/modalImages/${image}`}
                         alt={`Image ${index}`} 
                         className={styles.carouselImage}
                       />

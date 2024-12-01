@@ -13,7 +13,7 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
   console.log('Popup modalId:', modalId); // Check the received modalId
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const noImg = "http://localhost:5000null";
+  const noImg = "http://127.0.0.1:5000null";
  /* const [isOpen, setIsOpen] = useState(false);
   const onViewFullDetail = (data) =>{
     setIsOpen(!isOpen);
@@ -29,10 +29,10 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
       return;
     }
     
-    console.log('Fetching URL:', `http://localhost:5000/api/modal/${modalId}`); // Log the full URL
+    console.log('Fetching URL:', `http://127.0.0.1:5000/api/modal/${modalId}`); // Log the full URL
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/modal/${modalId}`);
+      const response = await axios.get(`http://127.0.0.1:5000/api/modal/${modalId}`);
       setModalData(response.data);
       console.log('Modal Data:',response.data);
       setIsOpen(true);
