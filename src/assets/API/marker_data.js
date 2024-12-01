@@ -1,14 +1,12 @@
 import * as THREE from 'three';
 import get from './get';
-import icon from '../barn.png';
+import assets from '@assets/Icon.js'
 import img from '../images/farm.jpg';
 import axios from 'axios'; // Import axios for API calls
 
 
 const data = () => get();
-
-
-
+const icon = assets.marker;
 /*const markerData = [
     { position: new THREE.Vector3(30, 52, 0), icon: icon, name: 'Dragon Fruit Farm', img: img, description: 'An area where 276 vibrant red dragon fruit plants thrive. Every plant is tended to tender care, ensuring they receive just the right amount of sunlight, water, and nutrients to grow.' },
     { position: new THREE.Vector3(0, 0, 0), icon: icon, name: 'Marker 2', img: img, description: 'Marker 2 description' },
@@ -32,10 +30,10 @@ const areaPositions = {
   'Green Haven': new THREE.Vector3(1.11, 0.16, -0.40),
   'Herb Land': new THREE.Vector3(1.29, 0.07, -0.40),
   'Healing Garden': new THREE.Vector3(1.28, 0.09, -0.31),
-
   'Bee Program Demo Site': new THREE.Vector3(-1.87, 0.12,1.69),
-  'Nursery': new THREE.Vector3(-2.56, 0.08, 1.48),
   'Theatre': new THREE.Vector3(-0.02, 0.08, -0.09),
+  'Nursery': new THREE.Vector3(-2.56, 0.08, 1.48),
+  // 'AmpiTheatre': new THREE.Vector3(-1.80, 0.08, 0.57),
 };
 
 
@@ -49,6 +47,7 @@ const fetchMarkerData = async () => {
 
       console.log('Fetched cards:', response.data); // Log fetched cards
     console.log('Fetched modals:', modals); // Log fetched modals
+    console.log(icon)
 
     // Map modals to a quick access structure
     const modalMap = {};
@@ -60,12 +59,11 @@ const fetchMarkerData = async () => {
           // Normalize the area name
           const normalizedAreaName = card.areaName.trim(); // No lowercase conversion for exact match
           const position = areaPositions[normalizedAreaName] || new THREE.Vector3(0, 0, 0); // Default position
-
+          console.log(card.iconType)
          // console.log(`Marker for ${card.areaName}:`, position); // Log the position
-
           return {
               position: position,
-              icon: icon,
+              icon: `${icon[card.iconType]}`,
               name: card.areaName,
               img: `http://localhost:5000${card.image}`,
               quickFacts: card.quickFacts,
