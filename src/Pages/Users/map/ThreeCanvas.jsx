@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import Experience from './Components/Experience';
 import Markers from './Components/marker/Markers';
 import Preloader from '../preloader/Preloader';
-
+import StartingModal from './Components/startingModal/StartingModal';
 import DragAndScroll from '@utils/DragAndScroll'
 
 import './ThreeCanvas.scss'; // global styles for the map
@@ -211,9 +211,9 @@ const ThreeCanvas = () => {
 
   return(
     <div id="container" ref={containerRef}>
-
-      <NavigationModule user = { user }/>
       <Preloader />
+      <NavigationModule user = { user }/>
+      <StartingModal />
       {sceneAndCamera && (
         <Markers
         scene={sceneAndCamera.scene}
@@ -229,14 +229,14 @@ const ThreeCanvas = () => {
         {/* Here will be the map be rendered */}
         <div ref={mapContainerRef} id="mapCont"></div>
         {/* pathfinding component */}
-          <Pathfinding pos={positions} 
-          // pass functions as props
-          moveArrow={moveArrow} 
-          removeLine={removeLine} 
-          cameraPF={cameraPF}
-          togglePathfinding={togglePathfinding} 
-          getCurrentCamControls={getCurrentCamControls}
-          />
+        <Pathfinding pos={positions} 
+        // pass functions as props
+        moveArrow={moveArrow} 
+        removeLine={removeLine} 
+        cameraPF={cameraPF}
+        togglePathfinding={togglePathfinding} 
+        getCurrentCamControls={getCurrentCamControls}
+        />
     </div>
   ) 
 };

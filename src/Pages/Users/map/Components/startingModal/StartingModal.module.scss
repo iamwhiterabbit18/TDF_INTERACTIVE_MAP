@@ -1,0 +1,95 @@
+// colors
+$blue: #322E59;
+$darkBlue: #17153B;
+$enter: #FFBB56;
+$gray: #D9D9D9;
+
+// fonts
+$font: 'Inter', sans-serif;
+$light: 300;
+$semi: 600;
+$bold: 900;
+
+.container {
+    position: relative;
+    color: $gray;
+    font-family: $font;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+    padding: 10px;
+    text-align: center;
+    width: calc(100% - 40px);
+    max-width: 500px;
+    background-color: #424952;
+    height: auto;
+    border: 2px solid red;
+    margin: 150px auto 0 auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  
+    // Ensure slides don't overlap
+    overflow: hidden;
+  }
+  .content {
+    border: 2px solid green;
+    position: relative;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+    // width: 100%;
+    // height: 30vh;
+
+    h1 {
+        font-weight: $bold;
+        font-size: 1.4rem;
+        color: white;
+    }
+
+    hr {
+        border-color: rgba(255, 255, 255, 0.12);
+    }
+    p {
+        font-weight: $light;
+        text-align: center;
+        color: $gray;
+      }
+    
+    .close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.7rem;
+    background: none;
+    border: none;
+    }
+    .textCont{
+        // border: 2px solid pink;
+        margin-top: 30px;
+    }
+  }
+
+  .controls {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-weight: $semi;
+    border: 2px solid red;
+  
+    h2 {
+      color: white;
+      font-size: 1rem;
+    }
+  
+    p {
+      color: $gray;
+      font-size: 0.8rem;
+    }
+  }

@@ -17,6 +17,7 @@ export default class Click {
         if(intersects.length > 0) {
             const intersectionPoint = intersects[0].point;
             console.log('Interection Point:', intersectionPoint);
+            console.log('Intersection Object:', intersects[0].object);
         }
     }
 }
