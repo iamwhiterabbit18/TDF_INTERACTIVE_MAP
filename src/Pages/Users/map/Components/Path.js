@@ -43,7 +43,7 @@ class Path {
         });
         this.player = gltf.scene;
         this.player.scale.set(0.05, 0.05, 0.05);
-        this.player.position.set(positions[5].position.x, positions[5].position.y, positions[5].position.z);
+        this.player.position.set(positions[0].position.x, positions[0].position.y, positions[0].position.z);
         this.scene.add(this.player);
     }
 
@@ -272,12 +272,8 @@ class Path {
         const flatPoints = validPathPoints.flatMap(v => [v.x, v.y, v.z]);
         geometry.setPositions(flatPoints);
         const material = new LineMaterial({ 
-            color: 0xFF2929, 
+            color: '#80C4E9', 
             linewidth: 5,
-            dashed: true,
-            dashSize: 0.5,
-            gapSize: 0.5,
-            dashScale: 2,
             resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),});
         material.defines.USE_DASH = "";
         this.line = new Line2(geometry, material);
