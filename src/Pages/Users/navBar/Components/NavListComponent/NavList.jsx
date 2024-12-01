@@ -298,11 +298,32 @@ export default function NavList ({
                                             <span className = { styles.text }>Edit Audio</span>
                                         </motion.li>
                                     )}
+                                    {isEditListOpen && (
+                                        <motion.li 
+                                            key = {'analytics'}
+                                            onClick = {() => navigate("/analytics")}
+                                            initial = {{opacity: 0, translateY: -40}}
+                                            animate = {{opacity: 1, translateY: !isEditListOpen   ? -40 : 0}}
+                                            exit = {{
+                                                opacity: 0, 
+                                                translateY: -40, 
+                                                transition: {
+                                                    duration: 0.18, 
+                                                    delay: user?.role === "staff" ? 0.18 * 4 : 0.18 * 3,
+                                                    ease: "easeInOut"
+                                                }}
+                                            }
+                                            transition = {{duration: 0.2, delay: 0.18 * 3, ease: "easeInOut"}}
+                                        >
+                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.analytics } alt = "Analytics" />
+                                            <span className = { styles.text }>Analytics</span>
+                                        </motion.li>
+                                    )}
                                     {user?.role === "admin" && (
                                         <>
                                             {isEditListOpen && (
                                                 <motion.li 
-                                                    key = {'editNewsAndEvents'}
+                                                    key = {'userManagement'}
                                                     onClick = {() => window.location.href = "/usermanage"}
                                                     initial = {{opacity: 0, translateY: -40}}
                                                     animate = {{opacity: 1, translateY: !isEditListOpen ? -40 : 0}}
@@ -328,31 +349,6 @@ export default function NavList ({
                         </ul>
                 </motion.section>
             )}
-        </AnimatePresence>
-        <AnimatePresence>
-            {!isNavListClosed && (
-                <motion.section 
-                    className = { styles.logout }
-                >
-                    {/* <ul className = { styles.logoutCont }>
-                        <li 
-                            className = { styles.list }
-                            onClick = { (user?.role === "admin" || user?.role === "staff") ? handleLogout : null }
-                        >
-                            <img className = { `${styles.icon} ${styles.signin}` } src = {icons.signIn} alt = "Signin"/>
-                            <span className = { styles.text }>
-                                {(user?.role === "admin" || user?.role === "staff")
-                                    ? <>Log Out</>
-                                    : <Link to = "/">Sign in</Link>
-                                }
-                            </span>
-                        </li>
-                    </ul> */}
-
-                </motion.section>
-            )}
-            
-            
         </AnimatePresence>
         </>
     )
