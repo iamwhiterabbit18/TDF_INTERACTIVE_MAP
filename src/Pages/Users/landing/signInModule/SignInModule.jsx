@@ -63,6 +63,7 @@ export default function SignInModule() {
 
     return(
         <UserProvider>
+        <div className = { styles.overlay }></div>
         <div className={styles.mainContainer}>
             <div className = { styles.loginContainer }> {/* Main container for option and login form*/}
                 <div className = { styles.firstContainer }>

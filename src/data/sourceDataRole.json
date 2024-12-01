@@ -1,0 +1,18 @@
+[
+    {
+        "label": "Student",
+        "value": 18
+    },
+    {
+        "label": "Farmer",
+        "value": 10
+    },
+    {
+        "label": "Govenment Associate",
+        "value": 5
+    },
+    {
+        "label": "Others",
+        "value": 30
+    }
+]

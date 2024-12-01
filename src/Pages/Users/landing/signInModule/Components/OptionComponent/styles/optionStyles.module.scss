@@ -9,8 +9,6 @@
     flex-direction: column;
     justify-content: center;
     
-
-
     .txtTitle { 
         font-size: 30px;
         margin-bottom: 0.938rem; 
@@ -24,6 +22,56 @@
 
 }
 
+.guestCategory {
+    align-items: center;
+    display: inherit;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    
+    .return {
+        align-self: flex-start;
+        align-items: center;
+        background-color: $outOfFocus;
+        border-radius: 50px;
+        cursor: pointer;
+        display: flex;
+        height: 30px;
+        justify-content: center;
+        transition: all 0.2s ease-in-out;
+        width: 30px;
+    
+        img {
+            height: 15px;
+            filter: brightness(0) saturate(100%) invert(30%) sepia(12%) saturate(1582%) hue-rotate(102deg) brightness(95%) contrast(86%);
+            transition: all 0.2s ease-in-out;
+            width: 15px;
+        }
+
+        &:hover {
+            scale: 1.1;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 25px;
+        padding: 20px;
+
+        label {
+            font-family: $subTitle;
+        }
+
+        select {
+            width: 160px;
+            height: 30px;
+            font-family: $subTitle;
+            margin-bottom: 10px;
+        }
+    }
+}
+
 @media (min-width: 576px) {
     .optionContent{
         .txtTitle {
@@ -32,6 +80,18 @@
 
         .txtSubTitle {
             font-size: 15px;
+        }
+    }
+
+    .guestCategory {
+        .return {
+            height: 50px;
+            width: 50px;
+
+            img {
+                height: 25px;
+                width: 25px;
+            }
         }
     }
 }

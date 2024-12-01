@@ -1,27 +1,38 @@
-@import '../../../../../../landing/signInModule/stylesVariables.scss';
-@import '../../../../../../landing/signInModule/global.scss';
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
 
-.contactUsContainer {
-    background-color: $tertiary;
-    border-radius: 10px;
+.holder {
+    position: absolute;
+    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: all;
+    height: 90%;
+}
+
+.editContainer {
+    background-color: $tertiary;
+    border-radius: 10px;
     max-height: 70%; 
     max-width: 400px;
-    padding: 20px 30px; //30px 40px
-    pointer-events: all; //!important
+    padding: 20px 30px;
     width: 80%;
     overflow-y: scroll;
     overflow-x: hidden;
-    
-    .contactUsContent {
+
+
+    .editingSection {
         align-items: center;
         display: flex;
         flex-direction: column;
         width: 100%;
+        
 
         .close {
             position: absolute;
+            margin: 0 0 -15px 0;
 
             img {
                 height: 15px;
@@ -61,11 +72,23 @@
                 width: 100%;
                 word-wrap: break-word;
             }
+
+            textarea {
+                border: 1px solid black;
+                border-radius: 5px;
+                // font-size: 8px;
+                margin-bottom: 15px;
+                height: 80px;
+                padding: 5px;
+                resize: none;
+                outline: transparent;
+                width: 100%;
+            }
         }
     }
 }
 
-.editBtn {
+.saveBtn {
     margin-top: 20px;
     pointer-events: all;
 
@@ -85,24 +108,8 @@
 }
 
 @media (min-width: 520px) {
-    .contactUsContainer {
-        .contactUsContent {
-
-            .close {
-                img {
-                    height: 20px;
-                    width: 20px;
-                }
-            }
-        }
-    }
-}
-
-@media (min-width: 920px) {
-    .contactUsContainer {
-        .contactUsContent {
-            width: 100%;
-
+    .editContainer {
+        .editingSection {
             .close {
                 img {
                     height: 20px;
@@ -111,22 +118,15 @@
             }
 
             .header {
-    
                 .txtTitle {
                     font-size: 30px;
                 }
             }
 
             .form {
-
                 .txtTitle {
                     font-size: 25px;
                 }
-
-                .txtSubTitle {
-                    font-size: 18px;
-                }
-
             }
         }
     }

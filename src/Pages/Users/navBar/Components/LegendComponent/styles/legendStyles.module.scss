@@ -1,0 +1,129 @@
+@import '../../../../landing/signInModule/stylesVariables.scss';
+@import '../../../../landing/signInModule/global.scss';
+
+
+.compassLegendCont {
+    position: relative;
+    top: 28px;
+    right: 0px;
+    z-index: 98;
+
+    .compass {
+
+        img {
+            position: absolute;
+            background-color: $tertiary;
+            padding: 5px;
+            border-radius: 50px;
+            top: -19px;
+            right: 140px;
+            width: 70px;
+            height: 70px;
+        }
+    }
+    
+    .content {
+        display: flex;
+        overflow: visible; // Important! So that the arrow can be displayed
+        margin: 10px 0;
+        position: absolute;
+        right: 7px;
+        z-index: 98;
+    
+        li {
+            list-style-type: none;
+            cursor: default;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            
+            .header {
+                align-self: flex-end;
+                background-color: rgba(0, 0, 0, 0.7);
+                border-radius: 15px;
+                padding: 5px;
+                margin: 0 0 20px 0;
+                text-align: center;
+                width: 120px;
+        
+                .txtTitle {
+                    font-size: 12px; //18px
+                    color: $tertiary;
+                    cursor: pointer;
+                }
+            }
+        
+            .legendList {
+                background-color: rgba(0, 0, 0, 0.7);
+                border-radius: 15px;
+                align-items: flex-end;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 10px;
+                height: 0;
+                overflow: hidden;
+                transition: all 0.4s ease-in-out;
+    
+                li {
+                    align-items: center;
+                    display: flex;
+                    justify-content: center;
+                    margin: 5px;
+                }
+        
+                .icon {
+                    height: 10px; //20px
+                    margin: 0 0 -5px 0;
+                    transition: 0.3s ease-in-out;
+                    width: 10px; //20px
+                }
+        
+                .text {
+                    color: $tertiary;
+                    font-family: $subTitle;
+                    font-size: 8px; //14px
+                    margin: 0 10px 0 0;
+                    transition: 0.3s ease-in-out;
+                }
+            }
+
+            &:hover .legendList{
+                padding: 10px;
+                height: 140px;
+            }
+        }
+    }    
+}
+
+@media (min-width: 768px) {
+    .compassLegendCont {
+        .content {
+            .legend {
+                .header {
+                    .txtTitle {
+                        font-size: 18px;
+                        cursor: default;
+                    }
+                }
+
+                .legendList {
+                    height: 100%;
+                    padding: 10px;
+
+                    .text {
+                        font-size: 12px;
+                    }
+                }
+                
+                // To cancle out the animation when lowwer than 768px
+                &:hover .legendList {
+                    padding: 10px;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}

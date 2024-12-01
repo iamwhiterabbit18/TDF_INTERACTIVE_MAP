@@ -53,7 +53,7 @@ useEffect(() => {
   const fetchModals = async () => {
     setIsLoading(true); // Set loading to true before fetching
     try {
-      const response = await axios.get('http://localhost:5000/api/modal');
+      const response = await axios.get('http://127.0.0.1:5000/api/modal');
       setModals(response.data);
     } catch (error) {
       console.error('Error fetching modals:', error);
@@ -69,7 +69,7 @@ const fetchModalData = async () => {
   if (currentModal) {
     setIsLoading(true); // Start loading
     try {
-      const response = await axios.get(`http://localhost:5000/api/modal/${currentModal._id}`);
+      const response = await axios.get(`http://127.0.0.1:5000/api/modal/${currentModal._id}`);
       
       // Set modalImages state with the fetched images
       const fetchedImages = response.data.modalImages;
@@ -86,7 +86,7 @@ const fetchModalData = async () => {
 
       // Update image previews based on the fetched images
       const imagePreviews = fetchedImages
-        ? fetchedImages.map((img) => `http://localhost:5000/uploads/modalImages/${img}`)
+        ? fetchedImages.map((img) => `http://127.0.0.1:5000/uploads/modalImages/${img}`)
         : [];
       
       setModalImagePreviews(imagePreviews);
@@ -177,7 +177,7 @@ const handleUploadFileChange = (e) => {
           formData.append('modalImages', image); // Append each image with the key 'modalImages'
         });
     
-        const response = await axios.post(`http://localhost:5000/api/modal/${currentModal._id}`, formData, {
+        const response = await axios.post(`http://127.0.0.1:5000/api/modal/${currentModal._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -235,7 +235,7 @@ const handleUploadFileChange = (e) => {
       }
   
       const response = await axios.put(
-        `http://localhost:5000/api/modal/${currentModal._id}/updateImage`, formData,
+        `http://127.0.0.1:5000/api/modal/${currentModal._id}/updateImage`, formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -268,7 +268,7 @@ const handleDelete = async () => {
       alert('No modal selected for deleting images.');
       return;
     } else {
-      const response = await axios.delete(`http://localhost:5000/api/modal/uploads/modalImages/${deleteFile}`, {
+      const response = await axios.delete(`http://127.0.0.1:5000/api/modal/uploads/modalImages/${deleteFile}`, {
         data: {
           id: currentModal._id, // Pass the modal ID
         },
@@ -306,7 +306,7 @@ const handleDescTech = async () => {
   }
 
   try {
-    const response = await axios.put(`http://localhost:5000/api/modal/${currentModal._id}/description`, {
+    const response = await axios.put(`http://127.0.0.1:5000/api/modal/${currentModal._id}/description`, {
       description,
       technologies,
     });

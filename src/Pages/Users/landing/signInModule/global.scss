@@ -33,7 +33,7 @@ li {
 
 .btnSignIn {
     background-color: $outOfFocus;
-    color: $secondary;
+    color: $fontColor1;
     transition: 0.2s ease-in-out;
 
     &:hover {
@@ -70,7 +70,7 @@ li {
 /* label, title and subTitle global styles */
 
 label, .txtTitle, .txtSubTitle {
-    color: $secondary;
+    color: $fontColor1;
 }
 
 .txtTitle {
@@ -113,7 +113,7 @@ label, .txtTitle, .txtSubTitle {
 
 .close:hover {
     img {
-        filter: invert(30%) sepia(72%) saturate(1526%) hue-rotate(240deg) brightness(101%) contrast(90%);
+        filter: brightness(0) saturate(100%) invert(58%) sepia(20%) saturate(5091%) hue-rotate(17deg) brightness(100%) contrast(98%);
     }
 }
     

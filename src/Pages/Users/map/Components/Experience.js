@@ -45,6 +45,7 @@ export default class Experience {
 
     this.map = new Map(this.scene, this.camera, this.renderer, this.controls);
 
+
     this.dragAndScroll = new DragAndScroll(this.renderer.domElement, this.camera, this.scene);
     // window.addEventListener('mousedown', (event) => {
     //   this.click = new Click(event, this.camera, this.scene);

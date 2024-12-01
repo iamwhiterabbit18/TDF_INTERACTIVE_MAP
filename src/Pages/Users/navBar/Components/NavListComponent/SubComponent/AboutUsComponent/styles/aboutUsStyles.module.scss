@@ -7,7 +7,7 @@
     max-height: 500px;
     height: 70%;
     overflow: auto;
-    position: absolute;
+    // position: absolute;
     max-width: 600px;
     width: 90%;
     pointer-events: all; //!important
@@ -58,6 +58,21 @@
                 border-radius: 20px;
                 width: 100%;
             }
+            .noImg {
+                align-items: center;
+                background-color: $outOfFocus;
+                border-radius: 20px;
+                display: flex;
+                justify-content: center;
+                position: relative;
+                margin: 20px 0;
+                height: 300px;
+                width: 100%;
+
+                .txtTitle {
+                    font-size: 20px;
+                }
+            }
 
             .history, .vision, .mission, .goal, .objective {
                 align-self: flex-start;
@@ -79,6 +94,25 @@
                     text-indent: 0;
                 }
             }
+        }
+    }
+}
+
+.editBtn {
+    margin-top: 20px;
+    pointer-events: all;
+
+    span {
+        background-color: $primary;
+        border-radius: 30px;
+        color: $tertiary;
+        font-size: 16px;
+        padding: 5px 30px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: $secondary;
+            color: $primary;
         }
     }
 }

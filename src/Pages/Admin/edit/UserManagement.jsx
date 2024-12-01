@@ -47,7 +47,7 @@ const UserManagement = () => {
     const fetchUsers = async () => {
         console.log("Attempting to fetch users...");
         try {
-            const response = await axios.get('http://localhost:5000/api/users/all');  // Use the full URL
+            const response = await axios.get('http://127.0.0.1:5000/api/users/all');  // Use the full URL
             console.log("Users fetched:", response.data);
             setUsers(response.data);
         } catch (error) {
@@ -58,11 +58,11 @@ const UserManagement = () => {
     const handleAddOrUpdateUser = async (user) => {
         try {
             if (currentUser) {
-                await axios.put(`http://localhost:5000/api/users/update/${currentUser._id}`, user);
+                await axios.put(`http://127.0.0.1:5000/api/users/update/${currentUser._id}`, user);
                 alert('User update successful');
                 setModalOpen(false);
             } else {
-                await axios.post('http://localhost:5000/api/users/add', user);
+                await axios.post('http://127.0.0.1:5000/api/users/add', user);
                 alert('User successfully added');
                 setModalOpen(false);
             }
@@ -79,7 +79,7 @@ const UserManagement = () => {
     const handleDeleteUser = async () => {
         try {
             if (confirmDelete && userToDelete) {
-                await axios.delete(`http://localhost:5000/api/users/delete/${userToDelete}`);
+                await axios.delete(`http://127.0.0.1:5000/api/users/delete/${userToDelete}`);
                 fetchUsers();
                 alert('User deleted successfully');
                 setConfirmDelete(false);
