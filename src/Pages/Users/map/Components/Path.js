@@ -3,7 +3,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Pathfinding, PathfindingHelper } from "three-pathfinding";
 // array of sites
 import positions from "../../../../assets/API/positions";
-import { Line2, LineGeometry, LineMaterial } from "three/examples/jsm/Addons.js";
+// import { Line2, LineGeometry, LineMaterial } from "three/examples/jsm/Addons.js";
+import { Line2 } from "three/examples/jsm/lines/Line2.js";
+import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
 
 class Path {
     constructor(scene, camera, renderer, controls){
@@ -26,6 +29,10 @@ class Path {
         this.line = null;
         this.points = [];
 
+        this.calculatedPath = null;
+        this.isPathValid = false;
+        this.currentPathIndex = 0;
+
     }
 
     async loadPlayer(){
@@ -36,7 +43,7 @@ class Path {
         });
         this.player = gltf.scene;
         this.player.scale.set(0.05, 0.05, 0.05);
-        this.player.position.set(positions[5].position.x, positions[5].position.y, positions[5].position.z);
+        this.player.position.set(positions[0].position.x, positions[0].position.y, positions[0].position.z);
         this.scene.add(this.player);
     }
 
@@ -115,85 +122,205 @@ class Path {
     //     this.isAnimatingCam = true;
     //     step(0);
     // }
-    moveArrow(startPos, targetPos) {
+    // moveArrow(startPos, targetPos) {
     
-        if(this.scene && startPos && targetPos){
-          // Find name of current and destination
-          const currentPos = positions.find(pos => pos.name === startPos);
-          const destinationPos = positions.find(pos => pos.name === targetPos);
+    //     if(this.scene && startPos && targetPos){
+    //       // Find name of current and destination
+    //       const currentPos = positions.find(pos => pos.name === startPos);
+    //       const destinationPos = positions.find(pos => pos.name === targetPos);
     
-          // convert to Vector3
-          if(currentPos && destinationPos){
+    //       // convert to Vector3
+    //       if(currentPos && destinationPos){
     
-            const currentVector = new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
-            const destinationVector = new THREE.Vector3(destinationPos.position.x, destinationPos.position.y, destinationPos.position.z);
-            console.log(currentVector, destinationVector);
+    //         const currentVector = this.player ? this.player.position.clone() : new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
+    //         // const currentVector = new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
+    //         const destinationVector = new THREE.Vector3(destinationPos.position.x, destinationPos.position.y, destinationPos.position.z);
     
-            // Create or update the arrow direction and helper
-            const groupId = this.pathfinding.getGroup(this.zone, currentVector);
-            const closest = this.pathfinding.getClosestNode(currentVector, this.zone, groupId);
-            const path = this.pathfinding.findPath(closest.centroid, destinationVector, this.zone, groupId);
-            // console.log(path);
-            if (path && path.length > 0) {
-              console.log("Found Path: ", path);
-              this.arrowPath = path.slice();
-              this.arrowMoving = true;
-              this.points = [currentVector.clone()];
-              // // create o update the arrow helper
+    //         // Create or update the arrow direction and helper
+    //         const groupId = this.pathfinding.getGroup(this.zone, currentVector);
+    //         const closest = this.pathfinding.getClosestNode(currentVector, this.zone, groupId);
+    //         const path = this.pathfinding.findPath(closest.centroid, destinationVector, this.zone, groupId);
+    //         // console.log(path);
+    //         if (path && path.length > 0) {
+    //           console.log("Found Path: ", path);
+    //           this.arrowPath = path.slice();
+    //           this.points = [currentVector.clone()];
+    //           const fullPath = this.calculateFullPath(currentVector, path);
+    //           this.createPathLine(fullPath);
+    //           this.arrowMoving = true;
+
+              
+    //           // // create o update the arrow helper
     
-              // if(!currentArrow){
-              //   currentArrow = new THREE.ArrowHelper(new THREE.Vector3(), startPos, 0.5, 0xffff00);
-              //   scene.add(currentArrow);
-              // }
-              // currentArrow.position.copy(startPos);
+    //           // if(!currentArrow){
+    //           //   currentArrow = new THREE.ArrowHelper(new THREE.Vector3(), startPos, 0.5, 0xffff00);
+    //           //   scene.add(currentArrow);
+    //           // }
+    //           // currentArrow.position.copy(startPos);
               
     
-              const geometry = new THREE.BufferGeometry().setFromPoints(this.points);
-              const material = new THREE.LineBasicMaterial({ color: 0xffff00});
-    
-              if(!this.line){
-                const lineGeometry = new LineGeometry();
-                this.line = new THREE.Line(geometry, material);
-                this.line.position.y = this.line.position.y + 0.04;
-                this.line.frustumCulled = false;
-                this.scene.add(this.line);
-              }
-              else{
-                this.line.geometry.setFromPoints(this.points);
-              }
-            }else {
-              console.log("No path found");
-            }
-          }
+    //           const geometry = new LineGeometry().setFromPoints(this.points);
+    //           const material = new LineMaterial({ 
+    //             color: 0xffff00,
+    //             linewidth: 10,
+    //             dashed: true,});
+
+    //           if(!this.line){
+    //             this.line = new Line2(geometry, material);
+    //             this.line.position.y = this.line.position.y + 0.04;
+    //             this.line.frustumCulled = false;
+    //             this.scene.add(this.line);
+    //           }
+    //           else{
+    //             this.line.geometry.setFromPoints(this.points);
+    //           }
+    //         }else {
+    //           console.log("No path found");
+    //         }
+    //       }
+    //     }
+    // }
+
+    // new functionality TEST
+    calculatePath(startPos, targetPos){
+        this.calculatedPath = null;
+        this.isPathValid = false;
+        this.currentPathIndex = 0;
+
+        if (!this.scene || !startPos || !targetPos) {
+            console.error("Missing required parameters for path calculation");
+            return false;
         }
+
+        // Find positions from input names
+        const currentPos = positions.find(pos => pos.name === startPos);
+        const destinationPos = positions.find(pos => pos.name === targetPos);
+
+        if (!currentPos || !destinationPos) {
+            console.error("Invalid position names provided");
+            return false;
+        }
+
+        // Convert to Vector3
+        const currentVector = new THREE.Vector3(
+            currentPos.position.x,
+            currentPos.position.y,
+            currentPos.position.z
+        );
+        const destinationVector = new THREE.Vector3(
+            destinationPos.position.x,
+            destinationPos.position.y,
+            destinationPos.position.z
+        );
+
+        // Calculate path
+        const groupId = this.pathfinding.getGroup(this.zone, currentVector);
+        const closest = this.pathfinding.getClosestNode(currentVector, this.zone, groupId);
+        const path = this.pathfinding.findPath(closest.centroid, destinationVector, this.zone, groupId);
+
+        if (!path || path.length === 0) {
+            console.error("No valid path found");
+            return false;
+        }
+
+        // Store the full path including start position
+        this.calculatedPath = this.calculateFullPath(currentVector, path);
+        this.isPathValid = true;
+
+        // Create the initial path visualization
+        this.createPathLine(this.calculatedPath);
+        
+        // Set player to start position
+        if (this.player) {
+            this.player.position.copy(currentVector);
+        }
+
+        this.arrowPath = path.slice();
+        this.arrowMoving = true;
+
+        return true;
     }
+    moveAlongPath(){
+        if (!this.isPathValid || !this.calculatedPath){
+            console.error("No valid path found");
+            return;
+        }
+        this.arrowMoving = true;
+    }
+    calculateFullPath(startPoint, pathPoints){
+        const fullPath = [startPoint.clone()];
+        // add all path points
+        pathPoints.forEach(point => {
+            fullPath.push(new THREE.Vector3(point.x, point.y, point.z));
+        });
+
+        return fullPath;
+    }
+    createPathLine(pathPoints){
+        // remove any existing line
+        if(this.line) {
+            this.scene.remove(this.line);
+            this.line.geometry.dispose();
+            this.line.material.dispose();
+            this.line = null;
+        }
+        const validPathPoints = pathPoints.map(point =>
+            point instanceof THREE.Vector3 ? point : new THREE.Vector3(point.x, point.y, point.z)
+        )
+        // current work
+        const geometry = new LineGeometry();
+        const flatPoints = validPathPoints.flatMap(v => [v.x, v.y, v.z]);
+        geometry.setPositions(flatPoints);
+        const material = new LineMaterial({ 
+            color: '#80C4E9', 
+            linewidth: 5,
+            resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),});
+        material.defines.USE_DASH = "";
+        this.line = new Line2(geometry, material);
+        this.line.position.y = this.line.position.y + 0.04;
+        this.line.frustumCulled = false;
+        this.scene.add(this.line);
+        // Store the points for future reference
+        this.points = validPathPoints;
+    }
+
     updateArrowPosition() {
         const speed = 0.05;
-        if (this.arrowMoving && this.arrowPath.length > 0) {
+        if(!this.arrowMoving || !this.calculatedPath || !this.isPathValid){
+            return;
+        }
+        if (this.arrowPath && this.arrowPath.length > 0) {
             const targetPosition = this.arrowPath[0]; // Get the next waypoint
-            const direction = new THREE.Vector3().subVectors(targetPosition, this.points[this.points.length - 1]).normalize();
+            // const currentPosition = this.points[this.points.length - 1];
+            const currentPosition = this.player ? this.player.position.clone() : this.points[this.points.length - 1];
+            const direction = new THREE.Vector3().subVectors(targetPosition, currentPosition).normalize();
             const step = direction.clone().multiplyScalar(speed);
-            const lastPoint = new THREE.Vector3().copy(this.points[this.points.length - 1]).add(step);
-            
-            // const newPoint = new THREE.Vector3(lastPoint.x + step.x, lastPoint.y + step.y, lastPoint.z + step.z);
-            this.points.push(lastPoint);
-            this.line.geometry.setFromPoints(this.points);
-            
-            
-            if(lastPoint.distanceTo(targetPosition) < speed) {
-                this.arrowPath.shift();
-            }
+            const nextPosition = currentPosition.clone().add(step);
 
             if (this.player) {
-                this.player.position.copy(lastPoint); // Move the asset to the new point
+                this.player.position.copy(nextPosition); // Move the asset to the new point
             }
 
-            if(this.arrowPath.length === 0){
-                console.log("Arrived");
-                this.arrowMoving = false;
+            if(nextPosition.distanceTo(targetPosition) < speed){
+                this.arrowPath.shift();
+                if(this.arrowPath.length === 0){
+                    console.log('arrived');
+                    this.arrowMoving = false;
+                    this.isPathValid = false;
+                }
             }
             }
     }
+
+    async navigateToPosition(startPos, targetPos){
+        const isPathValid = this.calculatePath(startPos, targetPos);
+        if(!isPathValid){
+            console.error("Failed to calculate valid path @ navigateToPosition");
+            return;
+        }
+        this.moveAlongPath();
+    }
+
     isPointInView(point) {
         const frutsum = new THREE.Frustum();
         const cameraViewProjectionMatrix = new THREE.Matrix4();
@@ -221,9 +348,10 @@ class Path {
             this.line.geometry.dispose();
             this.line.material.dispose();
             this.line = null;
-            this.points = [];
-            console.log('line disposed');
         }
+        this.points = [];
+        this.arrowPath = [];
+        this.arrowMoving = false;
     }
 
     
@@ -232,7 +360,7 @@ class Path {
         requestAnimationFrame(this.animate);
 
         this.updateArrowPosition();
-        this.updateLineVisibility();
+        // this.updateLineVisibility();
         this.renderer.render(this.scene, this.camera);
     }
 

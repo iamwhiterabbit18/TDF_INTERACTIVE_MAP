@@ -1,3 +1,4 @@
 import weather from "./weather/Weather";
 import actions from "./actions/Actions";
-export default { weather,  actions}
+import marker from "./icon/Icons.js";
+export default { weather,  actions, marker }

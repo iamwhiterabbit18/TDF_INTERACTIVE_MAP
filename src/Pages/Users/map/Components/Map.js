@@ -19,7 +19,7 @@ export default class Map {
       const mesh = gltfScene.scene;
       // mesh.rotation.x = 0.5 * Math.PI;
       scene.add(mesh);
-
+      console.log("MESH: ", mesh);
       mesh.traverse((object) => {
           if (object.isMesh) {
             // console.log(object);

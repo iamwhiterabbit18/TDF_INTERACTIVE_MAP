@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import react from '@vitejs/plugin-react-swc'
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +14,14 @@ export default defineConfig({
       promiseImportName: i => `__tla_${i}`
     }),
   ],
+
+  // insert paths/alias here if needed
+  resolve:{
+    alias:{
+      "@utils": path.resolve(__dirname, "./src/Pages/Users/map/Components/utils/"),
+      "@assets": path.resolve(__dirname, "./src/assets/"),
+    },
+  },
 
   optimizeDeps: {
     include: ['jwt-decode'],

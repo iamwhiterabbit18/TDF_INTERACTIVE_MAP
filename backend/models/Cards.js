@@ -7,6 +7,7 @@ const cardSchema = new mongoose.Schema({
   areaLocation:{type: String},
   image: { type: String },
   quickFacts: { type: String, required: true },
+  iconType: { type: String, required: true },
 });
 
 module.exports = mongoose.model('Card', cardSchema);
