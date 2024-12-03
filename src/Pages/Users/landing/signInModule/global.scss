@@ -35,6 +35,8 @@ li {
     background-color: $outOfFocus;
     color: $fontColor1;
     transition: 0.2s ease-in-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
     &:hover {
         background-color: $primary;
@@ -46,6 +48,8 @@ li {
     background-color: $primary;
     color: $tertiary;
     transition: 0.2s ease-in-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
     &:hover {
         background-color: $secondary;
@@ -59,6 +63,8 @@ li {
     color: $tertiary;
     margin: 30px 0 0 0;
     transition: 0.2s ease-in-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
     &:hover {
         background-color: $primary;
@@ -71,6 +77,7 @@ li {
 
 label, .txtTitle, .txtSubTitle {
     color: $fontColor1;
+    user-select: none;
 }
 
 .txtTitle {

@@ -16,6 +16,8 @@
 
     .close { // adapts styles from global
         position: absolute;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
         img {
             height: 15px;
@@ -75,6 +77,8 @@
                 margin-top: auto;
                 padding: 5px 35px;
                 transition: all 0.2s ease-in-out;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
                 &:hover {
                     scale: 1.1;

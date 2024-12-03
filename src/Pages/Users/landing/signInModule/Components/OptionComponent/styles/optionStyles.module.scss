@@ -40,6 +40,8 @@
         justify-content: center;
         transition: all 0.2s ease-in-out;
         width: 30px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
     
         img {
             height: 15px;

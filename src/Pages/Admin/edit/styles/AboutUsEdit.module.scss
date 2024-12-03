@@ -36,6 +36,8 @@
         .close {
             position: absolute;
             margin: 0 0 15px 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
             
             img {
                 height: 15px;
@@ -125,12 +127,14 @@
                 width: 100%;
       
                 .uploadBtn, .deleteBtn {
-                  background-color: $primary;
-                  border-radius: 30px;
-                  color: $tertiary;
-                  font-size: 15px !important;
-                  padding: 5px 20px;
-                  transition: all 0.2s ease-in-out;
+                    background-color: $primary;
+                    border-radius: 30px;
+                    color: $tertiary;
+                    font-size: 15px !important;
+                    padding: 5px 20px;
+                    transition: all 0.2s ease-in-out;
+                    user-select: none;
+                    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
                 }
 
                 .deleteBtn {
@@ -148,6 +152,8 @@
                 top: 0;
                 width: 100%;
                 cursor: pointer;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
             }
     
             
@@ -177,6 +183,8 @@
 .saveBtn {
     margin-top: 20px;
     pointer-events: all;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
     span {
         background-color: $primary;

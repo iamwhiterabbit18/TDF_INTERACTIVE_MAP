@@ -36,7 +36,7 @@
     display: flex;
     gap: 20px;
     padding: 10px 10px;
-    overflow: scroll;
+    overflow-x: scroll;
     flex-shrink: 0;
     flex-grow: 0;
 
@@ -62,11 +62,29 @@
         font-size: 11px;
         padding: 0 20px;
         transition: all 0.2s ease-in-out;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
         &:hover {
           scale: 1.1;
         }
       }
+    }
+    
+    &::-webkit-scrollbar {
+      width: 8px;       // Width of vertical scrollbar
+      height: 8px;      // Height of horizontal scrollbar (if applicable)
+    }
+  
+    &::-webkit-scrollbar-track {
+      // background-color: $secondary; // Background color of the track
+      border-radius: 10px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: $primary;    // Color of the scrollbar thumb
+      border-radius: 10px;
+      // border: 2px solid $tertiary; // Padding around thumb for space from track
     }
   }
 
@@ -80,6 +98,8 @@
     margin: 20px 20px 5px 20px;
     padding: 5px 20px;
     transition: all 0.2s ease-in-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
     &:hover {
       scale: 1.1;
@@ -202,6 +222,8 @@
           top: 0;
           width: 100%;
           cursor: pointer;
+          user-select: none;
+          -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
         }
 
         &:hover .overlay {

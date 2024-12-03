@@ -52,7 +52,7 @@ export default function NavList ({
                 <motion.section 
                     id = "navigationList" 
                     className = { styles.navBarList }
-                    initial = {(window.innerWidth > 992) ? {translateY: 120, translateX: 20, opacity: 0} : {translateY: 80, translateX: 20, opacity: 0}}
+                    initial = {(window.innerWidth > 991) ? {translateY: 120, translateX: 20, opacity: 0} : {translateY: 80, translateX: 20, opacity: 0}}
                     animate = {{opacity: 1,}}
                     exit = {{
                         opacity: 0, 
@@ -238,7 +238,7 @@ export default function NavList ({
                                     {isEditListOpen && (
                                         <motion.li 
                                             key = {'editCards'}
-                                            onClick = {() => window.location.href = "/cards"}
+                                            onClick = {() => navigate("/cards")}
                                             initial = {{opacity: 0, translateY: -40}}
                                             animate = {{opacity: 1, translateY: !isEditListOpen  ? -40 : 0}}
                                             exit = {{

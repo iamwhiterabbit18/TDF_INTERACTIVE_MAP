@@ -35,6 +35,8 @@
         font-size: 11px;
         padding: 12px 5px;
         text-align: center;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
       }
   
       button {

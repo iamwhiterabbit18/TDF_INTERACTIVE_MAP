@@ -33,6 +33,8 @@
         .close {
             position: absolute;
             margin: 0 0 -15px 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
             img {
                 height: 15px;
@@ -91,6 +93,8 @@
 .saveBtn {
     margin-top: 20px;
     pointer-events: all;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
     span {
         background-color: $primary;
