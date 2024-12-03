@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
 
     try {
       let audio = [];
-      const response = await axios.get(`http://localhost:5000/api/audio`);
+      const response = await axios.get(`http://127.0.0.1:5000/api/audio`);
       audio = response.data;
       const playAudio = audio.find(obj => obj._id === modalId);
 
@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
           return; 
         }
 
-        audioRef.current.src = `http://localhost:5000/${playAudio.filePath}`; // Set audio source
+        audioRef.current.src = `http://127.0.0.1:5000/${playAudio.filePath}`; // Set audio source
         audioRef.current.play(); // Play the audio
         setIsPlaying(true); // Set audio state to playing
         console.log('Playing Audio:', playAudio.filePath);
@@ -88,25 +88,29 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
             <span className = { styles.txtTitle }>{modalData.title}</span>
           </div>
 
-          {/* <div className = { styles.imageContainer }>
-            <div className = { styles.featuredImage }>
-              <img src={images.image1}/>
-            </div>
-            <div className = { styles.sideImages}>
-              <img src={images.image2}/>
-              <img src={images.image2}/>
-              <img src={images.image2}/>
-            </div>
-          </div> */}
-
           {/* Carousel for images */}
-          <div className = { styles.imageContainer }>
-            <Slider {...settings} className = { styles.featuredImage }>
-              <img src={images.image1}/>
-              <img src={images.image2}/>
-              <img src={images.image2}/>
-              <img src={images.image2}/>
-            </Slider>
+          <div className = { styles.imageCarousel }>
+              {modalData.modalImages && modalData.modalImages.length > 0 ? (
+              <div className={styles.imageContainer}>
+                <Slider {...settings}>
+                  {modalData.modalImages.map((image, index) => (
+                    <div key={index} className={styles.slickSlide}>
+                      <img 
+                        src={`http://127.0.0.1:5000/uploads/modalImages/${image}`}
+                        alt={`Image ${index}`} 
+                        className={styles.carouselImage}
+                      />
+                    </div>
+                  ))}
+                </Slider>
+              </div>
+            ) : (
+              <div className = { styles.imageContainer}>
+                <div className = { styles.noImg }>
+                  <span className = { styles.txtTitle }>No Image available</span>
+                </div>
+              </div>
+            )}
           </div>
         
           <div className = { isInfo ? `${ styles.infoContainer } ${ styles.active }` : styles.infoContainer }>
@@ -135,14 +139,8 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
                   exit = {{opacity: 0}}
                   transition = {{duration: 0.2, ease: "easeInOut"}}
                 >
-                  <p className ={ styles.txtSubTitle }>
-                    {/* placeholder */}
-                    1. Somebullshit Somebullshit Somebullshit <br />
-                    2. Somebullshit Somebullshit Somebullshit <br />
-                    3. Somebullshit Somebullshit Somebullshit <br />
-                    4. Somebullshit Somebullshit Somebullshit <br />
-                  </p>  
-
+                  <p className ={ styles.txtSubTitle }> {modalData.technologies}</p>  
+                  
                   <div className = { styles.line }></div>
                 </motion.div>
               )}

@@ -15,7 +15,7 @@ export default class Map {
     this.map = new GLTFLoader(this.preloader.loadingManager);
     this.map.setDRACOLoader(this.dracoloader);
 
-    this.map.load('map/mapStrucOnly.glb', (gltfScene) => {
+    this.map.load('map/map.glb', (gltfScene) => {
       const mesh = gltfScene.scene;
       // mesh.rotation.x = 0.5 * Math.PI;
       scene.add(mesh);

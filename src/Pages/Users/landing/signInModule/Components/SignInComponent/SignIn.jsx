@@ -25,38 +25,33 @@ export default function SignIn ({ handleBtnClick, isBtnClicked, handleUser }) {
     const navigate = useNavigate();
     const [error, setError] = useState('');
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const userData = { email, password };
+            const response = await login(userData);
 
+            localStorage.setItem('user', JSON.stringify(response));
+            localStorage.setItem('token', response.token);
+            setUser(response);
 
-
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const userData = { email, password };
-        const response = await login(userData);
-
-        localStorage.setItem('user', JSON.stringify(response));
-        localStorage.setItem('token', response.token);
-        setUser(response);
-
-        // Now you can navigate based on the user role
-        if (response.role === 'admin' || response.role === 'staff') {
-            console.log(response.role ,'Logged In!')
-            navigate('/map', { state: { user: response } }); // Pass user object for admin and staff
-        } else if (response.role === 'guest') {
-            navigate('/map'); // Guest just navigates without passing user
+            // Now you can navigate based on the user role
+            if (response.role === 'admin' || response.role === 'staff') {
+                console.log(response.role ,'Logged In!')
+                navigate('/map', { state: { user: response } }); // Pass user object for admin and staff
+            } else if (response.role === 'guest') {
+                navigate('/map'); // Guest just navigates without passing user
+            }
+        } catch (error) {
+            setError('Failed to login');
         }
-    } catch (error) {
-        setError('Failed to login');
-    }
-};
-
-    
+    };
 
     return (
         <AnimatePresence>
             {isBtnClicked && (
                 <motion.div 
-                    className = { `${ styles.signInContent }`}
+                    className = { `${ styles.signInContent }` }
                     initial = {{opacity: 0}}
                     animate = {{opacity: 1}}
                     exit = {{opacity: 0, transition: {delay: 0}}}
@@ -68,12 +63,12 @@ const handleSubmit = async (e) => {
 
                     <span className = { styles.txtTitle }>Sign in</span>
 
-                    <form className = { styles.form } onSubmit = {handleSubmit} >
+                    <form className = { styles.form } onSubmit = { handleSubmit } >
                         <label htmlFor = "email">Email</label>
                         <input 
                             autoComplete = "off"
                             name = "email"
-                            type = "email" 
+                            type = "email"
                             required
                             onChange = {(e) => setEmail(e.target.value)}
                         />

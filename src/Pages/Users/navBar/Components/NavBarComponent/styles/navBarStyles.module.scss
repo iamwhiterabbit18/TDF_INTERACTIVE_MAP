@@ -43,25 +43,14 @@
     }
 }
 
-// specific icon styles
-.icon.user { //add a dropdown for the user icon
-    background-color: $guest;
-    border-radius: 50%;
-    height: 50px;
-    margin: 0 0 0 10px;
-    width: 50px;
-
-    img {
-        height: 25px;
-        width: 25px;
-    }
-}
-
 .icon.hamburger {
     background-color: $primary;
     border-radius: 50%;
     height: 50px;
     width: 50px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+
     img {
         height: 20px;
         width: 20px;

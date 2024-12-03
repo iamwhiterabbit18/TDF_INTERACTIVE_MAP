@@ -1,0 +1,137 @@
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
+.holder {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    pointer-events: all;
+    height: 90%;
+}
+
+.editContainer {
+    background-color: $tertiary;
+    border-radius: 10px;
+    max-height: 70%; 
+    max-width: 400px;
+    padding: 20px 30px;
+    width: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+
+    .editingSection {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        
+
+        .close {
+            position: absolute;
+            margin: 0 0 -15px 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+
+            img {
+                height: 15px;
+                width: 15px;
+            }
+        }
+
+        .header {
+            background-color: $secondary;
+            border-radius: 0 0 50px 50px;
+            padding: 10px 10px;
+            width: 70%;
+            text-align: center;
+            margin-top: -20px;
+
+            .txtTitle {
+                color: $tertiary;
+                font-size: 20px;
+                text-align: center;
+            }
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 20px;
+            
+            .txtTitle {
+                text-align: start;
+                font-size: 20px;
+            }
+
+            .txtSubTitle {
+                font-size: 12px;
+                margin: -5px 0 10px 0;
+                width: 100%;
+                word-wrap: break-word;
+            }
+
+            textarea {
+                border: 1px solid black;
+                border-radius: 5px;
+                // font-size: 8px;
+                margin-bottom: 15px;
+                height: 80px;
+                padding: 5px;
+                resize: none;
+                outline: transparent;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.saveBtn {
+    margin-top: 20px;
+    pointer-events: all;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+
+    span {
+        background-color: $primary;
+        border-radius: 30px;
+        color: $tertiary;
+        font-size: 16px;
+        padding: 5px 30px;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            background-color: $secondary;
+            color: $primary;
+        }
+    }
+}
+
+@media (min-width: 520px) {
+    .editContainer {
+        .editingSection {
+            .close {
+                img {
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+
+            .header {
+                .txtTitle {
+                    font-size: 30px;
+                }
+            }
+
+            .form {
+                .txtTitle {
+                    font-size: 25px;
+                }
+            }
+        }
+    }
+}

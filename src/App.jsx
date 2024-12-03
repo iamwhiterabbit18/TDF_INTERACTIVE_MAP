@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Cards from './Pages/Admin/edit/CardsEdit'; //Admin and Staff Only
 import Modal from './Pages/Admin/edit/ModalsEdit';  //Admin and Staff Only
 import Audio from './Pages/Admin/edit/AudioManagement'; //Admin and Staff Only
+import Analytics from "./Pages/Admin/edit/Analytics";
 import UserManagement from './Pages/Admin/edit/UserManagement'; // Admin Only
 import PrivateRoute from  '/src/Pages/Admin/ACMfiles/PrivateRoute'; 
 import { AuthProvider } from  '/src/Pages/Admin/ACMfiles/AuthContext';
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='cards'  element={ <PrivateRoute roles={['admin', 'staff']}><Cards/> </PrivateRoute> } /> 
         <Route path='/modal' element={ <PrivateRoute roles={['admin', 'staff']}><Modal/> </PrivateRoute> } />
         <Route path='audio' element={ <PrivateRoute roles={['admin', 'staff']}><Audio/> </PrivateRoute> } />
+        <Route path='/analytics' element={ <PrivateRoute roles={['admin', 'staff']}><Analytics/> </PrivateRoute> } />
     </Routes>
     </AuthProvider>
    );

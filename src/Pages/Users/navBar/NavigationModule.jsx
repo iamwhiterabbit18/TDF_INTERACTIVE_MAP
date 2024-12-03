@@ -2,13 +2,13 @@ import React, { useState, useRef } from 'react'
 // import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import dropdownStyles from './Components/UserDropdownComponent/styles/userDropdownStyles.module.scss';
+
 import navListItemsStyles from './Components/NavListComponent/styles/navListItemsStyles.module.scss';
 
 // ------- Navigation Components Section -------
 import NavBar from './Components/NavBarComponent/NavBar.jsx'
 import NavList from './Components/NavListComponent/NavList.jsx'
-import UserDropdown from './Components/UserDropdownComponent/UserDropdown.jsx'
+import Legend from './Components/LegendComponent/Legend.jsx'
 
 // ------- NavList Items Section -------
 import ContactUsComponent from './Components/NavListComponent/SubComponent/ContactUsComponent/ContactUs.jsx'
@@ -16,6 +16,8 @@ import AboutUsComponent from './Components/NavListComponent/SubComponent/AboutUs
 import NewsAndEvents from './Components/NavListComponent/SubComponent/newsAndEventsModule/Components/NewsAndEvents.jsx'
 import SubmitFeedback from './Components/NavListComponent/SubComponent/FeedbackComponent/SubmitFeedback.jsx'
 import NewsEventImage from '../../Admin/edit/EditNewsEvent.jsx';
+import AboutUsEdit from '../../Admin/edit/AboutUsEdit.jsx';
+import ContactUsEdit from '../../Admin/edit/ContactUsEdit.jsx';
 
 export default function NavigationModule () {
 
@@ -112,10 +114,8 @@ export default function NavigationModule () {
                     toggleModal = { toggleModal }
                 />
                 
-                <UserDropdown
-                    handleClickOutside = { handleClickOutside }
-                    isDropClicked = { isDropClicked }
-                />
+                {/* Not in use, replaced with map legend list */}
+                <Legend />
 
                 <div className = { navListItemsStyles.modalContainer } >
                     {/* ------- ContactUs Component Section ------- */}
@@ -149,6 +149,20 @@ export default function NavigationModule () {
 
                     {/* EditNewsEvent */}
                         <NewsEventImage 
+                            setCurrentModal = { setCurrentModal }
+                            currentModal = { currentModal }
+                            handleClickOutside = { handleClickOutside }
+                        />
+                    
+                    {/* AboutUsEdit */}
+                        <AboutUsEdit 
+                            setCurrentModal = { setCurrentModal }
+                            currentModal = { currentModal }
+                            handleClickOutside = { handleClickOutside }
+                        />
+                    
+                    {/* ContactUsEdit */}
+                        <ContactUsEdit 
                             setCurrentModal = { setCurrentModal }
                             currentModal = { currentModal }
                             handleClickOutside = { handleClickOutside }

@@ -4,7 +4,7 @@ import * as THREE from "three";
 
 export default class Click {
     constructor(event, camera, scene) {
-        this.mouse = new THREE.Vector2();
+        this.mouse = new THREE.Vector3();
         this.raycaster = new THREE.Raycaster();
 
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;

@@ -38,11 +38,15 @@
         filter: invert(10%) sepia(33%) saturate(3192%) hue-rotate(225deg) brightness(81%) contrast(100%); 
         transition: all 0.2s ease-in-out;
         width: 15px;
+
+        &:hover {
+          filter: brightness(0) saturate(100%) invert(58%) sepia(20%) saturate(5091%) hue-rotate(17deg) brightness(100%) contrast(98%);
+        }
       }
     }
 
     .headerBg {
-      margin: 0 0 15px 0;
+      margin: 0 0 15px 15px;
 
       .txtTitle {
         background-color: $tertiary;
@@ -55,23 +59,45 @@
     }
     
 
-    .imageContainer {
+    .imageCarousel {
       display: flex;
+      flex-direction: column;
       gap: 5px;
-      margin-top: 10px;
-      margin: 0 -10px 10px -10px;
-      position: relative;
       max-width: 490px;
       z-index: -1;
 
-      .featuredImage {
-        width: 100%;
+      .imageContainer {
+        width: 100%; 
 
-        img {
-          border-radius: 10px;
+        .slickSlide {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .carouselImage {
+          width: 100%;
+          border-radius: 20px;
           max-height: 300px;
           height: 50%;
+          object-fit: cover;
           // width: 100%;
+        }
+
+        // IF NO IMAGE IS UPLOADED
+        .noImg {
+          background-color: $outOfFocus;
+          border-radius: 20px;
+          align-items: center;
+          display: flex;
+          justify-content: center;
+          height: 200px;
+          width: 100%;
+          margin-bottom: 20px;
+  
+          span {
+            font-size: 15px;
+          }
         }
       }
     }
@@ -165,7 +191,6 @@
   .modalBackdrop {
     .modalContent {
         .headerBg {
-          margin: 0 0 20px 0; 
           .txtTitle {
             font-size: 30px;
             height: 40px;

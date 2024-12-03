@@ -12,6 +12,9 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const guestLogRoutes = require('./routes/guestLogRoutes');
 const newsEventRoutes = require('./routes/newsEventRoutes');
+const aboutUsRoutes = require('./routes/AboutUsRoutes');
+const contactUsRoutes = require('./routes/ContactUsRoutes');
+
 dotenv.config(); 
 
 const app = express();
@@ -42,12 +45,14 @@ mongoose.connection.on('disconnected', () => {
 
 // All the routes used
 app.use('/api/cards', cardRoutes);
-app.use('/api/modal', modalRoutes); // Ensure this line exists
-app.use('/api/audio', audioRoutes); // Ensure this line exists
+app.use('/api/modal', modalRoutes);
+app.use('/api/audio', audioRoutes); 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/guest', guestLogRoutes);
 app.use('/api/images', newsEventRoutes);
+app.use('/api/aboutus', aboutUsRoutes);
+app.use('/api/contact', contactUsRoutes);
 
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {

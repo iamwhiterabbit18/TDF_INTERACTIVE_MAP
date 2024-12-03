@@ -37,6 +37,8 @@
                 padding: 2px 35px;
                 transition: all 0.2s ease-in-out;
                 cursor: pointer;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
                 &:hover {
                     scale: 1.1;

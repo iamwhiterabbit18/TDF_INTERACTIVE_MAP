@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+
 
 import icons from '../../../../../assets/for_landingPage/Icons.jsx';
 import styles from './styles/navListStyles.module.scss';
@@ -18,7 +19,7 @@ export default function NavList ({
 }) {
 
     const location = useLocation();
-    const { user: authUser } = useAuth();
+    const { user: authUser, logout } = useAuth();
     const user = location.state?.user || authUser;
 
     const navigate = useNavigate();
@@ -38,6 +39,12 @@ export default function NavList ({
         };
     }, [isNavListClosed]);
 
+    const handleLogout = () => {
+        logout(); // Call the logout function from context
+        console.log(user.role,'logout')
+        //navigate('/'); // Redirect to home or login page after logout
+    };
+
     return (
         <>
         <AnimatePresence>
@@ -45,14 +52,14 @@ export default function NavList ({
                 <motion.section 
                     id = "navigationList" 
                     className = { styles.navBarList }
-                    initial = {(window.innerWidth > 992) ? {translateY: 120, translateX: 20, opacity: 0} : {translateY: 80, translateX: 20, opacity: 0}}
+                    initial = {(window.innerWidth > 991) ? {translateY: 120, translateX: 20, opacity: 0} : {translateY: 80, translateX: 20, opacity: 0}}
                     animate = {{opacity: 1,}}
                     exit = {{
                         opacity: 0, 
                         translateX: 20, 
                         transition: {
                             duration: 0.21, 
-                            delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 5 : 0.18 * 4,
+                            delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 6 : 0.18 * 5,
                             ease: "easeInOut"
                         }}
                     }
@@ -71,7 +78,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 4 : 0.18 * 3,
+                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 5 : 0.18 * 4,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -92,7 +99,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 3 : 0.18 * 2,
+                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 4 : 0.18 * 3,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -113,7 +120,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 2 : 0.18,
+                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 3 : 0.18 * 2,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -134,7 +141,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 : 0,
+                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 2 : 0.18,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -144,7 +151,7 @@ export default function NavList ({
                                 <span className = { styles.text }>Submit Feedback</span>
                             </motion.li>
                         )}
-
+                        
                         {/* Edit content option */}
                         {(user?.role === "staff" || user?.role === "admin") && (
                             <div className = { styles.editListWrapper }>
@@ -159,7 +166,7 @@ export default function NavList ({
                                             translateY: -40, 
                                             transition: {
                                                 duration: 0.18, 
-                                                delay: 0,
+                                                delay: 0.18,
                                                 ease: "easeInOut"
                                             }}
                                         }
@@ -171,6 +178,39 @@ export default function NavList ({
                                     </motion.li>
                                 )}
                             </div>
+                        )}
+
+                        {/* Logout */}
+                        {isHamClicked && (
+                            <motion.li 
+                            key = {'signin'}
+                            className = { styles.list }
+                            onClick = { (user?.role === "admin" || user?.role === "staff") ? handleLogout : null }
+                            initial = {{opacity: 0, translateY: -80}}
+                            animate = {{opacity: 1, translateY: !isHamClicked ? -80 : 0}}
+                            exit = {{
+                                opacity: 0, 
+                                translateY: -80, 
+                                transition: {
+                                    duration: 0.2, 
+                                    delay: 0,
+                                    ease: "easeInOut",
+                                }
+                            }}
+                            transition = {{
+                                duration: 0.2, 
+                                delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 6 : 0.18 * 5, 
+                                ease: "easeInOut"
+                            }}
+                            >
+                                <img className = { `${styles.icon} ${styles.signin}` } src = {icons.signIn} alt = "Signin"/>
+                                <span className = { styles.text }>
+                                    {(user?.role === "admin" || user?.role === "staff")
+                                        ? <>Log Out</>
+                                        : <Link to = "/">Sign in</Link>
+                                    }
+                                </span>
+                            </motion.li>
                         )}
                     </ul>
             </motion.section>
@@ -198,7 +238,7 @@ export default function NavList ({
                                     {isEditListOpen && (
                                         <motion.li 
                                             key = {'editCards'}
-                                            onClick = {() => window.location.href = "/cards"}
+                                            onClick = {() => navigate("/cards")}
                                             initial = {{opacity: 0, translateY: -40}}
                                             animate = {{opacity: 1, translateY: !isEditListOpen  ? -40 : 0}}
                                             exit = {{
@@ -260,10 +300,10 @@ export default function NavList ({
                                     )}
                                     {isEditListOpen && (
                                         <motion.li 
-                                            key = {'editNewsAndEvents'}
-                                            onClick = { function() { handleModalClick(); captureNavListClick('editNewsEvent'); }  }
+                                            key = {'analytics'}
+                                            onClick = {() => navigate("/analytics")}
                                             initial = {{opacity: 0, translateY: -40}}
-                                            animate = {{opacity: 1, translateY: !isEditListOpen  ? -40 : 0}}
+                                            animate = {{opacity: 1, translateY: !isEditListOpen   ? -40 : 0}}
                                             exit = {{
                                                 opacity: 0, 
                                                 translateY: -40, 
@@ -275,15 +315,15 @@ export default function NavList ({
                                             }
                                             transition = {{duration: 0.2, delay: 0.18 * 3, ease: "easeInOut"}}
                                         >
-                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.card } alt = "Edit News and Event" />
-                                            <span className = { styles.text }>Edit News and Event</span>
+                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.analytics } alt = "Analytics" />
+                                            <span className = { styles.text }>Analytics</span>
                                         </motion.li>
                                     )}
                                     {user?.role === "admin" && (
                                         <>
                                             {isEditListOpen && (
                                                 <motion.li 
-                                                    key = {'editNewsAndEvents'}
+                                                    key = {'userManagement'}
                                                     onClick = {() => window.location.href = "/usermanage"}
                                                     initial = {{opacity: 0, translateY: -40}}
                                                     animate = {{opacity: 1, translateY: !isEditListOpen ? -40 : 0}}

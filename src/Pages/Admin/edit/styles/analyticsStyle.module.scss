@@ -1,0 +1,173 @@
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
+.analyticsContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-x: scroll;
+    width: 100%;
+
+    .header {
+        align-items: center;
+        background-color: $secondary;
+        border-radius: 0 0 90px 0;
+        display: flex;
+        height: 100px;
+        justify-content: center;
+        flex-shrink: 0;
+        flex-grow: 0;
+        width: 86%;
+        margin-bottom: 20px;
+    
+        .txtTitle {
+          color: $tertiary;
+          font-size: 21px;
+        }
+    }
+
+    .chartHeader, .feedbackHeader {
+        font-size: 21px;
+        margin-left: 35px; 
+    }
+
+    .chartCont1, .chartCont2 {
+        align-self: center;
+        flex-shrink: 0;
+        flex-grow: 0;
+        width: 90%;
+        
+        .stars, .sex, .role {
+            background-color: $tertiary;
+            border-radius: 20px;
+            padding: 10px 20px;
+
+            .chartTitle {
+                font-size: 21px;
+            }
+        }
+        
+    }
+
+    .chartCont1 {
+        max-height: 500px;
+
+        .stars {
+            height: 100%;
+            padding-bottom: 30px;
+
+            .wrapper {
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                height: 90%;
+                width: 100%;
+            }
+        }
+    }
+
+    .chartCont2 {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        // height: 100%;
+        margin-top: 20px;
+        position: relative;
+        
+        .sex, .role {
+            // position: relative;
+            // width: 49%;
+            width: 100%;
+
+            .wrapper {
+                width: 100%;
+                height: 90%;
+            }
+        }
+    }
+
+    .feedbackList {
+        margin-top: 40px;
+
+        .tblWrapper {
+            display: flex;
+            flex-direction: column;
+            margin: 40px 15px 0 15px;
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+    
+                th, td {
+                    border-bottom: 1.5px solid $tertiary;
+                    font-family: $subTitle;
+                    font-size: 11px;
+                    padding: 12px 5px;
+                    text-align: center;
+                    user-select: none;
+                    -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+                }
+            }
+        }
+    } 
+}
+
+@media (min-width: 576px) {
+    .analyticsContainer {
+        .chartCont2 {
+            flex-direction: row;
+            justify-content: space-evenly;
+            height: 400px;
+
+            .sex, .role {
+                width: 49%;
+            }
+        }
+
+        .feedbackList {
+            .tblWrapper {
+                table {
+                    th, td {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .analyticsContainer {
+        .header {
+            border-radius: 0 0 150px 0;
+            padding: 80px 0;
+
+            .txtTitle{
+                font-size: 40px;
+            }
+        }
+
+        .chartHeader, .feedbackHeader {
+            font-size: 31px;
+        }
+
+        .chartCont1, .chartCont2 {
+            .stars, .sex, .role {
+                .chartTitle{
+                    font-size: 25px;
+                }
+            }
+        }
+
+        .feedbackList {
+            .tblWrapper {
+                table {
+                    th, td {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}

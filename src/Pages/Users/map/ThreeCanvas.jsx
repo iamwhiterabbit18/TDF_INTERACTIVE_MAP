@@ -35,7 +35,6 @@ const ThreeCanvas = () => {
   const containerRef = useRef(null);
   const mapContainerRef = useRef(null);
   const expRef = useRef(null);
-  // here
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const rendererRef = useRef(null);
