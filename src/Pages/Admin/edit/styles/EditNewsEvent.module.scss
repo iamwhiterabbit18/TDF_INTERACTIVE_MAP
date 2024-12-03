@@ -44,6 +44,8 @@
 
     .close { // adapts styles from global
       position: absolute;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
       img {
           height: 15px;
@@ -189,6 +191,8 @@
         font-family: $title;
         padding: 5px 15px;
         transition: all 0.2s ease-in-out;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
       }
 
       .fileName {
@@ -204,6 +208,8 @@
         opacity: 0;
         position: absolute; 
         cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
       }
 
       &:hover .browseBtn {
@@ -268,6 +274,8 @@
         font-family: $title;
         transition: all 0.2s ease-in-out;
         padding: 5px 22px;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
         &:hover {
           scale: 1.1;

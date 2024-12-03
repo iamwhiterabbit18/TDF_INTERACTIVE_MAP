@@ -21,6 +21,9 @@
         width: 100%;
 
         .close {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+            
             img {
                 height: 15px;
                 width: 15px;

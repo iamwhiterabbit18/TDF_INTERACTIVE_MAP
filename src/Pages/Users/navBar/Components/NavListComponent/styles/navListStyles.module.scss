@@ -18,6 +18,8 @@
             margin: 12px 0;
             padding: 5px 10px;
             width: 100%;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
             .icon {
                 filter: brightness(0) saturate(100%);
@@ -51,13 +53,59 @@
     .editList {
         left: 150px;
         position: absolute;
-        top: 120px;
+        top: 170px;
     }
 }
 
 // RESPONSIVE DESIGN
 
-@media (min-width: 800px) {
+@media (min-width: 960px) {
+
+    .navBarList, .editContentList {
+        width: 200px;
+
+        .navList, .editList{
+            li {
+                border-radius: 15px; 
+                font-size: 14px;
+                margin: 13px 0;
+                padding: 10px 20px;
+    
+                .icon {
+                    height: 20px;
+                    width: 20px;
+                }
+
+                .text {
+                    margin: 0 0 0 20px;
+                }
+            }
+        }
+    }
+
+    .editContentList {
+        left: 60px;
+        position: absolute;
+        top: 60px;
+
+        .editList {
+            li {
+                width: 150px;
+
+                .icon {
+                    height: 20px;
+                    width: 20px;
+                }
+
+                .text {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
 
     .navBarList, .editContentList {
         width: 250px;
@@ -73,18 +121,13 @@
                     height: 30px;
                     width: 30px;
                 }
-
-                .text {
-                    margin: 0 0 0 20px;
-                }
             }
         }
     }
 
     .editContentList {
         left: 120px;
-        position: absolute;
-        top: 140px;
+        top: 120px;
 
         .editList {
             li {

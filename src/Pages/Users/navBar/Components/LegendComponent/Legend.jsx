@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation, useNavigate, } from 'react-router-dom';
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
 
+import legend from '../../../../../assets/icon/Icons.js';
 import icons from '../../../../../assets/for_landingPage/Icons.jsx';
 import styles from './styles/legendStyles.module.scss';
 
@@ -42,33 +43,33 @@ export default function Legend() {
                                 <ul className = { styles.legendList }>
                                     <li>
                                         <span className = { styles.text }>
-                                            Fish/Prawn Culture
+                                            Birds
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {icons.location} alt = "Signin"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.bird} alt = "Bird"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
-                                            Feathered Place
+                                            Buildings
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {icons.location} alt = "Signin"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.building} alt = "Buildings"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
-                                            Bahay Kubo
+                                            Fishes
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {icons.location} alt = "Signin"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.fish} alt = "Fishes"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
-                                            House of Greens
+                                            Bees
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {icons.location} alt = "Signin"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.swarm} alt = "Bees"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
-                                            Urban Garden
+                                            Plants
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {icons.location} alt = "Signin"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.wheat} alt = "Plant"/>
                                     </li>
                                 </ul>
                             </section>

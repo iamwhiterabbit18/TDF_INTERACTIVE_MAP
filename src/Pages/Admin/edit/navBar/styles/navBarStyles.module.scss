@@ -33,6 +33,8 @@
             font-family: $title;
             transform-origin: 0 0;
             transition: all 0.2s ease-in-out;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
             &:hover { // not working 
                 color: $secondary;
@@ -85,6 +87,8 @@
         margin: 10px 0; 
         padding: 10px 10px;
         width: auto;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
         .icon {
             filter: brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(465%) hue-rotate(314deg) brightness(114%) contrast(100%);
@@ -127,6 +131,8 @@
         display: flex;
         justify-content: center;
         margin: 10px 0;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
     
         .icon.logout {
             filter: brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(465%) hue-rotate(314deg) brightness(114%) contrast(100%);

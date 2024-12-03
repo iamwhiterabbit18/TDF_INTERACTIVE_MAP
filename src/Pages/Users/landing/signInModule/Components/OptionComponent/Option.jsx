@@ -97,7 +97,7 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
                                 <option value="female">Female</option>
                             </select>
 
-                            <label>Occupation</label>
+                            <label>Role</label>
                             <select>
                                 <option value="student">Student</option>
                                 <option value="farmer">Farmer</option>
