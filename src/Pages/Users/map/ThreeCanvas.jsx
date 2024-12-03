@@ -21,6 +21,9 @@ import { useNavigate } from 'react-router-dom';
 // for pathfinding
 import Pathfinding from './Components/pathfinding/Pathfinding';
 import positions from '../../../assets/API/positions';
+
+// for adding marker
+import AddMarker from './Components/marker/AddMarker';
 // import { exp } from 'three/webgpu';
 // import { set } from 'mongoose';
 
@@ -237,6 +240,8 @@ const ThreeCanvas = () => {
         togglePathfinding={togglePathfinding} 
         getCurrentCamControls={getCurrentCamControls}
         />
+        {/* AddMarker component */}
+        <AddMarker />
     </div>
   ) 
 };
