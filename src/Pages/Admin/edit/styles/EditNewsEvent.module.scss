@@ -14,6 +14,7 @@
     background-color: $tertiary;
     padding: 20px; 
     border-radius: 8px;
+    gap: 15px;
     display: flex;
     flex-direction: column;
     max-width: 500px;
@@ -159,6 +160,21 @@
 
       &:hover .overlay {
         opacity: 1;
+      }
+    }
+
+    .news {
+      width: 100%;
+      padding: 0 30px;
+
+      .txtTitle {
+        font-size: 25px;
+      }
+
+      textarea {
+        width: 100%;
+        resize: none;
+        height: 150px;
       }
     }
   }

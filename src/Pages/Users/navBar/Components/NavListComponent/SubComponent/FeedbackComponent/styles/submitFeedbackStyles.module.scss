@@ -79,7 +79,7 @@
             }
 
             .txtSubTitle {
-                color: $secondary;
+                color: $fontColor1;
 
                 &.error {
                     color: $danger;
@@ -97,8 +97,7 @@
                 width: 120px;
 
                 &:hover {
-                    background-color: $primary;
-                    color: $secondary;
+                    scale: 1.1;
                 }
             }
         }
