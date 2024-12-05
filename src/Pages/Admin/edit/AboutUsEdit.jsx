@@ -97,9 +97,13 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
 
     const handleDeleteImage = async () => {
         try {
-            await axios.delete('http://127.0.0.1:5000/api/aboutus/image');
-            alert("Image deleted successfully.");
-            fetchAboutUsData();  // Refresh data after deletion
+            if (selectedImage) {
+                await axios.delete('http://127.0.0.1:5000/api/aboutus/image');
+                alert("Image deleted successfully.");
+                fetchAboutUsData();  // Refresh data after deletion
+                setDeleteModalVisible(null);
+            }
+
         } catch (error) {
             console.error("Error deleting image:", error);
         }
@@ -116,6 +120,25 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [currentModal]);
+
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+
+    const confirmAndDelete = () => {
+        setConfirmDelete(true);
+    }
+
+    useEffect(() => {
+        if (confirmDelete && selectedImage) {
+            handleDeleteImage();
+            setConfirmDelete(false);
+        }
+    }, [confirmDelete, selectedImage]);
+
+    const cancelBtn = () => {
+        setDeleteModalVisible(false);
+    };
+
 
     return (
         <>
@@ -175,7 +198,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
 
                                                 <button 
                                                     className = { `${ styles.txtTitle} ${ styles.deleteBtn }` } 
-                                                    onClick={handleDeleteImage}
+                                                    onClick={() => {setDeleteModalVisible(true); setSelectedImage(aboutUsData.image);} } //handleDeleteImage
                                                 >
                                                     Delete Image
                                                 </button>
@@ -268,6 +291,25 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                             <span className = { styles.txtTitle } onClick = {() => { handleUpdateImage(aboutUsData.image); handleSaveDetails(); }}>Save Changes</span>
                         </motion.button>
                     </div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {/* Delete Modal */}
+                {deleteModalVisible && (
+                    <motion.div 
+                        className={styles.confirmDltContainer}
+                        id = "aboutUsEdit"
+                        initial = {{opacity: 0}}
+                        animate = {{opacity: 1}}
+                        exit = {{opacity: 0}}
+                        transition = {{duration: 0.2, ease: "easeInOut"}}
+                    >
+                        <Confirmation 
+                            setConfirmDelete = { confirmAndDelete }
+                            onCancel = { cancelBtn }
+                        />
+                   </motion.div>
                 )}
             </AnimatePresence>
         </>

@@ -36,6 +36,8 @@ import edit from '/for_landingPage/icons/edit.png'
 import profile from '/for_landingPage/icons/profile.png'
 import upload from '/for_landingPage/icons/upload.png'
 import analytics from '/for_landingPage/icons/analytics.png'
+import email from '/for_landingPage/icons/email.png'
+import facebook from '/for_landingPage/icons/facebook.png'
 
 import compass from '/for_landingPage/icons/compass.png'
 
@@ -47,6 +49,6 @@ export default {
         star, // submit feedback assets
         audio, location,
         add, remove, pencil,
-        card, edit, profile, upload, analytics,
+        card, edit, profile, upload, analytics, email, facebook,
         compass
     }; 

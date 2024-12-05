@@ -74,22 +74,35 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                                     <span className={styles.txtTitle}>News and Events</span>
                                 </div>
                                     {images.length > 0 ? (
-                                        <div className={styles.imageSlider}>
-                                            <Slider {...settings}>
-                                                {images.map((image, index) => (
-                                                    <div key={index} className ={styles.slickSlide}>
-                                                        <img src={`http://127.0.0.1:5000/${image}`} 
-                                                        alt={`Slide ${index}`} 
-                                                        className ={styles.carouselImg}/>
-                                                    </div>
-                                                ))}
-                                            </Slider>
-                                        </div>
+                                        <>
+                                            <div className={styles.imageSlider}>
+                                                <Slider {...settings}>
+                                                    {images.map((image, index) => (
+                                                        <div key={index} className ={styles.slickSlide}>
+                                                            <img src={`http://127.0.0.1:5000/${image}`} 
+                                                            alt={`Slide ${index}`} 
+                                                            className ={styles.carouselImg}/>
+                                                        </div>
+                                                    ))}
+                                                </Slider>
+                                            </div>
+                                            <div className = { styles.news }>
+                                                <span className = { styles.txtTitle }>News Header</span>
+                                                <p className = { styles.txtSubTitle }>No news or upcoming even just yet... </p>
+                                            </div>
+                                        </>
                                     ) : (
-                                        <div className = { styles.noImg }>
-                                            <span className = { styles.txtTitle }>No Image Available</span>
-                                        </div>
+                                        <>
+                                            <div className = { styles.noImg }>
+                                                <span className = { styles.txtTitle }>No Image Available</span>
+                                            </div>
+                                            <div className = { styles.news }>
+                                                <span className = { styles.txtTitle }>News Header</span>
+                                                <p className = { styles.txtSubTitle }>No news or upcoming even just yet... </p>
+                                            </div>
+                                        </>
                                     )}
+                                
                             </div>
                         </motion.div>
                         {/* Edit button */}

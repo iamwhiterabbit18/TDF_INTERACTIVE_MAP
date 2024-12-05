@@ -201,6 +201,17 @@
     }
 }
 
+.confirmDltContainer {
+    pointer-events: all;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 @media (min-width: 768px) {
     .editContainer {
         .editingSection {

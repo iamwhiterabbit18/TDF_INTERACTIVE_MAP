@@ -280,6 +280,11 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
                                 </div>
                             )}
 
+                            <div className = { styles.news }>
+                                <span className = { styles.txtTitle }>News Header</span><br/>
+                                <textarea className = { styles.txtSubTitle }/>
+                            </div>
+
                         </div>
                     </motion.div>
                 )}
