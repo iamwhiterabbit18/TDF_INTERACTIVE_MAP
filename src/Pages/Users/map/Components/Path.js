@@ -275,7 +275,7 @@ class Path {
             color: '#80C4E9', 
             linewidth: 5,
             resolution: new THREE.Vector2(window.innerWidth, window.innerHeight),});
-        material.defines.USE_DASH = "";
+        // material.defines.USE_DASH = "";
         this.line = new Line2(geometry, material);
         this.line.position.y = this.line.position.y + 0.04;
         this.line.frustumCulled = false;

@@ -26,7 +26,7 @@ export default function NavBar({ isHamClicked, isNavListClosed, handleNavClick, 
 
     return (
         <>
-            <section className = { styles.navBar }>
+            <section id='nav' className = { styles.navBar }>
                 <div /* className = "menu" */>
                     <ul>
                         <motion.li 

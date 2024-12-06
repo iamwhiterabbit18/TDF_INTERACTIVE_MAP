@@ -78,7 +78,14 @@ const [modals, setModals] = useState([]);
         markerElement.style.left = `${x}px`;
         markerElement.style.top = `${y}px`;
       }
+
+      const tooltipElement = document.getElementById(`tooltip-${index}`);
+      if (tooltipElement && hoveredMarker === index) {
+        tooltipElement.style.left = `${x}px`;
+        tooltipElement.style.top = `${y - 30}px`; // Offset tooltip above marker
+      }
     });
+    
 
     // calculate popup pos
     if(selectedMarker){
@@ -134,6 +141,7 @@ const [modals, setModals] = useState([]);
   return (
     <>
       {markers.map((marker, index) => (
+        <React.Fragment key={index}>
         <div
           key={index}
           id={`marker-${index}`}
@@ -144,12 +152,22 @@ const [modals, setModals] = useState([]);
           onMouseLeave={handleExit}
         >
           <img src={marker.icon} alt={marker.name} />
-          <div className={`${styles.tooltip} ${
-            hoveredMarker === index ? styles.tooltipHover : ''
-          }`}>
-            {marker.name}
-          </div>
         </div>
+        {/* Tooltip */}
+      {hoveredMarker === index && (
+        <div
+          id={`tooltip-${index}`}
+          className={styles.tooltip}
+          style={{
+            position: 'absolute',
+            left: calculatePosition(marker.position).x,
+            top: calculatePosition(marker.position).y,
+          }}
+        >
+          {marker.name}
+        </div>
+      )}
+        </React.Fragment>
       ))}
 
       <AnimatePresence>

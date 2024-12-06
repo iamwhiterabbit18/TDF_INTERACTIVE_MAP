@@ -16,19 +16,22 @@
   .marker:hover{
     cursor: pointer;
   }
+
   
   .tooltip {
-    display: none;
-  }
-  .tooltipHover{
-    display: block;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 5px;
     position: absolute;
-    top: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    pointer-events: none; /* Prevent blocking marker events */
+    z-index: 11; /* Higher than the marker's z-index */
+    transform: translate(-50%, -200%); /* Position above the marker */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tooltipHover {
+    opacity: 1;
   }
   
