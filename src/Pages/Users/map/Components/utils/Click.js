@@ -21,3 +21,23 @@ export default class Click {
         }
     }
 }
+
+
+
+
+// window.addEventListener('click', (e) => {
+//     console.log(e)
+//     const container = document.getElementById('container');
+//     const mark = document.createElement('div')
+//     mark.textContent = "Marker"
+//     mark.style.position = 'absolute';
+//     mark.style.left = `${e.clientX}px`;
+//     mark.style.top = `${e.clientY}px`;
+//     mark.style.width = '20px';
+//     mark.style.height = '20px';
+//     mark.style.backgroundColor = 'blue';
+//     mark.style.borderRadius = '50%';
+//     mark.style.cursor = 'pointer';
+//     mark.style.zIndex = '9999';
+//     container.appendChild(mark)
+//   });

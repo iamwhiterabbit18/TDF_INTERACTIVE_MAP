@@ -23,7 +23,8 @@ import Pathfinding from './Components/pathfinding/Pathfinding';
 import positions from '../../../assets/API/positions';
 
 // for adding marker
-import AddMarker from './Components/marker/AddMarker';
+import AddMarker from './Components/addMarker/AddMarker';
+import { div } from 'three/webgpu';
 // import { exp } from 'three/webgpu';
 // import { set } from 'mongoose';
 
@@ -65,6 +66,13 @@ const ThreeCanvas = () => {
 
       setPreloaderState(true);
   
+
+      // for add marker
+      setInitialValues({
+        pos: cameraRef.current.position.clone(),
+        rot: cameraRef.current.rotation.clone(),
+        target: controlsRef.current.target.clone(),});
+
    const animate = () => {
         requestAnimationFrame(animate);
         controls.update();
@@ -148,6 +156,7 @@ const ThreeCanvas = () => {
   const pfCameraPosition = new THREE.Vector3(-1.1274330022019352, 3.310487382990885, -0.033995582036357004);
   const pfCameraRotation = new THREE.Vector3(-1.5707953258627023, 0, 0);
   const pfControlsTarget = new THREE.Vector3(-1.1274330022019352, 3.4012858006496454e-8, -0.03399889560972315);
+  
 
   const moveArrow = (startPos, targetPos) =>{
     if (expRef.current) {
@@ -159,21 +168,21 @@ const ThreeCanvas = () => {
     const path = expRef.current.map.pathfinding;
     path.dispose();
   }
-  const getCurrentCamControls = (position, rotation, tar) => {
-    let pos = position
-    let rot = rotation
-    let target = tar
-    // initialCameraPositionRef.current = cameraRef.current.position.clone();
-    // initialCameraRotationRef.current = cameraRef.current.rotation.clone();
-    // initialControlsTargetRef.current = controlsRef.current.target.clone();
+  // const getCurrentCamControls = (position, rotation, tar) => {
+  //   let pos = position
+  //   let rot = rotation
+  //   let target = tar
+  //   // initialCameraPositionRef.current = cameraRef.current.position.clone();
+  //   // initialCameraRotationRef.current = cameraRef.current.rotation.clone();
+  //   // initialControlsTargetRef.current = controlsRef.current.target.clone();
 
-    return { pos, rot, target };
-  }
-  const [initialValues, setInitialValues] = useState({});
+  //   return { pos, rot, target };
+  // }
+  // const [initialValues, setInitialValues] = useState({});
   const cameraPF = () => {
     if(!isOnPF){
     setIsOnPF(true);
-    setInitialValues(getCurrentCamControls(cameraRef.current.position.clone(), cameraRef.current.rotation.clone(), controlsRef.current.target.clone()));
+    setInitialValues(getCamControls(cameraRef.current.position.clone(), cameraRef.current.rotation.clone(), controlsRef.current.target.clone()));
 
     // Go to pathfinding cam
     cameraRef.current.position.copy(pfCameraPosition);
@@ -211,6 +220,57 @@ const ThreeCanvas = () => {
     }
 }
 
+// for adding marker
+  const [isOnAddMarker, setIsOnAddMarker] = useState(false);
+  const [currentValues, setCurrentValues] = useState({});
+  const [initialValues, setInitialValues] = useState({});
+
+  const getCamControls = (position, rotation, tar) => {
+      let pos = position
+      let rot = rotation
+      let target = tar
+      // initialCameraPositionRef.current = cameraRef.current.position.clone();
+      // initialCameraRotationRef.current = cameraRef.current.rotation.clone();
+      // initialControlsTargetRef.current = controlsRef.current.target.clone();
+
+      return { pos, rot, target };
+    }
+  const cameraEditMode = () => {
+    if(!isOnAddMarker){
+      setIsOnAddMarker(true);
+      setCurrentValues(getCamControls(cameraRef.current.position.clone(), cameraRef.current.rotation.clone(), controlsRef.current.target.clone()));
+
+      // Go to pathfinding cam
+      cameraRef.current.position.copy(initialValues.pos);
+      cameraRef.current.rotation.copy(initialValues.rot);
+
+      // Go to pathfinding target and disable controls
+      controlsRef.current.target.copy(initialValues.target);
+      controlsRef.current.update();
+      controlsRef.current.enabled = false;
+    }
+    else if(isOnAddMarker){
+      console.log('obj', currentValues);
+      setIsOnAddMarker(false);
+      // Reset camera position and rotation
+      cameraRef.current.position.copy(currentValues.pos);
+      cameraRef.current.rotation.copy(currentValues.rot);
+      // Reset controls target
+      controlsRef.current.target.copy(currentValues.target);
+      controlsRef.current.update();
+      controlsRef.current.enabled = true;
+    }
+  }
+  const offVisibility = () => {
+    const pathfinding = document.getElementById("pathfinding");
+    const nav = document.getElementById("nav");
+    
+  }
+  const addMarkerMode = () =>{
+    cameraEditMode();
+    offVisibility();
+  }
+
   return(
     <div id="container" ref={containerRef}>
       <Preloader />
@@ -237,10 +297,20 @@ const ThreeCanvas = () => {
         removeLine={removeLine} 
         cameraPF={cameraPF}
         togglePathfinding={togglePathfinding} 
-        getCurrentCamControls={getCurrentCamControls}
+        getCamControls={getCamControls}
         />
         {/* AddMarker component */}
-        <AddMarker />
+        <div id='addMarkerWrapper'></div>
+        {containerRef.current && cameraRef.current && (
+          <AddMarker
+          container={containerRef.current}
+          camera={cameraRef.current} 
+          renderer={rendererRef.current}
+
+          // pass functions as props
+          addMarkerMode={addMarkerMode}
+          />
+        )} 
     </div>
   ) 
 };
