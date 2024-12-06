@@ -8,6 +8,7 @@ const cardSchema = new mongoose.Schema({
   image: { type: String },
   quickFacts: { type: String, required: true },
   iconType: { type: String, required: true },
+  imageArchived: { type: Boolean, default: false }, // Archive flag for image
 });
 
 module.exports = mongoose.model('Card', cardSchema);

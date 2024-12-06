@@ -8,7 +8,8 @@ const ModalSchema = new mongoose.Schema({
   title: { type: String, required: true },      // Title of the modal, required field
   description: { type: String, required: true },// Description text for the modal, required field
   technologies: { type: String},// Technologies text for the modal, required field
-  modalImages: { type: [String], default: [] }           // Array of optional image URLs, default is an empty array
+  modalImages: { type: [String], default: [] }   ,        // Array of optional image URLs, default is an empty array
+  imageArchived: { type: Boolean, default: false },
 });
 
 // Creating and exporting the Modal model. This model represents a collection of modals in MongoDB.

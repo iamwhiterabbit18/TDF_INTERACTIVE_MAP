@@ -16,6 +16,7 @@ const audioSchema = new mongoose.Schema({
   
   // The format of the audio file (e.g., MP3, WAV), required field.
   format: { type: String, required: false, default: null },
+  audioArchived: { type: Boolean, default: false }, // Archive flag for audio
 });
 
 // Creating the Audio model based on the audioSchema.

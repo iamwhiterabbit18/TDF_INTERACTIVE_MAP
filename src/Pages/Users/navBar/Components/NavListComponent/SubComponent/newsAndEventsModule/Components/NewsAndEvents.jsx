@@ -19,7 +19,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/api/images');
+                const response = await axios.get('http://localhost:5000/api/images');
                 setImages(response.data[0].images); // Assuming only one document
             } catch (error) {
                 console.error("Error fetching images", error);
@@ -74,23 +74,17 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                                     <span className={styles.txtTitle}>News and Events</span>
                                 </div>
                                     {images.length > 0 ? (
-                                        <>
-                                            <div className={styles.imageSlider}>
-                                                <Slider {...settings}>
-                                                    {images.map((image, index) => (
-                                                        <div key={index} className ={styles.slickSlide}>
-                                                            <img src={`http://127.0.0.1:5000/${image}`} 
-                                                            alt={`Slide ${index}`} 
-                                                            className ={styles.carouselImg}/>
-                                                        </div>
-                                                    ))}
-                                                </Slider>
-                                            </div>
-                                            <div className = { styles.news }>
-                                                <span className = { styles.txtTitle }>News Header</span>
-                                                <p className = { styles.txtSubTitle }>No news or upcoming even just yet... </p>
-                                            </div>
-                                        </>
+                                        <div className={styles.imageSlider}>
+                                            <Slider {...settings}>
+                                                {images.map((image, index) => (
+                                                    <div key={index} className ={styles.slickSlide}>
+                                                        <img src={`http://127.0.0.1:5000/${image}`} 
+                                                        alt={`Slide ${index}`} 
+                                                        className ={styles.carouselImg}/>
+                                                    </div>
+                                                ))}
+                                            </Slider>
+                                        </div>
                                     ) : (
                                         <>
                                             <div className = { styles.noImg }>

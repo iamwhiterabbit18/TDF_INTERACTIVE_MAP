@@ -2,6 +2,7 @@ import {Chart as ChartJS, defaults } from 'chart.js/auto';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 import NavBar from './navBar/NavBar';
 import styles from './styles/analyticsStyle.module.scss';
@@ -14,6 +15,44 @@ defaults.responsive = true;
 
 export default function Analytics() {
     const location = useLocation();
+    const [starFeedback, setStarFeedback] = useState([]);
+    const [sexDistribution, setSexDistribution] = useState([]);
+    const [roleDistribution, setRoleDistribution] = useState([]);
+    const [guestLogs, setGuestLogs] = useState([]);
+
+    useEffect(() => {
+        const fetchAnalytics = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/guest/analytics'); // Adjust the endpoint if necessary
+                const data = await response.json();
+                console.log("Fetched Data:", data)
+                // Set state for the charts
+                setStarFeedback(data.ratings);
+                setSexDistribution(data.sexes);
+                setRoleDistribution(data.roles);
+            } catch (error) {
+                console.error('Error fetching analytics:', error);
+            }
+        };
+    
+        fetchAnalytics();
+    }, []);
+
+    useEffect(() => {
+        const fetchGuestLogs = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/guest/guestLogs'); // Adjust the endpoint if necessary
+                const data = await response.json();
+                setGuestLogs(data);
+            } catch (error) {
+                console.error('Error fetching guest logs:', error);
+            }
+        };
+    
+        fetchGuestLogs();
+    }, []);
+    
+
 
     useEffect(() => {
         const rootDiv = document.getElementById("root");
@@ -33,7 +72,7 @@ export default function Analytics() {
 
             <div className = { styles.analyticsContainer }>
                 <div className={styles.header}>
-                    <span className = { styles.txtTitle }>Audio Management</span>
+                    <span className = { styles.txtTitle }>Analytics</span>
                 </div>
 
                 <span className = { `${ styles.txtTitle} ${ styles.chartHeader }` }>Data Charts</span>
@@ -42,14 +81,21 @@ export default function Analytics() {
                     <div className = { styles.stars }>
                         <span className = { `${styles.txtTitle} ${styles.chartTitle}` }>Star Feedback</span>
                         <div className = { styles.wrapper }>
-                            <Doughnut 
-                                data = {{
-                                    labels: sourceDataRating.map((data) => data.label),
+                        <Doughnut
+                                data={{
+                                    labels: starFeedback.map((item) => item.label),
                                     datasets: [
                                         {
-                                            label: "Count",
-                                            data: sourceDataRating.map((data) => data.value),
+                                            label: 'Count',
+                                            data: starFeedback.map((item) => item.value),
                                             borderRadius: 5,
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.8)',
+                                                'rgba(54, 162, 235, 0.8)',
+                                                'rgba(255, 206, 86, 0.8)',
+                                                'rgba(75, 192, 192, 0.8)',
+                                                'rgba(153, 102, 255, 0.8)',
+                                            ],
                                         },
                                     ],
                                 }}
@@ -62,16 +108,17 @@ export default function Analytics() {
                     <div className = { styles.sex }>
                         <span className = {`${styles.txtTitle} ${styles.chartTitle}`}>Respondents' Sex</span>
                         <div className = { styles.wrapper }>
-                            <Bar 
-                                data = {{
-                                    labels: sourceDataSex.map((data) => data.label),
+                        <Bar
+                                data={{
+                                    labels: sexDistribution.map((item) => item.label),
                                     datasets: [
                                         {
-                                            label: "Count",
-                                            data: sourceDataSex.map((data) => data.value),
+                                            label: 'Count',
+                                            data: sexDistribution.map((item) => item.value),
                                             backgroundColor: [
-                                                "rgba(54,162,235, 1)",
-                                                "rgba(255,99,132, 1)",
+                                                'rgba(54,162,235, 1)',
+                                                'rgba(255,99,132, 1)',
+                                                'rgba(153, 102, 255, 1)',
                                             ],
                                             borderRadius: 5,
                                         },
@@ -83,18 +130,18 @@ export default function Analytics() {
                     <div className = { styles.role }>
                         <span className = {`${styles.txtTitle} ${styles.chartTitle}`}>Respondents' Role</span>
                         <div className = { styles.wrapper }>
-                            <Bar 
-                                data = {{
-                                    labels: sourceDataRole.map((data) => data.label),
+                        <Bar
+                                data={{
+                                    labels: roleDistribution.map((item) => item.label),
                                     datasets: [
                                         {
-                                            label: "Count",
-                                            data: sourceDataRole.map((data) => data.value),
+                                            label: 'Count',
+                                            data: roleDistribution.map((item) => item.value),
                                             backgroundColor: [
-                                                "rgba(54,162,235, 1)",
-                                                "rgba(255,99,132, 1)",
-                                                "rgba(75,192,192, 1)",
-                                                "rgba(255,159,64, 1)",
+                                                'rgba(54,162,235, 1)',
+                                                'rgba(255,99,132, 1)',
+                                                'rgba(75,192,192, 1)',
+                                                'rgba(255,159,64, 1)',
                                             ],
                                             borderRadius: 5,
                                         },
@@ -108,54 +155,31 @@ export default function Analytics() {
                 <div className = { styles.feedbackList}>
                     <span className = { `${ styles.txtTitle} ${ styles.feedbackHeader }` }>Feedback List</span>
                     <div className = { styles.tblWrapper }>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>NAME</th>
-                                    <th>RATING</th>
-                                    <th>ROLE</th>
-                                    <th>SEX</th>
-                                    <th>COMMENT</th>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>GUEST ID</th>
+                                <th>RATING</th>
+                                <th>SEX</th>
+                                <th>ROLE</th>
+                                <th>DATE&TIME</th>
+                                <th>COMMENT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {guestLogs.map((log, index) => (
+                                <tr key={index}>
+                                    <td>{log.guestId}</td>
+                                    <td>{log.feedback?.rating ? `${log.feedback.rating} Stars` : 'No Rating'}</td>
+                                    <td>{log.sexAtBirth}</td>
+                                    <td>{log.role}</td>
+                                    <td>{moment(log.feedback?.feedbackDate).format('MMM D, YYYY , h:mm A')}</td>
+                                    <td>{log.feedback?.comment || 'No Comment'}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Lorenzo</td>
-                                    <td>1 Stars</td>
-                                    <td>Male</td>
-                                    <td>Student</td>
-                                    <td>Comment Comment Comment Comment Comment Comment Comment Comment Comment Comment</td>
-                                </tr>
-                                <tr>
-                                    <td>Millard</td>
-                                    <td>4 Stars</td>
-                                    <td>Male</td>
-                                    <td>Student</td>
-                                    <td>Comment Comment Comment Comment Comment Comment Comment Comment Comment Comment</td>
-                                </tr>
-                                <tr>
-                                    <td>Gene</td>
-                                    <td>3 Stars</td>
-                                    <td>Male</td>
-                                    <td>Student</td>
-                                    <td>Comment Comment Comment Comment Comment Comment Comment Comment Comment Comment</td>
-                                </tr>
-                                <tr>
-                                    <td>Big Smoke</td>
-                                    <td>2 Stars</td>
-                                    <td>Male</td>
-                                    <td>Student</td>
-                                    <td>Comment Comment Comment Comment Comment Comment Comment Comment Comment Comment</td>
-                                </tr>
-                                <tr>
-                                    <td>Isha</td>
-                                    <td>5 Stars</td>
-                                    <td>Male</td>
-                                    <td>Student</td>
-                                    <td>Comment Comment Comment Comment Comment Comment Comment Comment Comment Comment</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            ))}
+                        </tbody>
+                    </table>
+
                     </div>
                 </div>
             </div>

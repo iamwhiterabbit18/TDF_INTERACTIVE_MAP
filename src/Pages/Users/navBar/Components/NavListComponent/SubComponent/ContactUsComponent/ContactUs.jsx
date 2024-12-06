@@ -25,7 +25,7 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
 
     const fetchContactUsData = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/contact');
+            const response = await axios.get('http://localhost:5000/api/contact');
             setContactUsData(response.data);
         } catch (error) {
             console.error("Error fetching Contact Us data:", error);

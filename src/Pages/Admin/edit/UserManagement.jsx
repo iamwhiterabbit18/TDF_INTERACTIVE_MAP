@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
 import styles from  '/src/Pages/Admin/edit/styles/UserManagement.module.scss';  // Import CSS
 import UserModal from './UserModal'; // Component for handling modal input
+import moment from 'moment';
+
 
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
@@ -47,7 +49,7 @@ const UserManagement = () => {
     const fetchUsers = async () => {
         console.log("Attempting to fetch users...");
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/users/all');  // Use the full URL
+            const response = await axios.get('http://localhost:5000/api/users/all');  // Use the full URL
             console.log("Users fetched:", response.data);
             setUsers(response.data);
         } catch (error) {
@@ -58,11 +60,11 @@ const UserManagement = () => {
     const handleAddOrUpdateUser = async (user) => {
         try {
             if (currentUser) {
-                await axios.put(`http://127.0.0.1:5000/api/users/update/${currentUser._id}`, user);
+                await axios.put(`http://localhost:5000/api/users/update/${currentUser._id}`, user);
                 alert('User update successful');
                 setModalOpen(false);
             } else {
-                await axios.post('http://127.0.0.1:5000/api/users/add', user);
+                await axios.post('http://localhost:5000/api/users/add', user);
                 alert('User successfully added');
                 setModalOpen(false);
             }
@@ -79,7 +81,7 @@ const UserManagement = () => {
     const handleDeleteUser = async () => {
         try {
             if (confirmDelete && userToDelete) {
-                await axios.delete(`http://127.0.0.1:5000/api/users/delete/${userToDelete}`);
+                await axios.delete(`http://localhost:5000/api/users/delete/${userToDelete}`);
                 fetchUsers();
                 alert('User deleted successfully');
                 setConfirmDelete(false);
@@ -88,6 +90,19 @@ const UserManagement = () => {
             }
         } catch (error) {
             console.error('Failed to delete user:', error);
+        }
+    };
+
+    const handleArchiveUser = async (userId) => {
+        try {
+            const response = await axios.put(`http://localhost:5000/api/archive/user/${userId}`);
+            if (response.status === 200) {
+                alert('User archived successfully');
+                fetchUsers(); // Refresh the user list
+            }
+        } catch (error) {
+            console.error('Error archiving user:', error);
+            alert('Failed to archive user. Please try again.');
         }
     };
 
@@ -162,7 +177,7 @@ const UserManagement = () => {
                                             {user.role}
                                         </span>
                                     </td>
-                                    <td>{new Date(user.createdAt).toLocaleString()}</td>
+                                    <td>{moment(user.createdAt).format('MMM D, YYYY , h:mm A')}</td>
                                     {/* <td>{new Date(user.updatedAt).toLocaleString()}</td> */}
                                     <td>
                                         { user?.role !== "admin" && (
@@ -170,7 +185,8 @@ const UserManagement = () => {
                                                 <button className = {styles.editBtn} onClick={() => openModal(user)}>
                                                     <img className = { `${ styles.icon } ${ styles.pencil}` } src = { icons.pencil } alt = "Edit Item" />
                                                 </button>
-                                                <button className = {styles.delBtn} onClick = {() => { handleDeleteBtn(user._id);}}>
+                                                {/*<button className = {styles.delBtn} onClick = {() => { handleDeleteBtn(user._id);}}> */}
+                                                <button className={styles.delBtn} onClick={() => { handleArchiveUser(user._id); }}>
                                                     <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.remove } alt = "Delete Item" />
                                                 </button>
                                             </div>

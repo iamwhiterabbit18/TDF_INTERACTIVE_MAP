@@ -38,7 +38,7 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
     if (audioFile) formData.append('audio', audioFile);
 
     try {
-      await axios.put(`http://127.0.0.1:5000/api/audio/update/${audioId}`, formData, {
+      await axios.put(`http://localhost:5000/api/audio/update/${audioId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('Audio updated successfully');
