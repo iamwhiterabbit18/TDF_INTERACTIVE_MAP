@@ -88,6 +88,13 @@ export default function NavBar () {
                             <img className = { `${styles.icon} ${styles.analytics}` } src = { icons.analytics } /*change icon*/ /> 
                             <span className = { styles.text }>Analytics</span>
                         </li>
+                        <li
+                            className = { location.pathname === "/archive" ? styles.activeList : undefined }
+                            onClick = {() => window.location.href = "/archive"}
+                        >
+                            <img className = { `${styles.icon} ${styles.analytics}` } src = { icons.archive } /*change icon*/ /> 
+                            <span className = { styles.text }>Archive</span>
+                        </li>
                         {user?.role === "admin" && (
                             <li
                                 className = { location.pathname === "/usermanage" ? styles.activeList : undefined }

@@ -7,7 +7,7 @@ ContactUsModule.jsx
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext'
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 
 import styles from './styles/contactUsStyles.module.scss';
@@ -64,6 +64,30 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
 
     console.log(activeInfo);
 
+    // Handler for user message sent to client email
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+    
+        formData.append("access_key", "bc61024f-bc8c-407c-8805-b5d73b18ae51"); // using web3forms, replace with the access key for the client email
+    
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+    
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+          body: json
+        }).then((res) => res.json());
+    
+        if (res.success) {
+          console.log("Success", res);
+        }
+    };
+
     return (
         <>
             <AnimatePresence mode="wait">
@@ -108,12 +132,13 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
                                     </p>
                                 </div>
                                 
-                                <form className =  { styles.form }>
+                                <form className =  { styles.form } onSubmit={onSubmit}>
                                     <label htmlFor = "name">Name</label>
                                     <input 
                                         autoComplete = "off"
                                         name = "name"
                                         type = "text"
+                                        required
                                     />
 
                                     <label htmlFor = "email">Email</label>
@@ -121,14 +146,16 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
                                         autoComplete = "off"
                                         name = "email"
                                         type = "email"
+                                        required
                                     />
 
                                     <label htmlFor = "question">Question</label>
                                     <textarea 
                                         name = "question"
+                                        required
                                     />
 
-                                    <button className = { styles.submitBtn }>Submit</button>
+                                    <button className = { styles.submitBtn } type="submit">Submit</button>
                                 </form>
                             </div>
                         </motion.div>

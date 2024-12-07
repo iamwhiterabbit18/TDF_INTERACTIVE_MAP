@@ -1,0 +1,83 @@
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
+
+.archiveContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: scroll;
+    width: 100%;
+
+    .header {
+        align-items: center;
+        background-color: $secondary;
+        border-radius: 0 0 90px 0;
+        display: flex;
+        height: 100px;
+        justify-content: center;
+        flex-shrink: 0;
+        flex-grow: 0;
+        width: 86%;
+        margin-bottom: 20px;
+    
+        .txtTitle {
+          color: $tertiary;
+          font-size: 21px;
+        }
+    }
+
+    .archiveHeader {
+        font-size: 21px;
+        margin-top: 15px;
+        margin-left: 35px; 
+    }
+
+    .table {
+        margin-top: 15px;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+
+        button {
+            transition: all 0.2s ease-in-out;
+    
+            &:hover {
+            scale: 1.2;
+            }
+        }
+        
+        th, td {
+            border-bottom: 1.5px solid $outOfFocus;
+            font-family: $subTitle;
+            font-size: 11px;
+            padding: 12px 5px;
+            text-align: center;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+        }
+
+        .actionBtns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .icon {
+            height: 15px;
+            width: 15px;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+
+    .header {
+        border-radius: 0 0 150px 0;
+        padding: 80px 0;
+
+        .txtTitle {
+            font-size: 40px;
+        }
+    }
+}

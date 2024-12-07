@@ -30,12 +30,14 @@ import location from '/for_landingPage/icons/location.png'
 import add from '/for_landingPage/icons/add.png'
 import remove from '/for_landingPage/icons/delete.png'
 import pencil from '/for_landingPage/icons/pencil.png'
+import undo from '/for_landingPage/icons/undo.png'
 
 import card from '/for_landingPage/icons/card.png'
 import edit from '/for_landingPage/icons/edit.png'
 import profile from '/for_landingPage/icons/profile.png'
 import upload from '/for_landingPage/icons/upload.png'
 import analytics from '/for_landingPage/icons/analytics.png'
+import archive from '/for_landingPage/icons/archive.png'
 import email from '/for_landingPage/icons/email.png'
 import facebook from '/for_landingPage/icons/facebook.png'
 
@@ -48,7 +50,7 @@ export default {
         contact, info, feedback, calendar, map, // navList assets 
         star, // submit feedback assets
         audio, location,
-        add, remove, pencil,
-        card, edit, profile, upload, analytics, email, facebook,
+        add, remove, pencil, undo,
+        card, edit, profile, upload, analytics, email, facebook, archive,
         compass
     }; 

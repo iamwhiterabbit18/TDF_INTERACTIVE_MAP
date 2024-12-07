@@ -220,6 +220,10 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                                             <span className={styles.txtTitle}>No Image Uploaded</span>
                                         </div>
                                     )}
+
+                                    <button className = { styles.saveBtn }>
+                                        <span className = { styles.txtTitle } onClick = {() => { handleUpdateImage(aboutUsData.image); }}>Save Image</span>
+                                    </button>
                                     
 
                                     <div className = { styles.history }>
@@ -282,13 +286,13 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                         </motion.div>
 
                         <motion.button 
-                        className = { styles.saveBtn }
-                        initial = {{opacity: 0}}
-                        animate = {{opacity: 1}}
-                        exit = {{opacity: 0}}
-                        transition = {{ duration: 0.3, ease: "easeInOut"}}
+                            className = { styles.saveBtn }
+                            initial = {{opacity: 0}}
+                            animate = {{opacity: 1}}
+                            exit = {{opacity: 0}}
+                            transition = {{ duration: 0.3, ease: "easeInOut"}}
                         >
-                            <span className = { styles.txtTitle } onClick = {() => { handleUpdateImage(aboutUsData.image); handleSaveDetails(); }}>Save Changes</span>
+                            <span className = { styles.txtTitle } onClick = {() => { handleSaveDetails(); }}>Save Changes</span>
                         </motion.button>
                     </div>
                 )}

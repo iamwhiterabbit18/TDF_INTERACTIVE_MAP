@@ -33,7 +33,7 @@ export default function Analytics() {
 
             <div className = { styles.analyticsContainer }>
                 <div className={styles.header}>
-                    <span className = { styles.txtTitle }>Audio Management</span>
+                    <span className = { styles.txtTitle }>Feedback Analytics</span>
                 </div>
 
                 <span className = { `${ styles.txtTitle} ${ styles.chartHeader }` }>Data Charts</span>
