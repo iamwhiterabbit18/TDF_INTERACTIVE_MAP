@@ -5,6 +5,10 @@ import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
 import styles from  '/src/Pages/Admin/edit/styles/UserManagement.module.scss';  // Import CSS
 import UserModal from './UserModal'; // Component for handling modal input
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
@@ -13,6 +17,9 @@ import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Impo
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const UserManagement = () => {
+    // toast alert pop up
+    const mountToast = UseToast();
+
     //passing props from the AccessBtn
     const location = useLocation();
     const userProp = location.state?.user;
@@ -59,11 +66,11 @@ const UserManagement = () => {
         try {
             if (currentUser) {
                 await axios.put(`http://127.0.0.1:5000/api/users/update/${currentUser._id}`, user);
-                alert('User update successful');
+                mountToast("User update successful!", "success");
                 setModalOpen(false);
             } else {
                 await axios.post('http://127.0.0.1:5000/api/users/add', user);
-                alert('User successfully added');
+                mountToast("User successfully added!", "success");
                 setModalOpen(false);
             }
             fetchUsers();
@@ -81,7 +88,7 @@ const UserManagement = () => {
             if (confirmDelete && userToDelete) {
                 await axios.delete(`http://127.0.0.1:5000/api/users/delete/${userToDelete}`);
                 fetchUsers();
-                alert('User deleted successfully');
+                mountToast("User deleted successfully!", "success");
                 setConfirmDelete(false);
                 setUserToDelete(null);
                 setIsDelete(false);
@@ -217,7 +224,9 @@ const UserManagement = () => {
                         />
                     </motion.div>
                 )}
-            </AnimatePresence>    
+            </AnimatePresence>
+
+            <ToastContainer />
         </>
     );
     

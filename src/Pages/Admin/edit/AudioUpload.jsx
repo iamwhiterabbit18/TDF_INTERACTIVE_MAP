@@ -3,7 +3,14 @@ import axios from 'axios';
 import styles from './styles/AudioUpload.module.scss';
 import icons from "../../../assets/for_landingPage/Icons";
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AudioUpload = ({ audioId, currentTitle, onClose }) => {
+  // toast alert pop up
+  const mountToast = UseToast();
+
   const [title, setTitle] = useState(currentTitle || ''); // Title of the audio
   const [audioFile, setAudioFile] = useState(null); // Selected audio file
   const [message, setMessage] = useState(''); // Error or informational messages
@@ -19,7 +26,7 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
 
     if (!audioId) return; // No action if there's no audio ID
     if (!audioFile) {
-      alert("Please select an audio file to upload."); // Alert if no file is selected
+      mountToast("Please select an audio file to upload.", "error"); // Alert if no file is selected
       return; // Stop execution if no file is selected
     }
 
@@ -29,7 +36,7 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
       // Check if the file extension is in the allowed list
       const fileExtension = audioFile.name.split('.').pop().toLowerCase();
       if (!allowedExtensions.includes(`.${fileExtension}`)) {
-        alert("Unsupported audio format. Please upload one of the following formats: mp3, wav, m4a");
+        mountToast("Unsupported audio format. Only mp3, wav, m4a are allowed.", "error");
         return; // Stop execution if the file extension is not allowed
       }
 
@@ -41,7 +48,7 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
       await axios.put(`http://127.0.0.1:5000/api/audio/update/${audioId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      alert('Audio updated successfully');
+      mountToast("Audio updated successfully!", "success");
       onClose(); // Close the modal
     } catch (error) {
       console.error('Error updating audio:', error);
@@ -58,65 +65,69 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
   };
 
   return (
-    <div className={styles.modalContent}>
-      <span className={styles.close} onClick={handleClose}>
-        <img src={icons.close} alt="close" />
-      </span>
-
-      <div className={styles.header}>
-        <span className = { styles.txtTitle}>
-          UPLOAD AUDIO FILE
+    <>
+      <div className={styles.modalContent}>
+        <span className={styles.close} onClick={handleClose}>
+          <img src={icons.close} alt="close" />
         </span>
+
+        <div className={styles.header}>
+          <span className = { styles.txtTitle}>
+            UPLOAD AUDIO FILE
+          </span>
+        </div>
+
+        <form className = { styles.form }>
+          <div className = { styles.audioTitleCont}>
+            <label className = { styles.txtSubTitle }>Audio Title: </label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter audio title"
+              required
+              disabled
+            />
+          </div>
+          
+          <label className = { styles.customLabel }>
+            {/* Just a visual representation of the input tag */}
+            <button className = { styles.browseBtn }>Browse...</button>
+            <span className = { styles.fileName }>
+              { audioFile ? audioFile.name : "No file selected" }
+            </span>
+            {/* Hidden */}
+            <input 
+              type="file" 
+              onChange={handleFileChange} 
+              accept="audio/*" 
+              required 
+            />
+          </label>
+
+          <div className = { styles.btns }>
+            <button 
+              className = { `${styles.saveBtn} ${styles.txtTitle}` }
+              type="submit" 
+              onClick={handleUpdate}
+            >
+              Save
+            </button>
+            <button 
+              className = { `${styles.cancelBtn} ${styles.txtTitle}` } 
+              type="button" 
+              onClick={handleClose}
+            >
+              Cancel
+            </button>
+          </div>
+          
+          {message && <p>{message}</p>} {/* Display message if exists */}
+        </form>
       </div>
 
-      <form className = { styles.form }>
-        <div className = { styles.audioTitleCont}>
-          <label className = { styles.txtSubTitle }>Audio Title: </label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter audio title"
-            required
-            disabled
-          />
-        </div>
-        
-        <label className = { styles.customLabel }>
-          {/* Just a visual representation of the input tag */}
-          <button className = { styles.browseBtn }>Browse...</button>
-          <span className = { styles.fileName }>
-            { audioFile ? audioFile.name : "No file selected" }
-          </span>
-          {/* Hidden */}
-          <input 
-            type="file" 
-            onChange={handleFileChange} 
-            accept="audio/*" 
-            required 
-          />
-        </label>
-
-        <div className = { styles.btns }>
-          <button 
-            className = { `${styles.saveBtn} ${styles.txtTitle}` }
-            type="submit" 
-            onClick={handleUpdate}
-          >
-            Save
-          </button>
-          <button 
-            className = { `${styles.cancelBtn} ${styles.txtTitle}` } 
-            type="button" 
-            onClick={handleClose}
-          >
-            Cancel
-          </button>
-        </div>
-        
-        {message && <p>{message}</p>} {/* Display message if exists */}
-      </form>
-    </div>
+      <ToastContainer />
+    </>
   );
   
 };

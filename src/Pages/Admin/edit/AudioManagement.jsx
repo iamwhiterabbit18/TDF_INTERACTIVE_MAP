@@ -5,12 +5,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import AudioUpload from './AudioUpload';
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
 import NavBar from './navBar/NavBar';
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
 
 const AudioManagement = () => {
+  // toast alert pop up
+  const mountToast = UseToast();
+
   const location = useLocation();
   const user = location.state?.user;
   
@@ -93,7 +100,7 @@ const AudioManagement = () => {
       }
     } catch (error) {
       console.error('Error playing audio:', error);
-      alert("No Audio Available or Audio File dont exist!!"); // Alert the user
+      mountToast("No Audio Available or Audio File dont exist!!", "error"); // Alert the user
     }
   };
   
@@ -103,7 +110,7 @@ const AudioManagement = () => {
       if (confirmDelete && audioToDelete) {
         await axios.delete(`http://127.0.0.1:5000/api/audio/delete/${audioToDelete}`);
         fetchAudios(); // Refresh the audio list after deletion
-        alert('Audio deleted successfully');
+        mountToast("Audio deleted successfully", "success");
         setConfirmDelete(false);
         setAudioToDelete(null);
         setIsDelete(false);
@@ -238,6 +245,7 @@ const AudioManagement = () => {
     {/* Audio player */}
     <audio ref={audioRef} hidden />
     
+    <ToastContainer />
   </>
  )
 }

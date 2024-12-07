@@ -10,12 +10,19 @@ import { useLocation } from 'react-router-dom';
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 
+import UseToast from '../../../../../../Admin/utility/AlertComponent/UseToast.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import styles from './styles/contactUsStyles.module.scss';
 import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
 
 
 export default function ContactUs({ setCurrentModal, handleClickOutside, currentModal, nodeRef, ...props }) { // isModalActive is a prop from NavListComponent
 
+    // toast alert pop up
+    const mountToast = UseToast();
+    
     const [contactUsData, setContactUsData] = useState({
         location: '',
         telephone: '',
@@ -79,14 +86,16 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json"
-        },
+          },
           body: json
         }).then((res) => res.json());
     
         if (res.success) {
-          console.log("Success", res);
+            mountToast("Message Sent!", "success");
+        } else {
+            mountToast("Message Not Sent!", "error");
         }
-    };
+      };
 
     return (
         <>
@@ -175,6 +184,8 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
                     </>
                 )}
             </AnimatePresence>
+
+            <ToastContainer />
         </>
     )
 }

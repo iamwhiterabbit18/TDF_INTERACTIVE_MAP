@@ -5,7 +5,13 @@ import icons from "../../../assets/for_landingPage/Icons";
 import NavBar from './navBar/NavBar';
 import styles from './styles/archiveStyles.module.scss'
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function Archive() {
+    // toast alert pop up
+     const mountToast = UseToast();
 
     const location = useLocation();
 
@@ -62,6 +68,8 @@ export default function Archive() {
                     </tbody>
                 </table>
             </div>
+
+            <ToastContainer />
         </>
     )
 }

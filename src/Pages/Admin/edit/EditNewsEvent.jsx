@@ -6,7 +6,14 @@ import icons from '../../../assets/for_landingPage/Icons'
 import { motion, AnimatePresence } from 'framer-motion'
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function NewsEventImage({ setCurrentModal, currentModal, handleClickOutside}) { // setCurrentModal, currentModal, handleClickOutside
+    // toast alert pop up
+    const mountToast = UseToast();
+    
     const [imageFile, setImageFile] = useState([]); // For adding new images
     const [newImageFile, setNewImageFile] = useState(null); // For updating an existing image
     const [images, setImages] = useState([]); // Holds the list of images
@@ -64,7 +71,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         const unsupportedFiles = fileArray.filter(file => !allowedTypes.includes(file.type));
 
         if (unsupportedFiles.length > 0) {
-            alert('Unsupported file format. Only JPG, JPEG, and PNG images are allowed.');
+            mountToast("Unsupported file format. Only JPG, JPEG, and PNG are allowed!", "error");
             return;
         }
 
@@ -80,7 +87,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         const unsupportedFiles = fileArray.filter(file => !allowedTypes.includes(file.type));
 
         if (unsupportedFiles.length > 0) {
-            alert('Unsupported file format. Only JPG, JPEG, and PNG images are allowed.');
+            mountToast("Unsupported file format. Only JPG, JPEG, and PNG are allowed!", "error");
             return;
         }
 
@@ -101,7 +108,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            alert('Uploaded successfully!');
+            mountToast("Image Uploaded successfully!", "success");
             fetchImages(); // Refresh image list after successful upload
             setUploadImagePreviews([]);
             setIsAddImageModalOpen(false); // Close the add image modal
@@ -134,7 +141,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             setImages(response.data.images);
             setSelectedImageFilename(null); // Reset after update
             setNewImageFile(null); // Clear the file input
-            alert('Update successfully!');
+            mountToast("Image Update successfully!", "success");
             fetchImages();
             setUpdatePreviewImages([]);
             setIsUpdateModalOpen(false);
@@ -151,14 +158,14 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             if (selectedImageFilename) {
                 const response = await axios.delete(`http://127.0.0.1:5000/api/images/uploads/images/${filename}`);
                     if (response.status === 200) {
-                        alert('Image deleted successfully!');
+                        mountToast("Image deleted successfully!", "success");
                         fetchImages(); // Refresh image list after successful deletion
                         setDeleteModalVisible(null);
                     }
                 }
         } catch (error) {
             console.error('Error deleting image:', error);
-            alert('Error deleting image. Please try again.');
+            mountToast("Error deleting image. Please try again.", "error");
         }
     };
 
@@ -202,91 +209,103 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         <>
             <AnimatePresence>
                 {currentModal === "editNewsEvent" && !isAddImageModalOpen && !isUpdateModalOpen  && !deleteModalVisible && (
-                    <motion.div 
-                        className={styles.editNewsEventContainer}
-                        id = "editNewsEvent"
-                        initial = {{opacity: 0}}
-                        animate = {{opacity: 1}}
-                        exit = {{opacity: 0}}
-                        transition = {{duration: 0.2, ease: "easeInOut"}}
-                    >
-                        <div className={styles.modalEditingSection} > {/* id = "editNewsEvents" */}
-                            <button className={styles.close} onClick={ function() { setCurrentModal("newsAndEvents"); } }>
-                                <img src={icons.close} alt="close" />
-                            </button>
+                    <>
+                        <motion.div 
+                            className={styles.editNewsEventContainer}
+                            id = "editNewsEvent"
+                            initial = {{opacity: 0}}
+                            animate = {{opacity: 1}}
+                            exit = {{opacity: 0}}
+                            transition = {{duration: 0.2, ease: "easeInOut"}}
+                        >
+                            <div className={styles.modalEditingSection} > {/* id = "editNewsEvents" */}
+                                <button className={styles.close} onClick={ function() { setCurrentModal("newsAndEvents"); } }>
+                                    <img src={icons.close} alt="close" />
+                                </button>
 
-                            <div className = { styles.header }>
-                                <span className = { styles.txtTitle }>
-                                    {'Manage News and Events'}
-                                </span>
-                            </div>
-                
-                            {/* Carousel for existing images */}
-                            {images.length > 0 ? (
-                                <div className={styles.imageCarousel}>
-                                    <Slider {...settings}>
-                                        {imagePreviews.map((image, index) => (
-                                            <div key={index}>
-                                                <div className = { styles.imageContainer }>
-                                                    <img
-                                                        src={image}
-                                                        alt={`Uploaded preview ${index}`}
-                                                        className={styles.carouselImage}
-                                                    />
-                                                    <div className = { styles.overlay }>
-                                                        <div className = { styles.btnCont1 }>
-                                                            <button
-                                                                className={styles.saveBtn}
-                                                                type="button"
-                                                                onClick={() => {
-                                                                    setSelectedImageFilename(image); // Select image for updating
-                                                                    setIsUpdateModalOpen(true);
-                                                                }}
-                                                            >
-                                                                Update Image
-                                                            </button>
-                                                            <button
-                                                                className={styles.closeBtn}
-                                                                onClick={() => {
-                                                                    setSelectedImageFilename(image); // Handle delete
-                                                                    setDeleteModalVisible(true);
-                                                                }}
-                                                            >
-                                                                Delete
-                                                            </button>
-                                                        </div>
-                                                        <div className = { styles.btnCont2 }>
-                                                            <button className={styles.saveBtn} onClick={() => setIsAddImageModalOpen(true)}>
-                                                                Add Images
-                                                            </button>
+                                <div className = { styles.header }>
+                                    <span className = { styles.txtTitle }>
+                                        {'Manage News and Events'}
+                                    </span>
+                                </div>
+                    
+                                {/* Carousel for existing images */}
+                                {images.length > 0 ? (
+                                    <div className={styles.imageCarousel}>
+                                        <Slider {...settings}>
+                                            {imagePreviews.map((image, index) => (
+                                                <div key={index}>
+                                                    <div className = { styles.imageContainer }>
+                                                        <img
+                                                            src={image}
+                                                            alt={`Uploaded preview ${index}`}
+                                                            className={styles.carouselImage}
+                                                        />
+                                                        <div className = { styles.overlay }>
+                                                            <div className = { styles.btnCont1 }>
+                                                                <button
+                                                                    className={styles.saveBtn}
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        setSelectedImageFilename(image); // Select image for updating
+                                                                        setIsUpdateModalOpen(true);
+                                                                    }}
+                                                                >
+                                                                    Update Image
+                                                                </button>
+                                                                <button
+                                                                    className={styles.closeBtn}
+                                                                    onClick={() => {
+                                                                        setSelectedImageFilename(image); // Handle delete
+                                                                        setDeleteModalVisible(true);
+                                                                    }}
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                            <div className = { styles.btnCont2 }>
+                                                                <button className={styles.saveBtn} onClick={() => setIsAddImageModalOpen(true)}>
+                                                                    Add Images
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                    </Slider>
-                                </div>
-                            ) : (
-                                // <p className={styles.noImageMessage}>No image available</p> // Message when no images are available
-                                <div className = { styles.noImg }>
-                                    <div className = { styles.overlay }>
-                                        <button className={styles.saveBtn} onClick={() => setIsAddImageModalOpen(true)}>
-                                            Add Images
-                                        </button>
-                                        
+                                            ))}
+                                        </Slider>
                                     </div>
+                                ) : (
+                                    // <p className={styles.noImageMessage}>No image available</p> // Message when no images are available
+                                    <div className = { styles.noImg }>
+                                        <div className = { styles.overlay }>
+                                            <button className={ styles.saveBtn } onClick={() => setIsAddImageModalOpen(true)}>
+                                                Add Images
+                                            </button>
+                                            
+                                        </div>
 
-                                    <span className = { styles.txtTitle }>No image available</span>
+                                        <span className = { styles.txtTitle }>No image available</span>
+                                    </div>
+                                )}
+
+                                <div className = { styles.news }>
+                                    <span className = { styles.txtTitle }>News Header</span><br/>
+                                    <textarea className = { styles.txtSubTitle }/>
                                 </div>
-                            )}
 
-                            <div className = { styles.news }>
-                                <span className = { styles.txtTitle }>News Header</span><br/>
-                                <textarea className = { styles.txtSubTitle }/>
                             </div>
+                        </motion.div>
 
-                        </div>
-                    </motion.div>
+                        <motion.button 
+                            className = { `${styles.saveBtn} ${styles.main}` }
+                            initial = {{opacity: 0}}
+                            animate = {{opacity: 1}}
+                            exit = {{opacity: 0}}
+                            transition = {{ duration: 0.3, ease: "easeInOut"}}
+                            >
+                            <span className = { styles.txtTitle } >Save Changes</span>
+                        </motion.button>
+                    </>
                 )}
             </AnimatePresence>
 
