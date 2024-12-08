@@ -7,16 +7,11 @@ import axios from 'axios'; // Import axios for API calls
 
 const data = () => get();
 const icon = assets.marker;
-/*const markerData = [
-    { position: new THREE.Vector3(30, 52, 0), icon: icon, name: 'Dragon Fruit Farm', img: img, description: 'An area where 276 vibrant red dragon fruit plants thrive. Every plant is tended to tender care, ensuring they receive just the right amount of sunlight, water, and nutrients to grow.' },
-    { position: new THREE.Vector3(0, 0, 0), icon: icon, name: 'Marker 2', img: img, description: 'Marker 2 description' },
-   { position: new THREE.Vector3(10, -5, 0), icon: icon, name: 'Marker 3', img: img, description: 'Marker 3 description' },
-  ]; */
-
+{/*
 // Define area positions areaName should same case in DB do define properly (watch for naming)
 const areaPositions = {
 
-  'Feathered Place': new THREE.Vector3(1.60, 0.07, 0.43),
+ 'Feathered Place': new THREE.Vector3(1.60, 0.07, 0.43),
   'Extension Hall': new THREE.Vector3(1.65, 0.07, 0.04),
   'Bahay Kubo': new THREE.Vector3(1.79, 0.07, -0.15),
   'House of Greens': new THREE.Vector3(1.63, 0.18, -0.34),
@@ -34,21 +29,37 @@ const areaPositions = {
   'Bee Program Demo Site': new THREE.Vector3(-1.87, 0.12,1.69),
   'Theatre': new THREE.Vector3(-0.02, 0.08, -0.09),
   'Nursery': new THREE.Vector3(-2.56, 0.08, 1.48),
-  // 'AmpiTheatre': new THREE.Vector3(-1.80, 0.08, 0.57),
-};
+  // 'AmpiTheatre': new THREE.Vector3(-1.80, 0.08, 0.57), 
 
 
+}; */}
+
+//let areaPositions = {}; // Declare areaPositions outside the fetch function
 const fetchMarkerData = async () => {
+  let areaPositions = {};  // Declare areaPositions inside the function
+
   try {
-      const response = await axios.get('http://localhost:5000/api/cards');
+    const response = await axios.get('http://localhost:5000/api/cards');
+    
+    // Fetch marker data to populate areaPositions
+    const markerResponse = await axios.get('http://localhost:5000/api/markers/markerData'); // Adjust URL if needed
+    const markers = markerResponse.data;
 
-        // Fetch modal data
-    const modalResponse = await axios.get('http://localhost:5000/api/modal'); // Adjust the endpoint as needed
+    // Populate areaPositions using markers data
+    markers.forEach(marker => {
+      areaPositions[marker.areaName] = new THREE.Vector3(
+        marker.worldPosition.x,
+        marker.worldPosition.y,
+        marker.worldPosition.z
+      );
+    });
+
+    console.log('Updated areaPositions:', areaPositions); // Log the updated areaPositions
+
+    // Fetch modal data
+    const modalResponse = await axios.get('http://localhost:5000/api/modal'); // Adjust endpoint as needed
     const modals = modalResponse.data;
-
-      console.log('Fetched cards:', response.data); // Log fetched cards
-    console.log('Fetched modals:', modals); // Log fetched modals
-    console.log(icon)
+    console.log('Fetched modals:', modals);
 
     // Map modals to a quick access structure
     const modalMap = {};
@@ -56,25 +67,26 @@ const fetchMarkerData = async () => {
       modalMap[modal._id] = modal; // Assuming _id is the modal ID
     });
 
-      return response.data.map(card => {
-          // Normalize the area name
-          const normalizedAreaName = card.areaName.trim(); // No lowercase conversion for exact match
-          const position = areaPositions[normalizedAreaName] || new THREE.Vector3(0, 0, 0); // Default position
-          console.log(card.iconType)
-         // console.log(`Marker for ${card.areaName}:`, position); // Log the position
-          return {
-              position: position,
-              icon: `${icon[card.iconType]}`,
-              name: card.areaName,
-              img: `http://localhost:5000${card.image}`,
-              quickFacts: card.quickFacts,
-              modalId: card.card_id,
-          };
-      });
+    return response.data.map(card => {
+      console.log('Processing card:', card); // Check if map is running for each card
+      const normalizedAreaName = card.areaName.trim(); // No lowercase conversion for exact match
+      const position = areaPositions[normalizedAreaName] || new THREE.Vector3(0, 0, 0); // Default position
+      console.log('Marker position for', normalizedAreaName, ':', position);
+
+      return {
+        position: position,
+        icon: `${icon[card.iconType]}`,
+        name: card.areaName,
+        img: `http://localhost:5000/uploads/cardsImg/${card.image}`,
+        quickFacts: card.quickFacts,
+        modalId: card.modal_id,
+      };
+    });
   } catch (error) {
-      console.error('Error fetching marker data:', error);
-      return [];
+    console.error('Error fetching marker data:', error);
+    return [];
   }
 };
+
 
 export default fetchMarkerData;

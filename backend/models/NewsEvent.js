@@ -6,6 +6,7 @@ const imageSchema = new mongoose.Schema({
         type: [String], // Array of image URLs
         required: true,
     },
+    description: {type: String, },
     imageArchived: { type: Boolean, default: false },
 });
 

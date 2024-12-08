@@ -78,7 +78,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                                             <Slider {...settings}>
                                                 {images.map((image, index) => (
                                                     <div key={index} className ={styles.slickSlide}>
-                                                        <img src={`http://127.0.0.1:5000/${image}`} 
+                                                        <img src={`http://localhost:5000/uploads/images/${image}`} 
                                                         alt={`Slide ${index}`} 
                                                         className ={styles.carouselImg}/>
                                                     </div>

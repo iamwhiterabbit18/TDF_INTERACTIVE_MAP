@@ -14,8 +14,8 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
 
   const [isInfo, setIsInfo] = useState(false); // set which info to display
 
-  const onClickAudio = async (modalId) => {
-    if (!modalId) {
+  const onClickAudio = async (audioId) => {
+    if (!audioId) {
       console.error('No modal ID provided');
       return;
     }
@@ -24,7 +24,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
       let audio = [];
       const response = await axios.get(`http://localhost:5000/api/audio`);
       audio = response.data;
-      const playAudio = audio.find(obj => obj._id === modalId);
+      const playAudio = audio.find(obj => obj._id === audioId);
 
       if (playAudio && playAudio.filePath) {
         if (isPlaying) { // If audio is already playing, do not play again
@@ -32,7 +32,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
           return; 
         }
 
-        audioRef.current.src = `http://localhost:5000/${playAudio.filePath}`; // Set audio source
+        audioRef.current.src = `http://localhost:5000/uploads/audios/${playAudio.filePath}`; // Set audio source
         audioRef.current.play(); // Play the audio
         setIsPlaying(true); // Set audio state to playing
         console.log('Playing Audio:', playAudio.filePath);
@@ -172,7 +172,7 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
                     <motion.button 
                       key = {"playAudio"}
                       className = { styles.speaker } 
-                      onClick={() => onClickAudio(modalData.modal_id)} 
+                      onClick={() => onClickAudio(modalData.audio_id)} 
                       disabled={isPlaying}
                       initial = {{opacity: 0}}
                       animate = {{opacity: 1, transition: {delay: 0.4}}}
