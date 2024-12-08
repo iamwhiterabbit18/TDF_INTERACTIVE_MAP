@@ -31,9 +31,9 @@ const Cards = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
   const [imgToDelete, setImgToDelete] = useState(null);
+  const [fileId, setFileId] = useState(null);
 
-  const handleDeleteBtn = (cardId) => {
-    setImgToDelete(cardId);
+  const handleDeleteBtn = () => {
     setIsDelete(!isDelete);
   }
 
@@ -42,12 +42,11 @@ const Cards = () => {
   }
 
   useEffect(() => {
-    if (confirmDelete && imgToDelete) {
-        //handleImageDelete();
-        handleImageArchive();
+    if (confirmDelete && imgToDelete && fileId) {
+        handleImageArchive(fileId, imgToDelete);
         setConfirmDelete(false);
     }
-  }, [confirmDelete, imgToDelete]);
+  }, [confirmDelete, imgToDelete, fileId]);
 
   // const placeholderImage = "https://via.placeholder.com/150"; // URL for a placeholder image
   
@@ -199,14 +198,14 @@ const handleSubmit = async (e) => {
           )
         );
         console.log('Archiving Success');
-        alert('Image archived successfully');
-        //setConfirmArchive(false);
-        //setImgToArchive(null);
-        //setIsArchive(false);
+        mountToast("Image archived successfully", "success");
+        setConfirmDelete(false);
+        setImgToDelete(null);
+        setIsDelete(false);
       }
     } catch (error) {
       console.error('Error archiving image:', error);
-      alert('Error archiving image. Please try again.');
+      mountToast("Error archiving image. Please try again.", "error");
     }
   };
 
@@ -314,7 +313,7 @@ const handleSubmit = async (e) => {
                           <button 
                             className = { `${ styles.txtTitle} ${ styles.deleteBtn }` }
                             //type="button" onClick={() => handleDeleteBtn(card._id)}
-                            type="button" onClick={() => handleImageArchive(card._id, card.image)}
+                            type="button" onClick={() => { setFileId(card._id); setImgToDelete(card.image); handleDeleteBtn();}}
                           >
                             Delete
                           </button>

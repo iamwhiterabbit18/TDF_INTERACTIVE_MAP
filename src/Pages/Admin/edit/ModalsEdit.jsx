@@ -38,6 +38,7 @@ const Modal = () => {
   const [updatePreviewImages, setUpdatePreviewImages] = useState([]);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false); // Toggle for delete modal
   const [deleteFile, setDeleteFile] = useState('');
+  const [fileId, setFileId] = useState('')
 
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -46,11 +47,11 @@ const Modal = () => {
   }
 
   useEffect(() => {
-    if (confirmDelete && deleteFile) {
-        handleDelete();
+    if (confirmDelete && deleteFile && fileId) {
+        handleImageArchive(fileId, deleteFile);
         setConfirmDelete(false);
     }
-  }, [confirmDelete, deleteFile]);
+  }, [confirmDelete, deleteFile, fileId]);
 
 
   // Fetch all modals on component mount
@@ -317,12 +318,13 @@ const handleImageArchive = async (modalId, imagePath) => {
         )
       );
       console.log('Archiving Success');
-      alert('Modal image archived successfully');
+      mountToast("Modal image archived successfully", "success");
       fetchModalData(); 
+      setDeleteModalVisible(null);
     }
   } catch (error) {
     console.error('Error archiving modal image:', error);
-    alert('Error archiving modal image. Please try again.');
+    mountToast("Error archiving modal image. Please try again.", "error");
   }
 };
 
@@ -501,7 +503,8 @@ const handleDescTech = async () => {
                                     className={styles.deleteBtn}
                                     onClick={() => {
                                       //setDeleteFile(currentModal.modalImages[index]); // Set the filename to delete
-                                      handleImageArchive(currentModal._id, currentModal.modalImages[index]); // Set the filename to archive
+                                      setDeleteFile(currentModal.modalImages[index]); // Set the filename to archive
+                                      setFileId(currentModal._id);
                                       setDeleteModalVisible(true); // Open delete modal
                                     }}
                                   >

@@ -9,3 +9,13 @@ uploads/*
 !uploads/images/
 !uploads/modalImages/
 !uploads/
+
+archives/cardsImg/*
+archives/images/*
+archives/modalImages/*
+archives/
+
+!archives/cardsImg/
+!archives/images/
+!archives/modalImages/
+!archives/

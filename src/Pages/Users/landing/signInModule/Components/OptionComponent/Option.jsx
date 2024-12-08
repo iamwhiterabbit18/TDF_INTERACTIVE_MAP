@@ -5,7 +5,12 @@ import styles from './styles/optionStyles.module.scss';
 import { motion, AnimatePresence } from 'framer-motion'
 import icons from '../../../../../../assets/for_landingPage/Icons';
 
+import UseToast from '../../../../../Admin/utility/AlertComponent/UseToast';
+
 export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
+    // toast alert pop up
+    const mountToast = UseToast();
+
     const navigate = useNavigate();
     const [isGuest, setIsGuest] = useState(false);
     const [optionUnmountDelay, setOptionUnmountDelay] = useState(false);
@@ -42,15 +47,15 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
     const handleGuestLogin = async () => {
         // Validate inputs
         if (!selectedRole) {
-            alert('Please select a role!');
+            mountToast("Please select a role!", "error");
             return;
         }
         if (selectedRole === 'Others' && !customRole.trim()) {
-            alert('Please specify your role if you selected "Others"!');
+            mountToast("Please specify your role if you selected 'Others'!", "error");
             return;
         }
         if (!sexAtBirth) {
-            alert('Please choose Assigned Sex at Birth!');
+            mountToast("Please choose Assigned Sex at Birth!", "error");
             return;
         }
     
@@ -84,11 +89,11 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
                 navigate('/map');
             } else {
                 console.error('Failed to log guest login');
-                alert('An error occurred while logging in. Please try again.');
+                mountToast("An error occurred while logging in. Please try again.", "error");
             }
         } catch (error) {
             console.error('Error logging guest login:', error);
-            alert('An error occurred while logging in. Please check your network and try again.');
+            mountToast("An error occurred while logging in. Please check your network and try again.", "error");
         }
     };
     
@@ -148,7 +153,7 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
 
                               {/* Conditional Input for Custom Role */}
                               {selectedRole === 'Others' && (
-                                <div>
+                                <div className = {styles.userInput}>
                                     <label>Specify Your Role</label>
                                     <input
                                         type="text"

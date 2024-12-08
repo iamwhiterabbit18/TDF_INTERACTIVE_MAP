@@ -28,9 +28,9 @@ const AudioManagement = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
   const [audioToDelete, setAudioToDelete] = useState(null);
+  const [fileId, setFileId] = useState(null);
 
-  const handleDeleteBtn = (audioId) => {
-      setAudioToDelete(audioId);
+  const handleDeleteBtn = () => {
       setIsDelete(!isDelete);
   }
 
@@ -39,11 +39,11 @@ const AudioManagement = () => {
   }
 
   useEffect(() => {
-    if (confirmDelete && audioToDelete) {
-        handleDelete();
+    if (confirmDelete && audioToDelete && fileId) {
+        handleAudioArchive(fileId, audioToDelete);
         setConfirmDelete(false);
     }
-  }, [confirmDelete, audioToDelete]);
+  }, [confirmDelete, audioToDelete, fileId]);
 
   const [modalProps, setModalProps] = useState({ audioId: null, currentTitle: '' });
 
@@ -141,12 +141,15 @@ const AudioManagement = () => {
           )
         );
           console.log('Archive Success');
-        alert('Audio archived successfully');
+        mountToast("Audio archived successfully", "success");
         fetchAudios(); // Refresh the audio list after archiving
+        setConfirmDelete(false);
+        setAudioToDelete(null);
+        setIsDelete(false);
       }
     } catch (error) {
       console.error('Error archiving audio:', error);
-      alert('Error archiving audio. Please try again.');
+      mountToast("Error archiving audio. Please try again.", "error");
     }
   };
   
@@ -220,7 +223,7 @@ const AudioManagement = () => {
                           <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.pencil } alt = "Delete Item" />
                         </button>
                         {/*<button onClick={() => handleDeleteBtn(audio._id)}> */}
-                        <button onClick={() => handleAudioArchive(audio._id , audio.filePath)}>
+                        <button onClick={() => { setFileId(audio._id); setAudioToDelete(audio.filePath); handleDeleteBtn();}}>
                           <img className = { `${ styles.icon } ${ styles.update }` } src = { icons.remove } alt = "Delete Item" />
                         </button>
                       </>

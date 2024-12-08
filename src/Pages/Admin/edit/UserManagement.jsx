@@ -44,7 +44,7 @@ const UserManagement = () => {
 
     useEffect(() => {
         if (confirmDelete && userToDelete) {
-            handleDeleteUser();
+            handleArchiveUser();
             setConfirmDelete(false);
         }
     }, [confirmDelete, userToDelete]);
@@ -68,11 +68,11 @@ const UserManagement = () => {
         try {
             if (currentUser) {
                 await axios.put(`http://localhost:5000/api/users/update/${currentUser._id}`, user);
-                alert('User update successful');
+                mountToast("User update successful", "success");
                 setModalOpen(false);
             } else {
                 await axios.post('http://localhost:5000/api/users/add', user);
-                alert('User successfully added');
+                mountToast("User successfully added", "success");
                 setModalOpen(false);
             }
             fetchUsers();
@@ -82,8 +82,6 @@ const UserManagement = () => {
             console.error('Failed to save user:', error);
         }
     };
-
-    console.log(confirmDelete);
 
     const handleDeleteUser = async () => {
         try {
@@ -100,16 +98,21 @@ const UserManagement = () => {
         }
     };
 
-    const handleArchiveUser = async (userId) => {
+    const handleArchiveUser = async () => {
         try {
-            const response = await axios.put(`http://localhost:5000/api/archive/user/${userId}`);
-            if (response.status === 200) {
-                alert('User archived successfully');
-                fetchUsers(); // Refresh the user list
+            if (confirmDelete && userToDelete) {
+                const response = await axios.put(`http://localhost:5000/api/archive/user/${userToDelete}`);
+                if (response.status === 200) {
+                    mountToast("User archived successfully", "success");
+                    fetchUsers(); // Refresh the user list
+                    setConfirmDelete(false);
+                    setUserToDelete(null);
+                    setIsDelete(false);
+                }
             }
         } catch (error) {
             console.error('Error archiving user:', error);
-            alert('Failed to archive user. Please try again.');
+            mountToast("Failed to archive user. Please try again.", "error");
         }
     };
 
@@ -187,17 +190,15 @@ const UserManagement = () => {
                                     <td>{moment(user.createdAt).format('MMM D, YYYY , h:mm A')}</td>
                                     {/* <td>{new Date(user.updatedAt).toLocaleString()}</td> */}
                                     <td>
-                                        { user?.role !== "admin" && (
-                                            <div className = { styles.actionBtns}>
-                                                <button className = {styles.editBtn} onClick={() => openModal(user)}>
-                                                    <img className = { `${ styles.icon } ${ styles.pencil}` } src = { icons.pencil } alt = "Edit Item" />
-                                                </button>
-                                                {/*<button className = {styles.delBtn} onClick = {() => { handleDeleteBtn(user._id);}}> */}
-                                                <button className={styles.delBtn} onClick={() => { handleArchiveUser(user._id); }}>
-                                                    <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.remove } alt = "Delete Item" />
-                                                </button>
-                                            </div>
-                                        )}
+                                        <div className = { styles.actionBtns}>
+                                            <button className = {styles.editBtn} onClick={() => openModal(user)}>
+                                                <img className = { `${ styles.icon } ${ styles.pencil}` } src = { icons.pencil } alt = "Edit Item" />
+                                            </button>
+
+                                            <button className={styles.delBtn} onClick={() => { handleDeleteBtn(user._id); }}>
+                                                <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.remove } alt = "Delete Item" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
