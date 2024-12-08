@@ -13,8 +13,6 @@ import icons from '../../../../../../assets/for_landingPage/Icons.jsx';
 import { jwtDecode } from 'jwt-decode'; // Correctly import jwtDecode
 
 import UseToast from "../../../../../Admin/utility/AlertComponent/UseToast.jsx";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion'
@@ -50,7 +48,7 @@ export default function SignIn ({ handleBtnClick, isBtnClicked, handleUser }) {
                 navigate('/map'); // Guest just navigates without passing user
             }
         } catch (error) {
-            mountToast("Failed to login", "error");
+            mountToast("Failed to login!", "error");
         }
     };
 
@@ -97,8 +95,6 @@ export default function SignIn ({ handleBtnClick, isBtnClicked, handleUser }) {
                     </motion.div>   
                 )}
             </AnimatePresence>
-
-            <ToastContainer />
         </>
     )
 }

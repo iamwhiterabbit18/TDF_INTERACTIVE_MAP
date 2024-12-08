@@ -11,8 +11,6 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 
 import UseToast from '../../../../../../Admin/utility/AlertComponent/UseToast.jsx';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './styles/contactUsStyles.module.scss';
 import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
@@ -91,9 +89,9 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
         }).then((res) => res.json());
     
         if (res.success) {
-            mountToast("Message Sent!", "success");
+            mountToast("Message sent!", "success");
         } else {
-            mountToast("Message Not Sent!", "error");
+            mountToast("Message not sent!", "error");
         }
       };
 
@@ -184,8 +182,6 @@ export default function ContactUs({ setCurrentModal, handleClickOutside, current
                     </>
                 )}
             </AnimatePresence>
-
-            <ToastContainer />
         </>
     )
 }

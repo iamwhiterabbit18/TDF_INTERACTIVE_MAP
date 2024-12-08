@@ -6,8 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { motion, AnimatePresence } from 'framer-motion'
 import NavBar from './navBar/NavBar';
@@ -383,8 +381,6 @@ const handleSubmit = async (e) => {
           </motion.div>
         )}
       </AnimatePresence> 
-
-      <ToastContainer /> 
     </>
   );
 };

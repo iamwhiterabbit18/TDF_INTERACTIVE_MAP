@@ -115,6 +115,7 @@ export default function Analytics() {
                                         {
                                             label: 'Count',
                                             data: sexDistribution.map((item) => item.value),
+
                                             backgroundColor: [
                                                 'rgba(54,162,235, 1)',
                                                 'rgba(255,99,132, 1)',
@@ -123,6 +124,26 @@ export default function Analytics() {
                                             borderRadius: 5,
                                         },
                                     ],
+                                }}
+
+                                options={{
+                                    plugins: {
+                                        legend: {
+                                            display: false, // Hides the legend
+                                        },
+                                    },
+                                    scales: {
+                                        x: {
+                                            ticks: {
+                                                display: true, // show x-axis labels
+                                            },
+                                        },
+                                        y: {
+                                            ticks: {
+                                                display: true, // show y-axis labels
+                                            },
+                                        },
+                                    },
                                 }}
                             />
                         </div>
@@ -137,6 +158,7 @@ export default function Analytics() {
                                         {
                                             label: 'Count',
                                             data: roleDistribution.map((item) => item.value),
+                                            
                                             backgroundColor: [
                                                 'rgba(54,162,235, 1)',
                                                 'rgba(255,99,132, 1)',
@@ -146,6 +168,26 @@ export default function Analytics() {
                                             borderRadius: 5,
                                         },
                                     ],
+                                }}
+
+                                options={{
+                                    plugins: {
+                                        legend: {
+                                            display: false, // Hides the legend
+                                        },
+                                    },
+                                    scales: {
+                                        x: {
+                                            ticks: {
+                                                display: true, // show x-axis labels
+                                            },
+                                        },
+                                        y: {
+                                            ticks: {
+                                                display: true, // show y-axis labels
+                                            },
+                                        },
+                                    },
                                 }}
                             />
                         </div>
