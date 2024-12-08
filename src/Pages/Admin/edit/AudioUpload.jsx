@@ -51,7 +51,7 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
       onClose(); // Close the modal
     } catch (error) {
       console.error('Error updating audio:', error);
-      setMessage('Error updating audio, please try again.'); // Show error message
+      mountToast("Error updating audio, please try again.", "error"); // Show error message
     }
   };
 

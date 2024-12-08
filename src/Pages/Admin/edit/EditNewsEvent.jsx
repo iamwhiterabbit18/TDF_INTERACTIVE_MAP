@@ -107,7 +107,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            alert('Uploaded successfully!');
+            mountToast("Uploaded successfully!", "success");
             fetchnewsEvent(); // Refresh image list after successful upload
             setUploadImagePreviews([]);
             setIsAddImageModalOpen(false); // Close the add image modal
@@ -140,7 +140,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             setImages(response.data.images);
             setSelectedImageFilename(null); // Reset after update
             setNewImageFile(null); // Clear the file input
-            alert('Update successfully!');
+            mountToast("Update successfully!", "success");
             fetchnewsEvent();
             setUpdatePreviewImages([]);
             setIsUpdateModalOpen(false);
@@ -157,7 +157,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             if (selectedImageFilename) {
                 const response = await axios.delete(`http://localhost:5000/api/images/uploads/images/${filename}`);
                     if (response.status === 200) {
-                        alert('Image deleted successfully!');
+                        mountToast("Image deleted successfully!", "success");
                         fetchnewsEvent(); // Refresh image list after successful deletion
                         setDeleteModalVisible(null);
                     }
@@ -175,16 +175,16 @@ const handleArchive = async () => {
         if (selectedImageFilename) {
             const response = await axios.put(`http://localhost:5000/api/archive/newsEvent/image/${filename}`);
             if (response.status === 200) {
-                alert('Image archived successfully!');
+                mountToast("Image archived successfully!", "success");
                 fetchnewsEvent(); // Refresh the list to show updated data
                 setDeleteModalVisible(null);
             }
         } else {
-            alert('No image selected for archiving.');
+            mountToast("No image selected for archiving.", "error");
         }
     } catch (error) {
         console.error('Error archiving image:', error);
-        alert('Error archiving image. Please try again.');
+        mountToast("Error archiving image. Please try again.", "error");
     }
 };
 

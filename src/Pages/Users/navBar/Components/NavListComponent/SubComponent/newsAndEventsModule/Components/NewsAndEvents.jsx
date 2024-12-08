@@ -55,7 +55,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
 
     return (
         <>
-            <AnimatePresence>
+            <AnimatePresence mode = "wait">
                 {currentModal === 'newsAndEvents' && (
                     <>
                         <motion.div
