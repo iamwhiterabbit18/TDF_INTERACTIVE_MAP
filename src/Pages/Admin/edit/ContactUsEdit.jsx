@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios';
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import styles from "./styles/ContactUsEdit.module.scss"
 import icons from '../../../assets/for_landingPage/Icons'
 import { style } from 'framer-motion/client';
 
 export default function ContactUsEdit ({ setCurrentModal, currentModal, handleClickOutside }) {
+
+    // toast alert pop up
+    const mountToast = UseToast();
 
     const [contactUsData, setContactUsData] = useState({
         location: '',
@@ -42,7 +49,8 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
     
         // Check if any field is empty
         if (!location || !telephone || !email || !facebookPage) {
-            alert("Please fill in all fields before saving.");
+            mountToast("Please fill in all fields before saving.", "error");
+            setCurrentModal("contactUs");
             return;
         }
     
@@ -57,7 +65,8 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
             // Check if error is specifically due to no changes detected (status 400)
             if (error.response && error.response.status === 400 &&
                 error.response.data.message === 'No changes detected in the data.') {
-                alert('No changes detected. Contact Us data was not updated.');
+                mountToast("No changes detected. Contact Us data was not updated.", "error");
+                setCurrentModal("contactUs");
             } else {
                 console.error("Error saving Contact Us data:", error);
             }
@@ -82,12 +91,12 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
                 {currentModal === "contactUsEdit" && (
                     <div className = { styles.holder }>
                         <motion.div
-                        className = { styles.editContainer }
-                        id = "contactUsEdit"
-                        initial = {{opacity: 0}}
-                        animate = {{opacity: 1}}
-                        exit = {{opacity: 0}}
-                        transition = {{duration: 0.2, ease: "easeInOut"}}
+                            className = { styles.editContainer }
+                            id = "contactUsEdit"
+                            initial = {{opacity: 0}}
+                            animate = {{opacity: 1}}
+                            exit = {{opacity: 0}}
+                            transition = {{duration: 0.2, ease: "easeInOut"}}
                         >
                             <div className = {styles.editingSection}>
                                 <div className = { styles.close } onClick = { function() { setCurrentModal("contactUs"); }}>
@@ -152,6 +161,8 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
                     </div>
                 )}
             </AnimatePresence>
+
+            <ToastContainer />
         </>
     )
 }

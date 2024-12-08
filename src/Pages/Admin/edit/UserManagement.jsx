@@ -7,6 +7,10 @@ import UserModal from './UserModal'; // Component for handling modal input
 import moment from 'moment';
 
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
@@ -15,6 +19,9 @@ import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Impo
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const UserManagement = () => {
+    // toast alert pop up
+    const mountToast = UseToast();
+
     //passing props from the AccessBtn
     const location = useLocation();
     const userProp = location.state?.user;
@@ -83,7 +90,7 @@ const UserManagement = () => {
             if (confirmDelete && userToDelete) {
                 await axios.delete(`http://localhost:5000/api/users/delete/${userToDelete}`);
                 fetchUsers();
-                alert('User deleted successfully');
+                mountToast("User deleted successfully!", "success");
                 setConfirmDelete(false);
                 setUserToDelete(null);
                 setIsDelete(false);
@@ -233,7 +240,9 @@ const UserManagement = () => {
                         />
                     </motion.div>
                 )}
-            </AnimatePresence>    
+            </AnimatePresence>
+
+            <ToastContainer />
         </>
     );
     

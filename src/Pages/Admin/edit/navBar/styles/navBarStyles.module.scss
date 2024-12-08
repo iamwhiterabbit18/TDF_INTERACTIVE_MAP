@@ -70,13 +70,16 @@
             }
         }
     }
-
-    
 }
 
 .navList {
     padding: 20px 0;
     width: 85%; 
+    overflow: scroll;
+
+    // make scroll bar invisible
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 
     li {
         align-items: center;

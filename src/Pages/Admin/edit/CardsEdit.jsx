@@ -5,6 +5,10 @@ import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { motion, AnimatePresence } from 'framer-motion'
 import NavBar from './navBar/NavBar';
 import images from '../../../assets/for_landingPage/Images';
@@ -15,6 +19,9 @@ import Confirmation from '../utility/ConfirmationComponent/Confirmation';
 
 
 const Cards = () => {
+  // toast alert pop up
+  const mountToast = UseToast();
+
   const location = useLocation();
   const user = location.state?.user;
   //const { id } = useParams(); // Get the card ID from the route
@@ -73,14 +80,14 @@ const Cards = () => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         // Check if file exceeds 5MB
     if (file && file.size > 5 * 1024 * 1024) { // 10MB in bytes
-      alert('File exceeds 5MB. Please select an image with smaller file size.');
+      mountToast("File exceeds 5MB!", "error");
       window.location.reload(); // Reload the page if file exceeds 10MB
       return;
     }
       // Check if file type is allowed
       if (file && !allowedTypes.includes(file.type)) {
-        alert('Only JPEG, PNG, and GIF image formats are allowed.');
-        window.location.reload(); // Reload the page if file type is not allowed
+        mountToast("Only JPEG, PNG, and GIF image formats are allowed!", "error");
+        // window.location.reload(); // Reload the page if file type is not allowed
         return;
       }
       if (file) {
@@ -146,16 +153,16 @@ const handleSubmit = async (e) => {
     }
       // Show appropriate message based on whether changes were made
   if (changesMade) {
-      alert('Data saved successfully!'); // Show success message
+      mountToast("Data saved successfully!", "success"); // Show success message
       fetchCards();
       if (fileInputRef.current) fileInputRef.current.value = null; // Clear file inputted file on success
       return; // Reload the page after successful save
     } else {
-      alert('No changes in Card Data'); // Show message if no changes were detected
+      mountToast("No changes in Card Data", "error"); // Show message if no changes were detected
     }
   } catch (error) {
     console.error('Error saving card data:', error);
-    alert('Error saving data. Please try again.'); // Optional: Show error message
+    mountToast("Error saving data. Please try again.", "error"); // Optional: Show error message
   }
 };
 
@@ -169,7 +176,7 @@ const handleSubmit = async (e) => {
                 card._id === imgToDelete ? { ...card, image: null, imagePreview: null, file: null } : card
               )
             );
-            alert('Image deleted successfully');
+            mountToast("Image deleted successfully", "success");
             setConfirmDelete(false);
             setImgToDelete(null);
             setIsDelete(false);
@@ -177,7 +184,7 @@ const handleSubmit = async (e) => {
         }
       } catch (error) {
         console.error('Error deleting image:', error);
-        alert('Error deleting image. Please try again.');
+        mountToast("Error deleting image. Please try again.", "error");
       }
   };
 
@@ -375,7 +382,9 @@ const handleSubmit = async (e) => {
               />
           </motion.div>
         )}
-      </AnimatePresence>  
+      </AnimatePresence> 
+
+      <ToastContainer /> 
     </>
   );
 };
