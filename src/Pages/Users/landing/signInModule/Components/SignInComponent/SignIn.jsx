@@ -12,6 +12,10 @@ import styles from './styles/signInStyles.module.scss';
 import icons from '../../../../../../assets/for_landingPage/Icons.jsx';
 import { jwtDecode } from 'jwt-decode'; // Correctly import jwtDecode
 
+import UseToast from "../../../../../Admin/utility/AlertComponent/UseToast.jsx";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -24,6 +28,9 @@ export default function SignIn ({ handleBtnClick, isBtnClicked, handleUser }) {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const [error, setError] = useState('');
+
+    // toast alert pop up
+    const mountToast = UseToast();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,51 +50,55 @@ export default function SignIn ({ handleBtnClick, isBtnClicked, handleUser }) {
                 navigate('/map'); // Guest just navigates without passing user
             }
         } catch (error) {
-            setError('Failed to login');
+            mountToast("Failed to login", "error");
         }
     };
 
     return (
-        <AnimatePresence>
-            {isBtnClicked && (
-                <motion.div 
-                    className = { `${ styles.signInContent }` }
-                    initial = {{opacity: 0}}
-                    animate = {{opacity: 1}}
-                    exit = {{opacity: 0, transition: {delay: 0}}}
-                    transition = {{duration: 0.3, delay: 0.2, ease: "easeInOut"}}
-                >
-                    <div className = { styles.return } onClick = { handleBtnClick }>
-                        <img src = { icons.arrow } alt = "Close" />
-                    </div>
+        <>
+            <AnimatePresence>
+                {isBtnClicked && (
+                    <motion.div 
+                        className = { `${ styles.signInContent }` }
+                        initial = {{opacity: 0}}
+                        animate = {{opacity: 1}}
+                        exit = {{opacity: 0, transition: {delay: 0}}}
+                        transition = {{duration: 0.3, delay: 0.2, ease: "easeInOut"}}
+                    >
+                        <div className = { styles.return } onClick = { handleBtnClick }>
+                            <img src = { icons.arrow } alt = "Close" />
+                        </div>
 
-                    <span className = { styles.txtTitle }>Sign in</span>
+                        <span className = { styles.txtTitle }>Sign in</span>
 
-                    <form className = { styles.form } onSubmit = { handleSubmit } >
-                        <label htmlFor = "email">Email</label>
-                        <input 
-                            autoComplete = "off"
-                            name = "email"
-                            type = "email"
-                            required
-                            onChange = {(e) => setEmail(e.target.value)}
-                        />
+                        <form className = { styles.form } onSubmit = { handleSubmit } >
+                            <label htmlFor = "email">Email</label>
+                            <input 
+                                autoComplete = "off"
+                                name = "email"
+                                type = "email"
+                                required
+                                onChange = {(e) => setEmail(e.target.value)}
+                            />
 
-                        <label htmlFor = "password">Password</label>
-                        <input 
-                            autoComplete = "off"
-                            name = "password"
-                            type = "password" 
-                            required
-                            onChange = {(e) => setPassword(e.target.value)}
-                        />
-                        {/* Change button names into general names */}
-                        <button className = { `${styles.button } ${styles.submitBtn }` } type = "submit">
-                            Sign in
-                        </button>
-                    </form>
-                </motion.div>   
-            )}
-        </AnimatePresence>
+                            <label htmlFor = "password">Password</label>
+                            <input 
+                                autoComplete = "off"
+                                name = "password"
+                                type = "password" 
+                                required
+                                onChange = {(e) => setPassword(e.target.value)}
+                            />
+                            {/* Change button names into general names */}
+                            <button className = { `${styles.button } ${styles.submitBtn }` } type = "submit">
+                                Sign in
+                            </button>
+                        </form>
+                    </motion.div>   
+                )}
+            </AnimatePresence>
+
+            <ToastContainer />
+        </>
     )
 }

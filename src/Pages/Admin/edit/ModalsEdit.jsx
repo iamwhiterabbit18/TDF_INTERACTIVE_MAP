@@ -5,6 +5,10 @@ import Slider from 'react-slick';
 import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 import styles from '/src/Pages/Admin/edit/styles/ModalsEdit.module.scss'; // Ensure you have proper CSS
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { motion, AnimatePresence } from 'framer-motion'
 import icons from '../../../assets/for_landingPage/Icons';
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
@@ -13,6 +17,9 @@ import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Impo
 import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
 
 const Modal = () => {
+  // toast alert pop up
+  const mountToast = UseToast();
+
   const location = useLocation();
   const user = location.state?.user;
 
@@ -155,7 +162,7 @@ const handleUploadFileChange = (e) => {
   const unsupportedFiles = fileArray.filter(file => !allowedTypes.includes(file.type));
 
   if (unsupportedFiles.length > 0) {
-    alert('Unsupported file format. Only JPG, JPEG, and PNG images are allowed.');
+    mountToast("Unsupported file format. Only JPG, JPEG, and PNG are allowed.", "error");
     return;
   }
 
@@ -167,7 +174,7 @@ const handleUploadFileChange = (e) => {
     // Handle the upload of new images
     const handleUpload = async () => {
       if (!currentModal) {
-        alert('No modal selected for uploading images.');
+        mountToast("No modal selected for uploading images.", "error");
         return;
       }
     
@@ -184,7 +191,7 @@ const handleUploadFileChange = (e) => {
         });
         console.log('Response:', response);
         if (response.status === 200) {
-          alert('Images uploaded successfully!');
+          mountToast("Images uploaded successfully!", "success");
           console.log('Images uploaded successfully!');
           fetchModalData(); // Fetch updated modal data
           setUploadImagePreviews([]);
@@ -192,11 +199,11 @@ const handleUploadFileChange = (e) => {
           return;
         } else {
           console.error('Unexpected status:', response.status);
-          alert('Failed to upload images.');
+          mountToast("Failed to upload images.", "error");
         }
       } catch (error) {
         console.error('Error uploading images:', error);
-        alert('Error uploading images. Please try again.');
+        mountToast("Error uploading images. Please try again.", "error");
       }
     };
     
@@ -208,7 +215,7 @@ const handleUploadFileChange = (e) => {
       const unsupportedFiles = fileArray.filter(file => !allowedTypes.includes(file.type));
     
       if (unsupportedFiles.length > 0) {
-        alert('Unsupported file format. Only JPG, JPEG, and PNG images are allowed.');
+        mountToast("Unsupported file format. Only JPG, JPEG, and PNG are allowed.", "error");
         return;
       }
     
@@ -219,7 +226,7 @@ const handleUploadFileChange = (e) => {
 
   const handleUpdate = async () => {
     if (!currentModal || updateImageIndex === null) {
-      alert('No modal or image index selected for updating.');
+      mountToast("No modal or image index selected for updating.", "error");
       return;
     }
   
@@ -244,7 +251,7 @@ const handleUploadFileChange = (e) => {
       );
   
       if (response.status === 200) {
-        alert('Image updated successfully!');
+        mountToast("Image updated successfully!", "success");
         console.log('Images updated successfully!');
         fetchModalData(); // Fetch updated modal data
         setUpdateModalVisible(null);
@@ -255,7 +262,7 @@ const handleUploadFileChange = (e) => {
       }
     } catch (error) {
       console.error('Error updating image:', error);
-      alert('Error updating the image. Please try again.');
+      mountToast("Error updating the image. Please try again.", "error");
     }
   };
 
@@ -265,7 +272,7 @@ const handleDelete = async () => {
 
   try {
     if (!currentModal) {
-      alert('No modal selected for deleting images.');
+      mountToast("No modal selected for deleting images.", "error");
       return;
     } else {
       const response = await axios.delete(`http://127.0.0.1:5000/api/modal/uploads/modalImages/${deleteFile}`, {
@@ -275,7 +282,7 @@ const handleDelete = async () => {
       });
 
       if (response.status === 200) {
-        alert('Image deleted successfully!');
+        mountToast("Image deleted successfully!", "success");
         
         // Re-fetch modal data to get the updated list of images
         fetchModalData(); // Ensure this function properly updates currentModal and modalImages
@@ -288,7 +295,7 @@ const handleDelete = async () => {
     }
   } catch (error) {
     console.error('Error deleting image:', error);
-    alert('Error deleting image. Please try again.');
+    mountToast("Error deleting image. Please try again.", "error");
   }
 };
 
@@ -301,7 +308,7 @@ const handleDescTech = async () => {
     description === currentModal.description &&
     technologies === currentModal.technologies
   ) {
-    alert('No changes in description or technologies data.');
+    mountToast("No changes in description or technologies data.", "error");
     return;
   }
 
@@ -312,14 +319,14 @@ const handleDescTech = async () => {
     });
 
     if (response.status === 200) {
-      alert('Description and technologies saved successfully!');
+      mountToast("Description and technologies saved successfully!", "success");
       fetchModalData(); // Refresh data after saving
     } else {
-      alert('Failed to save description and technologies.');
+      mountToast("Failed to save description and technologies.", "error");
     }
   } catch (error) {
     console.error('Error saving description:', error);
-    alert('Error saving description. Please try again.');
+    mountToast("Error saving description. Please try again.", "error");
   }
 };
 
@@ -695,6 +702,8 @@ const handleDescTech = async () => {
         
       )}
     </AnimatePresence>
+
+    <ToastContainer />
     </>
   );
   

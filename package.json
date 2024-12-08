@@ -21,6 +21,7 @@
     "react-router-dom": "^6.26.2",
     "react-script": "^2.0.5",
     "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.6",
     "sass": "^1.77.8",
     "slick-carousel": "^1.8.1",
     "start": "^5.1.0",

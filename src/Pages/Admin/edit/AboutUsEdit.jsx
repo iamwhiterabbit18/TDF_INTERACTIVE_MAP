@@ -3,10 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios';
 import Confirmation from '../utility/ConfirmationComponent/Confirmation'
 
+import UseToast from '../utility/AlertComponent/UseToast';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import styles from './styles/AboutUsEdit.module.scss'
 import icons from '../../../assets/for_landingPage/Icons'
 
 export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClickOutside }) {
+
+    // toast alert pop up
+    const mountToast = UseToast();
     
     const [aboutUsData, setAboutUsData] = useState({
         historicalBackground: '',
@@ -43,21 +50,22 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
         // Check if any field is empty
         const { historicalBackground, vision, mission, goal, objectives } = aboutUsData;
         if (!historicalBackground || !vision || !mission || !goal || !objectives) {
-            alert("Please fill in all fields before saving.");
+            mountToast("Please fill in all fields before saving!", "error");
             return;
         }
     
         try {
             const response = await axios.put('http://127.0.0.1:5000/api/aboutus', aboutUsData);
             
-            alert("About Us updated successfully");
+            alert("Information was updated successfully!");
             setCurrentModal("aboutUs");  // Close modal after saving
             fetchAboutUsData();
         } catch (error) {
             // Check if the error is specifically due to no changes detected (status 400)
             if (error.response && error.response.status === 400 && 
                 error.response.data.message === 'No changes detected in the data.') {
-                alert('No changes detected. Details was not updated.');
+                mountToast("No changes detected. Details was not updated.", "error");
+                setCurrentModal("aboutUs");
             } else {
                 console.error("Error saving About Us data:", error);
             }
@@ -74,7 +82,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
 
     const handleUpdateImage = async () => {
         if (!selectedImage) {
-            alert("Please select an image first.");
+            mountToast("Please select an image first.", "error");
             return;
         }
 
@@ -85,7 +93,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
             const response = await axios.put('http://127.0.0.1:5000/api/aboutus/image', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            alert("Image updated successfully");
+            mountToast("Image updated successfully!", "success");
             fetchAboutUsData();
             setSelectedImage(null); // Clear the selected image after upload
             setPreviewImage(null); // Clear blob image preview
@@ -99,7 +107,8 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
         try {
             if (selectedImage) {
                 await axios.delete('http://127.0.0.1:5000/api/aboutus/image');
-                alert("Image deleted successfully.");
+                mountToast("Image deleted successfully!", "success");
+                setCurrentModal("aboutUs");
                 fetchAboutUsData();  // Refresh data after deletion
                 setDeleteModalVisible(null);
             }
@@ -220,6 +229,10 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                                             <span className={styles.txtTitle}>No Image Uploaded</span>
                                         </div>
                                     )}
+
+                                    <button className = { styles.saveBtn }>
+                                        <span className = { styles.txtTitle } onClick = {() => { handleUpdateImage(aboutUsData.image); }}>Save Image</span>
+                                    </button>
                                     
 
                                     <div className = { styles.history }>
@@ -282,13 +295,13 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                         </motion.div>
 
                         <motion.button 
-                        className = { styles.saveBtn }
-                        initial = {{opacity: 0}}
-                        animate = {{opacity: 1}}
-                        exit = {{opacity: 0}}
-                        transition = {{ duration: 0.3, ease: "easeInOut"}}
+                            className = { styles.saveBtn }
+                            initial = {{opacity: 0}}
+                            animate = {{opacity: 1}}
+                            exit = {{opacity: 0}}
+                            transition = {{ duration: 0.3, ease: "easeInOut"}}
                         >
-                            <span className = { styles.txtTitle } onClick = {() => { handleUpdateImage(aboutUsData.image); handleSaveDetails(); }}>Save Changes</span>
+                            <span className = { styles.txtTitle } onClick = {() => { handleSaveDetails(); }}>Save Changes</span>
                         </motion.button>
                     </div>
                 )}
@@ -312,6 +325,8 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                    </motion.div>
                 )}
             </AnimatePresence>
+
+            <ToastContainer />
         </>
     )
 }

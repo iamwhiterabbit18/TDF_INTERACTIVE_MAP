@@ -8,10 +8,17 @@ import { React, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios';
 
+import UseToast from '../../../../../../Admin/utility/AlertComponent/UseToast.jsx';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import styles from './styles/submitFeedbackStyles.module.scss';
 import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
 
 export default function NewsAndEvents({ setCurrentModal, handleClickOutside, currentModal, nodeRef, ...props }) {
+
+    // toast alert pop up
+    const mountToast = UseToast();
 
     const numberOfStars = [1, 2, 3, 4, 5]; // array of the star rating
     const [selectedStar, setSelectedStar] = useState (-1);
@@ -37,12 +44,13 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
 
          // Check if no star is selected
         if (selectedStar === -1) {
-            alert('Please select a star rating before submitting your feedback.');
+            // alert('Please select a star rating before submitting your feedback.');
+            mountToast("No Star Rating Selected!", "error");
             return; // Prevent submission if no star is selected
         }
           // Check if comment exceeds the character limit
           if (comment.length > 300) {
-            alert('Comment cannot exceed 300 characters.');
+            mountToast("Comment Exceeded The Limit!", "error");
             return; // Prevent submission if over limit
         }
     
@@ -63,7 +71,7 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
             if (response.status === 200) {
                 console.log('Feedback submitted successfully');
                 // Alert the user and reload the page
-                alert('Feedback submitted successfully!'); 
+                alert('Feedback submitted successfully!'); //not converted yet due to conflict with toast
                 setCurrentModal(null);
                 return;
                 //window.location.reload(); // Reload the page
@@ -144,6 +152,8 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                     </motion.div>
                 )}
             </AnimatePresence>
+
+            <ToastContainer />
         </>
     )
 }
