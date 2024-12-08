@@ -11,6 +11,7 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
     const [optionUnmountDelay, setOptionUnmountDelay] = useState(false);
     const [categoryUnmountDelay, setCategoryUnmountDelay] = useState(true);
 
+    
     function toggleGuest() {
         if (!isGuest) {
             setIsGuest(!isGuest);
@@ -29,30 +30,68 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
         }
     }
 
+    const [selectedRole, setSelectedRole] = useState(''); // New state for role
+    const [sexAtBirth, setSexAtBirth] = useState(''); // state for assigned sex
+    const [customRole, setCustomRole] = useState(''); // State for custom role input
+
+    // Function to handle sex selection
+    const handleSexChange = (e) => {
+        setSexAtBirth(e.target.value);
+    };
+    
     const handleGuestLogin = async () => {
+        // Validate inputs
+        if (!selectedRole) {
+            alert('Please select a role!');
+            return;
+        }
+        if (selectedRole === 'Others' && !customRole.trim()) {
+            alert('Please specify your role if you selected "Others"!');
+            return;
+        }
+        if (!sexAtBirth) {
+            alert('Please choose Assigned Sex at Birth!');
+            return;
+        }
+    
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/guest/logGuest', {
+            console.log("Sex at Birth (frontend):", sexAtBirth);
+            console.log("Role (frontend):", selectedRole);
+            console.log("Custom Role (frontend):", customRole); // Debugging: Log customRole if applicable
+    
+            const requestBody = {
+                sexAtBirth,
+                role: selectedRole,
+            };
+    
+            // Include customRole if the selected role is "Others"
+            if (selectedRole === 'Others') {
+                requestBody.customRole = customRole;
+            }
+    
+            const response = await fetch('http://localhost:5000/api/guest/logGuest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({}),
+                body: JSON.stringify(requestBody),
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
-                // Store guestId in localStorage
-                localStorage.setItem('guestId', data.guestId); 
+                localStorage.setItem('guestId', data.guestId);
                 handleUser('guest', data.guestId); // Pass the guestId to handleUser function
                 navigate('/map');
             } else {
                 console.error('Failed to log guest login');
+                alert('An error occurred while logging in. Please try again.');
             }
         } catch (error) {
             console.error('Error logging guest login:', error);
+            alert('An error occurred while logging in. Please check your network and try again.');
         }
     };
-
+    
 
     return (
         <>
@@ -92,25 +131,39 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
                         </div>
                         <form>
                             <label>Assigned Sex at Birth</label>
-                            <select>
+                            <select value={sexAtBirth} onChange={handleSexChange}>
+                                <option value="">--Select--</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
 
                             <label>Role</label>
-                            <select>
+                            <select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>   
+                                <option value="">--Select--</option>                            
                                 <option value="student">Student</option>
                                 <option value="farmer">Farmer</option>
                                 <option value="governmentAssoc">Government Associate</option>
                                 <option value="Others">Others</option>
                             </select>
+
+                              {/* Conditional Input for Custom Role */}
+                              {selectedRole === 'Others' && (
+                                <div>
+                                    <label>Specify Your Role</label>
+                                    <input
+                                        type="text"
+                                        value={customRole}
+                                        onChange={(e) => setCustomRole(e.target.value)}
+                                        placeholder="Enter your role"
+                                    />
+                                </div>
+                            )}
                         </form>
 
                         <button 
                             className = { `${styles.button} ${styles.btnGuest}`}
-                            onClick = { () => handleGuestLogin('Guest') }
-                        >
-                            <Link to ={ "/map"}>Guest Login</Link>
+                            onClick = { () => handleGuestLogin('Guest') }>
+                            Guest Login
                         </button> 
                         
                     </motion.div>

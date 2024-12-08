@@ -60,27 +60,29 @@ router.get('/:id', async (req, res) => { // Removed /api/images from the path
 
 // Add new images (POST)
 router.post('/', upload.array('images', 10), async (req, res) => {
-    console.log("Request body:", req.body); // Log the request body
-    console.log("Uploaded files:", req.files); // Log the uploaded files
+    console.log("Request body:", req.body);
+    console.log("Uploaded files:", req.files);
 
     try {
-        // Map over uploaded files and replace backslashes with forward slashes
-        const imagePaths = req.files.map(file => file.path.replace(/\\/g, '/')); 
-        let imageDoc = await NewsEvent.findOne(); // Find the first image document
+        // Extract filenames from uploaded files
+        const filenames = req.files.map(file => file.filename);
+
+        // Find the first image document
+        let imageDoc = await NewsEvent.findOne();
 
         if (imageDoc) {
             // If a document exists, update the images array
-            imageDoc.images.push(...imagePaths); // Add new images to the existing array
+            imageDoc.images.push(...filenames); // Add new filenames to the existing array
             await imageDoc.save();
             return res.status(200).json(imageDoc);
         } else {
             // If no document exists, create a new one
-            const newImages = new NewsEvent({ images: imagePaths });
+            const newImages = new NewsEvent({ images: filenames });
             await newImages.save();
             return res.status(201).json(newImages);
         }
     } catch (error) {
-        console.error("Error adding images:", error); // Log any error
+        console.error("Error adding images:", error);
         res.status(500).json({ message: "Error adding images", error });
     }
 });

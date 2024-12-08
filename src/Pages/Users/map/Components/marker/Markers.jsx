@@ -25,7 +25,7 @@ const [modals, setModals] = useState([]);
     // Fetch modals from the backend
     useEffect(() => {
       const fetchModals = async () => {
-        const response = await axios.get('http://127.0.0.1:5000/api/modal');
+        const response = await axios.get('http://localhost:5000/api/modal');
         setModals(response.data);
       };
       fetchModals();

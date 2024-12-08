@@ -28,4 +28,4 @@ const markerData = [
     }
 ]
 
-export default markerData
+export default markerData;

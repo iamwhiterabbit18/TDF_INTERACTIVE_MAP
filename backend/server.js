@@ -14,6 +14,8 @@ const guestLogRoutes = require('./routes/guestLogRoutes');
 const newsEventRoutes = require('./routes/newsEventRoutes');
 const aboutUsRoutes = require('./routes/AboutUsRoutes');
 const contactUsRoutes = require('./routes/ContactUsRoutes');
+const mainRoutes = require('./routes/mainRoutes'); 
+const markerRoutes = require('./routes/MarkerRoutes');
 
 dotenv.config(); 
 
@@ -53,6 +55,8 @@ app.use('/api/guest', guestLogRoutes);
 app.use('/api/images', newsEventRoutes);
 app.use('/api/aboutus', aboutUsRoutes);
 app.use('/api/contact', contactUsRoutes);
+app.use('/api', mainRoutes);
+app.use('/api/markers', markerRoutes);
 
 // Start the server
 app.listen(PORT, '0.0.0.0', () => {

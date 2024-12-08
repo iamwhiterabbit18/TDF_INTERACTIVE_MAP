@@ -55,7 +55,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
         }
     
         try {
-            const response = await axios.put('http://127.0.0.1:5000/api/aboutus', aboutUsData);
+            const response = await axios.put('http://localhost:5000/api/aboutus', aboutUsData);
             
             alert("Information was updated successfully!");
             setCurrentModal("aboutUs");  // Close modal after saving
@@ -90,7 +90,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
         formData.append('image', selectedImage);
 
         try {
-            const response = await axios.put('http://127.0.0.1:5000/api/aboutus/image', formData, {
+            const response = await axios.put('http://localhost:5000/api/aboutus/image', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             mountToast("Image updated successfully!", "success");
@@ -106,15 +106,33 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
     const handleDeleteImage = async () => {
         try {
             if (selectedImage) {
-                await axios.delete('http://127.0.0.1:5000/api/aboutus/image');
-                mountToast("Image deleted successfully!", "success");
-                setCurrentModal("aboutUs");
+                await axios.delete('http://localhost:5000/api/aboutus/image');
+                alert("Image deleted successfully.");
                 fetchAboutUsData();  // Refresh data after deletion
                 setDeleteModalVisible(null);
             }
 
+            await axios.delete('http://localhost:5000/api/aboutus/image');
+            alert("Image deleted successfully.");
+            fetchAboutUsData();  // Refresh data after deletion
         } catch (error) {
             console.error("Error deleting image:", error);
+        }
+    };
+
+    const handleArchiveImage = async () => {
+        try {
+            const response = await axios.put('http://localhost:5000/api/archive/aboutUs', {
+                imagePath: aboutUsData.image, // Pass the image path from your state
+            });
+    
+            if (response.status === 200) {
+                alert('AboutUs image archived successfully.');
+                fetchAboutUsData(); // Refresh the data
+            }
+        } catch (error) {
+            console.error('Error archiving AboutUs image:', error);
+            alert('Failed to archive image. Please try again.');
         }
     };
 
@@ -190,7 +208,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                                     ) : aboutUsData.image ? (
                                         <div className = { styles.uploaded }>
                                             <img 
-                                                src={`http://127.0.0.1:5000/uploads/images/${aboutUsData.image}`} 
+                                                src={`http://localhost:5000/uploads/images/${aboutUsData.image}`} 
                                                 alt="About Us" 
                                                 className={styles.imgPreview} 
                                             />
@@ -207,7 +225,9 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
 
                                                 <button 
                                                     className = { `${ styles.txtTitle} ${ styles.deleteBtn }` } 
-                                                    onClick={() => {setDeleteModalVisible(true); setSelectedImage(aboutUsData.image);} } //handleDeleteImage
+                                                    //onClick={() => {setDeleteModalVisible(true); setSelectedImage(aboutUsData.image);} } //handleDeleteImage
+                                                    //onClick={handleDeleteImage}
+                                                    onClick={() => handleArchiveImage()}
                                                 >
                                                     Delete Image
                                                 </button>

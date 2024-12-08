@@ -45,7 +45,8 @@ const Cards = () => {
 
   useEffect(() => {
     if (confirmDelete && imgToDelete) {
-        handleImageDelete();
+        //handleImageDelete();
+        handleImageArchive();
         setConfirmDelete(false);
     }
   }, [confirmDelete, imgToDelete]);
@@ -55,7 +56,7 @@ const Cards = () => {
   // Fetch cards from the database
   const fetchCards = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/api/cards');
+      const response = await axios.get('http://localhost:5000/api/cards');
       const data = response.data;
       // If there are fetched cards, update the state; otherwise, keep initial cards
       if (data.length > 0) {
@@ -139,7 +140,7 @@ const handleSubmit = async (e) => {
         }
 
         // Update the card with changes
-        const response = await axios.put(`http://127.0.0.1:5000/api/cards/${card._id}`, formData, {
+        const response = await axios.put(`http://localhost:5000/api/cards/${card._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -168,7 +169,7 @@ const handleSubmit = async (e) => {
   const handleImageDelete = async () => {
       try {
         if (confirmDelete && imgToDelete) {
-          const response = await axios.delete(`http://127.0.0.1:5000/api/cards/${imgToDelete}/image`);
+          const response = await axios.delete(`http://localhost:5000/api/cards/${imgToDelete}/image`);
           if (response.status === 200) {
             setCards(prevCards =>
               prevCards.map(card =>
@@ -185,6 +186,30 @@ const handleSubmit = async (e) => {
         console.error('Error deleting image:', error);
         mountToast("Error deleting image. Please try again.", "error");
       }
+  };
+
+  const handleImageArchive = async (imageId, imagePath) => {
+    try {
+      console.log('Archiving image...', imageId, imagePath);
+      const response = await axios.put(`http://localhost:5000/api/archive/cards/${imageId}`, { imagePath });
+      console.log("API Response:", response);
+  
+      if (response.status === 200) {
+        setCards((prevCards) =>
+          prevCards.map((card) =>
+            card._id === imageId ? { ...card, image: null, isArchived: true } : card
+          )
+        );
+        console.log('Archiving Success');
+        alert('Image archived successfully');
+        //setConfirmArchive(false);
+        //setImgToArchive(null);
+        //setIsArchive(false);
+      }
+    } catch (error) {
+      console.error('Error archiving image:', error);
+      alert('Error archiving image. Please try again.');
+    }
   };
 
   const navigate = useNavigate();
@@ -290,12 +315,13 @@ const handleSubmit = async (e) => {
 
                           <button 
                             className = { `${ styles.txtTitle} ${ styles.deleteBtn }` }
-                            type="button" onClick={() => handleDeleteBtn(card._id)}
+                            //type="button" onClick={() => handleDeleteBtn(card._id)}
+                            type="button" onClick={() => handleImageArchive(card._id, card.image)}
                           >
                             Delete
                           </button>
                         </div>
-                        <img src={`http://127.0.0.1:5000${card.image}`} alt="Fetched Image Preview" />
+                        <img src={`http://localhost:5000/uploads/cardsImg/${card.image}`} alt="Fetched Image Preview" />
                       </div>
                     ) : (
                       <div className = { styles.noImg }>

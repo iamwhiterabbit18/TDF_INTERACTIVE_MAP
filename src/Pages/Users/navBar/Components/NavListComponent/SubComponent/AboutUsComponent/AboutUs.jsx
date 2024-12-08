@@ -23,7 +23,7 @@ export default function AboutUs({ setCurrentModal, handleClickOutside, currentMo
     // Fetch About Us data from the backend
     const fetchAboutUsData = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/aboutus');
+            const response = await axios.get('http://localhost:5000/api/aboutus');
             setAboutUsData(response.data); // Update state with fetched data
         } catch (error) {
             console.error("Error fetching About Us data:", error);
