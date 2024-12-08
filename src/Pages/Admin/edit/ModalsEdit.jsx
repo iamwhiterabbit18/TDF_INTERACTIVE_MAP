@@ -60,7 +60,7 @@ useEffect(() => {
   const fetchModals = async () => {
     setIsLoading(true); // Set loading to true before fetching
     try {
-      const response = await axios.get('http://127.0.0.1:5000/api/modal');
+      const response = await axios.get('http://localhost:5000/api/modal');
       setModals(response.data);
     } catch (error) {
       console.error('Error fetching modals:', error);
@@ -76,7 +76,7 @@ const fetchModalData = async () => {
   if (currentModal) {
     setIsLoading(true); // Start loading
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/api/modal/${currentModal._id}`);
+      const response = await axios.get(`http://localhost:5000/api/modal/${currentModal._id}`);
       
       // Set modalImages state with the fetched images
       const fetchedImages = response.data.modalImages;
@@ -93,7 +93,7 @@ const fetchModalData = async () => {
 
       // Update image previews based on the fetched images
       const imagePreviews = fetchedImages
-        ? fetchedImages.map((img) => `http://127.0.0.1:5000/uploads/modalImages/${img}`)
+        ? fetchedImages.map((img) => `http://localhost:5000/uploads/modalImages/${img}`)
         : [];
       
       setModalImagePreviews(imagePreviews);
@@ -184,7 +184,7 @@ const handleUploadFileChange = (e) => {
           formData.append('modalImages', image); // Append each image with the key 'modalImages'
         });
     
-        const response = await axios.post(`http://127.0.0.1:5000/api/modal/${currentModal._id}`, formData, {
+        const response = await axios.post(`http://localhost:5000/api/modal/${currentModal._id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -242,7 +242,7 @@ const handleUploadFileChange = (e) => {
       }
   
       const response = await axios.put(
-        `http://127.0.0.1:5000/api/modal/${currentModal._id}/updateImage`, formData,
+        `http://localhost:5000/api/modal/${currentModal._id}/updateImage`, formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -275,7 +275,7 @@ const handleDelete = async () => {
       mountToast("No modal selected for deleting images.", "error");
       return;
     } else {
-      const response = await axios.delete(`http://127.0.0.1:5000/api/modal/uploads/modalImages/${deleteFile}`, {
+      const response = await axios.delete(`http://localhost:5000/api/modal/uploads/modalImages/${deleteFile}`, {
         data: {
           id: currentModal._id, // Pass the modal ID
         },
@@ -299,6 +299,36 @@ const handleDelete = async () => {
   }
 };
 
+// Archive handler for ModalsEdit.jsx
+const handleImageArchive = async (modalId, imagePath) => {
+  try {
+    console.log('Archiving modal image...', modalId, imagePath);
+    const response = await axios.put(`http://localhost:5000/api/archive/modal/${modalId}`, { imagePath });
+    console.log("API Response:", response);
+
+    if (response.status === 200) {
+      setModals((prevModals) =>
+        prevModals.map((modal) =>
+          modal._id === modalId
+            ? {
+                ...modal,
+                modalImages: modal.modalImages.filter((img) => img !== imagePath), // Remove archived image
+                isArchived: true,
+              }
+            : modal
+        )
+      );
+      console.log('Archiving Success');
+      alert('Modal image archived successfully');
+      fetchModalData(); 
+    }
+  } catch (error) {
+    console.error('Error archiving modal image:', error);
+    alert('Error archiving modal image. Please try again.');
+  }
+};
+
+
 // New function to save the description
 const handleDescTech = async () => {
   if (!currentModal) return;
@@ -313,7 +343,7 @@ const handleDescTech = async () => {
   }
 
   try {
-    const response = await axios.put(`http://127.0.0.1:5000/api/modal/${currentModal._id}/description`, {
+    const response = await axios.put(`http://localhost:5000/api/modal/${currentModal._id}/description`, {
       description,
       technologies,
     });
@@ -472,7 +502,8 @@ const handleDescTech = async () => {
                                   <button
                                     className={styles.deleteBtn}
                                     onClick={() => {
-                                      setDeleteFile(currentModal.modalImages[index]); // Set the filename to delete
+                                      //setDeleteFile(currentModal.modalImages[index]); // Set the filename to delete
+                                      handleImageArchive(currentModal._id, currentModal.modalImages[index]); // Set the filename to archive
                                       setDeleteModalVisible(true); // Open delete modal
                                     }}
                                   >

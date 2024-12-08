@@ -37,16 +37,17 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
 
     useEffect(() => {
         if (confirmDelete && selectedImageFilename) {
-            handleDelete();
+            //handleDelete();
+            handleArchive();
             setConfirmDelete(false);
         }
     }, [confirmDelete, selectedImageFilename]);
 
     // Fetch images from the single document
     // Fetch images from the single document
-    const fetchImages = async () => {
+    const fetchnewsEvent = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/images');
+            const response = await axios.get('http://localhost:5000/api/images');
             const document = response.data[0]; // Assuming there's only one document
 
             // Set the images array
@@ -54,7 +55,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             setImages(fetchedImages);
 
             // Generate image preview URLs based on the fetched images
-            const imagePreviews = fetchedImages.map((img) => `http://127.0.0.1:5000/${img}`);
+            const imagePreviews = fetchedImages.map((img) => `http://localhost:5000/uploads/images/${img}`);
 
             // Set state to hold the preview URLs for the slider
             setImagePreviews(imagePreviews);
@@ -103,13 +104,13 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         });
 
         try {
-            await axios.post(`http://127.0.0.1:5000/api/images`, formData, {
+            await axios.post(`http://localhost:5000/api/images`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            mountToast("Image Uploaded successfully!", "success");
-            fetchImages(); // Refresh image list after successful upload
+            alert('Uploaded successfully!');
+            fetchnewsEvent(); // Refresh image list after successful upload
             setUploadImagePreviews([]);
             setIsAddImageModalOpen(false); // Close the add image modal
             setUpdatePreviewImages([]);
@@ -133,7 +134,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         const filename = selectedImageFilename.split('/').pop(); // Get only the filename
     
         try {
-            const response = await axios.put(`http://127.0.0.1:5000/api/images/uploads/images/${filename}`, formData, {
+            const response = await axios.put(`http://localhost:5000/api/images/uploads/images/${filename}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
     
@@ -141,8 +142,8 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             setImages(response.data.images);
             setSelectedImageFilename(null); // Reset after update
             setNewImageFile(null); // Clear the file input
-            mountToast("Image Update successfully!", "success");
-            fetchImages();
+            alert('Update successfully!');
+            fetchnewsEvent();
             setUpdatePreviewImages([]);
             setIsUpdateModalOpen(false);
         } catch (error) {
@@ -156,10 +157,10 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
 
         try {
             if (selectedImageFilename) {
-                const response = await axios.delete(`http://127.0.0.1:5000/api/images/uploads/images/${filename}`);
+                const response = await axios.delete(`http://localhost:5000/api/images/uploads/images/${filename}`);
                     if (response.status === 200) {
-                        mountToast("Image deleted successfully!", "success");
-                        fetchImages(); // Refresh image list after successful deletion
+                        alert('Image deleted successfully!');
+                        fetchnewsEvent(); // Refresh image list after successful deletion
                         setDeleteModalVisible(null);
                     }
                 }
@@ -168,6 +169,27 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             mountToast("Error deleting image. Please try again.", "error");
         }
     };
+
+            // Handle archiving an image or the entire newsEvent document (PUT)
+const handleArchive = async () => {
+    const filename = selectedImageFilename.split('/').pop(); // Extract only the filename
+    try {
+        if (selectedImageFilename) {
+            const response = await axios.put(`http://localhost:5000/api/archive/newsEvent/image/${filename}`);
+            if (response.status === 200) {
+                alert('Image archived successfully!');
+                fetchnewsEvent(); // Refresh the list to show updated data
+                setDeleteModalVisible(null);
+            }
+        } else {
+            alert('No image selected for archiving.');
+        }
+    } catch (error) {
+        console.error('Error archiving image:', error);
+        alert('Error archiving image. Please try again.');
+    }
+};
+
 
     const cancelBtn = () => {
         setIsAddImageModalOpen(false);
@@ -189,7 +211,7 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
     // Fetch images when the modal is opened
     useEffect(() => {
         if (currentModal === "editNewsEvent") {
-            fetchImages();
+            fetchnewsEvent();
         }
     }, [currentModal]);
 
