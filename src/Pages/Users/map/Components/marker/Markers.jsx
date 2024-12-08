@@ -12,6 +12,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 const screenWidth = window.innerWidth;
 
  
+ 
+
+
 
 const Markers = ({ scene, camera, container, moveToMarker }) => {
   const[hoveredMarker, setHoveredMarker] = useState(null);
@@ -125,7 +128,7 @@ const [modals, setModals] = useState([]);
   const handleClosePopup = (marker) =>{
     setSelectedMarker(null);
   }
-
+  console.log("Markers:", markers);
   // updates marker pos
   useEffect(() => {
     if (scene && camera && container) {

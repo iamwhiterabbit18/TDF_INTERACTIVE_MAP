@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './AddMarker.module.scss';
 import markerData from './markerData';
-import calculatePosition from '@utils/CalculatePosition.jsx';
+import Click from '@utils/Click.js';
 import AddMarkerModal from './AddMarkerModal.jsx';
 
-const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
+const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
   // marker data holder
   const [markerPos, setMarkerPos] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -36,51 +36,48 @@ const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     const marker = JSON.parse(e.dataTransfer.getData('marker'));
-    console.log(`${marker.name}`, "got dropped")
+    console.log(`${marker.name}`, "got dropped");
 
-    const dropX = e.clientX;
-    const dropY = e.clientY;
-    const canvasRect = container.getBoundingClientRect();
-    console.log("Canvas Rect: ", canvasRect)
-    const screenPosition = {
-      x: dropX - canvasRect.left,
-      y: dropY - canvasRect.top - 200
-    };
-    console.log("Screen Position Relative to Canvas:", screenPosition);
+    // Use Click utility to calculate world position
+    const clickInstance = new Click(e, camera, scene);
     
-    const worldPosition = calculatePosition(screenPosition, camera, container);
-    console.log(`${marker.name} dropped at`, worldPosition);
-
+    // Get the intersection point from the Click utility
+    const intersects = clickInstance.raycaster.intersectObjects(scene.children, true);
     
+    if (intersects.length > 0) {
+      const worldPosition = intersects[0].point;
+      const screenPosition = {
+        x: e.clientX - container.getBoundingClientRect().left,
+        y: e.clientY - container.getBoundingClientRect().top
+      };
 
-
-    setMarkerPos((prev) => {
-      const markerIndex = prev.findIndex((m) => m.name === marker.name && m.siteName === marker.siteName);
-      
-      if (markerIndex >= 0) {
-        // Update existing marker's position
-        const updatedMarkers = [...prev];
-        updatedMarkers[markerIndex] = { 
-          ...updatedMarkers[markerIndex], 
-          screenPosition, 
-          worldPosition 
-        };
-        return updatedMarkers;
-      }
-      
-      // If marker doesn't exist, set current marker for modal
-      setCurrentMarker({
-        name: marker.name,
-        icon: marker.icon, // Pass the icon here:
-        screenPosition,
-        worldPosition
+      setMarkerPos((prev) => {
+        const markerIndex = prev.findIndex((m) => m.name === marker.name && m.siteName === marker.siteName);
+        
+        if (markerIndex >= 0) {
+          // Update existing marker's position
+          const updatedMarkers = [...prev];
+          updatedMarkers[markerIndex] = { 
+            ...updatedMarkers[markerIndex], 
+            screenPosition, 
+            worldPosition 
+          };
+          return updatedMarkers;
+        }
+        
+        // If marker doesn't exist, set current marker for modal
+        setCurrentMarker({
+          name: marker.name,
+          icon: marker.icon,
+          screenPosition,
+          worldPosition
+        });
+        setIsModalVisible(true);
+        
+        // Return existing markers
+        return prev;
       });
-      setIsModalVisible(true);
-      
-      // Return existing markers
-      return prev;
-    });
-
+    }
   };
 
   const handleSave = (siteName) => {
@@ -156,7 +153,7 @@ const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
                 style={{
                   position: 'absolute',
                   left: marker.screenPosition.x,
-                  top: marker.screenPosition.y,
+                  top: marker.screenPosition.y  - 200,
                 }}
                 onDragStart={(e) => handleDragStart(e, marker)}
               >

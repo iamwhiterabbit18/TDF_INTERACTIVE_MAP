@@ -1,8 +1,8 @@
-import pin from './pin.png';
-import bird from './bird.png';
-import building from './building.png';
-import swarm from './swarm.png';
-import wheat from './wheat2.png';
-import fish from './fish.png';
+import Others from './pin.png';
+import Poultry from './bird.png';
+import Structure from './building.png';
+import Swarm from './swarm.png';
+import Crops from './wheat2.png';
+import Fishery from './fish.png';
 
-export default { pin, bird, building, swarm, wheat, fish };
+export default { Others, Poultry, Structure, Swarm, Crops, Fishery };

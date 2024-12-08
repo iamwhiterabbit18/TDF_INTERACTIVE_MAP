@@ -4,27 +4,27 @@ import markerIcons from '@assets/icon/Icons.js';
 const markerData = [
     {
         name: 'Poultry',
-        icon: markerIcons.bird,
+        icon: markerIcons.Poultry,
     },
     {
         name: 'Structure',
-        icon: markerIcons.building,
+        icon: markerIcons.Structure,
     },
     {
         name: 'Swarm',
-        icon: markerIcons.swarm,
+        icon: markerIcons.Swarm,
     },
     {
         name: 'Crops',
-        icon: markerIcons.wheat,
+        icon: markerIcons.Crops,
     },
     {
         name: 'Fishery',
-        icon: markerIcons.fish,
+        icon: markerIcons.Fishery,
     },
     {
         name: 'Others',
-        icon: markerIcons.pin,
+        icon: markerIcons.Others,
     }
 ]
 

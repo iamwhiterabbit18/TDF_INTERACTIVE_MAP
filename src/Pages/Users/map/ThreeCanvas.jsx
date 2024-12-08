@@ -267,7 +267,7 @@ const ThreeCanvas = () => {
     
   }
   const addMarkerMode = () =>{
-    cameraEditMode();
+    // cameraEditMode();
     offVisibility();
   }
 
@@ -306,7 +306,7 @@ const ThreeCanvas = () => {
           container={containerRef.current}
           camera={cameraRef.current} 
           renderer={rendererRef.current}
-
+          scene={sceneRef.current}
           // pass functions as props
           addMarkerMode={addMarkerMode}
           />
