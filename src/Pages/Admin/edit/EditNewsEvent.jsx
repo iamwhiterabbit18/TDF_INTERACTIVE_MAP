@@ -7,8 +7,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function NewsEventImage({ setCurrentModal, currentModal, handleClickOutside}) { // setCurrentModal, currentModal, handleClickOutside
     // toast alert pop up
@@ -231,68 +229,72 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
                     
                                 {/* Carousel for existing images */}
                                 {images.length > 0 ? (
-                                    <div className={styles.imageCarousel}>
-                                        <Slider {...settings}>
-                                            {imagePreviews.map((image, index) => (
-                                                <div key={index}>
-                                                    <div className = { styles.imageContainer }>
-                                                        <img
-                                                            src={image}
-                                                            alt={`Uploaded preview ${index}`}
-                                                            className={styles.carouselImage}
-                                                        />
-                                                        <div className = { styles.overlay }>
-                                                            <div className = { styles.btnCont1 }>
-                                                                <button
-                                                                    className={styles.saveBtn}
-                                                                    type="button"
-                                                                    onClick={() => {
-                                                                        setSelectedImageFilename(image); // Select image for updating
-                                                                        setIsUpdateModalOpen(true);
-                                                                    }}
-                                                                >
-                                                                    Update Image
-                                                                </button>
-                                                                <button
-                                                                    className={styles.closeBtn}
-                                                                    onClick={() => {
-                                                                        setSelectedImageFilename(image); // Handle delete
-                                                                        setDeleteModalVisible(true);
-                                                                    }}
-                                                                >
-                                                                    Delete
-                                                                </button>
-                                                            </div>
-                                                            <div className = { styles.btnCont2 }>
-                                                                <button className={styles.saveBtn} onClick={() => setIsAddImageModalOpen(true)}>
-                                                                    Add Images
-                                                                </button>
+                                    <>
+                                        <div className={styles.imageCarousel}>
+                                            <Slider {...settings}>
+                                                {imagePreviews.map((image, index) => (
+                                                    <>
+                                                        <div key={index}>
+                                                            <div className = { styles.imageContainer }>
+                                                                <img
+                                                                    src={image}
+                                                                    alt={`Uploaded preview ${index}`}
+                                                                    className={styles.carouselImage}
+                                                                />
+                                                                <div className = { styles.overlay }>
+                                                                    <div className = { styles.btnCont1 }>
+                                                                        <button
+                                                                            className={styles.saveBtn}
+                                                                            type="button"
+                                                                            onClick={() => {
+                                                                                setSelectedImageFilename(image); // Select image for updating
+                                                                                setIsUpdateModalOpen(true);
+                                                                            }}
+                                                                        >
+                                                                            Update Image
+                                                                        </button>
+                                                                        <button
+                                                                            className={styles.closeBtn}
+                                                                            onClick={() => {
+                                                                                setSelectedImageFilename(image); // Handle delete
+                                                                                setDeleteModalVisible(true);
+                                                                            }}
+                                                                        >
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className = { styles.btnCont2 }>
+                                                                        <button className={styles.saveBtn} onClick={() => setIsAddImageModalOpen(true)}>
+                                                                            Add Images
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </Slider>
-                                    </div>
-                                ) : (
-                                    // <p className={styles.noImageMessage}>No image available</p> // Message when no images are available
-                                    <div className = { styles.noImg }>
-                                        <div className = { styles.overlay }>
-                                            <button className={ styles.saveBtn } onClick={() => setIsAddImageModalOpen(true)}>
-                                                Add Images
-                                            </button>
-                                            
+
+                                                        <div className = { styles.news }>
+                                                            <textarea className = { `${styles.txtTitle} ${styles.newsHeader}` } placeholder = "News header..." /><br/>
+                                                            <textarea className = { `${styles.txtSubTitle} ${styles.newsDesc}` } placeholder = "No current news description..."/>
+                                                        </div>
+                                                    </>
+                                                ))}
+                                            </Slider>
                                         </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className = { styles.noImg }>
+                                            <div className = { styles.overlay }>
+                                                <button className={ styles.saveBtn } onClick={() => setIsAddImageModalOpen(true)}>
+                                                    Add Images
+                                                </button>
+                                                
+                                            </div>
 
-                                        <span className = { styles.txtTitle }>No image available</span>
-                                    </div>
+                                            <span className = { styles.txtTitle }>No image available</span>
+                                        </div>
+                                    </>
                                 )}
-
-                                <div className = { styles.news }>
-                                    <span className = { styles.txtTitle }>News Header</span><br/>
-                                    <textarea className = { styles.txtSubTitle }/>
-                                </div>
-
                             </div>
                         </motion.div>
 

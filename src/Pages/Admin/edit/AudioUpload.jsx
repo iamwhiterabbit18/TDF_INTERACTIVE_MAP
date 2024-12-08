@@ -4,8 +4,6 @@ import styles from './styles/AudioUpload.module.scss';
 import icons from "../../../assets/for_landingPage/Icons";
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const AudioUpload = ({ audioId, currentTitle, onClose }) => {
   // toast alert pop up
@@ -27,6 +25,7 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
     if (!audioId) return; // No action if there's no audio ID
     if (!audioFile) {
       mountToast("Please select an audio file to upload.", "error"); // Alert if no file is selected
+      console.log("error");
       return; // Stop execution if no file is selected
     }
 
@@ -125,8 +124,6 @@ const AudioUpload = ({ audioId, currentTitle, onClose }) => {
           {message && <p>{message}</p>} {/* Display message if exists */}
         </form>
       </div>
-
-      <ToastContainer />
     </>
   );
   

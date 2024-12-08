@@ -6,8 +6,6 @@ import AudioUpload from './AudioUpload';
 import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
@@ -244,8 +242,6 @@ const AudioManagement = () => {
     
     {/* Audio player */}
     <audio ref={audioRef} hidden />
-    
-    <ToastContainer />
   </>
  )
 }

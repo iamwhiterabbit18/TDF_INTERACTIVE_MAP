@@ -67,7 +67,7 @@ export default function Analytics() {
                                     labels: sourceDataSex.map((data) => data.label),
                                     datasets: [
                                         {
-                                            label: "Count",
+                                            label: "",
                                             data: sourceDataSex.map((data) => data.value),
                                             backgroundColor: [
                                                 "rgba(54,162,235, 1)",
@@ -76,6 +76,26 @@ export default function Analytics() {
                                             borderRadius: 5,
                                         },
                                     ],
+                                }}
+
+                                options={{
+                                    plugins: {
+                                        legend: {
+                                            display: false, // Hides the legend
+                                        },
+                                    },
+                                    scales: {
+                                        x: {
+                                            ticks: {
+                                                display: true, // show x-axis labels
+                                            },
+                                        },
+                                        y: {
+                                            ticks: {
+                                                display: true, // show y-axis labels
+                                            },
+                                        },
+                                    },
                                 }}
                             />
                         </div>
@@ -88,7 +108,7 @@ export default function Analytics() {
                                     labels: sourceDataRole.map((data) => data.label),
                                     datasets: [
                                         {
-                                            label: "Count",
+                                            label: "",
                                             data: sourceDataRole.map((data) => data.value),
                                             backgroundColor: [
                                                 "rgba(54,162,235, 1)",
@@ -99,6 +119,26 @@ export default function Analytics() {
                                             borderRadius: 5,
                                         },
                                     ],
+                                }}
+
+                                options={{
+                                    plugins: {
+                                        legend: {
+                                            display: false, // Hides the legend
+                                        },
+                                    },
+                                    scales: {
+                                        x: {
+                                            ticks: {
+                                                display: true, // show x-axis labels
+                                            },
+                                        },
+                                        y: {
+                                            ticks: {
+                                                display: true, // show y-axis labels
+                                            },
+                                        },
+                                    },
                                 }}
                             />
                         </div>

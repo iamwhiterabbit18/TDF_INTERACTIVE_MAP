@@ -6,8 +6,8 @@ import styles from  '/src/Pages/Admin/edit/styles/UserManagement.module.scss';  
 import UserModal from './UserModal'; // Component for handling modal input
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
@@ -226,7 +226,7 @@ const UserManagement = () => {
                 )}
             </AnimatePresence>
 
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     );
     

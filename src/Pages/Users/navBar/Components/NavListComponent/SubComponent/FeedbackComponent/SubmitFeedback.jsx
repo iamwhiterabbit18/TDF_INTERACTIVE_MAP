@@ -9,8 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios';
 
 import UseToast from '../../../../../../Admin/utility/AlertComponent/UseToast.jsx';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './styles/submitFeedbackStyles.module.scss';
 import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
@@ -45,12 +43,12 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
          // Check if no star is selected
         if (selectedStar === -1) {
             // alert('Please select a star rating before submitting your feedback.');
-            mountToast("No Star Rating Selected!", "error");
+            mountToast("No star rating selected!", "error");
             return; // Prevent submission if no star is selected
         }
           // Check if comment exceeds the character limit
           if (comment.length > 300) {
-            mountToast("Comment Exceeded The Limit!", "error");
+            mountToast("Comment exceeded the limit!", "error");
             return; // Prevent submission if over limit
         }
     
@@ -71,16 +69,17 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
             if (response.status === 200) {
                 console.log('Feedback submitted successfully');
                 // Alert the user and reload the page
-                alert('Feedback submitted successfully!'); //not converted yet due to conflict with toast
+                mountToast("Feedback submitted successfully!", "success"); //not converted yet due to conflict with toast
                 setCurrentModal(null);
                 return;
                 //window.location.reload(); // Reload the page
             } else {
-                console.error('Failed to submit feedback');
+                mountToast("Failed to submit feedback", "error");
             }
 
         } catch (error) {
-            console.error('Error submitting feedback:', error.response ? error.response.data : error.message);
+            // console.error('Error submitting feedback:', error.response ? error.response.data : error.message);
+            mountToast("Admin and Staff accounts cannot submit feedback!", "error");
         }
     };
     
@@ -152,8 +151,6 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            <ToastContainer />
         </>
     )
 }

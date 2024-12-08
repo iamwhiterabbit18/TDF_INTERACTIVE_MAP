@@ -6,8 +6,6 @@ import ArrowIcon from '../../../assets/actions/Arrow_icon.png';
 import styles from '/src/Pages/Admin/edit/styles/ModalsEdit.module.scss'; // Ensure you have proper CSS
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { motion, AnimatePresence } from 'framer-motion'
 import icons from '../../../assets/for_landingPage/Icons';
@@ -702,8 +700,6 @@ const handleDescTech = async () => {
         
       )}
     </AnimatePresence>
-
-    <ToastContainer />
     </>
   );
   

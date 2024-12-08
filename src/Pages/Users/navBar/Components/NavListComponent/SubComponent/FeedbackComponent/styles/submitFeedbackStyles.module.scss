@@ -122,7 +122,7 @@
         transition: all 0.2s ease-in-out;
     
         &:focus { // works for input but not for textarea
-            border: 1.5px solid $primary;
+            border: 1.5px solid $secondary;
         }
     }
 }

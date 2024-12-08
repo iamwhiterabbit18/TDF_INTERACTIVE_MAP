@@ -4,8 +4,6 @@ import axios from 'axios';
 import Confirmation from '../utility/ConfirmationComponent/Confirmation'
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './styles/AboutUsEdit.module.scss'
 import icons from '../../../assets/for_landingPage/Icons'
@@ -57,7 +55,7 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
         try {
             const response = await axios.put('http://127.0.0.1:5000/api/aboutus', aboutUsData);
             
-            alert("Information was updated successfully!");
+            mountToast("Information was updated successfully!", "success");
             setCurrentModal("aboutUs");  // Close modal after saving
             fetchAboutUsData();
         } catch (error) {
@@ -325,8 +323,6 @@ export default function AboutUsEdit ({ setCurrentModal, currentModal, handleClic
                    </motion.div>
                 )}
             </AnimatePresence>
-
-            <ToastContainer />
         </>
     )
 }
