@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styles from '/src/Pages/Admin/edit/styles/UserModal.module.scss';
 
-import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import UseToast from '../utility/AlertComponent/UseToast';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import icons from "../../../assets/for_landingPage/Icons";
 
 
 const UserModal = ({ user, onSave, onClose }) => {
     // toast alert pop up
-    const mountToast = UseToast();
+    // const mountToast = UseToast();
 
     const [name, setName] = useState(user ? user.name : '');
     const [email, setEmail] = useState(user ? user.email : '');
@@ -82,7 +82,7 @@ const UserModal = ({ user, onSave, onClose }) => {
                 </form>
             </div>
 
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     );
 };

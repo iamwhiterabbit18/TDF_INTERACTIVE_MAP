@@ -6,8 +6,9 @@ const cardSchema = new mongoose.Schema({
   areaName: { type: String, required: true },
   areaLocation:{type: String },
   image: { type: String },
+
   quickFacts: { type: String, },
-  iconType: { type: String, required: true },
+  iconType: { type: String },
   imageArchived: { type: Boolean, default: false }, // Archive flag for image
 });
 

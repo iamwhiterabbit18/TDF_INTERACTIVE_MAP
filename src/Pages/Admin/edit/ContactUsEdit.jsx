@@ -3,11 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import axios from 'axios';
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-import styles from "./styles/ContactUsEdit.module.scss"
-import icons from '../../../assets/for_landingPage/Icons'
+import styles from "./styles/ContactUsEdit.module.scss";
+import icons from '../../../assets/for_landingPage/Icons';
 import { style } from 'framer-motion/client';
 
 export default function ContactUsEdit ({ setCurrentModal, currentModal, handleClickOutside }) {
@@ -57,7 +55,7 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
         try {
             const response = await axios.put('http://localhost:5000/api/contact', contactUsData);
             
-            alert("Contact Us updated successfully");
+            mountToast("Contacts updated successfully", "success");
             setCurrentModal("contactUs");  // Close modal after saving
             fetchContactUsData();  // Refresh data if needed
     
@@ -65,7 +63,7 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
             // Check if error is specifically due to no changes detected (status 400)
             if (error.response && error.response.status === 400 &&
                 error.response.data.message === 'No changes detected in the data.') {
-                mountToast("No changes detected. Contact Us data was not updated.", "error");
+                mountToast("No changes detected. Contact data was not updated.", "error");
                 setCurrentModal("contactUs");
             } else {
                 console.error("Error saving Contact Us data:", error);
@@ -161,8 +159,6 @@ export default function ContactUsEdit ({ setCurrentModal, currentModal, handleCl
                     </div>
                 )}
             </AnimatePresence>
-
-            <ToastContainer />
         </>
     )
 }

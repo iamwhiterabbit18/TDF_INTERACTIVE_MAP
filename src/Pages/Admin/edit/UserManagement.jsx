@@ -8,8 +8,8 @@ import moment from 'moment';
 
 
 import UseToast from '../utility/AlertComponent/UseToast';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
@@ -242,7 +242,7 @@ const UserManagement = () => {
                 )}
             </AnimatePresence>
 
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     );
     

@@ -9,11 +9,11 @@ const UseToast = () => {
             hideProgressBar: false,
             newestOnTop: true,
             closeOnClick: true,
-            rtl: false,
             pauseOnFocusLoss: true,
             draggable: true,
             pauseOnHover: true,
             theme: "light",
+            progress: null,
             transition: Slide,
         }
 

@@ -12,6 +12,9 @@ import UserManagement from './Pages/Admin/edit/UserManagement'; // Admin Only
 import PrivateRoute from  '/src/Pages/Admin/ACMfiles/PrivateRoute'; 
 import { AuthProvider } from  '/src/Pages/Admin/ACMfiles/AuthContext';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -20,22 +23,25 @@ const App = () => {
 
   // Modal utils
   return ( 
-    <AuthProvider>
+    <>
+      <AuthProvider>
+        <Routes>
+            <Route path="/" element={<SignInModule />} />
+            <Route path="/map" element={<ThreeCanvas />} />
+            {/* Redirect on landing page */}
+            <Route path="*" element={<SignInModule />} />
+    
+            <Route path="/usermanage" element={ <PrivateRoute roles={['admin']}><UserManagement/> </PrivateRoute> } />
+            <Route path='cards'  element={ <PrivateRoute roles={['admin', 'staff']}><Cards/> </PrivateRoute> } /> 
+            <Route path='/modal' element={ <PrivateRoute roles={['admin', 'staff']}><Modal/> </PrivateRoute> } />
+            <Route path='audio' element={ <PrivateRoute roles={['admin', 'staff']}><Audio/> </PrivateRoute> } />
+            <Route path='/analytics' element={ <PrivateRoute roles={['admin', 'staff']}><Analytics/> </PrivateRoute> } />
+            <Route path='/archive' element={ <PrivateRoute roles={['admin', 'staff']}><Archive/> </PrivateRoute> } />
+        </Routes>
+      </AuthProvider>
 
-    <Routes>
-        <Route path="/" element={<SignInModule />} />
-        <Route path="/map" element={<ThreeCanvas />} />
-        {/* Redirect on landing page */}
-        <Route path="*" element={<SignInModule />} />
- 
-        <Route path="/usermanage" element={ <PrivateRoute roles={['admin']}><UserManagement/> </PrivateRoute> } />
-        <Route path='cards'  element={ <PrivateRoute roles={['admin', 'staff']}><Cards/> </PrivateRoute> } /> 
-        <Route path='/modal' element={ <PrivateRoute roles={['admin', 'staff']}><Modal/> </PrivateRoute> } />
-        <Route path='audio' element={ <PrivateRoute roles={['admin', 'staff']}><Audio/> </PrivateRoute> } />
-        <Route path='/analytics' element={ <PrivateRoute roles={['admin', 'staff']}><Analytics/> </PrivateRoute> } />
-        <Route path='/archive' element={ <PrivateRoute roles={['admin', 'staff']}><Archive/> </PrivateRoute> } />
-    </Routes>
-    </AuthProvider>
+      <ToastContainer />
+    </>
    );
 }
  
