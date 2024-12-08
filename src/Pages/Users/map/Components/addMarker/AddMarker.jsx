@@ -36,7 +36,7 @@ const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     const marker = JSON.parse(e.dataTransfer.getData('marker'));
-    console.log(`${marker.name}`, "got dropeed")
+    console.log(`${marker.name}`, "got dropped")
 
     const dropX = e.clientX;
     const dropY = e.clientY;
@@ -71,6 +71,7 @@ const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
       // If marker doesn't exist, set current marker for modal
       setCurrentMarker({
         name: marker.name,
+        icon: marker.icon, // Pass the icon here:
         screenPosition,
         worldPosition
       });
@@ -80,18 +81,6 @@ const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
       return prev;
     });
 
-    // Update the marker position
-    // setMarkerPos((prev) => {
-    //   const markerIndex = prev.findIndex((m) => m.name === marker.name);
-    //   if (markerIndex >= 0) {
-    //     const updatedMarkers = [...prev];
-    //     console.log("updatedMarkers: ", updatedMarkers)
-    //     updatedMarkers[markerIndex] = { ...updatedMarkers[markerIndex], screenPosition, worldPosition }
-    //     return updatedMarkers;
-    //   }
-    //   return [...prev, { name: marker.name, screenPosition, worldPosition }];
-    // });
-    // console.log("Markers: ", markerPos)
   };
 
   const handleSave = (siteName) => {
@@ -181,6 +170,9 @@ const AddMarker = ({ renderer, container, camera, addMarkerMode }) => {
         isVisible={isModalVisible}
         onSave={handleSave}
         onClose={handleCloseModal}
+        worldPosition={currentMarker?.worldPosition}
+        icon={currentMarker?.icon}  // Pass the icon here
+        iconName={currentMarker?.name}
       />
       </div>
 

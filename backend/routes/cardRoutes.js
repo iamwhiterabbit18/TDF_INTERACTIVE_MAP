@@ -76,11 +76,11 @@ router.put('/:id', upload.single('image'), async (req, res) => {
     }
 
     const { areaName, areaLocation, quickFacts } = req.body;
-    const newImage = req.file ? `/uploads/cardsImg/${req.file.filename}` : card.image; // New image if uploaded
+    const newImage = req.file ? req.file.filename : card.image; // New image if uploaded
 
     // Only delete the old image if a new one is uploaded and they are different
     if (req.file && card.image && newImage !== card.image) {
-      const oldImagePath = path.join(__dirname, '..', card.image);
+      const oldImagePath = path.join(__dirname, '..', 'uploads', 'cardsImg', card.image);
       if (fs.existsSync(oldImagePath)) {
         fs.unlinkSync(oldImagePath); // Delete the old image file
       }

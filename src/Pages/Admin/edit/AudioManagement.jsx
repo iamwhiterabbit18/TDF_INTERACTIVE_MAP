@@ -53,7 +53,7 @@ const AudioManagement = () => {
 
   const fetchAudios = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:5000/api/audio');
+      const response = await axios.get('http://localhost:5000/api/audio');
       setAudios(response.data);
     } catch (error) {
       console.error('Error fetching audios:', error);
@@ -83,7 +83,7 @@ const AudioManagement = () => {
     }
   
     try {
-      const response = await axios.get(`http://127.0.0.1:5000/${filePath}`, { responseType: 'blob' });
+      const response = await axios.get(`http://localhost:5000/uploads/audios/${filePath}`, { responseType: 'blob' });
       
       // Check if the response status is 200 (OK)
       if (response.status === 200) {
@@ -106,7 +106,7 @@ const AudioManagement = () => {
   const handleDelete = async () => {
     try {
       if (confirmDelete && audioToDelete) {
-        await axios.delete(`http://127.0.0.1:5000/api/audio/delete/${audioToDelete}`);
+        await axios.delete(`http://localhost:5000/api/audio/delete/${audioToDelete}`);
         fetchAudios(); // Refresh the audio list after deletion
         mountToast("Audio deleted successfully", "success");
         setConfirmDelete(false);
@@ -117,6 +117,42 @@ const AudioManagement = () => {
       console.error('Error deleting audio:', error);
     }
   };
+
+  const [audioToArchive, setAudioToArchive] = useState(null);  // Track the audio to be archived
+
+  const handleAudioArchive = async (audioId, audioFilePath) => {
+    try {
+      console.log('Archiving audio...', audioId, audioFilePath);
+      
+      // Send a PUT request to archive the audio file by its ID and file path
+      const response = await axios.put(`http://localhost:5000/api/archive/audio/${audioId}`, { audioFilePath });
+      console.log("API Response:", response);
+  
+      if (response.status === 200) {
+        setAudios((prevAudios) =>
+          prevAudios.map((audio) =>
+            audio._id === audioId
+              ? {
+                  ...audio,
+                  audioArchived: true,  // Mark as archived
+                  filePath: null,  // Optionally clear the filePath, or you can leave it if you prefer
+                }
+              : audio
+          )
+        );
+          console.log('Archive Success');
+        alert('Audio archived successfully');
+        fetchAudios(); // Refresh the audio list after archiving
+      }
+    } catch (error) {
+      console.error('Error archiving audio:', error);
+      alert('Error archiving audio. Please try again.');
+    }
+  };
+  
+  {/*<button onClick={() => handleArchiveBtn(audio)}>
+    <img className={`${styles.icon} ${styles.update}`} src={icons.archive} alt="Archive Item" />
+  </button> */}
 
    const handleOpenModal = (audioId = null, currentTitle = '') => {
     console.log("Opening modal with audioId:", audioId);
@@ -183,7 +219,8 @@ const AudioManagement = () => {
                         <button onClick={() => handleOpenModal(audio._id, audio.title)}>
                           <img className = { `${ styles.icon } ${ styles.delete}` } src = { icons.pencil } alt = "Delete Item" />
                         </button>
-                        <button onClick={() => handleDeleteBtn(audio._id)}>
+                        {/*<button onClick={() => handleDeleteBtn(audio._id)}> */}
+                        <button onClick={() => handleAudioArchive(audio._id , audio.filePath)}>
                           <img className = { `${ styles.icon } ${ styles.update }` } src = { icons.remove } alt = "Delete Item" />
                         </button>
                       </>

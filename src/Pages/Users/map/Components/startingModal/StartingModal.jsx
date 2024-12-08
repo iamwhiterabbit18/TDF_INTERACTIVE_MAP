@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import styles from "./StartingModal.module.scss";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-
+import icons from './guideIcons/Icons'
 const StartingModal = () => {
   const settings = {
     dots: true,
@@ -30,19 +30,19 @@ const StartingModal = () => {
               <hr />
               <div className={styles.controls}>
                 <h2>Select:</h2>
-                <p>Left click or touch.</p>
+                <p>Left click or Touch.</p>
               </div>
               <div className={styles.controls}>
                 <h2>Zoom:</h2>
-                <p>Scroll or pinch.</p>
+                <p>Mouse Scroll or Pinch.</p>
               </div>
               <div className={styles.controls}>
-                <h2>Zoom:</h2>
-                <p>Scroll or pinch.</p>
+                <h2>Find path:</h2>
+                <p>Select Pathfinding Tab <div className={styles.guideImg}><img src={icons.pathfinding} alt="pathfinding" /></div></p>
               </div>
               <div className={styles.controls}>
-                <h2>Zoom:</h2>
-                <p>Scroll or pinch.</p>
+                <h2>Find more infos:</h2>
+                <p>Select navigation menu <div className={styles.guideImg}><img src={icons.navigation} alt="navigation" /></div></p>
               </div>
             </div>
           </div>
@@ -57,7 +57,9 @@ const StartingModal = () => {
                 Your feedback is valuable! Please let us know your thoughts about
                 the TDF Interactive Map.
               </p>
-              <button className={styles.feedbackButton}>Give Feedback</button>
+              <span>
+                Go to navigation menu <div className={styles.guideImg}><img src={icons.navigation} alt="navigation" /></div> and click on the feedback button <div className={styles.guideImg}><img src={icons.feedback} alt="feedback" /></div>.
+              </span>
             </div>
           </div>
         </Slider>
