@@ -148,6 +148,7 @@ canvas{
     display: block;
     opacity: 1;
     transition: opacity 150ms ease-in-out;
+    display: none;
     &.active{
         display: block;
         opacity: 1;

@@ -74,6 +74,7 @@ const UserModal = ({ user, onSave, onClose }) => {
                             <label>Role:</label>
                             <select value={role} onChange={(e) => setRole(e.target.value)}>
                                 <option value="staff">Staff</option>
+                                <option value="admin">Admin</option>
                             </select>
                         </div>
                         <button type="submit">Save</button>
