@@ -45,31 +45,37 @@ export default function Legend() {
                                         <span className = { styles.text }>
                                             Birds
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.bird} alt = "Bird"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.Poultry} alt = "Bird"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
                                             Buildings
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.building} alt = "Buildings"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.Structure} alt = "Buildings"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
                                             Fishes
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.fish} alt = "Fishes"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.Fishery} alt = "Fishes"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
                                             Bees
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.swarm} alt = "Bees"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.Swarm} alt = "Bees"/>
                                     </li>
                                     <li>
                                         <span className = { styles.text }>
                                             Plants
                                         </span>
-                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.wheat} alt = "Plant"/>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.Crops} alt = "Plant"/>
+                                    </li>
+                                    <li>
+                                        <span className = { styles.text }>
+                                            Others
+                                        </span>
+                                        <img className = { `${styles.icon} ${styles.signin}` } src = {legend.Others} alt = "Others"/>
                                     </li>
                                 </ul>
                             </section>
