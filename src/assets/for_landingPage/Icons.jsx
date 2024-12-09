@@ -43,6 +43,8 @@ import facebook from '/for_landingPage/icons/facebook.png'
 
 import compass from '/for_landingPage/icons/compass.png'
 
+import sliderArrow from '/for_landingPage/icons/sliderArrow.png'
+
 export default { 
         arrow, // globas
         mapIcon, hamburger, close, user, // navBar assets
@@ -52,5 +54,6 @@ export default {
         audio, location,
         add, remove, pencil, undo,
         card, edit, profile, upload, analytics, email, facebook, archive,
-        compass
+        compass, 
+        sliderArrow
     }; 

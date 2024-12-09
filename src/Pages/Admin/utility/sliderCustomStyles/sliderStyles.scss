@@ -1,0 +1,23 @@
+@import '../../../Users/landing/signInModule/stylesVariables.scss';
+
+.slick-prev::before, .slick-next::before {
+    content: ""; /* Remove default arrow content */
+}
+
+.slick-prev, .slick-next {
+    content: "";
+    // background: url('../../../../../public/for_landingPage/icons/sliderArrow.png') no-repeat center center;
+    // background-size: contain;
+    filter: brightness(0) saturate(100%) invert(29%) sepia(17%) saturate(1244%) hue-rotate(102deg) brightness(94%) contrast(83%);
+    width: 20px;
+    height: 20px;
+    color: $primary;
+}
+
+.slick-prev:hover, .slick-next:hover {
+    // background: url('../../../../../public/for_landingPage/icons/sliderArrow.png') no-repeat center center;
+    // background-size: contain;
+    filter: brightness(0) saturate(100%) invert(29%) sepia(17%) saturate(1244%) hue-rotate(102deg) brightness(94%) contrast(83%);
+    opacity: 1;
+    color: $primary;
+} 
