@@ -71,13 +71,26 @@ router.post('/', upload.array('images', 10), async (req, res) => {
         let imageDoc = await NewsEvent.findOne();
 
         if (imageDoc) {
-            // If a document exists, update the images array
-            imageDoc.images.push(...filenames); // Add new filenames to the existing array
+            // Update existing document
+            imageDoc.images.push(...filenames); // Add new filenames
+            const numNewImages = filenames.length;
+
+            // Add null placeholders for each new image
+            imageDoc.newsHeader.push(...Array(numNewImages).fill(null));
+            imageDoc.description.push(...Array(numNewImages).fill(null));
+
             await imageDoc.save();
             return res.status(200).json(imageDoc);
         } else {
-            // If no document exists, create a new one
-            const newImages = new NewsEvent({ images: filenames });
+            // Create a new document
+            const numNewImages = filenames.length;
+
+            const newImages = new NewsEvent({
+                images: filenames,
+                newsHeader: Array(numNewImages).fill(null),
+                description: Array(numNewImages).fill(null),
+            });
+
             await newImages.save();
             return res.status(201).json(newImages);
         }
@@ -89,13 +102,14 @@ router.post('/', upload.array('images', 10), async (req, res) => {
 
 
 
+
 // PUT route to update a specific image by filename
 router.put('/uploads/images/:filename', upload.single('image'), async (req, res) => {
     try {
         const { filename } = req.params;
 
         // Find the document containing the images array
-        const imageDoc = await NewsEvent.findOne({ images: `uploads/images/${filename}` });
+        const imageDoc = await NewsEvent.findOne({ images: `${filename}` });
 
         if (!imageDoc) {
             return res.status(404).json({ message: "Image document not found" });
@@ -136,6 +150,58 @@ router.put('/uploads/images/:filename', upload.single('image'), async (req, res)
     }
 });
 
+
+
+// Backend route for updating header and description
+router.put('/updateNews', async (req, res) => {
+    try {
+        const updatedData = req.body; // Array of objects containing the filename, header, and description
+        const document = await NewsEvent.findOne({}); // Assuming you have one document to update
+
+        // If document doesn't exist, return an error
+        if (!document) {
+            return res.status(404).json({ message: "Document not found" });
+        }
+
+        // Check if any changes are being sent
+        let hasChanges = false;
+
+        updatedData.forEach(({ filename, newsHeader, description }) => {
+            const imageIndex = document.images.findIndex(img => img === filename);
+            if (imageIndex !== -1) {
+                // Compare existing and updated values
+                if (
+                    document.newsHeader[imageIndex] !== newsHeader ||
+                    document.description[imageIndex] !== description
+                ) {
+                    hasChanges = true;
+                }
+            }
+        });
+
+        if (!hasChanges) {
+            // If no changes, return early
+            return res.status(400).json({ message: "No changes detected. Nothing was saved." });
+        }
+
+        // Apply the updates if changes exist
+        updatedData.forEach(({ filename, newsHeader, description }) => {
+            const imageIndex = document.images.findIndex(img => img === filename);
+            if (imageIndex !== -1) {
+                document.newsHeader[imageIndex] = newsHeader;
+                document.description[imageIndex] = description;
+            }
+        });
+
+        // Save the updated document
+        await document.save();
+
+        res.status(200).json({ message: "Successfully updated news." });
+    } catch (error) {
+        console.error("Error updating images:", error);
+        res.status(500).json({ message: "Error updating images", error });
+    }
+});
 
 
 

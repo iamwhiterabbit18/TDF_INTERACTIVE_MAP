@@ -8,10 +8,25 @@ const Audio = require('../models/Audio');
 const User = require('../models/User');
 const NewsEvent = require('../models/NewsEvent');
 const AboutUs = require('../models/AboutUs');
+const Archive = require('../models/Archive');
+
 
 
 const router = express.Router();
 
+
+
+// Get all archived items
+router.get('/archivesData', async (req, res) => {
+  try {
+    const archives = await Archive.find();
+    res.status(200).json(archives);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching archives', error });
+  }
+});
+
+module.exports = router;
 
 // Archive card image by ID
 router.put('/cards/:id', async (req, res) => {
@@ -100,45 +115,54 @@ router.put('/audio/:id', async (req, res) => {
   }
 });
 
-// PUT route to archive an image by filename
+// PUT route to archive an image and its associated data by filename
 router.put('/newsEvent/image/:filename', async (req, res) => {
-  const { filename } = req.params;  // Extract filename from URL params
+  const { filename } = req.params; // Extract filename from URL params
   console.log('Archiving NewsEvent image:', filename);
 
   try {
-    // Find the NewsEvent document containing the images array
-    const newsEvent = await NewsEvent.findOne();
-    if (!newsEvent) {
-      return res.status(404).json({ message: 'NewsEvent document not found' });
-    }
+      // Find the NewsEvent document containing the images array
+      const newsEvent = await NewsEvent.findOne();
+      if (!newsEvent) {
+          return res.status(404).json({ message: 'NewsEvent document not found' });
+      }
 
-    console.log('Images in NewsEvent:', newsEvent.images);
+      console.log('Images in NewsEvent:', newsEvent.images);
 
-    // Check if the image exists in the array
-    if (!newsEvent.images.includes(filename)) {
-      return res.status(404).json({ message: 'Image not found for archiving' });
-    }
+      // Check if the image exists in the array
+      const imageIndex = newsEvent.images.indexOf(filename);
+      if (imageIndex === -1) {
+          return res.status(404).json({ message: 'Image not found for archiving' });
+      }
 
-    // Use the archive utility to move the image to the archive folder
-    await archiveField('NewsEvent', newsEvent._id, 'images', filename);
+      // Use the archive utility to move the image to the archive folder
+      await archiveField('NewsEvent', newsEvent._id, 'images', filename);
 
-    // Remove the image from the images array
-    newsEvent.images = newsEvent.images.filter(image => image !== filename);
+      // Remove the image, header, and description at the same index
+      newsEvent.images.splice(imageIndex, 1); // Remove image
+      if (newsEvent.newsHeader) {
+          newsEvent.newsHeader.splice(imageIndex, 1); // Remove corresponding header (null or value)
+      }
+      if (newsEvent.description) {
+          newsEvent.description.splice(imageIndex, 1); // Remove corresponding description (null or value)
+      }
 
-    // Check if the images array is empty, then set imageArchived to true
-    if (newsEvent.images.length === 0) {
-      newsEvent.imageArchived = true;
-    }
+      // Check if the images array is empty, then set imageArchived to true
+      if (newsEvent.images.length === 0) {
+          newsEvent.imageArchived = true;
+      }
 
-    // Save the updated NewsEvent document
-    await newsEvent.save();
+      // Save the updated NewsEvent document
+      await newsEvent.save();
 
-    res.status(200).json({ message: 'Image archived successfully' });
+      res.status(200).json({ message: 'Image and associated data archived successfully' });
   } catch (error) {
-    console.error('Error during NewsEvent image archiving:', error);
-    res.status(500).json({ error: error.message });
+      console.error('Error during NewsEvent image archiving:', error);
+      res.status(500).json({ error: error.message });
   }
 });
+
+
 
 // Archive AboutUs image
 router.put('/aboutUs', async (req, res) => {

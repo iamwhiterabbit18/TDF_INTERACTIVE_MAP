@@ -138,16 +138,16 @@ export default function Option({ handleBtnClick, isBtnClicked, handleUser }) {
                             <label>Assigned Sex at Birth</label>
                             <select value={sexAtBirth} onChange={handleSexChange}>
                                 <option value="">--Select--</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                             </select>
 
                             <label>Role</label>
                             <select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>   
                                 <option value="">--Select--</option>                            
-                                <option value="student">Student</option>
-                                <option value="farmer">Farmer</option>
-                                <option value="governmentAssoc">Government Associate</option>
+                                <option value="Student">Student</option>
+                                <option value="Farmer">Farmer</option>
+                                <option value="GovernmentAssoc">Government Associate</option>
                                 <option value="Others">Others</option>
                             </select>
 

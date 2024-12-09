@@ -48,9 +48,20 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
             const response = await axios.get('http://localhost:5000/api/images');
             const document = response.data[0]; // Assuming there's only one document
 
-            // Set the images array
-            const fetchedImages = document.images || [];
-            setImages(fetchedImages);
+        // Set the images array
+        const fetchedImages = document.images || [];
+        const fetchedHeaders = document.newsHeader || [];
+        const fetchedDescriptions = document.description || [];
+
+        // Set the images, headers, and descriptions into state
+        setImages(fetchedImages);
+        setImageHeaders(fetchedHeaders);
+        setImageDescriptions(fetchedDescriptions);
+
+           // Store initial values for comparison
+            setInitialHeaders(fetchedHeaders);
+            setInitialDescriptions(fetchedDescriptions);
+
 
             // Generate image preview URLs based on the fetched images
             const imagePreviews = fetchedImages.map((img) => `http://localhost:5000/uploads/images/${img}`);
@@ -100,23 +111,30 @@ export default function NewsEventImage({ setCurrentModal, currentModal, handleCl
         imageFile.forEach(file => {
             formData.append('images', file); // Name should match what's expected by the server
         });
-
+    
         try {
-            await axios.post(`http://localhost:5000/api/images`, formData, {
+            const response = await axios.post(`http://localhost:5000/api/images`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
+                    'Content-Type': 'multipart/form-data',
+                },
             });
-            mountToast("Uploaded successfully!", "success");
-            fetchnewsEvent(); // Refresh image list after successful upload
+    
+            if (response.status === 200 || response.status === 201) {
+                mountToast("Uploaded successfully!", "success");
+                fetchnewsEvent(); // Refresh image list after successful upload
+            }
+    
+            // Reset states after successful upload
             setUploadImagePreviews([]);
             setIsAddImageModalOpen(false); // Close the add image modal
             setUpdatePreviewImages([]);
             setIsUpdateModalOpen(false);
         } catch (error) {
-            console.error("Error uploading images", error);
+            console.error("Error uploading images:", error);
+            mountToast("Error uploading images. Please try again.", "error");
         }
     };
+    
 
     // Handle updating a specific image (PUT)
     const handleUpdate = async () => {
@@ -188,6 +206,58 @@ const handleArchive = async () => {
     }
 };
 
+const [imageHeaders, setImageHeaders] = useState([]);
+const [imageDescriptions, setImageDescriptions] = useState([]);
+const [initialHeaders, setInitialHeaders] = useState([]);
+const [initialDescriptions, setInitialDescriptions] = useState([]);
+
+const handleSaveHeaderAndDesc = async () => {
+    try {
+        // Prepare the data to compare and send
+        const updatedData = images.map((image, index) => ({
+            filename: image, // Assuming you have a way to uniquely identify images
+            newsHeader: imageHeaders[index], // Get the updated header
+            description: imageDescriptions[index] // Get the updated description
+        }));
+
+        // Compare with initial data to detect changes
+        const hasChanges = updatedData.some(({ filename, newsHeader, description }, index) => {
+            return (
+                newsHeader !== initialHeaders[index] ||
+                description !== initialDescriptions[index]
+            );
+        });
+
+        if (!hasChanges) {
+            // Alert the user and exit if no changes
+            mountToast("No changes detected to save.", "warn");
+            return;
+        }
+
+        // Send the updated data to the backend if changes exist
+        await axios.put("http://localhost:5000/api/images/updateNews", updatedData);
+        mountToast("Changes saved successfully!", "success");
+
+        // Optionally refresh data
+        fetchnewsEvent();
+    } catch (error) {
+        console.error("Error saving changes:", error);
+        mountToast("Error saving changes. Please try again.", "error");
+    }
+};
+
+
+const handleTextChange = (index, type, value) => {
+    if (type === 'header') {
+        const updatedHeaders = [...imageHeaders];
+        updatedHeaders[index] = value;
+        setImageHeaders(updatedHeaders);
+    } else if (type === 'description') {
+        const updatedDescriptions = [...imageDescriptions];
+        updatedDescriptions[index] = value;
+        setImageDescriptions(updatedDescriptions);
+    }
+};
 
     const cancelBtn = () => {
         setIsAddImageModalOpen(false);
@@ -294,9 +364,20 @@ const handleArchive = async () => {
                                                             </div>
                                                         </div>
 
-                                                        <div className = { styles.news }>
-                                                            <textarea className = { `${styles.txtTitle} ${styles.newsHeader}` } placeholder = "News header..." /><br/>
-                                                            <textarea className = { `${styles.txtSubTitle} ${styles.newsDesc}` } placeholder = "No current news description..."/>
+                                                        <div className={styles.news}>
+                                                            <textarea
+                                                                className={`${styles.txtTitle} ${styles.newsHeader}`}
+                                                                placeholder="News header..."
+                                                                value={imageHeaders[index] || ""}
+                                                                onChange={(e) => handleTextChange(index, 'header', e.target.value)}
+                                                            />
+                                                            <br />
+                                                            <textarea
+                                                                className={`${styles.txtSubTitle} ${styles.newsDesc}`}
+                                                                placeholder="No current news description..."
+                                                                value={imageDescriptions[index] || ""}
+                                                                onChange={(e) => handleTextChange(index, 'description', e.target.value)}
+                                                            />
                                                         </div>
                                                     </>
                                                 ))}
@@ -326,8 +407,9 @@ const handleArchive = async () => {
                             animate = {{opacity: 1}}
                             exit = {{opacity: 0}}
                             transition = {{ duration: 0.3, ease: "easeInOut"}}
+                            onClick={handleSaveHeaderAndDesc}
                             >
-                            <span className = { styles.txtTitle } >Save Changes</span>
+                            <span className = { styles.txtTitle } >Save Changes</span>  {/*For saving the newsHeader and Description */}
                         </motion.button>
                     </>
                 )}

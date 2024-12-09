@@ -214,7 +214,7 @@ export default function Analytics() {
                                     <td>{log.guestId}</td>
                                     <td>{log.feedback?.rating ? `${log.feedback.rating} Stars` : 'No Rating'}</td>
                                     <td>{log.sexAtBirth}</td>
-                                    <td>{log.role}</td>
+                                    <td>{log.role === "Others" ? log.customRole || "N/A" : log.role}</td>
                                     <td>{moment(log.feedback?.feedbackDate).format('MMM D, YYYY , h:mm A')}</td>
                                     <td>{log.feedback?.comment || 'No Comment'}</td>
                                 </tr>

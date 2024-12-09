@@ -8,7 +8,7 @@ const moment = require('moment-timezone');
 // Route to log guest with UUID, sexAtBirth, and role
 router.post('/logGuest', async (req, res) => {
     const { sexAtBirth, role, customRole } = req.body;
-    console.log('Guest ID:','Sex:', sexAtBirth, 'Role:',role, 'CustomeRole' ,customRole)
+    console.log('Guest ID:','Sex:', sexAtBirth, 'Role:',role, 'CustomRole' ,customRole)
 
     if (!sexAtBirth || !role) {
         return res.status(400).json({ message: 'Sex at birth and role are required' });
@@ -67,24 +67,26 @@ router.post('/updateFeedback', async (req, res) => {
 // Route to get analytics data
 router.get('/analytics', async (req, res) => {
     try {
-        // Get all guest logs
-        const logs = await GuestLog.find();
+        // Fetch only guest logs that have feedback and a rating
+        const logs = await GuestLog.find({ 
+            "feedback.rating": { $exists: true, $ne: null } 
+        });
 
-        // Process data
+        // Process Ratings
         const ratings = [1, 2, 3, 4, 5].map((rating) => ({
             label: `${rating} Stars`,
             value: logs.filter((log) => log.feedback?.rating === rating).length,
         }));
 
         // Process Sexes (normalize case)
-        const sexes = ['Male', 'Female', 'Other'].map((sex) => ({
+        const sexes = ['Male', 'Female'].map((sex) => ({
             label: sex,
             value: logs.filter(
                 (log) => log.sexAtBirth?.toLowerCase() === sex.toLowerCase()
             ).length,
         }));
 
-
+        // Process Roles
         const roles = Array.from(new Set(logs.map((log) => log.role))).map((role) => ({
             label: role,
             value: logs.filter((log) => log.role === role).length,
@@ -97,6 +99,7 @@ router.get('/analytics', async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch analytics data' });
     }
 });
+
 
 
 router.get('/guestLogs', async (req, res) => {
