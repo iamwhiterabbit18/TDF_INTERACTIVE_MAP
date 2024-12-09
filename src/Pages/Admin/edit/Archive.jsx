@@ -39,44 +39,45 @@ export default function Archive() {
         fetchArchives();
     }, []);
 
-     // Delete handler
-     const handleDelete = async (archiveId) => {
-        try {
-            const confirm = window.confirm("Are you sure you want to permanently delete this item?");
-            if (!confirm) return;
+        // Delete handler
+        const handleDelete = async (archiveId) => {
+            try {
+                const confirm = window.confirm("Are you sure you want to permanently delete this item?");
+                if (!confirm) return;
 
-            const response = await axios.delete(`http://localhost:5000/api/delete/archive/${archiveId}`);
-            mountToast(response.data.message, 'success');
+                const response = await axios.delete(`http://localhost:5000/api/delete/archive/${archiveId}`);
+                mountToast(response.data.message, 'success');
 
-            // Update UI by filtering out the deleted item
-            setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
-        } catch (error) {
-            console.error('Error deleting archive entry:', error);
-            mountToast('Error deleting archive entry', 'error');
-        }
-    };
+                // Update UI by filtering out the deleted item
+                setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
+            } catch (error) {
+                console.error('Error deleting archive entry:', error);
+                mountToast('Error deleting archive entry', 'error');
+            }
+        };
+        
 
-       // Restore handler
-       const handleRestore = async (archiveId, type) => {
-        try {
-            const confirm = window.confirm(
-                `Are you sure you want to restore this ${type === 'document' ? 'document' : 'field'}?`
-            );
-            if (!confirm) return;
+                // Restore handler
+                const handleRestore = async (archiveId, type) => {
+                    try {
+                        const confirm = window.confirm(
+                            `Are you sure you want to restore this ${type === 'document' ? 'document' : 'field'}?`
+                        );
+                        if (!confirm) return;
 
-            // Choose the correct endpoint based on the type
-            const endpoint = type === 'document' ? `http://localhost:5000/api/restore/user/${archiveId}` : `http://localhost:5000/api/restore/${archiveId}`;
+                        // Choose the correct endpoint based on the type
+                        const endpoint = type === 'document' ? `http://localhost:5000/api/restore/user/${archiveId}` : `http://localhost:5000/api/restore/${archiveId}`;
 
-            const response = await axios.put(endpoint);
-            mountToast(response.data.message, 'success');
+                        const response = await axios.put(endpoint);
+                        mountToast(response.data.message, 'success');
 
-            // Update UI by filtering out the restored item
-            setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
-        } catch (error) {
-            console.error('Error restoring archive entry:', error);
-            mountToast('Error restoring archive entry', 'error');
-        }
-    };
+                        // Update UI by filtering out the restored item
+                        setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
+                    } catch (error) {
+                        console.error('Error restoring archive entry:', error);
+                        mountToast('Error restoring archive entry', 'error');
+                    }
+                };
 
     return (
         <>
@@ -111,23 +112,24 @@ export default function Archive() {
                                 );
 
                                 return (
-                                    <tr key={archive._id}>
+                                <tr key={archive._id}>
                                         <td>{archive.originalCollection}</td>
                                         <td>{archive.fieldName}</td>
                                         <td>{dataToDisplay}</td>
-                                        <td>{moment(archive.archivedAt).format('MMM D, YYYY , h:mm A')}</td>
-                                        <td>
-                                        <div className={styles.actionBtns}
-                                             onClick={() =>
-                                               handleRestore(
-                                                  archive._id,
-                                                   archive.originalCollection === 'User' ? 'document' : 'field')}>
-                                            <button className={styles.editBtn} >
-                                                <img className={`${styles.icon} ${styles.undo}`} src={icons.undo} alt="Restore Item" />
-                                            </button>
-                                            <button className={styles.delBtn} onClick={() => handleDelete(archive._id)} >
-                                                <img className={`${styles.icon} ${styles.delete}`} src={icons.remove} alt="Delete Item" />
-                                            </button>
+                                        <td>{moment(archive.archivedAt).format('MMM D, YYYY , h:mm A')}</td> 
+                                    <td>
+                                        <div className={styles.actionBtns}>
+                                            
+                                                <button className={styles.editBtn} onClick={() => handleRestore(archive._id,
+                                                    archive.originalCollection === 'User' ? 'document' : 'field')}>
+                                                
+                                                    <img className={`${styles.icon} ${styles.undo}`} src={icons.undo} alt="Restore Item" />
+                                                </button>
+                                            
+                                                <button className={styles.delBtn} onClick={() => handleDelete(archive._id)} >
+                                                    <img className={`${styles.icon} ${styles.delete}`} src={icons.remove} alt="Delete Item" />
+                                                </button>
+                                            
                                         </div>
                                     </td>
                                 </tr>
