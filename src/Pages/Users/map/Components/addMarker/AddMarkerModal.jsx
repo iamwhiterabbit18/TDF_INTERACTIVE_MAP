@@ -53,9 +53,10 @@ const Modal = ({ isVisible, onSave, onClose , worldPosition, icon, iconName }) =
             {/* Display positions */}
             <h2>Marker Details</h2>
              <div className={styles.positionInfo}>
-              <p><strong>Marker Position:</strong> X: {worldPosition?.x.toFixed(2)} , Y: {worldPosition?.y.toFixed(2)} , Z: {worldPosition?.z.toFixed(2)}</p>
-             <span>Icon:{iconName} </span>
-             <img src={icon} alt="Marker Icon" />
+             <span>Icon: {iconName} </span>
+            </div>
+            <div className={styles.icon}>
+              <img src={icon} alt="Marker Icon" />
             </div>
             <label htmlFor="areaName">Input the site's name:</label>
             <input
@@ -65,9 +66,10 @@ const Modal = ({ isVisible, onSave, onClose , worldPosition, icon, iconName }) =
               onChange={(e) => setAreaName(e.target.value)}
               placeholder="Enter site name"
             />
-
-            <button onClick={handleSubmit}>Save</button>
-            <button onClick={handleClose}>Close</button>
+            <div className={styles.modalButtons}>
+              <button onClick={handleSubmit}>Save</button>
+              <button onClick={handleClose}>Close</button>
+            </div>
           </div>
         </div>
       </div>
