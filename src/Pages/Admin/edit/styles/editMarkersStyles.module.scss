@@ -79,4 +79,35 @@
     position: absolute;
     width: 100%;
     z-index: 5;
-  }
+}
+
+@media (min-width: 992px) {
+    .markerContainer {
+        .header {
+            border-radius: 0 0 150px 0;
+            padding: 80px 0;
+
+            .txtTitle {
+                font-size: 40px;
+            }
+        }
+
+        .listHeader {
+            font-size: 31px;
+        }
+
+        .tblWrapper {
+            table {
+
+                th, td {
+                    font-size: 16px;
+                }
+
+                .icon {
+                    height: 23px;
+                    width: 23px;
+                }
+            }
+        }
+    }
+}
