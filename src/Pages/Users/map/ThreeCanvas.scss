@@ -145,10 +145,9 @@ canvas{
     z-index: 1001;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
-    display: none;
     opacity: 1;
     transition: opacity 150ms ease-in-out;
-    display: none;
+    display: block;
     &.active{
         display: block;
         opacity: 1;
