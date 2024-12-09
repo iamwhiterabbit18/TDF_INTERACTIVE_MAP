@@ -25,7 +25,8 @@ const UseToast = () => {
                 toast.error(message, toastSettings);
                 break;
             case "warn":
-                toast.warn(message, toastSettings)
+                toast.warn(message, toastSettings);
+                break;
             default:
                 toast.success(message, toastSettings);
         }
