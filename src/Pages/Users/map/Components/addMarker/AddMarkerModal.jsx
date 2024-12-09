@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import styles from './AddMarker.module.scss';
 
+import UseToast from '../../../../Admin/utility/AlertComponent/UseToast';
+
 const Modal = ({ isVisible, onSave, onClose , worldPosition, icon, iconName }) => {
+  // toast alert pop up
+  const mountToast = UseToast();
+
   const [areaName, setAreaName] = useState('');
 
   const handleSubmit = async () => {
     if (!areaName.trim()) {
-      alert('Please enter a site name.');
+      mountToast("Please enter a site name!", "error");
       return;
     }
 
@@ -28,16 +33,16 @@ const Modal = ({ isVisible, onSave, onClose , worldPosition, icon, iconName }) =
       const data = await response.json();
 
       if (response.ok) {
-        alert('Marker saved successfully!');
+        mountToast("Marker saved successfully!", "success");
         onSave(areaName); // Call onSave to update local state
         onClose(); // Close the modal
         setAreaName(''); // Reset the site name input
       } else {
-        alert(`Error: ${data.message || 'Something went wrong'}`);
+        mountToast(`Error: ${data.message || 'Something went wrong'}`, "error");
       }
     } catch (error) {
       console.error('Error saving marker:', error.message);
-      alert('Server error. Could not save marker.');
+      mountToast("Server error. Could not save marker.", "error");
     }
   };
   const handleClose = () => {

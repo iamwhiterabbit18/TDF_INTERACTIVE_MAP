@@ -157,7 +157,7 @@ const AudioManagement = () => {
     <img className={`${styles.icon} ${styles.update}`} src={icons.archive} alt="Archive Item" />
   </button> */}
 
-   const handleOpenModal = (audioId = null, currentTitle = '') => {
+  const handleOpenModal = (audioId = null, currentTitle = '') => {
     console.log("Opening modal with audioId:", audioId);
     setModalProps({ audioId, currentTitle });
     setShowUploadModal(true);

@@ -14,7 +14,6 @@ export default function NavList ({
     isNavListClosed, 
     handleModalClick, 
     captureNavListClick, 
-    isEditContent, 
     toggleEditContent
 }) {
 
@@ -23,8 +22,6 @@ export default function NavList ({
     const user = location.state?.user || authUser;
 
     const navigate = useNavigate();
-
-    const isEditListOpen = isEditContent && isHamClicked;
 
     // closes the dropdown if the user clicked outside (anywhere in the screen except the dropdown)
     useEffect(function() {
@@ -158,7 +155,7 @@ export default function NavList ({
                                 {isHamClicked && (
                                     <motion.li 
                                         key = {'Edit Content'}
-                                        onClick = { toggleEditContent }
+                                        onClick = { () => navigate("/analytics") }
                                         initial = {{opacity: 0, translateY: -40}}
                                         animate = {{opacity: 1, translateY: !isHamClicked ? -40 : 0}}
                                         exit = {{
@@ -172,8 +169,8 @@ export default function NavList ({
                                         }
                                         transition = {{duration: 0.2, delay: 0.18 * 5, ease: "easeInOut"}}
                                     >
-                                        <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.pencil } alt = "Submit Feedback" />
-                                        <span className = { styles.text }>Edit Content</span>
+                                        <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.pencil } alt = "Editor Dashboard" />
+                                        <span className = { styles.text }>Editor Dashboard</span>
 
                                     </motion.li>
                                 )}
@@ -214,140 +211,6 @@ export default function NavList ({
                         )}
                     </ul>
             </motion.section>
-            )}
-        </AnimatePresence>
-        <AnimatePresence>
-            {isEditListOpen && (
-                <motion.section 
-                    className = { styles.editContentList }
-                    initial = {{opacity: 0}}
-                    animate = {{opacity: 1}}
-                    exit = {{
-                        opacity: 0,
-                        transition: {
-                            duration: 0.20,
-                            delay: user?.role === "staff" ? 0.18 * 4 : 0.18 * 5,
-                            ease: "easeInOut"
-                        }}
-                    }
-                    transition = {{duration: 0.4, ease: "easeInOut"}}
-                >
-                        <ul className = { styles.editList }>
-                            {(user?.role === "staff" || user?.role === "admin") && (
-                                <>
-                                    {isEditListOpen && (
-                                        <motion.li 
-                                            key = {'editCards'}
-                                            onClick = {() => navigate("/cards")}
-                                            initial = {{opacity: 0, translateY: -40}}
-                                            animate = {{opacity: 1, translateY: !isEditListOpen  ? -40 : 0}}
-                                            exit = {{
-                                                opacity: 0, 
-                                                translateY: -40, 
-                                                transition: {
-                                                    duration: 0.18, 
-                                                    delay: user?.role === "staff" ? 0.18 : 0,
-                                                    ease: "easeInOut"
-                                                }}
-                                            }
-                                            transition = {{duration: 0.2, ease: "easeInOut"}}
-                                        >
-                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.card } alt = "Edit Cards" />
-                                            <span className = { styles.text }>Edit Cards</span>
-                                        </motion.li>
-                                    )}
-                                    {isEditListOpen && (
-                                        <motion.li 
-                                            key = {'editModal'}
-                                            onClick = {() => navigate("/modal")}
-                                            initial = {{opacity: 0, translateY: -40}}
-                                            animate = {{opacity: 1, translateY: !isEditListOpen ? -40 : 0}}
-                                            exit = {{
-                                                opacity: 0, 
-                                                translateY: -40, 
-                                                transition: {
-                                                    duration: 0.18, 
-                                                    delay: user?.role === "staff" ? 0.18 * 2 : 0.18,
-                                                    ease: "easeInOut"
-                                                }}
-                                            }
-                                            transition = {{duration: 0.2, delay: 0.18, ease: "easeInOut"}}
-                                        >
-                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.edit } alt = "Edit Modal" />
-                                            <span className = { styles.text }>Edit Modal</span>
-                                        </motion.li>
-                                    )}
-                                    {isEditListOpen && (
-                                        <motion.li 
-                                            key = {'editAudio'}
-                                            onClick = {() => navigate("/audio")}
-                                            initial = {{opacity: 0, translateY: -40}}
-                                            animate = {{opacity: 1, translateY: !isEditListOpen   ? -40 : 0}}
-                                            exit = {{
-                                                opacity: 0, 
-                                                translateY: -40, 
-                                                transition: {
-                                                    duration: 0.18, 
-                                                    delay: user?.role === "staff" ? 0.18 * 3 : 0.18 * 2,
-                                                    ease: "easeInOut"
-                                                }}
-                                            }
-                                            transition = {{duration: 0.2, delay: 0.18 * 2, ease: "easeInOut"}}
-                                        >
-                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.upload } alt = "Edit Audio" />
-                                            <span className = { styles.text }>Edit Audio</span>
-                                        </motion.li>
-                                    )}
-                                    {isEditListOpen && (
-                                        <motion.li 
-                                            key = {'analytics'}
-                                            onClick = {() => navigate("/analytics")}
-                                            initial = {{opacity: 0, translateY: -40}}
-                                            animate = {{opacity: 1, translateY: !isEditListOpen   ? -40 : 0}}
-                                            exit = {{
-                                                opacity: 0, 
-                                                translateY: -40, 
-                                                transition: {
-                                                    duration: 0.18, 
-                                                    delay: user?.role === "staff" ? 0.18 * 4 : 0.18 * 3,
-                                                    ease: "easeInOut"
-                                                }}
-                                            }
-                                            transition = {{duration: 0.2, delay: 0.18 * 3, ease: "easeInOut"}}
-                                        >
-                                            <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.analytics } alt = "Analytics" />
-                                            <span className = { styles.text }>Analytics</span>
-                                        </motion.li>
-                                    )}
-                                    {user?.role === "admin" && (
-                                        <>
-                                            {isEditListOpen && (
-                                                <motion.li 
-                                                    key = {'userManagement'}
-                                                    onClick = {() => window.location.href = "/usermanage"}
-                                                    initial = {{opacity: 0, translateY: -40}}
-                                                    animate = {{opacity: 1, translateY: !isEditListOpen ? -40 : 0}}
-                                                    exit = {{
-                                                        opacity: 0, 
-                                                        translateY: -40, 
-                                                        transition: {
-                                                            duration: 0.18, 
-                                                            delay: user?.role === "staff" ? 0.18 * 5 : 0.18 * 4,
-                                                            ease: "easeInOut"
-                                                        }}
-                                                }
-                                                transition = {{duration: 0.2, delay: 0.18 * 4, ease: "easeInOut"}}
-                                            >
-                                                <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.profile } alt = "User Management" />
-                                                <span className = { styles.text }>User Management</span>
-                                            </motion.li>
-                                            )}
-                                        </>
-                                    )}
-                                </>
-                            )}
-                        </ul>
-                </motion.section>
             )}
         </AnimatePresence>
         </>
