@@ -15,10 +15,8 @@ class Path {
         this.camera = camera;
         this.renderer = renderer;
 
-        // this.targetLookAt = new THREE.Vector3(0, 30, 0);
         this.isAnimatingCam = false;
         this.pathfinding = new Pathfinding();
-        // include pathfindingHelper here if needed in the future
         this.zone = 'level1';
         this.navmesh = null;
         this.player = null;
@@ -98,90 +96,7 @@ class Path {
         });
     }
     
-    // pathfinding method
-    // animateCamera(target = this.targetLookAt, onComplete){
-    //     const startLookAt = new THREE.Vector3();
-    //     this.camera.getWorldDirection(startLookAt);
-
-    //     const duration = 1.5;
-    //     let elapsedTime = 0;
-    
-    //     const step = (deltaTime) =>{
-    //         elapsedTime += deltaTime;
-    //         const t = Math.min(elapsedTime / duration, 1);
-    //         this.camera.lookAt(startLookAt.clone().lerp(target, t));
-
-    //         if(t < 1){
-    //             requestAnimationFrame(step);
-    //         }
-    //         else{
-    //             this.isAnimatingCam = false;
-    //             onComplete && onComplete();
-    //         }
-    //     };
-    //     this.isAnimatingCam = true;
-    //     step(0);
-    // }
-    // moveArrow(startPos, targetPos) {
-    
-    //     if(this.scene && startPos && targetPos){
-    //       // Find name of current and destination
-    //       const currentPos = positions.find(pos => pos.name === startPos);
-    //       const destinationPos = positions.find(pos => pos.name === targetPos);
-    
-    //       // convert to Vector3
-    //       if(currentPos && destinationPos){
-    
-    //         const currentVector = this.player ? this.player.position.clone() : new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
-    //         // const currentVector = new THREE.Vector3(currentPos.position.x, currentPos.position.y, currentPos.position.z);
-    //         const destinationVector = new THREE.Vector3(destinationPos.position.x, destinationPos.position.y, destinationPos.position.z);
-    
-    //         // Create or update the arrow direction and helper
-    //         const groupId = this.pathfinding.getGroup(this.zone, currentVector);
-    //         const closest = this.pathfinding.getClosestNode(currentVector, this.zone, groupId);
-    //         const path = this.pathfinding.findPath(closest.centroid, destinationVector, this.zone, groupId);
-    //         // console.log(path);
-    //         if (path && path.length > 0) {
-    //           console.log("Found Path: ", path);
-    //           this.arrowPath = path.slice();
-    //           this.points = [currentVector.clone()];
-    //           const fullPath = this.calculateFullPath(currentVector, path);
-    //           this.createPathLine(fullPath);
-    //           this.arrowMoving = true;
-
-              
-    //           // // create o update the arrow helper
-    
-    //           // if(!currentArrow){
-    //           //   currentArrow = new THREE.ArrowHelper(new THREE.Vector3(), startPos, 0.5, 0xffff00);
-    //           //   scene.add(currentArrow);
-    //           // }
-    //           // currentArrow.position.copy(startPos);
-              
-    
-    //           const geometry = new LineGeometry().setFromPoints(this.points);
-    //           const material = new LineMaterial({ 
-    //             color: 0xffff00,
-    //             linewidth: 10,
-    //             dashed: true,});
-
-    //           if(!this.line){
-    //             this.line = new Line2(geometry, material);
-    //             this.line.position.y = this.line.position.y + 0.04;
-    //             this.line.frustumCulled = false;
-    //             this.scene.add(this.line);
-    //           }
-    //           else{
-    //             this.line.geometry.setFromPoints(this.points);
-    //           }
-    //         }else {
-    //           console.log("No path found");
-    //         }
-    //       }
-    //     }
-    // }
-
-    // new functionality TEST
+        // new functionality TEST
     calculatePath(startPos, targetPos){
         this.calculatedPath = null;
         this.isPathValid = false;

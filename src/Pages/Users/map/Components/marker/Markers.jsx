@@ -11,16 +11,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 //const markers = fetchMarkerData;
 const screenWidth = window.innerWidth;
 
- 
- 
-
-
-
 const Markers = ({ scene, camera, container, moveToMarker }) => {
   const[hoveredMarker, setHoveredMarker] = useState(null);
   const animationFrameRef = useRef();
   const [selectedMarker, setSelectedMarker] = useState(null);
-  // const [popups, setPopups] = useState({});
 
 //Added for Modal Debugging 
 
@@ -34,11 +28,7 @@ const [modals, setModals] = useState([]);
       fetchModals();
     }, []);
 
-    
-
   //Added for Fetching Updated cards
-
-
   const [markers, setMarkers] = useState([]);
   
   useEffect(() => {
@@ -122,8 +112,6 @@ const [modals, setModals] = useState([]);
       });
     }
   }; 
-
-  //console.log('Selected:',selectedMarker) // for debugging selected marker 
 
   const handleClosePopup = (marker) =>{
     setSelectedMarker(null);

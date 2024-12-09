@@ -28,7 +28,6 @@ class Preloader {
     if(itemsLoaded === itemsTotal) {
       this.fareOutPreloader();
     }
-    // this.pScreen.remove();
   }
 
   onError(url) {

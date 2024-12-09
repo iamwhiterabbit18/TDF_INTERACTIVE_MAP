@@ -17,24 +17,16 @@ export default class Map {
 
     this.map.load('map/map.glb', (gltfScene) => {
       const mesh = gltfScene.scene;
-      // mesh.rotation.x = 0.5 * Math.PI;
       scene.add(mesh);
       console.log("MESH: ", mesh);
       mesh.traverse((object) => {
           if (object.isMesh) {
-            // console.log(object);
           }
         });
     });
 
     // doggo
     // this.shiba = new Shiba(scene);
-    this.cube  = new THREE.Mesh(
-      new THREE.BoxGeometry(0.01, 0.01, 0),
-      new THREE.MeshNormalMaterial()
-    )
-    this.cube.position.set(0, 0.090, 0.1);
-    scene.add(this.cube);
 
       // add pathfinding
       this.pathfinding = new Path(scene, camera, renderer, controls);

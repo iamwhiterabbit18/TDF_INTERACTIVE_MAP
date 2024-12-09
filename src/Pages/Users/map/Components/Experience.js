@@ -42,6 +42,14 @@ export default class Experience {
     this.controls.enablePan = true;
     this.controls.enableRotate = false;
     this.controls.screenSpacePanning = true;
+    this.controls.maxDistance = 3;
+    this.controls.minDistance = 1;
+
+    // Restrict camera movement to a bounding box
+    this.cameraBounds = new THREE.Box3(
+      new THREE.Vector3(-10, 1, -10), // Minimum bounds
+      new THREE.Vector3(10, 5, 10)   // Maximum bounds
+    );
 
     this.map = new Map(this.scene, this.camera, this.renderer, this.controls);
 
@@ -50,6 +58,18 @@ export default class Experience {
     // window.addEventListener('mousedown', (event) => {
     //   this.click = new Click(event, this.camera, this.scene);
     // });
+    this.animate();
   }
 
+  animate() {
+    requestAnimationFrame(() => this.animate());
+
+    // Restrict camera to the bounding box
+    if (!this.cameraBounds.containsPoint(this.camera.position)) {
+      this.camera.position.clamp(this.cameraBounds.min, this.cameraBounds.max);
+    }
+
+    this.controls.update(); // Ensure controls are updated
+    this.renderer.render(this.scene, this.camera);
+  }
 }
