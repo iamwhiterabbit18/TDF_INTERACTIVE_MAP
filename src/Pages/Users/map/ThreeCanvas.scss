@@ -147,7 +147,7 @@ canvas{
     backdrop-filter: blur(10px);
     opacity: 1;
     transition: opacity 150ms ease-in-out;
-    display: block;
+    display: none;
     &.active{
         display: block;
         opacity: 1;
