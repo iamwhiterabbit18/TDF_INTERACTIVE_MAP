@@ -61,6 +61,13 @@ export default function NavBar () {
                             <span className = { styles.text }>Map</span>
                         </li>
                         <li
+                            className = { location.pathname === "/analytics" ? styles.activeList : undefined }
+                            onClick = {() => window.location.href = "/analytics"}
+                        >
+                            <img className = { `${styles.icon} ${styles.analytics}` } src = { icons.analytics } /*change icon*/ /> 
+                            <span className = { styles.text }>Analytics</span>
+                        </li>
+                        <li
                             className = { location.pathname === "/cards" ? styles.activeList : undefined }
                             onClick = {() => window.location.href = "/cards"}
                         >
@@ -82,18 +89,11 @@ export default function NavBar () {
                             <span className = { styles.text }>Edit Audio</span>
                         </li>
                         <li
-                            className = { location.pathname === "/analytics" ? styles.activeList : undefined }
-                            onClick = {() => window.location.href = "/analytics"}
+                            className = { location.pathname === "/markers" ? styles.activeList : undefined }
+                            onClick = {() => window.location.href = "/markers"}
                         >
-                            <img className = { `${styles.icon} ${styles.analytics}` } src = { icons.analytics } /*change icon*/ /> 
-                            <span className = { styles.text }>Analytics</span>
-                        </li>
-                        <li
-                            className = { location.pathname === "/archive" ? styles.activeList : undefined }
-                            onClick = {() => window.location.href = "/archive"}
-                        >
-                            <img className = { `${styles.icon} ${styles.analytics}` } src = { icons.archive } /*change icon*/ /> 
-                            <span className = { styles.text }>Archive</span>
+                            <img className = { `${styles.icon} ${styles.map}` } src ={ icons.location } />
+                            <span className = { styles.text }>Edit Marker</span>
                         </li>
                         {user?.role === "admin" && (
                             <li
@@ -104,6 +104,13 @@ export default function NavBar () {
                                 <span className = { styles.text }>User <br />Management</span>
                             </li>
                         )}
+                        <li
+                            className = { location.pathname === "/archive" ? styles.activeList : undefined }
+                            onClick = {() => window.location.href = "/archive"}
+                        >
+                            <img className = { `${styles.icon} ${styles.analytics}` } src = { icons.archive } /*change icon*/ /> 
+                            <span className = { styles.text }>Archive</span>
+                        </li>
                         
                     </ul>
 
