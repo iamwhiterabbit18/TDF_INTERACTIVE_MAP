@@ -4,6 +4,11 @@ import markerData from './markerData';
 import Click from '@utils/Click.js';
 import AddMarkerModal from './AddMarkerModal.jsx';
 import addIcon from './add.png'
+
+import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+
 const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
   // marker data holder
   const [markerPos, setMarkerPos] = useState([]);
@@ -12,6 +17,10 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
 
   const btnRef = useRef(null);
   const containerRef = useRef(null);
+
+  const location = useLocation();
+  const { user: authUser, logout } = useAuth();
+  const user = location.state?.user || authUser;
 
   const toggleAddMarker = () => {
     const btn = btnRef.current;
@@ -117,6 +126,7 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
       <div
         id="addMarker"
       >
+        {(user?.role === "staff" || user?.role === "admin") && (
         <button 
         ref={btnRef} 
         className={styles.button}
@@ -124,6 +134,7 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
           <span>Add Marker</span>
           <img src={addIcon} alt="add marker icon" />
         </button>
+        )}
 
         <div className={styles.container} ref={containerRef}>
           <button
