@@ -1,33 +1,22 @@
 // for the meantime me just gonna drop these variables here
-
-// colors
-$blue: #322E59;
-$darkBlue: #17153B;
-$enter: #FFBB56;
-$gray: #D9D9D9;
-
-// fonts
-$font: 'Inter', sans-serif;
-$light: 300;
-$semi: 600;
-$bold: 900;
+@import '../../ThreeCanvas.scss';
 
 // wide screens
 .pfCont{
     display: flex;
-    font-family: $font;
+    font-family: $title;
     width: 100%;
     height: 100%;
     padding: 0 3rem;
-    background-color: $blue;
+    background-color: $primary;
     justify-content: space-between;
     align-items: center;
     .logo{
-        font-family: $font;
+        font-family: $title;
         width: 200px;
-        color: $gray;
+        color: $secondary;
         p{
-            font-weight: $light;
+            font-weight: $secondary;
             font-size: 0.5rem;
         }
         h1{
@@ -38,10 +27,10 @@ $bold: 900;
     }
 
     .current, .destination{
-        font-family: $font;
+        font-family: $subTitle;
         font-weight: $bold;
-        border: 2px solid $gray;
-        background-color: $darkBlue;
+        border: 2px solid $tertiary;
+        background-color: $primary;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -52,7 +41,7 @@ $bold: 900;
         
         span{
             padding-left: 2rem;
-            color: $gray;
+            color: $secondary;
         }
         .arrow{
             display: flex;
@@ -65,11 +54,11 @@ $bold: 900;
     }
 
     .enter{
-        font-family: $font;
+        font-family: $title;
         font-weight: $bold;
-        border: 2px solid $gray;
-        background-color: $enter;
-        color: $darkBlue;
+        border: 2px solid $tertiary;
+        background-color: $primary;
+        color: $secondary;
         min-width: 8rem;
         height: 3rem;
         border-radius: 10px;
@@ -97,7 +86,7 @@ $bold: 900;
         align-items: center;
         .logo{
             width: 300px;
-            color: $gray;
+            color: $secondary;
             text-align: center;
             p{
                 font-weight: $light;
@@ -113,17 +102,18 @@ $bold: 900;
     }
 
 .pfBtn{
-    font-family: $font;
+    box-shadow: 0px 0px 40px 10px rgba(0, 0, 0, 0.2);
+    font-family: $title;
     font-weight: $semi;
     position: absolute;
     bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: $blue;
+    background-color: $primary;
     padding: 5px;
     border-radius: 10px;
-    border: 2px solid $darkBlue;
-    color: $gray;
+    border: 2px solid $tertiary;
+    color: $secondary;
     padding: 0 2rem 2rem 2rem;
     transition: all 0.3s ease;
     p{

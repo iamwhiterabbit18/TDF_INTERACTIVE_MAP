@@ -87,12 +87,29 @@
 
 @media (min-width: 992px) {
 
-    .header {
-        border-radius: 0 0 150px 0;
-        padding: 80px 0;
+    .archiveContainer {
+        .header {
+            border-radius: 0 0 150px 0;
+            padding: 80px 0;
+    
+            .txtTitle {
+                font-size: 40px;
+            }
+        }
 
-        .txtTitle {
-            font-size: 40px;
+        .archiveHeader {
+            font-size: 31px;
+        }
+
+        .table {
+            th, td {
+                font-size: 16px;
+            }
+
+            .icon {
+                height: 23px;
+                width: 23px;
+            }
         }
     }
 }

@@ -8,15 +8,10 @@ import StartingModal from './Components/startingModal/StartingModal';
 import DragAndScroll from '@utils/DragAndScroll'
 
 import './ThreeCanvas.scss'; // global styles for the map
-import styles1 from '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss'; // this to be adjusted
-import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
 
 import NavigationModule from '../navBar/NavigationModule';
 
 import Shhhh from '../virus/Shhhh';
-
-import { useAuth } from '/src/Pages/Admin/ACMfiles/AuthContext'; // Adjust the path accordingly
-import { useNavigate } from 'react-router-dom';
 
 // for pathfinding
 import Pathfinding from './Components/pathfinding/Pathfinding';
@@ -24,9 +19,6 @@ import positions from '../../../assets/API/positions';
 
 // for adding marker
 import AddMarker from './Components/addMarker/AddMarker';
-import { div } from 'three/webgpu';
-// import { exp } from 'three/webgpu';
-// import { set } from 'mongoose';
 
 const ThreeCanvas = () => {
   
@@ -168,17 +160,6 @@ const ThreeCanvas = () => {
     const path = expRef.current.map.pathfinding;
     path.dispose();
   }
-  // const getCurrentCamControls = (position, rotation, tar) => {
-  //   let pos = position
-  //   let rot = rotation
-  //   let target = tar
-  //   // initialCameraPositionRef.current = cameraRef.current.position.clone();
-  //   // initialCameraRotationRef.current = cameraRef.current.rotation.clone();
-  //   // initialControlsTargetRef.current = controlsRef.current.target.clone();
-
-  //   return { pos, rot, target };
-  // }
-  // const [initialValues, setInitialValues] = useState({});
   const cameraPF = () => {
     if(!isOnPF){
     setIsOnPF(true);

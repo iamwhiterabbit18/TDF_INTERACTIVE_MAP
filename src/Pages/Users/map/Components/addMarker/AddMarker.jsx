@@ -3,7 +3,7 @@ import styles from './AddMarker.module.scss';
 import markerData from './markerData';
 import Click from '@utils/Click.js';
 import AddMarkerModal from './AddMarkerModal.jsx';
-
+import addIcon from './add.png'
 const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
   // marker data holder
   const [markerPos, setMarkerPos] = useState([]);
@@ -120,7 +120,10 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
         <button 
         ref={btnRef} 
         className={styles.button}
-        onClick={(e) => {toggleAddMarker(); addMarkerMode();}}>Add Marker</button>
+        onClick={(e) => {toggleAddMarker(); addMarkerMode();}}>
+          <span>Add Marker</span>
+          <img src={addIcon} alt="add marker icon" />
+        </button>
 
         <div className={styles.container} ref={containerRef}>
           <button
