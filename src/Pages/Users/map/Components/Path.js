@@ -83,7 +83,6 @@ class Path {
             cube.color = pos.color;
             cube.visible = false; //comment this out to see sites locations
             this.scene.add(cube);
-            console.log(cube);
         }
         else{
             console.log('no cube');
@@ -219,7 +218,6 @@ class Path {
             if(nextPosition.distanceTo(targetPosition) < speed){
                 this.arrowPath.shift();
                 if(this.arrowPath.length === 0){
-                    console.log('arrived');
                     this.arrowMoving = false;
                     this.isPathValid = false;
                 }
@@ -230,7 +228,6 @@ class Path {
     async navigateToPosition(startPos, targetPos){
         const isPathValid = this.calculatePath(startPos, targetPos);
         if(!isPathValid){
-            console.error("Failed to calculate valid path @ navigateToPosition");
             return;
         }
         this.moveAlongPath();

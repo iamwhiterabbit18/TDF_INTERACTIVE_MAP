@@ -164,10 +164,6 @@ canvas{
     opacity: 1;
     transition: opacity 150ms ease-in-out;
     display: block;
-    &.active{
-        display: block;
-        opacity: 1;
-    }
 }
 
 // addMarker styles

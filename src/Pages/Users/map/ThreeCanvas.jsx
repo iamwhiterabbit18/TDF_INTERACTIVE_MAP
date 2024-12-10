@@ -99,7 +99,6 @@ const ThreeCanvas = () => {
     if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current && !isOnPF) {
       try {
         const targetPosition = new THREE.Vector3(markerPosition.x, controlsRef.current.target.y, markerPosition.z);
-        console.log("target pos", targetPosition)
 
         const startTarget = controlsRef.current.target.clone();
         const startPosition = cameraRef.current.position.clone();
@@ -110,8 +109,7 @@ const ThreeCanvas = () => {
     
         const animateCamera = () => {
           if (progress < 1) {
-            console.log('this')
-            progress += 0.02; // Adjust speed here
+            progress += 0.07; // Adjust speed here
   
             controlsRef.current.target.lerpVectors(startTarget, targetPosition, progress);
             
@@ -175,7 +173,6 @@ const ThreeCanvas = () => {
     controlsRef.current.enabled = false;
     }
     else if(isOnPF){
-      console.log('obj', initialValues);
       setIsOnPF(false);
       // Reset camera position and rotation
       cameraRef.current.position.copy(initialValues.pos);
@@ -231,7 +228,6 @@ const ThreeCanvas = () => {
       controlsRef.current.enabled = false;
     }
     else if(isOnAddMarker){
-      console.log('obj', currentValues);
       setIsOnAddMarker(false);
       // Reset camera position and rotation
       cameraRef.current.position.copy(currentValues.pos);

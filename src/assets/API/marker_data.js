@@ -54,12 +54,10 @@ const fetchMarkerData = async () => {
       );
     });
 
-    console.log('Updated areaPositions:', areaPositions); // Log the updated areaPositions
 
     // Fetch modal data
     const modalResponse = await axios.get('http://localhost:5000/api/modal'); // Adjust endpoint as needed
     const modals = modalResponse.data;
-    console.log('Fetched modals:', modals);
 
     // Map modals to a quick access structure
     const modalMap = {};
@@ -68,10 +66,8 @@ const fetchMarkerData = async () => {
     });
 
     return response.data.map(card => {
-      console.log('Processing card:', card); // Check if map is running for each card
       const normalizedAreaName = card.areaName.trim(); // No lowercase conversion for exact match
       const position = areaPositions[normalizedAreaName] || new THREE.Vector3(0, 0, 0); // Default position
-      console.log('Marker position for', normalizedAreaName, ':', position);
 
       return {
         position: position,
@@ -83,7 +79,7 @@ const fetchMarkerData = async () => {
       };
     });
   } catch (error) {
-    console.error('Error fetching marker data:', error);
+    // console.error('Error fetching marker data:', error);
     return [];
   }
 };

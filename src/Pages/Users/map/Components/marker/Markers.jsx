@@ -98,11 +98,10 @@ const [modals, setModals] = useState([]);
   }, [markers, calculatePosition, selectedMarker]);
 
   const handleMarkerCLick = (marker) => {
-    console.log('Marker clicked:', marker); // Debugging log
     //setSelectedMarker(marker); // Set the selected marker
     if(selectedMarker == marker){
       setModalId(marker.modalId); // Set the modalId from the clicked marker
-      console.log('same marker');
+      // console.log('same marker');
       return;
     }
    else{
@@ -116,7 +115,6 @@ const [modals, setModals] = useState([]);
   const handleClosePopup = (marker) =>{
     setSelectedMarker(null);
   }
-  console.log("Markers:", markers);
   // updates marker pos
   useEffect(() => {
     if (scene && camera && container) {
