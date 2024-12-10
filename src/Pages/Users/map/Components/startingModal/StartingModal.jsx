@@ -45,11 +45,13 @@ const StartingModal = () => {
                   </div>
                   <div className={styles.controls}>
                     <h2>Find path:</h2>
-                    <p>Select Pathfinding Tab <div className={`${styles.guideImg} ${styles.horizontalIcon}`}><img src={icons.pathfinding} alt="pathfinding" /></div></p>
+                      <p>Select Pathfinding Tab</p>
+                      <div className={`${styles.guideImg} ${styles.horizontalIcon}`}><img src={icons.pathfinding} alt="pathfinding" /></div>
                   </div>
                   <div className={styles.controls}>
                     <h2>Find more infos:</h2>
-                    <p>Select navigation menu <div className={styles.guideImg}><img src={icons.navigation} alt="navigation" /></div></p>
+                    <p>Select navigation menu</p>
+                    <div className={styles.guideImg}><img src={icons.navigation} alt="navigation" /></div>
                   </div>
                 </div>
               </div>
