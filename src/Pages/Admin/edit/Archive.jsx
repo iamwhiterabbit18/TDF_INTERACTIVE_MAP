@@ -2,6 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
+import { motion, AnimatePresence } from 'framer-motion'
+
+import Confirmation from '../utility/ConfirmationComponent/Confirmation';
+import ConfirmRestore from '../utility/ConfirmationComponent/ConfirmRestor';
 
 import icons from "../../../assets/for_landingPage/Icons";
 import NavBar from './navBar/NavBar';
@@ -11,8 +15,56 @@ import UseToast from '../utility/AlertComponent/UseToast';
 
 export default function Archive() {
     const [archives, setArchives] = useState([]);
+
+    //for deletion
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
+
+    //for restoration
+    const [itemToRestore, setItemToRestore] = useState(null);
+    const [itemId, setItemId] = useState(null);
+    const [confirmRestore, setConfirmRestore] = useState(false);
+    const [isRestore, setIsRestore] = useState(false);
+
     const mountToast = UseToast();
     const location = useLocation();
+
+
+    // for deletion
+    const handleDeleteBtn = () => {
+        setIsDelete(!isDelete);
+    }
+
+    const confirmAndDelete = () => {
+        setConfirmDelete(true);
+    }
+
+    useEffect(() => {
+        if (confirmDelete && itemToDelete) {
+            handleDelete(itemToDelete); 
+            setConfirmDelete(false);
+        }
+    }, [confirmDelete, itemToDelete]);
+
+    //for restoration
+
+    // for deletion
+    const handleRestoreBtn = () => {
+        setIsRestore(!isRestore);
+    }
+
+    const confirmAndRestore = () => {
+        setConfirmRestore(true);
+    }
+
+    useEffect(() => {
+        if (confirmRestore && itemId && itemToRestore) {
+            handleRestore(itemId, itemToRestore); 
+            setConfirmRestore(false);
+        }
+    }, [confirmRestore, itemId, itemToRestore]);
+
 
     useEffect(() => {
         // Add or remove className based on current page
@@ -42,11 +94,11 @@ export default function Archive() {
         // Delete handler
         const handleDelete = async (archiveId) => {
             try {
-                const confirm = window.confirm("Are you sure you want to permanently delete this item?");
-                if (!confirm) return;
-
                 const response = await axios.delete(`http://localhost:5000/api/delete/archive/${archiveId}`);
                 mountToast(response.data.message, 'success');
+                setConfirmDelete(false);
+                setItemToDelete(null);
+                setIsDelete(false);
 
                 // Update UI by filtering out the deleted item
                 setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
@@ -57,27 +109,25 @@ export default function Archive() {
         };
         
 
-                // Restore handler
-                const handleRestore = async (archiveId, type) => {
-                    try {
-                        const confirm = window.confirm(
-                            `Are you sure you want to restore this ${type === 'document' ? 'document' : 'field'}?`
-                        );
-                        if (!confirm) return;
+        // Restore handler
+        const handleRestore = async (archiveId, type) => {
+            try {
+                const endpoint = type === 'document' ? `http://localhost:5000/api/restore/user/${archiveId}` : `http://localhost:5000/api/restore/${archiveId}`;
 
-                        // Choose the correct endpoint based on the type
-                        const endpoint = type === 'document' ? `http://localhost:5000/api/restore/user/${archiveId}` : `http://localhost:5000/api/restore/${archiveId}`;
+                const response = await axios.put(endpoint);
+                mountToast(response.data.message, 'success');
+                setConfirmRestore(false);
+                setItemToRestore(null);
+                setItemId(null);
+                setIsRestore(false);
 
-                        const response = await axios.put(endpoint);
-                        mountToast(response.data.message, 'success');
-
-                        // Update UI by filtering out the restored item
-                        setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
-                    } catch (error) {
-                        console.error('Error restoring archive entry:', error);
-                        mountToast('Error restoring archive entry', 'error');
-                    }
-                };
+                // Update UI by filtering out the restored item
+                setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
+            } catch (error) {
+                console.error('Error restoring archive entry:', error);
+                mountToast('Error restoring archive entry', 'error');
+            }
+        };
 
     return (
         <>
@@ -120,13 +170,17 @@ export default function Archive() {
                                     <td>
                                         <div className={styles.actionBtns}>
                                             
-                                                <button className={styles.editBtn} onClick={() => handleRestore(archive._id,
-                                                    archive.originalCollection === 'User' ? 'document' : 'field')}>
+                                                <button className={styles.editBtn} 
+                                                    onClick = {() => {
+                                                        setItemId(archive._id);
+                                                        setItemToRestore(archive.originalCollection === 'User' ? 'document' : 'field');
+                                                        handleRestoreBtn();
+                                                    }}
+                                                >
                                                 
                                                     <img className={`${styles.icon} ${styles.undo}`} src={icons.undo} alt="Restore Item" />
                                                 </button>
-                                            
-                                                <button className={styles.delBtn} onClick={() => handleDelete(archive._id)} >
+                                                <button className={styles.delBtn} onClick={() => { handleDeleteBtn(); setItemToDelete(archive._id); }} >
                                                     <img className={`${styles.icon} ${styles.delete}`} src={icons.remove} alt="Delete Item" />
                                                 </button>
                                             
@@ -144,6 +198,42 @@ export default function Archive() {
                 </table>
             </div>
 
+
+            {/* Delete Confirmation Modal */}
+            <AnimatePresence>
+            {isDelete && (
+                <motion.div 
+                    className = { styles.confirmation }
+                    initial = {{opacity: 0}}
+                    animate = {{opacity: 1}}
+                    exit = {{opacity: 0}}
+                    transition = {{duration: 0.2, ease: "easeInOut"}}
+                >
+                    <Confirmation 
+                        onCancel = {() => handleDeleteBtn()}
+                        setConfirmDelete={ confirmAndDelete }
+                    />
+                </motion.div>
+            )}
+            </AnimatePresence>
+            
+            {/* Restore Confirmation Modal */}
+            <AnimatePresence>
+            {isRestore && (
+                <motion.div 
+                    className = { styles.confirmation }
+                    initial = {{opacity: 0}}
+                    animate = {{opacity: 1}}
+                    exit = {{opacity: 0}}
+                    transition = {{duration: 0.2, ease: "easeInOut"}}
+                >
+                    <ConfirmRestore 
+                        onCancel = {() => handleRestoreBtn()}
+                        setConfirmDelete={ confirmAndRestore }
+                    />
+                </motion.div>
+            )}
+            </AnimatePresence>  
         </>
     );
 }

@@ -15,6 +15,7 @@ export default function EditMarkers() {
 
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [isMarker, setIsMarker] = useState(null);
     const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
     const [markers, setMarkers] = useState([]); // State for fetched markers
     
@@ -33,30 +34,35 @@ export default function EditMarkers() {
       }, []);
     
 
-
-    const handleDeleteBtn = (markerId) => {
-        setIsDelete(true);
-        setConfirmDelete(markerId); 
+    const handleDeleteBtn = () => {
+        setIsDelete(!isDelete);
     }
-    const handleCancelDelete = () => {
-        setIsDelete(false);
-        setConfirmDelete(null);
-      };
+
+    const confirmAndDelete = () => {
+        setConfirmDelete(true);
+    }
+
+    useEffect(() => {
+        if (confirmDelete && isMarker) {
+            handleConfirmDelete(isMarker); 
+            setConfirmDelete(false);
+        }
+      }, [confirmDelete, isMarker]);
     
-      const handleConfirmDelete = async (markerId) => {
+    const handleConfirmDelete = async (markerId) => {
         try {
           const response = await axios.delete(`http://localhost:5000/api/markers/${markerId}`);
           setMarkers(markers.filter(marker => marker._id !== confirmDelete)); // Remove the deleted marker from the list
           mountToast('Marker and related documents deleted successfully', 'success');
           setIsDelete(false);
-          setConfirmDelete(null);
+          setConfirmDelete(false);
           fetchMarkers();
         } catch (error) {
           console.error('Error deleting marker:', error);
           mountToast('Error deleting marker', 'error');
           setIsDelete(false);
         }
-      };
+    };
       
     const handleOpenModal = (marker) => {
         setShowUploadModal(true);
@@ -122,7 +128,7 @@ export default function EditMarkers() {
                                                         alt="Update Item"
                                                     />
                                                 </button>
-                                                <button onClick={() => handleConfirmDelete(marker._id)}>
+                                                <button onClick={() => {handleDeleteBtn(); setIsMarker(marker._id);}}>
                                                     <img
                                                         className={`${styles.icon} ${styles.delete}`}
                                                         src={icons.remove}
@@ -154,11 +160,6 @@ export default function EditMarkers() {
                     transition = {{duration: 0.2, ease: "easeInOut"}}   
                 >
                 <div className={styles.modalContent}>
-                    {/* <AudioUpload
-                        audioId={modalProps.audioId} // Pass audioId
-                        currentTitle={modalProps.currentTitle} // Pass currentTitle
-                        onClose={handleCloseModal} // Pass the onClose function to close the modal  
-                    /> */}
                     <MarkerModal 
                         onClose={ handleCloseModal }
                         markerData={selectedMarker}
@@ -180,10 +181,8 @@ export default function EditMarkers() {
                     transition = {{duration: 0.2, ease: "easeInOut"}}
                 >
                     <Confirmation 
-                        //onCancel = {() => handleDeleteBtn()}
-                        // setConfirmDelete = { confirmAndDelete }
-                        onCancel={handleCancelDelete}
-                         onConfirm={handleConfirmDelete}
+                        onCancel = {() => handleDeleteBtn()}
+                        setConfirmDelete={ confirmAndDelete }
                     />
                 </motion.div>
             )}
