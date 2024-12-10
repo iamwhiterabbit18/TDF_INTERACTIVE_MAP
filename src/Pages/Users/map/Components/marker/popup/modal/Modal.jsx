@@ -7,6 +7,7 @@ import styles from './Modal.module.scss';
 import { motion, AnimatePresence } from 'framer-motion'
 import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
 import images from '../../../../../../../assets/for_landingPage/Images.jsx';
+import '../../../../../../Admin/utility/sliderCustomStyles/sliderStyles.scss';
 
 const Modal = ({ isOpen, onClose, details, modalData }) => {
   const audioRef = useRef(new Audio()); // Create a reference for the audio element

@@ -6,6 +6,7 @@ import styles from './styles/newsAndEventsStyles.module.scss';
 import icons from '../../../../../../../../assets/for_landingPage/Icons.jsx';
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext'
 import { useLocation } from 'react-router-dom';
+import '../../../../../../../Admin/utility/sliderCustomStyles/sliderStyles.scss';
 
 
 export default function NewsAndEvents({ setCurrentModal, handleClickOutside, currentModal, nodeRef, ...props }) {
@@ -51,10 +52,12 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
     // Slider settings for slick carousel
     const settings = {
         dots: true,
-        infinite: false,
+        infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
     };
 
     return (
