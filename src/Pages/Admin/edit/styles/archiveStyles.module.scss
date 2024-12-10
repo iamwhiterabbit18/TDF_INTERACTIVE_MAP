@@ -39,6 +39,17 @@
         border-collapse: collapse;
         table-layout: fixed;
 
+        .noBullets {
+            list-style-type: none; /* Removes bullet points */
+            margin: 0; /* Removes default margin */
+            padding: 0; /* Removes default padding */
+        }
+        
+        .noBullets li {
+            margin-bottom: 0.2em; /* Adds a small gap between list items */
+        }
+        
+
         button {
             transition: all 0.2s ease-in-out;
     
@@ -68,7 +79,11 @@
             width: 15px;
         }
     }
+
+
 }
+
+
 
 @media (min-width: 992px) {
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import Slider from 'react-slick'; // slick carousel
@@ -10,6 +10,8 @@ import { useLocation } from 'react-router-dom';
 
 export default function NewsAndEvents({ setCurrentModal, handleClickOutside, currentModal, nodeRef, ...props }) {
     const [images, setImages] = React.useState([]);
+    const [headers , setHeaders] = useState([]);
+    const [description , setDescription] = useState ([]);
 
     const location = useLocation();
     const { user: authUser } = useAuth();
@@ -21,6 +23,8 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
             try {
                 const response = await axios.get('http://localhost:5000/api/images');
                 setImages(response.data[0].images); // Assuming only one document
+                setHeaders(response.data[0].newsHeader || [] );
+                setDescription(response.data[0].description || []);
             } catch (error) {
                 console.error("Error fetching images", error);
             }
@@ -85,8 +89,8 @@ export default function NewsAndEvents({ setCurrentModal, handleClickOutside, cur
                                                                 className ={styles.carouselImg}/>
                                                             </div>
                                                             <div className = { styles.news }>
-                                                                <span className = { styles.txtTitle }>News Header</span>
-                                                                <p className = { styles.txtSubTitle }>No news or upcoming even just yet... </p>
+                                                                <span className = { styles.txtTitle }>{headers[index] || "News Header" }</span>
+                                                                <p className = { styles.txtSubTitle }>{description[index] || "No news description provided"}</p>
                                                             </div>
                                                         </>
                                                     ))}
