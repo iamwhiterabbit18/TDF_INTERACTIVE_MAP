@@ -19,3 +19,7 @@ archives/
 !archives/images/
 !archives/modalImages/
 !archives/
+
+!archives/audios/
+
+archives/audios/*

@@ -17,7 +17,7 @@ export default function Greeting() {
         transition = {{duration: 0.3, delay: 0.2, ease: "easeInOut"}}
       >
         <span className = { styles.txtTitle }>Welcome</span>
-        <p className = { styles.txtSubtitle }>Exerience and explore the Technology Demonstration Farm</p>
+        <p className = { styles.txtSubTitle }>Experience and explore the Technology Demonstration Farm</p>
         <img src = { icons.mapIcon } alt = "Icon" /> {/* <!-- Insert graphic element --> */}
       </motion.div>          
     </div>
