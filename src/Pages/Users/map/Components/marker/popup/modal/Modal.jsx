@@ -62,11 +62,14 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
 
   const settings = { // Carousel settings
     dots: true,
-    infinite: true,
+    infinite: images.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
   };
+
+  console.log(images.length);
 
   console.log('Modal Data:', modalData);
 
