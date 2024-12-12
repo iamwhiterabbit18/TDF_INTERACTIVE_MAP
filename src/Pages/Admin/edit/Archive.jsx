@@ -29,6 +29,7 @@ export default function Archive() {
 
     const mountToast = UseToast();
     const location = useLocation();
+    const [fetchLimit, setFetchLimit] = useState(10);
 
 
     // for deletion
@@ -76,7 +77,7 @@ export default function Archive() {
         }
     }, [location]);
 
-    useEffect(() => {
+   {/*  useEffect(() => { //Fetch all Markers
         // Fetch archived items
         const fetchArchives = async () => {
             try {
@@ -89,13 +90,29 @@ export default function Archive() {
         };
 
         fetchArchives();
-    }, []);
+    }, []);*/}
+
+    const fetchArchives = async (limit) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/archive/archivesData?limit=${limit}`); // Pass limit as query param
+            setArchives(response.data);
+        } catch (error) {
+            mountToast('Error fetching archives', 'error');
+            console.error('Error fetching archives:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchArchives(fetchLimit); // Fetch archives with the current limit
+    }, [fetchLimit]); // Re-run when fetchLimit changes
+
 
         // Delete handler
         const handleDelete = async (archiveId) => {
             try {
                 const response = await axios.delete(`http://localhost:5000/api/delete/archive/${archiveId}`);
                 mountToast(response.data.message, 'success');
+                fetchArchives(fetchLimit);
                 setConfirmDelete(false);
                 setItemToDelete(null);
                 setIsDelete(false);

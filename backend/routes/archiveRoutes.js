@@ -16,17 +16,18 @@ const router = express.Router();
 
 
 
-// Get all archived items
+// Get  10 archived items (limited)
 router.get('/archivesData', async (req, res) => {
+  const limit = parseInt(req.query.limit) || 10; // Default to 10 if not specified
   try {
-    const archives = await Archive.find();
-    res.status(200).json(archives);
+      const archives = await Archive.find()
+          .sort({ archivedAt: -1 })
+          .limit(limit);
+      res.status(200).json(archives);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching archives', error });
+      res.status(500).json({ message: 'Error fetching archives', error });
   }
 });
-
-module.exports = router;
 
 // Archive card image by ID
 router.put('/cards/:id', async (req, res) => {
