@@ -7,6 +7,8 @@ const ArchiveSchema = new mongoose.Schema({
   data: { type: mongoose.Schema.Types.Mixed }, // Field data
   archivedAt: { type: Date, default: Date.now }
 });
+// Add TTL index to 'archivedAt' field with an expiration of 5 minutes (300 seconds)
+ArchiveSchema.index({ archivedAt: 1 }, { expireAfterSeconds: 180 });
 
 ArchiveSchema.index({ archivedAt: 1 }, { expireAfterSeconds: 180 });
 

@@ -31,6 +31,7 @@ export default function Archive() {
 
     const mountToast = UseToast();
     const location = useLocation();
+    const [fetchLimit, setFetchLimit] = useState(10);
 
 
     // for deletion
@@ -91,12 +92,13 @@ export default function Archive() {
     useEffect(() => {
         fetchArchives(fetchLimit); // Fetch archives with the current limit
     }, [fetchLimit]); // Re-run when fetchLimit changes
-
+  
         // Delete handler
         const handleDelete = async (archiveId) => {
             try {
                 const response = await axios.delete(`http://localhost:5000/api/delete/archive/${archiveId}`);
                 mountToast(response.data.message, 'success');
+                fetchArchives(fetchLimit);
                 setConfirmDelete(false);
                 setItemToDelete(null);
                 setIsDelete(false);

@@ -1,19 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './AddMarker.module.scss';
 import markerData from './markerData';
 import Click from '@utils/Click.js';
+
+// import components
 import AddMarkerModal from './AddMarkerModal.jsx';
+import AddIcon from './AddIcon.jsx';
+
 import addIcon from './add.png'
+import uploadIcon from './upload.png'
 
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 
-const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
+const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) => {
   // marker data holder
   const [markerPos, setMarkerPos] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentMarker, setCurrentMarker] = useState(null);
+  const [isAddIcon , setIsAddIcon] = useState(false);
+  const animationFrameRef = useRef();
 
   const btnRef = useRef(null);
   const containerRef = useRef(null);
@@ -30,6 +37,9 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
       if (btn.style.display === "none") {
         btn.style.display = "block";
         container.style.display = "none";
+        if(isOnAddMarker){
+          window.location.reload();
+        }
       } else {
         btn.style.display = "none";
         container.style.display = "flex";
@@ -96,31 +106,95 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
         { ...currentMarker, siteName}
       ])
     }
+    console.log(markerPos);
+
   }
+
   const handleCloseModal = () => {
     setIsModalVisible(false);
     setCurrentMarker(null);
   }
 
+  const calculatePosition = useCallback((worldPosition) => {
+    // Convert 3D world position to 2D screen coordinates
+    if (!camera || !container) return { x: 0, y: 0 };
+  
+    const vector = worldPosition.clone();
+    vector.project(camera);
+  
+    const widthHalf = container.clientWidth / 2;
+    const heightHalf = container.clientHeight / 2;
+  
+    const x = (vector.x * widthHalf) + widthHalf;
+    const y = -(vector.y * heightHalf) + heightHalf;
+  
+    return { x, y };
+  }, [camera, container]);
+
   useEffect(() => {
-    const handleDragOver = (e) => {
-      e.preventDefault();
-    };
-  
-    const currentContainer = container;
-  
-    if (currentContainer) {
-      currentContainer.addEventListener('dragover', handleDragOver);
-      currentContainer.addEventListener('drop', handleDrop);
-    }
-  
-    return () => {
-      if (currentContainer) {
-        currentContainer.removeEventListener('dragover', handleDragOver);
-        currentContainer.removeEventListener('drop', handleDrop);
+    console.log(markerPos);
+  }, [markerPos]);
+
+  const updateMarkerPositions = useCallback(() => {
+    markerPos.forEach((marker, index) => {
+      if (marker.worldPosition) {
+        const { x, y } = calculatePosition(marker.worldPosition);
+        const markerElement = document.getElementById(`marker-${index}`);
+        // console.log(markerElement);
+        if (markerElement) {
+          // Adjust positioning to center the marker
+          markerElement.style.position = 'absolute';
+          markerElement.style.left = `${x}px`; // Subtract half the marker width
+          markerElement.style.top = `${y}px`; // Subtract half the marker height
+        }
       }
-    };
-  }, []);
+    });
+  
+    // Continue animation frame
+    animationFrameRef.current = requestAnimationFrame(updateMarkerPositions);
+  }, [markerPos, calculatePosition]);
+
+  // updates marker pos
+    useEffect(() => {
+      if (scene && camera && container) {
+        // Set up the initial animation frame
+        animationFrameRef.current = requestAnimationFrame(updateMarkerPositions);
+        
+        // Clean up function
+        return () => {
+          if (animationFrameRef.current) {
+            cancelAnimationFrame(animationFrameRef.current);
+          }
+        };
+      }
+    }, [scene, camera, container, updateMarkerPositions]);
+
+    useEffect(() => {
+      const handleDragOver = (e) => {
+        e.preventDefault();
+      };
+    
+      const currentContainer = container;
+    
+      if (currentContainer) {
+        currentContainer.addEventListener('dragover', handleDragOver);
+        currentContainer.addEventListener('drop', handleDrop);
+      }
+    
+      return () => {
+        if (currentContainer) {
+          currentContainer.removeEventListener('dragover', handleDragOver);
+          currentContainer.removeEventListener('drop', handleDrop);
+        }
+      };
+    }, []);
+
+
+  // add icon functions
+  const addIcon = () =>{
+    setIsAddIcon(!isAddIcon);
+    console.log(isAddIcon)
+  }
   
   return (
       <div
@@ -140,7 +214,8 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
           <button
           className={styles.close} 
           onClick={(e) => {toggleAddMarker(); addMarkerMode();}}>
-            Close
+            Close 
+            {/* change this to bigger close button */}
           </button>
           <div 
           onDragOver={(e) => e.preventDefault()} // Allow drop
@@ -157,23 +232,28 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
                 <img src={data.icon} alt={data.name} />
               </div>
             ))}
-
+              <div 
+                className={styles.markerIcon}
+                onClick={(e) => {addIcon();}}>
+                <img src={uploadIcon} alt="upload marker" />
+              </div>
             {/* Draggable dropped markers */}
-            {markerPos.map((marker, index) => (
+            {/* {markerPos.map((marker, index) => (
               <div
                 key={`dropped-${marker.name}-${index}`}
+                id={`marker-${index}`}
                 className={styles.markerIcon}
                 draggable
                 style={{
-                  position: 'absolute',
-                  left: marker.screenPosition.x,
-                  top: marker.screenPosition.y  - 200,
+                  // position: 'absolute',
+                  // left: marker.screenPosition.x - 10,
+                  // top: marker.screenPosition.y  - 300,
                 }}
                 onDragStart={(e) => handleDragStart(e, marker)}
               >
-                <img src={markerData.find((m) => m.name === marker.name)?.icon} alt={marker.name} />
+                <img src={marker.icon} alt={marker.name} />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
         
@@ -185,6 +265,11 @@ const AddMarker = ({ scene, container, camera, addMarkerMode }) => {
         icon={currentMarker?.icon}  // Pass the icon here
         iconName={currentMarker?.name}
       />
+
+      <AddIcon
+        isAddIcon={isAddIcon}
+        />
+
       </div>
 
     
