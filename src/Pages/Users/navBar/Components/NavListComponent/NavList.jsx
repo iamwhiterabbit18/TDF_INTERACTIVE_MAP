@@ -75,7 +75,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 5 : 0.18 * 4,
+                                        delay: 0.18 * 4,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -96,7 +96,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 4 : 0.18 * 3,
+                                        delay: 0.18 * 3,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -117,7 +117,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 3 : 0.18 * 2,
+                                        delay: 0.18 * 2,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -127,7 +127,9 @@ export default function NavList ({
                                 <span className = { styles.text }>Contact Us</span>
                             </motion.li>
                         )}
-                        {isHamClicked && (
+
+                        {/* Submit feedback only visible to guest user */}
+                        {(user?.role !== "staff" && user?.role !== "admin") && (
                             <motion.li 
                                 key = {'submitFeedback'}
                                 onClick = { function() { handleModalClick(); captureNavListClick('submitFeedback'); } }
@@ -138,7 +140,7 @@ export default function NavList ({
                                     translateY: -80, 
                                     transition: {
                                         duration: 0.2, 
-                                        delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 2 : 0.18,
+                                        delay: 0.18,
                                         ease: "easeInOut",
                                     }
                                 }}
@@ -167,7 +169,7 @@ export default function NavList ({
                                                 ease: "easeInOut"
                                             }}
                                         }
-                                        transition = {{duration: 0.2, delay: 0.18 * 5, ease: "easeInOut"}}
+                                        transition = {{duration: 0.2, delay: 0.18 * 4, ease: "easeInOut"}}
                                     >
                                         <img className = { `${styles.icon} ${styles.feedback}` } src = { icons.pencil } alt = "Editor Dashboard" />
                                         <span className = { styles.text }>Editor Dashboard</span>
@@ -196,7 +198,7 @@ export default function NavList ({
                             }}
                             transition = {{
                                 duration: 0.2, 
-                                delay: user?.role === "staff" || user?.role === "admin" ? 0.18 * 6 : 0.18 * 5, 
+                                delay: 0.18 * 5, 
                                 ease: "easeInOut"
                             }}
                             >

@@ -14,8 +14,6 @@ const Archive = require('../models/Archive');
 
 const router = express.Router();
 
-
-
 // Get  10 archived items (limited)
 router.get('/archivesData', async (req, res) => {
   const limit = parseInt(req.query.limit) || 10; // Default to 10 if not specified

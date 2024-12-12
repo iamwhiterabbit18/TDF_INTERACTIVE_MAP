@@ -13,7 +13,8 @@ function Popup({ modalId ,marker, onClose, isAdmin=true }) {
   console.log('Popup modalId:', modalId); // Check the received modalId
   const [isOpen, setIsOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const noImg = "http://localhost:5000null";
+  const noImg = "http://localhost:5000/uploads/cardsImg/undefined"; //http://127.0.0.1:5000null
+  const noImg2 = "http://localhost:5000/uploads/cardsImg/null";
  /* const [isOpen, setIsOpen] = useState(false);
   const onViewFullDetail = (data) =>{
     setIsOpen(!isOpen);
@@ -82,7 +83,7 @@ console.log("IMAGE: ", marker.img);
               </button>
           </div>
 
-          {marker.img !== noImg ? (
+          {(marker.img !== noImg && marker.img !== noImg2) ? (
             <div className={styles.popupImage}>
               <img src={marker.img} alt={marker.name}/> {/* tempoorary replace the marker.img for visualization */}
             </div>
@@ -91,7 +92,6 @@ console.log("IMAGE: ", marker.img);
               <span className = { styles.txtTitle }>No Image available</span>
             </div>
           )}
-
           
 
           <div className={styles.cont1}>

@@ -10,4 +10,6 @@ const ArchiveSchema = new mongoose.Schema({
 // Add TTL index to 'archivedAt' field with an expiration of 5 minutes (300 seconds)
 ArchiveSchema.index({ archivedAt: 1 }, { expireAfterSeconds: 180 });
 
+ArchiveSchema.index({ archivedAt: 1 }, { expireAfterSeconds: 180 });
+
 module.exports = mongoose.model('Archive', ArchiveSchema);
