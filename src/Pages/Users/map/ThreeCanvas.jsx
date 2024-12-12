@@ -241,9 +241,12 @@ const ThreeCanvas = () => {
   const offVisibility = () => {
     const pathfinding = document.getElementById("pathfinding");
     const nav = document.getElementById("nav");
+  }
+  const disableMoveToMarker = () => {
     
   }
   const addMarkerMode = () =>{
+    setIsOnAddMarker(!isOnAddMarker);
     // cameraEditMode();
     offVisibility();
   }
@@ -251,7 +254,9 @@ const ThreeCanvas = () => {
   return(
     <div id="container" ref={containerRef}>
       <Preloader />
-      <NavigationModule user = { user }/>
+      {!isOnAddMarker && (
+        <NavigationModule user = { user }/>
+      )}
       <StartingModal />
       {sceneAndCamera && (
         <Markers
@@ -269,13 +274,13 @@ const ThreeCanvas = () => {
         <div ref={mapContainerRef} id="mapCont"></div>
         {/* pathfinding component */}
         <Pathfinding pos={positions} 
-        // pass functions as props
-        moveArrow={moveArrow} 
-        removeLine={removeLine} 
-        cameraPF={cameraPF}
-        togglePathfinding={togglePathfinding} 
-        getCamControls={getCamControls}
-        />
+         // pass functions as props
+          moveArrow={moveArrow} 
+          removeLine={removeLine} 
+          cameraPF={cameraPF}
+          togglePathfinding={togglePathfinding} 
+          getCamControls={getCamControls}
+            />
         {/* AddMarker component */}
         <div id='addMarkerWrapper'></div>
         {containerRef.current && cameraRef.current && (
@@ -286,6 +291,7 @@ const ThreeCanvas = () => {
           scene={sceneRef.current}
           // pass functions as props
           addMarkerMode={addMarkerMode}
+          isOnAddMarker={isOnAddMarker}
           />
         )} 
     </div>
