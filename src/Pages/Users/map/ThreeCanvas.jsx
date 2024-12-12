@@ -99,7 +99,6 @@ const ThreeCanvas = () => {
     if (controlsRef.current && cameraRef.current && sceneRef.current && rendererRef.current && !isOnPF) {
       try {
         const targetPosition = new THREE.Vector3(markerPosition.x, controlsRef.current.target.y, markerPosition.z);
-        console.log("target pos", targetPosition)
 
         const startTarget = controlsRef.current.target.clone();
         const startPosition = cameraRef.current.position.clone();
@@ -110,8 +109,7 @@ const ThreeCanvas = () => {
     
         const animateCamera = () => {
           if (progress < 1) {
-            console.log('this')
-            progress += 0.02; // Adjust speed here
+            progress += 0.07; // Adjust speed here
   
             controlsRef.current.target.lerpVectors(startTarget, targetPosition, progress);
             
@@ -175,7 +173,6 @@ const ThreeCanvas = () => {
     controlsRef.current.enabled = false;
     }
     else if(isOnPF){
-      console.log('obj', initialValues);
       setIsOnPF(false);
       // Reset camera position and rotation
       cameraRef.current.position.copy(initialValues.pos);
@@ -231,7 +228,6 @@ const ThreeCanvas = () => {
       controlsRef.current.enabled = false;
     }
     else if(isOnAddMarker){
-      console.log('obj', currentValues);
       setIsOnAddMarker(false);
       // Reset camera position and rotation
       cameraRef.current.position.copy(currentValues.pos);
@@ -245,9 +241,12 @@ const ThreeCanvas = () => {
   const offVisibility = () => {
     const pathfinding = document.getElementById("pathfinding");
     const nav = document.getElementById("nav");
+  }
+  const disableMoveToMarker = () => {
     
   }
   const addMarkerMode = () =>{
+    setIsOnAddMarker(!isOnAddMarker);
     // cameraEditMode();
     offVisibility();
   }
@@ -255,7 +254,9 @@ const ThreeCanvas = () => {
   return(
     <div id="container" ref={containerRef}>
       <Preloader />
-      <NavigationModule user = { user }/>
+      {!isOnAddMarker && (
+        <NavigationModule user = { user }/>
+      )}
       <StartingModal />
       {sceneAndCamera && (
         <Markers
@@ -273,13 +274,13 @@ const ThreeCanvas = () => {
         <div ref={mapContainerRef} id="mapCont"></div>
         {/* pathfinding component */}
         <Pathfinding pos={positions} 
-        // pass functions as props
-        moveArrow={moveArrow} 
-        removeLine={removeLine} 
-        cameraPF={cameraPF}
-        togglePathfinding={togglePathfinding} 
-        getCamControls={getCamControls}
-        />
+         // pass functions as props
+          moveArrow={moveArrow} 
+          removeLine={removeLine} 
+          cameraPF={cameraPF}
+          togglePathfinding={togglePathfinding} 
+          getCamControls={getCamControls}
+            />
         {/* AddMarker component */}
         <div id='addMarkerWrapper'></div>
         {containerRef.current && cameraRef.current && (
@@ -290,6 +291,7 @@ const ThreeCanvas = () => {
           scene={sceneRef.current}
           // pass functions as props
           addMarkerMode={addMarkerMode}
+          isOnAddMarker={isOnAddMarker}
           />
         )} 
     </div>

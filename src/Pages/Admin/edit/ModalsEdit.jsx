@@ -11,8 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import icons from '../../../assets/for_landingPage/Icons';
 import Confirmation from '../utility/ConfirmationComponent/Confirmation';
 import NavBar from './navBar/NavBar';
-import AccessBtn from '/src/Pages/Users/landing/signInModule/AccessBtn'; // Import the new AccessBtn component
-import '/src/Pages/Users/landing/signInModule/AccessBtn.module.scss';
+import '../utility/sliderCustomStyles/sliderStyles.scss';
 
 const Modal = () => {
   // toast alert pop up

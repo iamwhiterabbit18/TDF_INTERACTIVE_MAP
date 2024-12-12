@@ -18,7 +18,6 @@ export default class Map {
     this.map.load('map/map.glb', (gltfScene) => {
       const mesh = gltfScene.scene;
       scene.add(mesh);
-      console.log("MESH: ", mesh);
       mesh.traverse((object) => {
           if (object.isMesh) {
           }

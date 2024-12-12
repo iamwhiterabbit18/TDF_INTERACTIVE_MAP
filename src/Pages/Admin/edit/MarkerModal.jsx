@@ -13,6 +13,12 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
     const [isAreaNameEdited, setIsAreaNameEdited] = useState(false);
     const [isIconTypeEdited, setIsIconTypeEdited] = useState(false);
 
+    useEffect(() => {
+        if (markerData?.iconType) {
+            setMarker(marker[markerData.iconType]);
+        }
+    }, [markerData]);
+
     // Handle changes to areaName or iconType
     useEffect(() => {
         if (areaName !== markerData?.areaName) {
@@ -33,7 +39,7 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
     const handleIconTypeChange = (e) => {
         const selectedType = e.target.value;
         setIconType(selectedType); // Update selected icon type
-        //setMarker(marker[selectedType]); // Dynamically set the corresponding marker icon
+        setMarker(marker[selectedType]); // Dynamically set the corresponding marker icon
     };
 
     const handleSave = async (e) => {
@@ -60,8 +66,6 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
     const handleClose = () => {
         onClose();
     };
-
-    console.log(isMarker);
 
     return (
         <>
@@ -99,7 +103,7 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
                                 </select>
                             </div>
                             <div className = { styles.section2 }>
-                            {isMarker && <img className={styles.marker} src={isMarker} alt="Selected Icon" />}                            </div>
+                                <img className={styles.marker} src={ isMarker } />                            </div>
                         </div>
                     </div>
 

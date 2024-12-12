@@ -7,6 +7,7 @@ import styles from './Modal.module.scss';
 import { motion, AnimatePresence } from 'framer-motion'
 import icons from '../../../../../../../assets/for_landingPage/Icons.jsx';
 import images from '../../../../../../../assets/for_landingPage/Images.jsx';
+import '../../../../../../Admin/utility/sliderCustomStyles/sliderStyles.scss';
 
 const Modal = ({ isOpen, onClose, details, modalData }) => {
   const audioRef = useRef(new Audio()); // Create a reference for the audio element
@@ -61,11 +62,14 @@ const Modal = ({ isOpen, onClose, details, modalData }) => {
 
   const settings = { // Carousel settings
     dots: true,
-    infinite: true,
+    infinite: images.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
   };
+
+  console.log(images.length);
 
   console.log('Modal Data:', modalData);
 
