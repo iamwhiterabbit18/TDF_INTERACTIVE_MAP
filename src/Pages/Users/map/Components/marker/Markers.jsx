@@ -83,7 +83,7 @@ const [modals, setModals] = useState([]);
     // calculate popup pos
     if(selectedMarker){
       let offset = {
-        top: window.innerWidth > 666 ? -50 : -150,
+        top: window.innerWidth > 666 ? -200 : -150,
         left: window.innerWidth > 666 ? 40 : -150,
       }
       const { x, y } = calculatePosition(selectedMarker.position);

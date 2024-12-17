@@ -23,6 +23,7 @@
   flex-direction: column;
 
   .close{
+    color: $tertiary;
     border-radius: 5px 5px 0px 0px;
     background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
     
@@ -129,6 +130,7 @@
       font-size: .6rem;
     }
     img{
+      margin-top: 5px;
       width: 80%;
     }
   }

@@ -20,6 +20,7 @@ class Path {
         this.zone = 'level1';
         this.navmesh = null;
         this.player = null;
+        this.startPoint = null;
 
         // line for pathfinding direction
         this.arrowPath = null;
@@ -43,6 +44,23 @@ class Path {
         this.player.scale.set(0.05, 0.05, 0.05);
         this.player.position.set(positions[0].position.x, positions[0].position.y, positions[0].position.z);
         this.scene.add(this.player);
+        console.log(this.player)
+    }
+    async loadStaringPoint() {
+        const loader2 = new GLTFLoader();
+        const url = 'map/startingPoint.glb';
+        const gltf = await new Promise((resolve, reject) => {
+            loader2.load(url, resolve, undefined, reject);
+        });
+        this.startPoint = gltf.scene;
+        this.startPoint.scale.set(0.08, 0.08, 0.08);
+        this.startPoint.position.set(
+            positions[0].position.x,
+            positions[0].position.y,
+            positions[0].position.z
+        );
+        this.scene.add(this.startPoint); // Ensure it's added to the scene initially
+        console.log(this.startPoint);
     }
 
     // create navmesh
@@ -147,6 +165,11 @@ class Path {
         // Set player to start position
         if (this.player) {
             this.player.position.copy(currentVector);
+        }
+
+        if (this.startPoint) {
+            this.startPoint.position.copy(currentVector);
+            this.startPoint.visible = true; // Ensure it's visible
         }
 
         this.arrowPath = path.slice();
@@ -281,6 +304,7 @@ class Path {
         this.createNavmesh();
         this.createCubes();
         this.loadPlayer();
+        this.loadStaringPoint();
         this.animate();
     }
 
