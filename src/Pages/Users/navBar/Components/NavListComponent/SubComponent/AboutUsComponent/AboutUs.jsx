@@ -114,7 +114,7 @@ export default function AboutUs({ setCurrentModal, handleClickOutside, currentMo
 
                                     <div className = { styles.objective}>
                                         <span className = { styles.txtTitle }>Objectives</span>
-                                        <p className = { styles.txtSubTitle }>{aboutUsData.objective}</p>
+                                        <p className = { styles.txtSubTitle }>{aboutUsData.objectives}</p>
                                     </div>
 
 

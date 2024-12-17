@@ -27,8 +27,6 @@ export default function Archive() {
     const [confirmRestore, setConfirmRestore] = useState(false);
     const [isRestore, setIsRestore] = useState(false);
 
-    const [fetchLimit, setFetchLimit] = useState(10);
-
     const mountToast = UseToast();
     const location = useLocation();
     const [fetchLimit, setFetchLimit] = useState(10);
