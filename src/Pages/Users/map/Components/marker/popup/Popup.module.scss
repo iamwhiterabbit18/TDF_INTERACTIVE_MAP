@@ -21,6 +21,8 @@
         position: absolute;
         top: 0.3rem;
         z-index: 1;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
         
         img {
             height: 20px;
