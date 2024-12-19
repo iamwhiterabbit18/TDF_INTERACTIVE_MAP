@@ -22,8 +22,16 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Enable CORS for your frontend domain
+// const corsOptions = {
+//   origin: 'https://interactive-map-tdf.web.app', // Frontend domain
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+//   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+// };
+
 // Middleware
-app.use(cors());
+app.use(cors()); //local use
+// app.use('*',cors(corsOptions));  //deployed running
 app.use(express.json());
 app.use(bodyParser.json()); // Add this line to parse JSON requests
 // Serve static files from the 'uploads' directory
@@ -62,3 +70,8 @@ app.use('/api/markers', markerRoutes);
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
+
+// For Railway-managed HTTPS:
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Server is running on https://tdf-interactive-map-production.up.railway.app:${PORT}`);
+// });
