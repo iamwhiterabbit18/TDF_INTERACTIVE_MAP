@@ -7,7 +7,7 @@ import Click from '@utils/Click.js';
 import AddMarkerModal from './AddMarkerModal.jsx';
 import AddIcon from './AddIcon.jsx';
 
-import addIcon from './add.png'
+import plusIcon from './add.png'
 import uploadIcon from './upload.png'
 
 import { useAuth } from '/src/Pages/Admin/ACMfiles/authContext';
@@ -37,9 +37,6 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
       if (btn.style.display === "none") {
         btn.style.display = "block";
         container.style.display = "none";
-        if(isOnAddMarker){
-          window.location.reload();
-        }
       } else {
         btn.style.display = "none";
         container.style.display = "flex";
@@ -206,7 +203,7 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
         className={styles.button}
         onClick={(e) => {toggleAddMarker(); addMarkerMode();}}>
           <span>Add Marker</span>
-          <img src={addIcon} alt="add marker icon" />
+          <img src={plusIcon} alt="add marker icon" />
         </button>
         )}
 

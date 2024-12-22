@@ -31,6 +31,7 @@ import add from '/for_landingPage/icons/add.png'
 import remove from '/for_landingPage/icons/delete.png'
 import pencil from '/for_landingPage/icons/pencil.png'
 import undo from '/for_landingPage/icons/undo.png'
+import minus from '/for_landingPage/icons/minus.png'
 
 import card from '/for_landingPage/icons/card.png'
 import edit from '/for_landingPage/icons/edit.png'
@@ -52,7 +53,7 @@ export default {
         contact, info, feedback, calendar, map, // navList assets 
         star, // submit feedback assets
         audio, location,
-        add, remove, pencil, undo,
+        add, remove, pencil, undo, minus,
         card, edit, profile, upload, analytics, email, facebook, archive,
         compass, 
         sliderArrow

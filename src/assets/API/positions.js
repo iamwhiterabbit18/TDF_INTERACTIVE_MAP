@@ -64,11 +64,11 @@ const positions = [
         color: 'yellow'
     },
     {
-        name: "Area E",
+        name: "Area C",
         position: {
-            x: -1.24,
+            x: -0.82,
             y: 0.08,
-            z: 0.60,
+            z: 0.48,
         },
         color: 'green'
     },

@@ -32,6 +32,8 @@
       position: absolute;
       right: 10px;
       top: 10px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
       
       img {
         height: 15px;
@@ -162,6 +164,8 @@
           top: 80%;
           transition: all 0.2s ease-in-out;
           width: 35px;
+          user-select: none;
+          -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
 
           .icon {
             height: 20px;
