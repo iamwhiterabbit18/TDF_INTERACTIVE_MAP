@@ -68,6 +68,10 @@
             -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
         }
 
+        td {
+            word-break: break-all;
+        }
+
         .actionBtns {
             display: flex;
             justify-content: center;

@@ -200,23 +200,27 @@ export default function Analytics() {
                     <table>
                         <thead>
                             <tr>
-                                <th>GUEST ID</th>
-                                <th>RATING</th>
-                                <th>SEX</th>
+                                {/* <th>GUEST ID</th> */}
                                 <th>ROLE</th>
-                                <th>DATE&TIME</th>
+                                <th>SEX</th>
+                                <th>RATING</th>
                                 <th>COMMENT</th>
+                                <th>DATE & TIME</th>
                             </tr>
                         </thead>
                         <tbody>
                             {guestLogs.map((log, index) => (
                                 <tr key={index}>
-                                    <td>{log.guestId}</td>
-                                    <td>{log.feedback?.rating ? `${log.feedback.rating} Stars` : 'No Rating'}</td>
-                                    <td>{log.sexAtBirth}</td>
+                                    {/* <td>{log.guestId}</td> */}
                                     <td>{log.role === "Others" ? log.customRole || "N/A" : log.role}</td>
-                                    <td>{moment(log.feedback?.feedbackDate).format('MMM D, YYYY , h:mm A')}</td>
+                                    <td>{log.sexAtBirth}</td>
+                                    <td>{log.feedback?.rating ? `${log.feedback.rating} Stars` : 'No Rating'}</td>
                                     <td>{log.feedback?.comment || 'No Comment'}</td>
+                                    <td>
+                                        {moment(log.feedback?.feedbackDate).format('MMM D, YYYY,')}
+                                        <br />
+                                        {moment(log.feedback?.feedbackDate).format('h:mm A')}
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

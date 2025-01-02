@@ -29,6 +29,7 @@ export default function Archive() {
 
     const mountToast = UseToast();
     const location = useLocation();
+    const [fetchLimit, setFetchLimit] = useState(10);
 
 
     // for deletion
@@ -76,29 +77,30 @@ export default function Archive() {
         }
     }, [location]);
 
+    const fetchArchives = async (limit) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/archive/archivesData?limit=${limit}`); // Pass limit as query param
+            setArchives(response.data);
+        } catch (error) {
+            mountToast('Error fetching archives', 'error');
+            console.error('Error fetching archives:', error);
+        }
+    };
+
     useEffect(() => {
-        // Fetch archived items
-        const fetchArchives = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/archive/archivesData'); // Update with your API endpoint
-                setArchives(response.data);
-            } catch (error) {
-                mountToast('Error fetching archives', 'error');
-                console.error('Error fetching archives:', error);
-            }
-        };
-
-        fetchArchives();
-    }, []);
-
+        fetchArchives(fetchLimit); // Fetch archives with the current limit
+    }, [fetchLimit]); // Re-run when fetchLimit changes
+  
         // Delete handler
         const handleDelete = async (archiveId) => {
             try {
                 const response = await axios.delete(`http://localhost:5000/api/delete/archive/${archiveId}`);
                 mountToast(response.data.message, 'success');
+                fetchArchives(fetchLimit);
                 setConfirmDelete(false);
                 setItemToDelete(null);
                 setIsDelete(false);
+                fetchArchives(fetchLimit);
 
                 // Update UI by filtering out the deleted item
                 setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));
@@ -120,6 +122,7 @@ export default function Archive() {
                 setItemToRestore(null);
                 setItemId(null);
                 setIsRestore(false);
+                fetchArchives(fetchLimit);
 
                 // Update UI by filtering out the restored item
                 setArchives((prev) => prev.filter((archive) => archive._id !== archiveId));

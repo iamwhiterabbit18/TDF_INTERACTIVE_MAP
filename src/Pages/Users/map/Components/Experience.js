@@ -55,10 +55,10 @@ export default class Experience {
       originalUpdate();
       this.clampPanning();
     };
-    // this.dragAndScroll = new DragAndScroll(this.renderer.domElement, this.camera, this.scene);
-    // window.addEventListener('mousedown', (event) => {
-    //   this.click = new Click(event, this.camera, this.scene);
-    // });
+    this.dragAndScroll = new DragAndScroll(this.renderer.domElement, this.camera, this.scene);
+    window.addEventListener('mousedown', (event) => {
+      this.click = new Click(event, this.camera, this.scene);
+    });
 
     window.addEventListener('resize', () => this.onWindowResize());
     this.animate();

@@ -12,6 +12,10 @@ $bold: 900;
 
 .container {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
     color: $gray;
     font-family: $font;
     overflow-y: scroll;
@@ -29,7 +33,7 @@ $bold: 900;
     // overflow: hidden;
   }
   .close {
-    position: absolute;
+    align-self: flex-end;
     top: 5px;
     right: 10px;
     cursor: pointer;
@@ -37,6 +41,11 @@ $bold: 900;
     font-size: 0.7rem;
     background: none;
     border: none;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      scale: 1.1;
+    }
     }
   .content {
     position: relative;

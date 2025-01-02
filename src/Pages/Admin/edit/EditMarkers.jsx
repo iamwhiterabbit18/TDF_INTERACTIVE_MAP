@@ -9,6 +9,9 @@ import styles from './styles/editMarkersStyles.module.scss'
 import icons from "../../../assets/for_landingPage/Icons";
 import { motion, AnimatePresence } from 'framer-motion'
 
+//marker icon data
+import markerData from '../../Users/map/Components/addMarker/markerData';
+
 export default function EditMarkers() {
     // toast alert pop up
     const mountToast = UseToast();
@@ -18,6 +21,13 @@ export default function EditMarkers() {
     const [isMarker, setIsMarker] = useState(null);
     const [isDelete, setIsDelete] = useState(false); // Confirmation Modal 
     const [markers, setMarkers] = useState([]); // State for fetched markers
+
+    // icon delete
+    const [isDeleteIcon, setIsDeleteIcon] = useState(false);
+
+    const handleIconDelete = () => {
+        setIsDeleteIcon(!isDeleteIcon);
+    }
     
     const fetchMarkers = async () => {
         try {
@@ -100,6 +110,52 @@ export default function EditMarkers() {
             <div className={styles.markerContainer}>
                 <div className={styles.header}>
                     <span className={styles.txtTitle}>Edit Markers</span>
+                </div>
+
+                <span className={`${styles.txtTitle} ${styles.listHeader}`}>Marker Icon List</span>
+
+                <div className = { styles.listCont }>
+                    <div className = { styles.btns }>
+                        <button 
+                            className = { `${styles.txtTitle} ${styles.addBtn}`}
+                        >
+                            Add
+                            <input
+                                type="file"
+                                accept="image/"
+                                // ref={fileInputRef}
+                                // id={`image-upload-${card._id}`}
+                                // onChange={(e) => handleImageUpload(e, card._id)}
+                            />
+                        </button>
+                        <button 
+                            className = { !isDeleteIcon ? `${styles.txtTitle} ${styles.deleteBtn}` : `${styles.txtTitle} ${styles.cancelBtn}` }
+                            onClick = { handleIconDelete }
+                        >
+                            { !isDeleteIcon ? "Delete" : "Cancel" }
+                        </button>
+                    </div>
+                    
+                    <div className = { styles.iconList }>
+                        {markerData.map((data, index) => (
+                            <div 
+                                key = { index }
+                                className = { styles.marker }
+                            >
+                                <img src = { data.icon } alt = { data.name } />
+                                {isDeleteIcon && (
+                                    <div 
+                                        className = { styles.minusOverlay }
+                                        onClick = {() => console.log(`Item Deleted ${data.name}`)} //onclick is for checking only, will be replaced
+                                    >
+                                        <img src={icons.minus} alt="Delete Icon" />
+                                    </div>
+                                )}
+                            </div>
+
+                            
+                        ))}
+                    </div>
                 </div>
 
                 <span className={`${styles.txtTitle} ${styles.listHeader}`}>Marker List</span>

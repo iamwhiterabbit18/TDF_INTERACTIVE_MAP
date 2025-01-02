@@ -46,9 +46,11 @@ const Modal = ({ isVisible, onSave, onClose , worldPosition, icon, iconName }) =
       mountToast("Server error. Could not save marker.", "error");
     }
   };
+  
   const handleClose = () => {
     onClose();
-    setAreaName(''); // Reset the input when modal is closed
+    setAreaName(''); // Reset the input when modal is 
+    // window.location.reload();
   };
 
   return (
