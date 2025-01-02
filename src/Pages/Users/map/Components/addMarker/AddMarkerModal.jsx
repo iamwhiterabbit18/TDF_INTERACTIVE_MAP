@@ -37,6 +37,7 @@ const Modal = ({ isVisible, onSave, onClose , worldPosition, icon, iconName }) =
         onSave(areaName); // Call onSave to update local state
         onClose(); // Close the modal
         setAreaName(''); // Reset the site name input
+        window.location.reload();
       } else {
         mountToast(`Error: ${data.message || 'Something went wrong'}`, "error");
       }
