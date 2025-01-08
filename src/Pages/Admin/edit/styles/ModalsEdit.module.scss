@@ -160,6 +160,7 @@
           top: 20px;
           margin-left: 30px;
           z-index: 1;
+          border: 1px solid red;
         }
       }
 
@@ -333,6 +334,8 @@
             outline: transparent;
             overflow: hidden;
             width: 90%;
+            text-align: justify;
+            text-justify: inter-word;
           }
         }
 

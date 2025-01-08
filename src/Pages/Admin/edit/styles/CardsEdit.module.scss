@@ -242,7 +242,8 @@
           font-size: 30px;
           line-height: 1;
           margin-bottom: 5px;
-          text-align: center;
+          text-align: justify;
+          text-justify: inter-word;
         }
 
         .quickFacts { //textarea
@@ -257,8 +258,9 @@
           padding: 5px;
           resize: none;
           outline: transparent;
-          overflow: hidden;
+          // overflow: hidden;
           width: 90%;
+          text-align: center;
         }
       }
     }
