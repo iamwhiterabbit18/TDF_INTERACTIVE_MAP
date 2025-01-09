@@ -652,7 +652,9 @@ const handleDescTech = async () => {
               ))}
             </div>
             <div className = { styles.btnContainer }>
-              <button type="button" className={styles.uploadBtn} onClick={handleUpdate}>Upload</button>
+              <button type="button" className={styles.uploadBtn} onClick={handleUpdate}>
+                Upload
+              </button>
               <button type="button" className={styles.cancelBtn} onClick={cancelBtn}>Cancel</button>
             </div>
           </motion.div>

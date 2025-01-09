@@ -47,6 +47,7 @@
         }
 
         .contacts {
+            position: relative;
             display: flex;
             flex-grow: 0;
             flex-shrink: 0;
@@ -54,6 +55,37 @@
             justify-content: center;
             width: 100%;
             margin-top: 20px;
+
+            .info {
+                // margin: 20px 0 0px 0; 
+                position: absolute;
+                top: -10%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: auto;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                font-family: $subTitle;
+                font-size: 0.7rem;
+                color: grey;
+                .location, .number, .email, .facebook {
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 10rem;
+                    height: 2rem;
+                    opacity: 0;
+                    transition: all 0.2s ease-in-out;
+                    position: absolute;
+                }
+    
+                .location.active, .number.active, .email.active, .facebook.active {
+                    opacity: 1;
+                }
+            }
+
+            span{
+                
+            }
 
             img {
                 filter: brightness(0) saturate(100%) invert(30%) sepia(12%) saturate(1582%) hue-rotate(102deg) brightness(95%) contrast(86%);
@@ -67,23 +99,6 @@
                 margin: -5px 0 10px 0;
                 width: 100%;
                 word-wrap: break-word;
-            }
-        }
-
-        .info {
-            margin: 20px 0 0px 0; 
-            text-align: center;
-
-            .location, .number, .email, .facebook {
-                overflow: hidden;
-                height: 0;
-                opacity: 0;
-                transition: all 0.2s ease-in-out;
-            }
-
-            .location.active, .number.active, .email.active, .facebook.active {
-                height: inherit;
-                opacity: 1;
             }
         }
 
