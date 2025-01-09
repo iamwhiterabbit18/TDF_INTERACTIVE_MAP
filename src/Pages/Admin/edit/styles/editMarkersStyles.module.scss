@@ -62,12 +62,12 @@
                 overflow: hidden;
                 display: flex;
 
-                input {
-                    position: absolute;
-                    width: 100%;
-                    opacity: 0;
-                    cursor: pointer;
-                }
+               // input {
+                //    position: absolute;
+               //     width: 100%;
+               //     opacity: 0;
+               //    cursor: pointer;
+                //}
             }
 
             .deleteBtn {
@@ -98,7 +98,7 @@
                     width: 25px;
                 }
 
-                .minusOverlay {
+                .iconOverlay {
                     border-radius: 50%;
                     display: flex;
                     align-items: center;

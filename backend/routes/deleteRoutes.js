@@ -11,6 +11,8 @@ const folderMapping = {
   Audio: 'audio',
   NewsEvent: 'images',
   User: null,   
+  MarkerIcon: 'icons',
+
   // Add other mappings as needed
 };
 
@@ -38,7 +40,14 @@ router.delete('/archive/:archiveId', async (req, res) => {
         }
   
         // If there is a file, proceed with deleting it
-        const fileName = archive.data[archive.fieldName];
+        //const fileName = archive.data[archive.fieldName];
+          // For MarkerIcon, use iconPath directly to get the file name
+          let fileName = '';
+          if (archive.originalCollection === 'MarkerIcon') {
+              fileName = archive.data.iconPath; // Access the iconPath directly
+          } else {
+              fileName = archive.data[archive.fieldName]; // Access the file name for other collections
+          }
         if (fileName) {
             const archivePath = path.join(__dirname, '../archives', folder, fileName);
             console.log('Attempting to delete file at:', archivePath);

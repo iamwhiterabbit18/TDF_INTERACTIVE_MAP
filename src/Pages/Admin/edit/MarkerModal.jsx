@@ -13,34 +13,47 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
     const [isAreaNameEdited, setIsAreaNameEdited] = useState(false);
     const [isIconTypeEdited, setIsIconTypeEdited] = useState(false);
 
+    const [markerIcons, setMarkerIcons] = useState([]);        // Fetch icon types from API
+    // Fetch marker icons from the database
+    const fetchMarkerIcons = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/markerIcons");
+            setMarkerIcons(response.data); // Store fetched marker icons
+        } catch (error) {
+            console.error("Error fetching marker icons:", error);
+            mountToast("Error fetching marker icons", "error");
+        }
+    };
+
     useEffect(() => {
+        fetchMarkerIcons();
         if (markerData?.iconType) {
-            setMarker(marker[markerData.iconType]);
+            const selectedMarker = markerIcons.find((icon) => icon.name === markerData.iconType);
+            setMarker(
+                selectedMarker ? `http://localhost:5000/uploads/icons/${selectedMarker.iconPath}` : ""
+            );
         }
     }, [markerData]);
-
-    // Handle changes to areaName or iconType
-    useEffect(() => {
-        if (areaName !== markerData?.areaName) {
-            setIsAreaNameEdited(true);
-        } else {
-            setIsAreaNameEdited(false);
-        }
-
-        if (iconType !== markerData?.iconType) {
-            setIsIconTypeEdited(true);
-        } else {
-            setIsIconTypeEdited(false);
-        }
-    }, [areaName, iconType, markerData]);
-  
     
 
-    const handleIconTypeChange = (e) => {
-        const selectedType = e.target.value;
-        setIconType(selectedType); // Update selected icon type
-        setMarker(marker[selectedType]); // Dynamically set the corresponding marker icon
-    };
+    
+
+
+  // Handle changes to areaName or iconType
+  useEffect(() => {
+    setIsAreaNameEdited(areaName !== markerData?.areaName);
+    setIsIconTypeEdited(iconType !== markerData?.iconType);
+}, [areaName, iconType, markerData]);
+  
+const handleIconTypeChange = (e) => {
+    const selectedType = e.target.value;
+    setIconType(selectedType); // Update selected icon type
+    const selectedMarker = markerIcons.find((icon) => icon.name === selectedType);
+    setMarker(
+        selectedMarker ? `http://localhost:5000/uploads/icons/${selectedMarker.iconPath}` : ""
+    ); // Dynamically set the corresponding marker icon
+};
+
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -56,6 +69,7 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
             });
 
             mountToast(response.data.message, 'success');
+            fetchMarkers(); // Refetch markers to update UI
             onClose(); // Close modal
         } catch (error) {
             console.error('Error updating marker:', error);
@@ -89,21 +103,25 @@ export default function MarkerModal({ onClose ,markerData, fetchMarkers}) {
                             onChange={(e) => setAreaName(e.target.value)}
                             required
                         />
-                        <div className = { styles.iconType }>
-                            <div className = { styles.section1 }>
-                                <label className = { styles.txtSubTitle }>Icon Type</label>
+                     <div className={styles.iconType}>
+                            <div className={styles.section1}>
+                                <label className={styles.txtSubTitle}>Icon Type</label>
                                 <select value={iconType} onChange={handleIconTypeChange}>
                                     {/*<option value="">Select an Icon</option>*/}
-                                    <option value="Others">Pin</option>
-                                    <option value="Poultry">Bird</option>
-                                    <option value="Structure">Building</option>
-                                    <option value="Swarm">Bee</option>
-                                    <option value="Crops">Crops</option>
-                                    <option value="Fishery">Fish</option>
+                                    {markerIcons.map((icon) => (
+                                        <option key={icon._id} value={icon.name}>
+                                            {icon.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
-                            <div className = { styles.section2 }>
-                                <img className={styles.marker} src={ isMarker } />                            </div>
+                            <div className={styles.section2}>
+                                {isMarker ? (
+                                    <img className={styles.marker} src={isMarker} alt="Icon Preview" />
+                                ) : (
+                                    <span>No icon selected</span> // Placeholder if no icon is selected
+                                )}
+                            </div>
                         </div>
                     </div>
 

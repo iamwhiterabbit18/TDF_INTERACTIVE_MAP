@@ -3,11 +3,15 @@ node_modules
 uploads/cardsImg/*
 uploads/images/*
 uploads/modalImages/*
+uploads/audios/*
+uploads/icons/*
 uploads/*
 
 !uploads/cardsImg/
 !uploads/images/
 !uploads/modalImages/
+!uploads/audios/
+!uploads/icons/
 !uploads/
 
 archives/cardsImg/*
@@ -21,5 +25,7 @@ archives/
 !archives/
 
 !archives/audios/
+!archives/icons/
 
 archives/audios/*
+archives/icons/*

@@ -1,5 +1,5 @@
 const express = require('express');
-const { restoreField , restoreDocument } = require('../utility/archiveUtils');
+const { restoreField , restoreDocument,restoreMarkerIcon } = require('../utility/archiveUtils');
 
 const router = express.Router();
 
@@ -41,5 +41,26 @@ router.put('/user/:archiveId', async (req, res) => {
   }
 });
 
-  
+// Route for restoring a MarkerIcon
+router.put('/markerIcon/:id', async (req, res) => {
+  const archivedDataId = req.params.id;
+  console.log('Restoring MarkerIcon with archive ID:', archivedDataId);
+
+  try {
+    // Call the restoreMarkerIcon function
+    const restoredMarkerIcon = await restoreMarkerIcon(archivedDataId);
+    console.log('Restored MarkerIcon:', restoredMarkerIcon);
+
+    // Respond with success message and restored data
+    res.status(200).json({
+      message: 'MarkerIcon restored successfully',
+      data: restoredMarkerIcon,
+    });
+  } catch (error) {
+    console.error('Error restoring MarkerIcon:', error); // Log the error for better visibility
+    res.status(500).json({ message: 'Error restoring MarkerIcon', error: error.message });
+  }
+});
+
+
   module.exports = router;
