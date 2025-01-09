@@ -45,29 +45,66 @@ export default class Experience {
     this.controls.maxDistance = 3;
     this.controls.minDistance = 1;
 
-    // Restrict camera movement to a bounding box
-    this.cameraBounds = new THREE.Box3(
-      new THREE.Vector3(-10, 1, -10), // Minimum bounds
-      new THREE.Vector3(10, 5, 10)   // Maximum bounds
-    );
-
     this.map = new Map(this.scene, this.camera, this.renderer, this.controls);
 
+    this.mapBounds = {};
+    this.updateMapBounds();
 
+    const originalUpdate = this.controls.update.bind(this.controls);
+    this.controls.update = () => {
+      originalUpdate();
+      this.clampPanning();
+    };
     this.dragAndScroll = new DragAndScroll(this.renderer.domElement, this.camera, this.scene);
     window.addEventListener('mousedown', (event) => {
       this.click = new Click(event, this.camera, this.scene);
     });
+
+    window.addEventListener('resize', () => this.onWindowResize());
     this.animate();
+  }
+
+  // Function to update map bounds based on screen size and camera
+  updateMapBounds() {
+    const aspect = window.innerWidth / window.innerHeight;
+    const visibleHeight = 2 * Math.tan((this.camera.fov * Math.PI) / 360) * this.camera.position.y;
+    const visibleWidth = visibleHeight * aspect;
+
+    // Set map bounds dynamically based on visible area
+    const mapWidth = 20; // Replace with the actual width of your map asset
+    const mapHeight = 10; // Replace with the actual height of your map asset
+
+    this.mapBounds.minX = -mapWidth / 2 + visibleWidth / 2;
+    this.mapBounds.maxX = mapWidth / 2 - visibleWidth / 2;
+    this.mapBounds.minZ = -mapHeight / 2 + visibleHeight / 2;
+    this.mapBounds.maxZ = mapHeight / 2 - visibleHeight / 2;
+  }
+
+  clampPanning() {
+    const offset = new THREE.Vector3().subVectors(this.camera.position, this.controls.target);
+
+    this.controls.target.x = Math.max(this.mapBounds.minX, Math.min(this.mapBounds.maxX, this.controls.target.x));
+    this.controls.target.z = Math.max(this.mapBounds.minZ, Math.min(this.mapBounds.maxZ, this.controls.target.z));
+
+    this.camera.position.set(
+      this.controls.target.x + offset.x,
+      this.camera.position.y, // Maintain current height
+      this.controls.target.z + offset.z
+    );
+  }
+
+  onWindowResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Recalculate map bounds for the new screen size
+    this.updateMapBounds();
   }
 
   animate() {
     requestAnimationFrame(() => this.animate());
-
-    // Restrict camera to the bounding box
-    if (!this.cameraBounds.containsPoint(this.camera.position)) {
-      this.camera.position.clamp(this.cameraBounds.min, this.cameraBounds.max);
-    }
 
     this.controls.update(); // Ensure controls are updated
     this.renderer.render(this.scene, this.camera);

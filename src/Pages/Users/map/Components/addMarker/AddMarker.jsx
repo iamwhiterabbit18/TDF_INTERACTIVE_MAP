@@ -108,18 +108,21 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
           };
           return updatedMarkers;
         }
-        
-        // If marker doesn't exist, set current marker for modal
-        setCurrentMarker({
+
+        const newMarker = {
+          id: `${marker.name}-${Date.now()}`, // Unique ID for the marker
           name: marker.name,
           icon: marker.icon,
           screenPosition,
-          worldPosition
-        });
+          worldPosition,
+        };
+        
+        // If marker doesn't exist, set current marker for modal
+        setCurrentMarker(newMarker);
         setIsModalVisible(true);
         
         // Return existing markers
-        return prev;
+        return [...prev, newMarker];
       });
     }
   };
@@ -164,14 +167,16 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
     markerPos.forEach((marker, index) => {
       if (marker.worldPosition) {
         const { x, y } = calculatePosition(marker.worldPosition);
-        const markerElement = document.getElementById(`marker-${index}`);
+        const markerElement = document.querySelector(`[data-marker-id="${marker.id}"]`);
         // console.log(markerElement);
         if (markerElement) {
           // Adjust positioning to center the marker
           markerElement.style.position = 'absolute';
-          markerElement.style.left = `${x}px`; // Subtract half the marker width
-          markerElement.style.top = `${y}px`; // Subtract half the marker height
-        }
+          markerElement.style.left = `${x - 13}px`; // Subtract half the marker width
+          markerElement.style.top = `${y - 130}px`; // Subtract half the marker height
+          // console.log(markerElement);
+        } else{
+          console.log("Marker element not found");}
       }
     });
   
@@ -192,7 +197,7 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
           }
         };
       }
-    }, [scene, camera, container, updateMarkerPositions]);
+    }, [scene, camera, container, updateMarkerPositions, markerPos]);
 
     useEffect(() => {
       const handleDragOver = (e) => {
@@ -276,24 +281,24 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
                 <img src={uploadIcon} alt="upload marker" />
               </div>
             {/* Draggable dropped markers */}
-            {/* {markerPos.map((marker, index) => (
+          </div>
+        </div>
+            {markerPos.map((marker, index) => (
               <div
                 key={`dropped-${marker.name}-${index}`}
-                id={`marker-${index}`}
-                className={styles.markerIcon}
+                className={'test'}
+                data-marker-id={marker.id}
                 draggable
                 style={{
                   // position: 'absolute',
-                  // left: marker.screenPosition.x - 10,
-                  // top: marker.screenPosition.y  - 300,
+                  // left: marker.screenPosition.x,
+                  // top: marker.screenPosition.y,
                 }}
                 onDragStart={(e) => handleDragStart(e, marker)}
               >
                 <img src={marker.icon} alt={marker.name} />
               </div>
-            ))} */}
-          </div>
-        </div>
+            ))}
         
       <AddMarkerModal
         isVisible={isModalVisible}
