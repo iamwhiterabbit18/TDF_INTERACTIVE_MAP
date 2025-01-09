@@ -5,14 +5,17 @@ import Option from './Components/OptionComponent/Option.jsx';
 import SignIn from './Components/SignInComponent/SignIn.jsx';
 import Greeting from './Components/GreetingComponent/Greeting.jsx';
 import styles from './styles/signInModuleStyles.module.scss';
+import { useAuth } from '/src/Pages/Admin/ACMfiles/AuthContext';
 
 export default function SignInModule() {
+    const { checkToken } = useAuth();
 
     useEffect(() => {
-        // Remove guestId from localStorage when this navigated to SignUp Module
-        localStorage.removeItem('guestId');
+        checkToken(); // Validate token and redirect if needed
+        localStorage.removeItem('guestId'); // Remove guestId from localStorage when this navigated to SignUp Module
+
         console.log("Guest Logout")
-    }, []);
+    }, [checkToken]);
 
     // adds the className rootContainer to the #root and removes it once the component unmounts
     useEffect(function() {

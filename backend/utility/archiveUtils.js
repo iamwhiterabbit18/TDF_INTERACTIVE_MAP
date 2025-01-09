@@ -1,6 +1,7 @@
 const fs = require('fs'); // Use fs.promises for async handling
 const path = require('path');
 const Archive = require('../models/Archive');
+const MarkerIcon = require('../models/MarkerIcon');
 
 const folderMapping = {
   Cards: 'cardsImg', // Folder for card images
@@ -8,6 +9,7 @@ const folderMapping = {
   Audio: 'audios', // Folder for audio files (assuming directly in 'uploads')
   NewsEvent: 'images', // Folder for news/about us images
   AboutUs: 'images',
+  MarkerIcon: 'icons',
 };
 
 const archiveField = async (originalCollection, documentId, fieldName, fieldData) => {
@@ -198,5 +200,125 @@ const restoreDocument = async (archiveId) => {
   }
 };
 
+const archiveMarkerIcon = async (markerIconId) => {
+  try {
+    // Find the marker icon by its ID
+    const markerIcon = await MarkerIcon.findById(markerIconId);
 
-module.exports = { archiveField, restoreField , archiveDocument , restoreDocument };
+    if (!markerIcon) {
+      throw new Error(`MarkerIcon not found with ID: ${markerIconId}`);
+    }
+
+    // Get the icon file name (path to file in the uploads folder)
+    const fileName = path.basename(markerIcon.iconPath);
+    const sourcePath = path.join(__dirname, `../uploads/icons/`, fileName);
+
+    // Check if the file exists before proceeding
+    if (!fs.existsSync(sourcePath)) {
+      throw new Error(`Icon file not found at path: ${sourcePath}`);
+    }
+
+    // Archive the MarkerIcon document (name and iconPath)
+    const archivedData = {
+      name: markerIcon.name,
+      iconPath: markerIcon.iconPath,
+    };
+
+    // Archive the MarkerIcon document into the Archive collection
+    await Archive.create({
+      originalCollection: 'MarkerIcon',
+      originalId: markerIcon._id,
+      fieldName: 'markerIcon',
+      data: archivedData,
+    });
+
+    console.log(`MarkerIcon archived: ${markerIconId}`);
+
+    // Now move the icon file to the archive folder
+    const archivePath = path.join(__dirname, `../archives/icons/`, fileName);
+
+    // Ensure the archive directory exists
+    const archiveDir = path.dirname(archivePath);
+    if (!fs.existsSync(archiveDir)) {
+      fs.mkdirSync(archiveDir, { recursive: true });
+    }
+
+    // Move the file from the original location to the archive folder
+    fs.renameSync(sourcePath, archivePath);
+    console.log(`MarkerIcon file archived: ${fileName}`);
+
+    // Finally, delete the MarkerIcon document from the original collection
+    await MarkerIcon.findByIdAndDelete(markerIconId);
+    console.log(`MarkerIcon document deleted from collection: ${markerIconId}`);
+
+  } catch (err) {
+    console.error('Error during MarkerIcon archiving:', err);
+    throw new Error(`Archiving failed for MarkerIcon ID ${markerIconId}: ${err.message}`);
+  }
+};
+
+
+const restoreMarkerIcon = async (archiveId) => {
+  try {
+    // Find the archived MarkerIcon by its ID
+    const archivedData = await Archive.findById(archiveId);
+
+    if (!archivedData || archivedData.originalCollection !== 'MarkerIcon') {
+      throw new Error('Invalid archive entry or wrong collection');
+    }
+
+    // Extract necessary data from the archive entry
+    const { name, iconPath } = archivedData.data;
+
+    if (!name || !iconPath) {
+      throw new Error('Missing name or iconPath in the archived data');
+    }
+
+    // Get the file name and the path to restore
+    const fileName = path.basename(iconPath);
+    const sourcePath = path.join(__dirname, `../archives/icons/`, fileName);
+    const restorePath = path.join(__dirname, `../uploads/icons/`, fileName);
+
+    // Ensure the source file exists in the archive folder
+    if (!fs.existsSync(sourcePath)) {
+      throw new Error(`Icon file not found at path: ${sourcePath}`);
+    }
+
+    // Ensure the restore directory exists
+    const restoreDir = path.dirname(restorePath);
+    if (!fs.existsSync(restoreDir)) {
+      fs.mkdirSync(restoreDir, { recursive: true });
+    }
+
+    // Move the icon file from the archive back to the original folder
+    fs.renameSync(sourcePath, restorePath);
+    console.log(`MarkerIcon file restored: ${fileName}`);
+
+    // Restore the MarkerIcon document
+    const restoredMarkerIcon = new MarkerIcon({
+      name,
+      iconPath: fileName, // Store only the file name in the database
+    });
+
+    await restoredMarkerIcon.save();
+    console.log(`MarkerIcon document restored with name: ${name}`);
+
+    // Optionally delete the archive entry after restoring
+    await Archive.findByIdAndDelete(archiveId);
+    console.log(`Archived MarkerIcon entry deleted after restore`);
+
+    return { success: true, message: 'MarkerIcon restored successfully' };
+
+  } catch (err) {
+    console.error('Error during MarkerIcon restore:', err);
+    throw new Error(`Restoration failed for MarkerIcon: ${err.message}`);
+  }
+};
+
+
+
+
+
+
+
+module.exports = { archiveField, restoreField , archiveDocument , restoreDocument , archiveMarkerIcon ,  restoreMarkerIcon};

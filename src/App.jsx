@@ -28,8 +28,11 @@ const App = () => {
       <AuthProvider>
         <Routes>
             <Route path="/" element={<SignInModule />} />
-            <Route path="/map" element={<ThreeCanvas />} />
+            {/*  <Route path="/map" element={<ThreeCanvas />} />*/}
             {/* Redirect on landing page */}
+            <Route path="/map" element={<PrivateRoute roles={['admin', 'staff', 'guest']}><ThreeCanvas /></PrivateRoute>} 
+/>
+
             <Route path="*" element={<SignInModule />} />
     
             <Route path="/usermanage" element={ <PrivateRoute roles={['admin']}><UserManagement/> </PrivateRoute> } />

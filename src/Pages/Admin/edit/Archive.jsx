@@ -26,7 +26,7 @@ export default function Archive() {
     const [itemId, setItemId] = useState(null);
     const [confirmRestore, setConfirmRestore] = useState(false);
     const [isRestore, setIsRestore] = useState(false);
-
+    
     const mountToast = UseToast();
     const location = useLocation();
     const [fetchLimit, setFetchLimit] = useState(10);
@@ -114,14 +114,28 @@ export default function Archive() {
         // Restore handler
         const handleRestore = async (archiveId, type) => {
             try {
-                const endpoint = type === 'document' ? `http://localhost:5000/api/restore/user/${archiveId}` : `http://localhost:5000/api/restore/${archiveId}`;
+                // Determine the correct endpoint based on the type
+                let endpoint = '';
+                if (type === 'document') {
+                    endpoint = `http://localhost:5000/api/restore/user/${archiveId}`;
+                } else if (type === 'markerIcon') {
+                    endpoint = `http://localhost:5000/api/restore/markerIcon/${archiveId}`;
+                } else {
+                    // Handle other types (e.g., card, audio, etc.)
+                    endpoint = `http://localhost:5000/api/restore/${archiveId}`;
+                }
 
+                // Make the API call to restore the archive
                 const response = await axios.put(endpoint);
                 mountToast(response.data.message, 'success');
+
+                // Close the confirmation modal and reset states
                 setConfirmRestore(false);
                 setItemToRestore(null);
                 setItemId(null);
                 setIsRestore(false);
+
+                // Fetch and update the list of archives
                 fetchArchives(fetchLimit);
 
                 // Update UI by filtering out the restored item
@@ -131,6 +145,7 @@ export default function Archive() {
                 mountToast('Error restoring archive entry', 'error');
             }
         };
+
 
     return (
         <>
@@ -154,11 +169,19 @@ export default function Archive() {
                         {archives.length > 0 ? (
                             archives.map((archive) => {
                                 const isDocument = archive.originalCollection === 'User'; // Check if it's a document (User)
+                                const isMarkerIcon = archive.originalCollection === 'MarkerIcon'; // Check if it's a MarkerIcon
+
                                 const dataToDisplay = isDocument ? (
                                     <ul className={styles.noBullets}>
                                     <li><strong>Name:</strong> {archive.data.name || 'N/A'}</li>
                                     <li><strong>Email:</strong> {archive.data.email || 'N/A'}</li>
                                     <li><strong>Role:</strong> {archive.data.role || 'N/A'}</li>
+                                </ul>
+                                ) : isMarkerIcon ? (
+                                // For MarkerIcon, display name and iconPath
+                                <ul className={styles.noBullets}>
+                                    <li><strong>Name:</strong> {archive.data.name || 'N/A'}</li>
+                                    <li><strong>File:</strong> {archive.data.iconPath || 'N/A'}</li>
                                 </ul>
                                 ) : (
                                     archive.data[archive.fieldName] // For fields, show the file name
@@ -173,13 +196,17 @@ export default function Archive() {
                                     <td>
                                         <div className={styles.actionBtns}>
                                             
-                                                <button className={styles.editBtn} 
-                                                    onClick = {() => {
-                                                        setItemId(archive._id);
-                                                        setItemToRestore(archive.originalCollection === 'User' ? 'document' : 'field');
-                                                        handleRestoreBtn();
-                                                    }}
-                                                >
+                                        <button
+                                            className={styles.editBtn}
+                                            onClick={() => {
+                                                setItemId(archive._id);
+                                                // Determine the type based on the originalCollection field in the archive
+                                                const restoreType = archive.originalCollection === 'MarkerIcon' ? 'markerIcon' : 
+                                                                    (archive.originalCollection === 'User' ? 'document' : 'field');
+                                                setItemToRestore(restoreType);
+                                                handleRestore(archive._id, restoreType);
+                                            }}
+                                            >
                                                 
                                                     <img className={`${styles.icon} ${styles.undo}`} src={icons.undo} alt="Restore Item" />
                                                 </button>

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './AddMarker.module.scss';
 import markerData from './markerData';
 import Click from '@utils/Click.js';
+import axios from 'axios';
+
 
 // import components
 import AddMarkerModal from './AddMarkerModal.jsx';
@@ -28,6 +30,32 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
   const location = useLocation();
   const { user: authUser, logout } = useAuth();
   const user = location.state?.user || authUser;
+
+
+  const [markerIcons, setMarkerIcons] = useState([]);
+
+  const fetchMarkerIcons = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/markerIcons');
+  
+      // Map the API response to the desired structure
+      const formattedData = response.data.map((icon) => ({
+        name: icon.name,
+        icon: `http://localhost:5000/uploads/icons/${icon.iconPath}`, // Construct the image URL
+      }));
+  
+      setMarkerIcons(formattedData);
+    } catch (error) {
+      console.error('Error fetching marker icons:', error);
+      // Add toast notification here if needed
+    }
+  };
+  
+  // Fetch data on component mount and keep it updated on changes
+  useEffect(() => {
+    fetchMarkerIcons();
+  }, []);
+  
 
   const toggleAddMarker = () => {
     const btn = btnRef.current;
@@ -223,7 +251,7 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
           onDragOver={(e) => e.preventDefault()} // Allow drop
           onDrop={handleDrop}
           className={styles.markerBar}>
-            {/* Draggable initial markers */}
+            {/* Draggable initial markers 
             {markerData.map((data, index) => (
               <div
                 key={`initial-${data.name}-${index}`}
@@ -233,7 +261,20 @@ const AddMarker = ({ scene, container, camera, addMarkerMode, isOnAddMarker }) =
               >
                 <img src={data.icon} alt={data.name} />
               </div>
-            ))}
+            ))} */}
+            
+             {/* Dynamic marker icons */}
+             {markerIcons.map((data, index) => (
+                <div
+                  key={`initial-${data.name}-${index}`}
+                  className={styles.markerIcon}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, data)}
+                >
+                  <img src={data.icon} alt={data.name} />
+                </div>
+              ))}
+
               <div 
                 className={styles.markerIcon}
                 onClick={(e) => {addIcon();}}>

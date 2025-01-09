@@ -1,7 +1,7 @@
 // archiveRoutes.js
 
 const express = require('express');
-const { archiveField , archiveDocument } = require('../utility/archiveUtils');
+const { archiveField , archiveDocument , archiveMarkerIcon } = require('../utility/archiveUtils');
 const Card = require('../models/Cards');  // Assuming you're using a Card model
 const Modal = require('../models/Modal');
 const Audio = require('../models/Audio');
@@ -9,6 +9,7 @@ const User = require('../models/User');
 const NewsEvent = require('../models/NewsEvent');
 const AboutUs = require('../models/AboutUs');
 const Archive = require('../models/Archive');
+const MarkerIcon = require('../models/MarkerIcon');
 
 
 
@@ -193,6 +194,19 @@ router.put('/aboutUs', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+// Archive MarkerIcon document data by Id
+router.put('/markerIcon/:id', async (req, res) => {
+  try {
+    const markerIconId = req.params.id;
+    await archiveMarkerIcon(markerIconId);
+    res.status(200).json({ message: 'MarkerIcon archived successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error archiving MarkerIcon', error });
+  }
+});
+
+
 
 
 // Archive a user account by ID

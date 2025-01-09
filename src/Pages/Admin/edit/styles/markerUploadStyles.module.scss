@@ -1,0 +1,128 @@
+@import "../../../Users/landing/signInModule/global.scss";
+@import "../../../Users/landing/signInModule/stylesVariables.scss";
+
+.modalContent {
+    align-items: center;
+    background-color: $tertiary;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    max-width: 350px;
+    padding: 20px;
+
+    .close { // adapts styles from global
+        position: absolute;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+
+        img {
+            height: 17px;
+            width: 17px;
+        }
+    }
+
+    .header {
+        background-color: $secondary;
+        border-radius: 0 0 50px 50px;
+        text-align: center;
+        margin: -20px 0 20px 0;
+        padding: 10px 20px;
+        width: 70%;
+
+        .txtTitle {
+            color: $tertiary;
+            font-size: 27px;
+            line-height: 30px;
+        }
+    }
+
+    .form  {        
+        .editContent {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin-bottom: 20px;
+            gap: 20px;
+
+            .customLabel {
+                align-items: center;
+                display: flex;
+                gap: 20px;
+                justify-content: center;
+                // margin-bottom: 20px;
+      
+                .browseBtn {
+                  background-color: $primary;
+                  border-radius: 30px;
+                  color: $tertiary;
+                  font-family: $title;
+                  padding: 5px 15px;
+                  transition: all 0.2s ease-in-out;
+                  user-select: none;
+                  -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+      
+                  &:hover {
+                    scale: 1.1;
+                  }
+                }
+      
+                .fileName {
+                  border: 1.5px solid black;
+                  border-radius: 5px;
+                  padding: 2px 15px;
+                  max-width: 200px;
+                  word-wrap: break-word;
+                  overflow-wrap: break-word;
+                }
+      
+                input {
+                  opacity: 0;
+                  position: absolute; 
+                  cursor: pointer;
+                  user-select: none;
+                  -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+                }
+            } 
+
+            .previewMarker {
+              img {
+                height: 30px;
+                width: 30px;
+              }
+            } 
+        }
+
+        .btns {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+  
+            .saveBtn, .cancelBtn {
+              border-radius: 30px;
+              font-size: 15px;
+              padding: 2px 35px;
+              transition: all 0.2s ease-in-out;
+              cursor: pointer;
+              user-select: none;
+              -webkit-tap-highlight-color: transparent; // removes blue highlight on mobile
+  
+              &:hover {
+                scale: 1.1;
+              }
+            }
+  
+            .saveBtn {
+              background-color: $primary;
+              color: $tertiary;
+            }
+  
+            .cancelBtn {
+              background-color: $outOfFocus;
+            }
+        }
+    }
+}

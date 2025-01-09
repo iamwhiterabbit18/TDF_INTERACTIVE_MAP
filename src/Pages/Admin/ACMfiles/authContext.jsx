@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
+  {/* useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
@@ -34,7 +34,38 @@ export const AuthProvider = ({ children }) => {
                 logout(); // If decoding fails, logout
             }
         }
-    }, []);
+    }, []); */}
+
+        // Function to check and decode the token if it exist will direct to map page
+        const checkToken = () => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+    
+            try {
+                const decodedUser = jwtDecode(token);
+                const currentTime = Date.now() / 1000; // Current time in seconds
+    
+                // Check if the token is expired
+                if (decodedUser.exp < currentTime) {
+                    console.warn('Token expired. Logging out.');
+                    logout();
+                } else {
+                    setUser(decodedUser); // Set user if token is valid
+                     // Redirect only if the user is on the landing page
+                if (window.location.pathname === '/') {
+                    navigate('/map'); // Default route for logged-in users
+                }
+                }
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                logout(); // Logout if decoding fails
+            }
+        };
+        
+        useEffect(() => {
+            checkToken(); // Check the token on initial load
+        }, []);
+        
 
     const logout = async () => {
         const token = localStorage.getItem('token');
@@ -61,9 +92,6 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${token}`, // Include the token in the header
                 },
             });
-            
-            
-    
             console.log("Logout response:", response.data); // Log the response to see if it's successful
     
             // Clear the token and user data from local storage
@@ -83,7 +111,7 @@ export const AuthProvider = ({ children }) => {
     
 
     return (
-        <AuthContext.Provider value={{ user, setUser, logout }}>
+        <AuthContext.Provider value={{ user, setUser, logout, checkToken }}>
             {children}
         </AuthContext.Provider>
     );
